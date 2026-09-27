@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Monthly re-validation of the rfc3339-ixdtf and iso999 skills (T4-11).
+  TEMPLATE: replace __HOME__, __PYTHON__ and __PATH__, then install per tools/README-maintenance.md.
+  Not installed or loaded by default (owner decision).
+  Runs on the 1st of each month at 09:00 local time (or at the next wake if the Mac was asleep).
+  Reports: ~/Library/Logs/skill-revalidate/<skill>-<YYYY-MM-DD>.md
+  Notification (osascript): only when a run exits 1 (drift) or 2 (error); silent when clean.
+  iso999 runs locally with no network access by design; only rfc3339-ixdtf fetches public
+  RFC Editor / IANA / release-index pages.
+-->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.local.skill-revalidate</string>
+
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/zsh</string>
+    <string>-c</string>
+    <string><![CDATA[
+logdir="$HOME/Library/Logs/skill-revalidate"; mkdir -p "$logdir"; day=$(date +%F); flagged=""
+for skill in rfc3339-ixdtf iso999; do
+  repo="$HOME/.claude/skills/$skill"
+  [ -f "$repo/tools/revalidate.py" ] || { flagged="$flagged $skill(missing)"; continue; }
+  "__PYTHON__" "$repo/tools/revalidate.py" --check --report "$logdir/$skill-$day.md" > /dev/null 2>> "$logdir/stderr.log"
+  rc=$?
+  echo "$(date '+%F %T') $skill exit=$rc" >> "$logdir/runs.log"
+  case $rc in 0) ;; 1) flagged="$flagged $skill(drift)";; *) flagged="$flagged $skill(error)";; esac
+done
+if [ -n "$flagged" ]; then
+  /usr/bin/osascript -e "display notification \"Changed:$flagged. Reports in ~/Library/Logs/skill-revalidate\" with title \"Skill revalidation\""
+fi
+exit 0
+]]></string>
+  </array>
+
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>HOME</key>
+    <string>__HOME__</string>
+    <key>PATH</key>
+    <string>__PATH__</string>
+  </dict>
+
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Day</key>
+    <integer>1</integer>
+    <key>Hour</key>
+    <integer>9</integer>
+    <key>Minute</key>
+    <integer>0</integer>
+  </dict>
+
+  <key>ProcessType</key>
+  <string>Background</string>
+  <key>LowPriorityIO</key>
+  <true/>
+  <key>RunAtLoad</key>
+  <false/>
+  <key>StandardOutPath</key>
+  <string>__HOME__/Library/Logs/skill-revalidate/launchd.out.log</string>
+  <key>StandardErrorPath</key>
+  <string>__HOME__/Library/Logs/skill-revalidate/launchd.err.log</string>
+</dict>
+</plist>

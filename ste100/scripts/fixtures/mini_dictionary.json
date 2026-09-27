@@ -1,0 +1,3548 @@
+{
+ "meta": {
+  "source": "INVENTED TEST FIXTURE (not ASD-STE100 content)",
+  "issue_date": null,
+  "pdf_sha256": null,
+  "built_at": "2026-01-01T00:00:00Z",
+  "builder_version": "fixture",
+  "counts": {
+   "approved": 117,
+   "not_approved": 19,
+   "entries": 136
+  },
+  "notes": [
+   "Every content word in this file is an invented nonce word (for example 'glab', 'vorsk', 'frobnicate'), and every not-approved word and its alternatives are invented pairs.",
+   "Only generic English function words (articles, pronouns, basic prepositions and conjunctions, 'be', 'do', 'not', and the modals 'can', 'must', 'will', 'should') keep their ordinary use.",
+   "No status, meaning, or alternative in this file is taken from ASD-STE100. Safe to publish."
+  ]
+ },
+ "entries": [
+  {
+   "word": "a",
+   "display": "A",
+   "pos": "art",
+   "approved": true,
+   "meaning": "one item",
+   "forms": [
+    "a"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "an",
+   "display": "AN",
+   "pos": "art",
+   "approved": true,
+   "meaning": "one item",
+   "forms": [
+    "an"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "the",
+   "display": "THE",
+   "pos": "art",
+   "approved": true,
+   "meaning": "a known item",
+   "forms": [
+    "the"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "this",
+   "display": "THIS",
+   "pos": "pron",
+   "approved": true,
+   "meaning": "the near item",
+   "forms": [
+    "this"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "these",
+   "display": "THESE",
+   "pos": "pron",
+   "approved": true,
+   "meaning": "the near items",
+   "forms": [
+    "these"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "it",
+   "display": "IT",
+   "pos": "pron",
+   "approved": true,
+   "meaning": "the item",
+   "forms": [
+    "it"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "you",
+   "display": "YOU",
+   "pos": "pron",
+   "approved": true,
+   "meaning": "the reader",
+   "forms": [
+    "you"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "we",
+   "display": "WE",
+   "pos": "pron",
+   "approved": true,
+   "meaning": "the writers",
+   "forms": [
+    "we"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "that",
+   "display": "THAT",
+   "pos": "conj",
+   "approved": true,
+   "meaning": "links a clause",
+   "forms": [
+    "that"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "and",
+   "display": "AND",
+   "pos": "conj",
+   "approved": true,
+   "meaning": "joins",
+   "forms": [
+    "and"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "or",
+   "display": "OR",
+   "pos": "conj",
+   "approved": true,
+   "meaning": "choice",
+   "forms": [
+    "or"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "if",
+   "display": "IF",
+   "pos": "conj",
+   "approved": true,
+   "meaning": "condition",
+   "forms": [
+    "if"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "when",
+   "display": "WHEN",
+   "pos": "conj",
+   "approved": true,
+   "meaning": "time",
+   "forms": [
+    "when"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "then",
+   "display": "THEN",
+   "pos": "adv",
+   "approved": true,
+   "meaning": "after that",
+   "forms": [
+    "then"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "not",
+   "display": "NOT",
+   "pos": "adv",
+   "approved": true,
+   "meaning": "negative",
+   "forms": [
+    "not"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "to",
+   "display": "TO",
+   "pos": "prep",
+   "approved": true,
+   "meaning": "direction",
+   "forms": [
+    "to"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "in",
+   "display": "IN",
+   "pos": "prep",
+   "approved": true,
+   "meaning": "inside",
+   "forms": [
+    "in"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "of",
+   "display": "OF",
+   "pos": "prep",
+   "approved": true,
+   "meaning": "part",
+   "forms": [
+    "of"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "on",
+   "display": "ON",
+   "pos": "prep",
+   "approved": true,
+   "meaning": "above",
+   "forms": [
+    "on"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "for",
+   "display": "FOR",
+   "pos": "prep",
+   "approved": true,
+   "meaning": "purpose",
+   "forms": [
+    "for"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "with",
+   "display": "WITH",
+   "pos": "prep",
+   "approved": true,
+   "meaning": "together",
+   "forms": [
+    "with"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "by",
+   "display": "BY",
+   "pos": "prep",
+   "approved": true,
+   "meaning": "agent",
+   "forms": [
+    "by"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "from",
+   "display": "FROM",
+   "pos": "prep",
+   "approved": true,
+   "meaning": "origin",
+   "forms": [
+    "from"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "before",
+   "display": "BEFORE",
+   "pos": "prep",
+   "approved": true,
+   "meaning": "earlier",
+   "forms": [
+    "before"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "out",
+   "display": "OUT",
+   "pos": "adv",
+   "approved": true,
+   "meaning": "outside",
+   "forms": [
+    "out"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "off",
+   "display": "OFF",
+   "pos": "adv",
+   "approved": true,
+   "meaning": "not on",
+   "forms": [
+    "off"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "is",
+   "display": "IS",
+   "pos": "v",
+   "approved": true,
+   "meaning": "exists",
+   "forms": [
+    "is"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "be",
+   "display": "BE",
+   "pos": "v",
+   "approved": true,
+   "meaning": "exist",
+   "forms": [
+    "be",
+    "is",
+    "are",
+    "was",
+    "were",
+    "been"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "can",
+   "display": "CAN",
+   "pos": "v",
+   "approved": true,
+   "meaning": "able",
+   "forms": [
+    "can"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "must",
+   "display": "MUST",
+   "pos": "v",
+   "approved": true,
+   "meaning": "obligation",
+   "forms": [
+    "must"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "will",
+   "display": "WILL",
+   "pos": "v",
+   "approved": true,
+   "meaning": "future",
+   "forms": [
+    "will"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "do",
+   "display": "DO",
+   "pos": "v",
+   "approved": true,
+   "meaning": "perform",
+   "forms": [
+    "do",
+    "does",
+    "did",
+    "done"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "fleem",
+   "display": "FLEEM",
+   "pos": "v",
+   "approved": true,
+   "meaning": "cause to be",
+   "forms": [
+    "fleem",
+    "fleems",
+    "flem"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "kest",
+   "display": "KEST",
+   "pos": "adj",
+   "approved": true,
+   "meaning": "with no doubt",
+   "forms": [
+    "kest"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "vorbary",
+   "display": "VORBARY",
+   "pos": "adj",
+   "approved": true,
+   "meaning": "that you must have",
+   "forms": [
+    "vorbary"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "brell",
+   "display": "BRELL",
+   "pos": "v",
+   "approved": true,
+   "meaning": "operate with",
+   "forms": [
+    "brell",
+    "brells",
+    "brelled"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "quomp",
+   "display": "QUOMP",
+   "pos": "v",
+   "approved": true,
+   "meaning": "give aid",
+   "forms": [
+    "quomp",
+    "quomps",
+    "quomped"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "vesk",
+   "display": "VESK",
+   "pos": "v",
+   "approved": true,
+   "meaning": "look at closely",
+   "forms": [
+    "vesk",
+    "vesks",
+    "vesked"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "snarb",
+   "display": "SNARB",
+   "pos": "v",
+   "approved": true,
+   "meaning": "take away",
+   "forms": [
+    "snarb",
+    "snarbs",
+    "snarbed"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "quisk",
+   "display": "QUISK",
+   "pos": "v",
+   "approved": true,
+   "meaning": "put in",
+   "forms": [
+    "quisk",
+    "quisks",
+    "quisked"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "glab",
+   "display": "GLAB",
+   "pos": "v",
+   "approved": true,
+   "meaning": "make not shut",
+   "forms": [
+    "glab",
+    "glabs",
+    "glabbed"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "glab",
+   "display": "GLAB",
+   "pos": "adj",
+   "approved": true,
+   "meaning": "not shut",
+   "forms": [
+    "glab"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "trosk",
+   "display": "TROSK",
+   "pos": "v",
+   "approved": true,
+   "meaning": "make shut",
+   "forms": [
+    "trosk",
+    "trosks",
+    "trosked"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "plim",
+   "display": "PLIM",
+   "pos": "v",
+   "approved": true,
+   "meaning": "put in position",
+   "forms": [
+    "plim",
+    "plims"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "dap",
+   "display": "DAP",
+   "pos": "v",
+   "approved": true,
+   "meaning": "move to",
+   "forms": [
+    "dap",
+    "daps"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "dap on",
+   "display": "DAP ON",
+   "pos": "v",
+   "approved": true,
+   "meaning": "have on the body",
+   "forms": [
+    "dap on",
+    "daps on"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "yorb",
+   "display": "YORB",
+   "pos": "v",
+   "approved": true,
+   "meaning": "hand over",
+   "forms": [
+    "yorb",
+    "yorbs",
+    "yarb",
+    "yorben"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "fendle",
+   "display": "FENDLE",
+   "pos": "v",
+   "approved": true,
+   "meaning": "make happen",
+   "forms": [
+    "fendle",
+    "fendles",
+    "fendled"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "snorch",
+   "display": "SNORCH",
+   "pos": "v",
+   "approved": true,
+   "meaning": "begin",
+   "forms": [
+    "snorch",
+    "snorches",
+    "snorched"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "wemble",
+   "display": "WEMBLE",
+   "pos": "v",
+   "approved": true,
+   "meaning": "remove dirt",
+   "forms": [
+    "wemble",
+    "wembles",
+    "wembled"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "wemble",
+   "display": "WEMBLE",
+   "pos": "adj",
+   "approved": true,
+   "meaning": "with no dirt",
+   "forms": [
+    "wemble"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "unplob",
+   "display": "UNPLOB",
+   "pos": "v",
+   "approved": true,
+   "meaning": "separate",
+   "forms": [
+    "unplob",
+    "unplobs",
+    "unplobbed"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "dreel",
+   "display": "DREEL",
+   "pos": "adj",
+   "approved": true,
+   "meaning": "not fast",
+   "forms": [
+    "dreel",
+    "dreeler",
+    "dreelest"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "grask",
+   "display": "GRASK",
+   "pos": "adj",
+   "approved": true,
+   "meaning": "big",
+   "forms": [
+    "grask"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "flonched",
+   "display": "FLONCHED",
+   "pos": "adj",
+   "approved": true,
+   "meaning": "not whole",
+   "forms": [
+    "flonched"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "plimsade",
+   "display": "PLIMSADE",
+   "pos": "n",
+   "approved": true,
+   "meaning": "steps",
+   "forms": [
+    "plimsade",
+    "plimsades"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "quiskation",
+   "display": "QUISKATION",
+   "pos": "n",
+   "approved": true,
+   "meaning": "the act of putting in",
+   "forms": [
+    "quiskation",
+    "quiskations"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "snarbal",
+   "display": "SNARBAL",
+   "pos": "n",
+   "approved": true,
+   "meaning": "the act of taking away",
+   "forms": [
+    "snarbal"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "vosquence",
+   "display": "VOSQUENCE",
+   "pos": "n",
+   "approved": true,
+   "meaning": "order of items",
+   "forms": [
+    "vosquence",
+    "vosquences"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "klemp",
+   "display": "KLEMP",
+   "pos": "n",
+   "approved": true,
+   "meaning": "control",
+   "forms": [
+    "klemp",
+    "klemps"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "vorsk",
+   "display": "VORSK",
+   "pos": "n",
+   "approved": true,
+   "meaning": "flow control",
+   "forms": [
+    "vorsk",
+    "vorsks"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "flarn",
+   "display": "FLARN",
+   "pos": "n",
+   "approved": true,
+   "meaning": "lid",
+   "forms": [
+    "flarn",
+    "flarns"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "dorp",
+   "display": "DORP",
+   "pos": "n",
+   "approved": true,
+   "meaning": "item of equipment",
+   "forms": [
+    "dorp",
+    "dorps"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "quarl",
+   "display": "QUARL",
+   "pos": "n",
+   "approved": true,
+   "meaning": "group of parts",
+   "forms": [
+    "quarl",
+    "quarls"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "splue",
+   "display": "SPLUE",
+   "pos": "n",
+   "approved": true,
+   "meaning": "escape of fluid",
+   "forms": [
+    "splue",
+    "splues"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "brusk",
+   "display": "BRUSK",
+   "pos": "n",
+   "approved": true,
+   "meaning": "harm",
+   "forms": [
+    "brusk"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "ploon",
+   "display": "PLOON",
+   "pos": "n",
+   "approved": true,
+   "meaning": "harm to a person",
+   "forms": [
+    "ploon",
+    "ploons"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "tosk",
+   "display": "TOSK",
+   "pos": "n",
+   "approved": true,
+   "meaning": "check",
+   "forms": [
+    "tosk",
+    "tosks"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "blick",
+   "display": "BLICK",
+   "pos": "n",
+   "approved": true,
+   "meaning": "a task",
+   "forms": [
+    "blick"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "pake",
+   "display": "PAKE",
+   "pos": "n",
+   "approved": true,
+   "meaning": "piece",
+   "forms": [
+    "pake",
+    "pakes"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "vrom",
+   "display": "VROM",
+   "pos": "n",
+   "approved": true,
+   "meaning": "energy",
+   "forms": [
+    "vrom"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "smuck",
+   "display": "SMUCK",
+   "pos": "n",
+   "approved": true,
+   "meaning": "source",
+   "forms": [
+    "smuck",
+    "smucks"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "glimmet",
+   "display": "GLIMMET",
+   "pos": "n",
+   "approved": true,
+   "meaning": "wire",
+   "forms": [
+    "glimmet",
+    "glimmets"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "snoggle",
+   "display": "SNOGGLE",
+   "pos": "n",
+   "approved": true,
+   "meaning": "connector",
+   "forms": [
+    "snoggle",
+    "snoggles"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "frib",
+   "display": "FRIB",
+   "pos": "n",
+   "approved": true,
+   "meaning": "data item",
+   "forms": [
+    "frib",
+    "fribs"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "wugget",
+   "display": "WUGGET",
+   "pos": "n",
+   "approved": true,
+   "meaning": "device",
+   "forms": [
+    "wugget",
+    "wuggets"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "presk",
+   "display": "PRESK",
+   "pos": "n",
+   "approved": true,
+   "meaning": "force",
+   "forms": [
+    "presk"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "halp",
+   "display": "HALP",
+   "pos": "v",
+   "approved": true,
+   "meaning": "end a movement",
+   "forms": [
+    "halp",
+    "halps"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "gronk",
+   "display": "GRONK",
+   "pos": "n",
+   "approved": true,
+   "meaning": "part that stops splues",
+   "forms": [
+    "gronk",
+    "gronks"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "flurge",
+   "display": "FLURGE",
+   "pos": "v",
+   "approved": true,
+   "meaning": "throw away",
+   "forms": [
+    "flurge",
+    "flurges",
+    "flurged"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "mitterns",
+   "display": "MITTERNS",
+   "pos": "n",
+   "approved": true,
+   "meaning": "hand covers",
+   "forms": [
+    "mitterns"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "dax",
+   "display": "DAX",
+   "pos": "n",
+   "approved": true,
+   "meaning": "information",
+   "forms": [
+    "dax"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "sprock",
+   "display": "SPROCK",
+   "pos": "v",
+   "approved": true,
+   "meaning": "cause to go",
+   "forms": [
+    "sprock",
+    "sprocks",
+    "sprent"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "moderon",
+   "display": "MODERON",
+   "pos": "n",
+   "approved": true,
+   "meaning": "control dorp",
+   "forms": [
+    "moderon",
+    "moderons"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "blaxor",
+   "display": "BLAXOR",
+   "pos": "n",
+   "approved": true,
+   "meaning": "person who operates",
+   "forms": [
+    "blaxor",
+    "blaxors"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "fimp",
+   "display": "FIMP",
+   "pos": "adj",
+   "approved": true,
+   "meaning": "not high",
+   "forms": [
+    "fimp",
+    "fimper",
+    "fimpest"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "pront",
+   "display": "PRONT",
+   "pos": "v",
+   "approved": true,
+   "meaning": "make contact",
+   "forms": [
+    "pront",
+    "pronts",
+    "pronted"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "skeen",
+   "display": "SKEEN",
+   "pos": "n",
+   "approved": true,
+   "meaning": "cutting part",
+   "forms": [
+    "skeen",
+    "skeens"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "whask",
+   "display": "WHASK",
+   "pos": "adj",
+   "approved": true,
+   "meaning": "can cut",
+   "forms": [
+    "whask"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "skub",
+   "display": "SKUB",
+   "pos": "v",
+   "approved": true,
+   "meaning": "let fall",
+   "forms": [
+    "skub",
+    "skubs",
+    "skubbed"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "vonk",
+   "display": "VONK",
+   "pos": "n",
+   "approved": true,
+   "meaning": "air mover",
+   "forms": [
+    "vonk",
+    "vonks"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "cobbet",
+   "display": "COBBET",
+   "pos": "n",
+   "approved": true,
+   "meaning": "case",
+   "forms": [
+    "cobbet",
+    "cobbets"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "pomble",
+   "display": "POMBLE",
+   "pos": "n",
+   "approved": true,
+   "meaning": "fluid mover",
+   "forms": [
+    "pomble",
+    "pombles"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "motch",
+   "display": "MOTCH",
+   "pos": "n",
+   "approved": true,
+   "meaning": "engine",
+   "forms": [
+    "motch",
+    "motches"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "up",
+   "display": "UP",
+   "pos": "adv",
+   "approved": true,
+   "meaning": "higher",
+   "forms": [
+    "up"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "after",
+   "display": "AFTER",
+   "pos": "prep",
+   "approved": true,
+   "meaning": "later than",
+   "forms": [
+    "after"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "blarry",
+   "display": "BLARRY",
+   "pos": "v",
+   "approved": true,
+   "meaning": "hold and move",
+   "forms": [
+    "blarry",
+    "blarries",
+    "blarried"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "frobnicate",
+   "display": "frobnicate",
+   "pos": "v",
+   "approved": false,
+   "meaning": null,
+   "forms": [
+    "frobnicate"
+   ],
+   "alternatives": [
+    {
+     "word": "brell",
+     "pos": "v",
+     "kind": "approved"
+    }
+   ],
+   "variants": [
+    "frobnicates"
+   ]
+  },
+  {
+   "word": "zorbulate",
+   "display": "zorbulate",
+   "pos": "v",
+   "approved": false,
+   "meaning": null,
+   "forms": [
+    "zorbulate"
+   ],
+   "alternatives": [
+    {
+     "word": "quomp",
+     "pos": "v",
+     "kind": "approved"
+    }
+   ]
+  },
+  {
+   "word": "in blurk to",
+   "display": "in blurk to",
+   "pos": "conj",
+   "approved": false,
+   "meaning": null,
+   "forms": [
+    "in blurk to"
+   ],
+   "alternatives": [
+    {
+     "word": "to",
+     "pos": "prep",
+     "kind": "approved"
+    }
+   ]
+  },
+  {
+   "word": "blurk",
+   "display": "blurk",
+   "pos": "n",
+   "approved": false,
+   "meaning": null,
+   "forms": [
+    "blurk"
+   ],
+   "alternatives": [
+    {
+     "word": "trindle",
+     "pos": "n",
+     "kind": "approved"
+    }
+   ]
+  },
+  {
+   "word": "tosk",
+   "display": "tosk",
+   "pos": "v",
+   "approved": false,
+   "meaning": null,
+   "forms": [
+    "tosk"
+   ],
+   "alternatives": [
+    {
+     "word": "vesk",
+     "pos": "v",
+     "kind": "approved"
+    }
+   ]
+  },
+  {
+   "word": "blarry out",
+   "display": "blarry out",
+   "pos": "v",
+   "approved": false,
+   "meaning": null,
+   "forms": [
+    "blarry out",
+    "blarries out",
+    "blarried out"
+   ],
+   "alternatives": [
+    {
+     "word": "do",
+     "pos": "v",
+     "kind": "approved"
+    }
+   ]
+  },
+  {
+   "word": "should",
+   "display": "should",
+   "pos": "v",
+   "approved": false,
+   "meaning": null,
+   "forms": [
+    "should"
+   ],
+   "alternatives": [
+    {
+     "word": "fleem",
+     "pos": "v",
+     "kind": "approved"
+    }
+   ]
+  },
+  {
+   "word": "ensnorf",
+   "display": "ensnorf",
+   "pos": "v",
+   "approved": false,
+   "meaning": null,
+   "forms": [
+    "ensnorf"
+   ],
+   "alternatives": [
+    {
+     "word": "wemble",
+     "pos": "v",
+     "kind": "approved"
+    }
+   ]
+  },
+  {
+   "word": "pellage",
+   "display": "pellage",
+   "pos": "n",
+   "approved": false,
+   "meaning": null,
+   "forms": [
+    "pellage"
+   ],
+   "alternatives": [
+    {
+     "word": "vorbance",
+     "pos": "n",
+     "kind": "approved"
+    }
+   ]
+  },
+  {
+   "word": "kronk",
+   "display": "kronk",
+   "pos": "v",
+   "approved": false,
+   "meaning": null,
+   "forms": [
+    "kronk"
+   ],
+   "alternatives": [
+    {
+     "word": "wirl",
+     "pos": "v",
+     "kind": "approved"
+    },
+    {
+     "word": "kronk",
+     "pos": null,
+     "kind": "TN"
+    }
+   ]
+  },
+  {
+   "word": "zelk",
+   "display": "zelk",
+   "pos": "v",
+   "approved": false,
+   "meaning": null,
+   "forms": [
+    "zelk"
+   ],
+   "alternatives": [
+    {
+     "word": "trug",
+     "pos": "v",
+     "kind": "approved",
+     "context": "with a zelk"
+    }
+   ]
+  },
+  {
+   "word": "spurl",
+   "display": "spurl",
+   "pos": "adj",
+   "approved": false,
+   "meaning": null,
+   "forms": [
+    "spurl"
+   ],
+   "alternatives": [
+    {
+     "word": "plentish",
+     "pos": "adj",
+     "kind": "approved"
+    }
+   ]
+  },
+  {
+   "word": "zeffle",
+   "display": "zeffle",
+   "pos": "v",
+   "approved": false,
+   "meaning": null,
+   "forms": [
+    "zeffle"
+   ],
+   "alternatives": [
+    {
+     "word": "zeffling",
+     "pos": null,
+     "kind": "TN"
+    }
+   ],
+   "variants": [
+    "zeffles",
+    "zeffled",
+    "zeffling"
+   ]
+  },
+  {
+   "word": "snib",
+   "display": "SNIB",
+   "pos": "n",
+   "approved": true,
+   "meaning": "how two pakes touch",
+   "forms": [
+    "snib",
+    "snibs"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "snib",
+   "display": "snib",
+   "pos": "v",
+   "approved": false,
+   "meaning": null,
+   "forms": [
+    "snib"
+   ],
+   "alternatives": [
+    {
+     "word": "quisk",
+     "pos": "v",
+     "kind": "approved"
+    }
+   ],
+   "variants": [
+    "snibs",
+    "snibbed",
+    "snibbing"
+   ]
+  },
+  {
+   "word": "nuv",
+   "display": "NUV",
+   "pos": "adj",
+   "approved": true,
+   "meaning": "not brelled before",
+   "forms": [
+    "nuv",
+    "nuver",
+    "nuvest"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "olp",
+   "display": "olp",
+   "pos": "adj",
+   "approved": false,
+   "meaning": null,
+   "forms": [
+    "olp"
+   ],
+   "alternatives": [
+    {
+     "word": "brelled",
+     "pos": "adj",
+     "kind": "approved"
+    }
+   ]
+  },
+  {
+   "word": "brelled",
+   "display": "BRELLED",
+   "pos": "adj",
+   "approved": true,
+   "meaning": "not nuv",
+   "forms": [
+    "brelled"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "sniv",
+   "display": "SNIV",
+   "pos": "n",
+   "approved": true,
+   "meaning": "a pake that measures",
+   "forms": [
+    "sniv",
+    "snivs"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "gorbet",
+   "display": "GORBET",
+   "pos": "n",
+   "approved": true,
+   "meaning": "a hole where flow goes out",
+   "forms": [
+    "gorbet",
+    "gorbets"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "brimp",
+   "display": "BRIMP",
+   "pos": "adj",
+   "approved": true,
+   "meaning": "with no more space",
+   "forms": [
+    "brimp"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "vakk",
+   "display": "VAKK",
+   "pos": "adj",
+   "approved": true,
+   "meaning": "with no contents",
+   "forms": [
+    "vakk"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "yimp",
+   "display": "YIMP",
+   "pos": "v",
+   "approved": true,
+   "meaning": "show a direction",
+   "forms": [
+    "yimp",
+    "yimps",
+    "yimped"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "sprill",
+   "display": "SPRILL",
+   "pos": "n",
+   "approved": true,
+   "meaning": "a sign that shows a direction",
+   "forms": [
+    "sprill",
+    "sprills"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "down",
+   "display": "DOWN",
+   "pos": "adv",
+   "approved": true,
+   "meaning": "to a lower position",
+   "forms": [
+    "down"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "vear",
+   "display": "VEAR",
+   "pos": "v",
+   "approved": true,
+   "meaning": "have on the body",
+   "forms": [
+    "vear",
+    "vears",
+    "vore",
+    "vorn"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "spekkles",
+   "display": "SPEKKLES",
+   "pos": "n",
+   "approved": true,
+   "meaning": "eye protection",
+   "forms": [
+    "spekkles"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "rondle",
+   "display": "RONDLE",
+   "pos": "n",
+   "approved": true,
+   "meaning": "a round pake",
+   "forms": [
+    "rondle",
+    "rondles"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "quennel",
+   "display": "QUENNEL",
+   "pos": "n",
+   "approved": true,
+   "meaning": "the point at the zarvolize",
+   "forms": [
+    "quennel"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "zarvolize",
+   "display": "zarvolize",
+   "pos": "v",
+   "approved": false,
+   "meaning": null,
+   "forms": [
+    "zarvolize"
+   ],
+   "alternatives": [
+    {
+     "word": "zarvolize",
+     "pos": null,
+     "kind": "TN"
+    }
+   ],
+   "variants": [
+    "zarvolizes",
+    "zarvolized",
+    "zarvolizing"
+   ]
+  },
+  {
+   "word": "grovyze",
+   "display": "GROVYZE",
+   "pos": "adj",
+   "approved": true,
+   "meaning": "a dull color",
+   "forms": [
+    "grovyze"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "spirn",
+   "display": "spirn",
+   "pos": "v",
+   "approved": false,
+   "meaning": null,
+   "forms": [
+    "spirn"
+   ],
+   "alternatives": [
+    {
+     "word": "twizzle",
+     "pos": null,
+     "kind": "TN"
+    },
+    {
+     "word": "wirl",
+     "pos": "v",
+     "kind": "approved"
+    }
+   ],
+   "variants": [
+    "spirns",
+    "spirned",
+    "spirning"
+   ]
+  },
+  {
+   "word": "wirl",
+   "display": "WIRL",
+   "pos": "v",
+   "approved": true,
+   "meaning": "move around an axis",
+   "forms": [
+    "wirl",
+    "wirls",
+    "wirled"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "tamb",
+   "display": "TAMB",
+   "pos": "n",
+   "approved": true,
+   "meaning": "a container for frosh",
+   "forms": [
+    "tamb",
+    "tambs"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "plev",
+   "display": "PLEV",
+   "pos": "n",
+   "approved": true,
+   "meaning": "the height of a surface",
+   "forms": [
+    "plev",
+    "plevs"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "frosh",
+   "display": "FROSH",
+   "pos": "n",
+   "approved": true,
+   "meaning": "a liquid or a gas",
+   "forms": [
+    "frosh",
+    "froshes"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "glay",
+   "display": "GLAY",
+   "pos": "v",
+   "approved": true,
+   "meaning": "let a person see",
+   "forms": [
+    "glay",
+    "glays",
+    "glayed",
+    "glayn"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "blorf",
+   "display": "blorf",
+   "pos": "n",
+   "approved": false,
+   "meaning": null,
+   "forms": [
+    "blorf"
+   ],
+   "alternatives": [
+    {
+     "word": "if … not",
+     "pos": null,
+     "kind": "approved"
+    },
+    {
+     "word": "blorf",
+     "pos": null,
+     "kind": "TN"
+    }
+   ]
+  },
+  {
+   "word": "glurp",
+   "display": "glurp",
+   "pos": "v",
+   "approved": false,
+   "meaning": null,
+   "forms": [
+    "glurp"
+   ],
+   "alternatives": [
+    {
+     "word": "dap",
+     "pos": "v",
+     "kind": "approved"
+    },
+    {
+     "word": "glurp",
+     "pos": null,
+     "kind": "TN"
+    }
+   ],
+   "variants": [
+    "glurps",
+    "glurped",
+    "glurping"
+   ]
+  }
+ ],
+ "forms": {
+  "a": [
+   {
+    "word": "a",
+    "pos": "art",
+    "approved": true
+   }
+  ],
+  "after": [
+   {
+    "word": "after",
+    "pos": "prep",
+    "approved": true
+   }
+  ],
+  "an": [
+   {
+    "word": "an",
+    "pos": "art",
+    "approved": true
+   }
+  ],
+  "and": [
+   {
+    "word": "and",
+    "pos": "conj",
+    "approved": true
+   }
+  ],
+  "are": [
+   {
+    "word": "be",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "be": [
+   {
+    "word": "be",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "been": [
+   {
+    "word": "be",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "before": [
+   {
+    "word": "before",
+    "pos": "prep",
+    "approved": true
+   }
+  ],
+  "blarried": [
+   {
+    "word": "blarry",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "blarried out": [
+   {
+    "word": "blarry out",
+    "pos": "v",
+    "approved": false
+   }
+  ],
+  "blarries": [
+   {
+    "word": "blarry",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "blarries out": [
+   {
+    "word": "blarry out",
+    "pos": "v",
+    "approved": false
+   }
+  ],
+  "blarry": [
+   {
+    "word": "blarry",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "blarry out": [
+   {
+    "word": "blarry out",
+    "pos": "v",
+    "approved": false
+   }
+  ],
+  "blaxor": [
+   {
+    "word": "blaxor",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "blaxors": [
+   {
+    "word": "blaxor",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "blick": [
+   {
+    "word": "blick",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "blorf": [
+   {
+    "word": "blorf",
+    "pos": "n",
+    "approved": false
+   }
+  ],
+  "blurk": [
+   {
+    "word": "blurk",
+    "pos": "n",
+    "approved": false
+   }
+  ],
+  "brell": [
+   {
+    "word": "brell",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "brelled": [
+   {
+    "word": "brell",
+    "pos": "v",
+    "approved": true
+   },
+   {
+    "word": "brelled",
+    "pos": "adj",
+    "approved": true
+   }
+  ],
+  "brells": [
+   {
+    "word": "brell",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "brimp": [
+   {
+    "word": "brimp",
+    "pos": "adj",
+    "approved": true
+   }
+  ],
+  "brusk": [
+   {
+    "word": "brusk",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "by": [
+   {
+    "word": "by",
+    "pos": "prep",
+    "approved": true
+   }
+  ],
+  "can": [
+   {
+    "word": "can",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "cobbet": [
+   {
+    "word": "cobbet",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "cobbets": [
+   {
+    "word": "cobbet",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "dap": [
+   {
+    "word": "dap",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "dap on": [
+   {
+    "word": "dap on",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "daps": [
+   {
+    "word": "dap",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "daps on": [
+   {
+    "word": "dap on",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "dax": [
+   {
+    "word": "dax",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "did": [
+   {
+    "word": "do",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "do": [
+   {
+    "word": "do",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "does": [
+   {
+    "word": "do",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "done": [
+   {
+    "word": "do",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "dorp": [
+   {
+    "word": "dorp",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "dorps": [
+   {
+    "word": "dorp",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "down": [
+   {
+    "word": "down",
+    "pos": "adv",
+    "approved": true
+   }
+  ],
+  "dreel": [
+   {
+    "word": "dreel",
+    "pos": "adj",
+    "approved": true
+   }
+  ],
+  "dreeler": [
+   {
+    "word": "dreel",
+    "pos": "adj",
+    "approved": true
+   }
+  ],
+  "dreelest": [
+   {
+    "word": "dreel",
+    "pos": "adj",
+    "approved": true
+   }
+  ],
+  "ensnorf": [
+   {
+    "word": "ensnorf",
+    "pos": "v",
+    "approved": false
+   }
+  ],
+  "fendle": [
+   {
+    "word": "fendle",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "fendled": [
+   {
+    "word": "fendle",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "fendles": [
+   {
+    "word": "fendle",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "fimp": [
+   {
+    "word": "fimp",
+    "pos": "adj",
+    "approved": true
+   }
+  ],
+  "fimper": [
+   {
+    "word": "fimp",
+    "pos": "adj",
+    "approved": true
+   }
+  ],
+  "fimpest": [
+   {
+    "word": "fimp",
+    "pos": "adj",
+    "approved": true
+   }
+  ],
+  "flarn": [
+   {
+    "word": "flarn",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "flarns": [
+   {
+    "word": "flarn",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "fleem": [
+   {
+    "word": "fleem",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "fleems": [
+   {
+    "word": "fleem",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "flem": [
+   {
+    "word": "fleem",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "flonched": [
+   {
+    "word": "flonched",
+    "pos": "adj",
+    "approved": true
+   }
+  ],
+  "flurge": [
+   {
+    "word": "flurge",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "flurged": [
+   {
+    "word": "flurge",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "flurges": [
+   {
+    "word": "flurge",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "for": [
+   {
+    "word": "for",
+    "pos": "prep",
+    "approved": true
+   }
+  ],
+  "frib": [
+   {
+    "word": "frib",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "fribs": [
+   {
+    "word": "frib",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "frobnicate": [
+   {
+    "word": "frobnicate",
+    "pos": "v",
+    "approved": false
+   }
+  ],
+  "frobnicates": [
+   {
+    "word": "frobnicate",
+    "pos": "v",
+    "approved": false,
+    "variant": true
+   }
+  ],
+  "from": [
+   {
+    "word": "from",
+    "pos": "prep",
+    "approved": true
+   }
+  ],
+  "frosh": [
+   {
+    "word": "frosh",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "froshes": [
+   {
+    "word": "frosh",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "glab": [
+   {
+    "word": "glab",
+    "pos": "v",
+    "approved": true
+   },
+   {
+    "word": "glab",
+    "pos": "adj",
+    "approved": true
+   }
+  ],
+  "glabbed": [
+   {
+    "word": "glab",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "glabs": [
+   {
+    "word": "glab",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "glay": [
+   {
+    "word": "glay",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "glayed": [
+   {
+    "word": "glay",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "glayn": [
+   {
+    "word": "glay",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "glays": [
+   {
+    "word": "glay",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "glimmet": [
+   {
+    "word": "glimmet",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "glimmets": [
+   {
+    "word": "glimmet",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "glurp": [
+   {
+    "word": "glurp",
+    "pos": "v",
+    "approved": false
+   }
+  ],
+  "glurped": [
+   {
+    "word": "glurp",
+    "pos": "v",
+    "approved": false,
+    "variant": true
+   }
+  ],
+  "glurping": [
+   {
+    "word": "glurp",
+    "pos": "v",
+    "approved": false,
+    "variant": true
+   }
+  ],
+  "glurps": [
+   {
+    "word": "glurp",
+    "pos": "v",
+    "approved": false,
+    "variant": true
+   }
+  ],
+  "gorbet": [
+   {
+    "word": "gorbet",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "gorbets": [
+   {
+    "word": "gorbet",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "grask": [
+   {
+    "word": "grask",
+    "pos": "adj",
+    "approved": true
+   }
+  ],
+  "gronk": [
+   {
+    "word": "gronk",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "gronks": [
+   {
+    "word": "gronk",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "grovyze": [
+   {
+    "word": "grovyze",
+    "pos": "adj",
+    "approved": true
+   }
+  ],
+  "halp": [
+   {
+    "word": "halp",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "halps": [
+   {
+    "word": "halp",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "if": [
+   {
+    "word": "if",
+    "pos": "conj",
+    "approved": true
+   }
+  ],
+  "in": [
+   {
+    "word": "in",
+    "pos": "prep",
+    "approved": true
+   }
+  ],
+  "in blurk to": [
+   {
+    "word": "in blurk to",
+    "pos": "conj",
+    "approved": false
+   }
+  ],
+  "is": [
+   {
+    "word": "is",
+    "pos": "v",
+    "approved": true
+   },
+   {
+    "word": "be",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "it": [
+   {
+    "word": "it",
+    "pos": "pron",
+    "approved": true
+   }
+  ],
+  "kest": [
+   {
+    "word": "kest",
+    "pos": "adj",
+    "approved": true
+   }
+  ],
+  "klemp": [
+   {
+    "word": "klemp",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "klemps": [
+   {
+    "word": "klemp",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "kronk": [
+   {
+    "word": "kronk",
+    "pos": "v",
+    "approved": false
+   }
+  ],
+  "mitterns": [
+   {
+    "word": "mitterns",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "moderon": [
+   {
+    "word": "moderon",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "moderons": [
+   {
+    "word": "moderon",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "motch": [
+   {
+    "word": "motch",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "motches": [
+   {
+    "word": "motch",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "must": [
+   {
+    "word": "must",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "not": [
+   {
+    "word": "not",
+    "pos": "adv",
+    "approved": true
+   }
+  ],
+  "nuv": [
+   {
+    "word": "nuv",
+    "pos": "adj",
+    "approved": true
+   }
+  ],
+  "nuver": [
+   {
+    "word": "nuv",
+    "pos": "adj",
+    "approved": true
+   }
+  ],
+  "nuvest": [
+   {
+    "word": "nuv",
+    "pos": "adj",
+    "approved": true
+   }
+  ],
+  "of": [
+   {
+    "word": "of",
+    "pos": "prep",
+    "approved": true
+   }
+  ],
+  "off": [
+   {
+    "word": "off",
+    "pos": "adv",
+    "approved": true
+   }
+  ],
+  "olp": [
+   {
+    "word": "olp",
+    "pos": "adj",
+    "approved": false
+   }
+  ],
+  "on": [
+   {
+    "word": "on",
+    "pos": "prep",
+    "approved": true
+   }
+  ],
+  "or": [
+   {
+    "word": "or",
+    "pos": "conj",
+    "approved": true
+   }
+  ],
+  "out": [
+   {
+    "word": "out",
+    "pos": "adv",
+    "approved": true
+   }
+  ],
+  "pake": [
+   {
+    "word": "pake",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "pakes": [
+   {
+    "word": "pake",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "pellage": [
+   {
+    "word": "pellage",
+    "pos": "n",
+    "approved": false
+   }
+  ],
+  "plev": [
+   {
+    "word": "plev",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "plevs": [
+   {
+    "word": "plev",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "plim": [
+   {
+    "word": "plim",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "plims": [
+   {
+    "word": "plim",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "plimsade": [
+   {
+    "word": "plimsade",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "plimsades": [
+   {
+    "word": "plimsade",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "ploon": [
+   {
+    "word": "ploon",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "ploons": [
+   {
+    "word": "ploon",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "pomble": [
+   {
+    "word": "pomble",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "pombles": [
+   {
+    "word": "pomble",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "presk": [
+   {
+    "word": "presk",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "pront": [
+   {
+    "word": "pront",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "pronted": [
+   {
+    "word": "pront",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "pronts": [
+   {
+    "word": "pront",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "quarl": [
+   {
+    "word": "quarl",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "quarls": [
+   {
+    "word": "quarl",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "quennel": [
+   {
+    "word": "quennel",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "quisk": [
+   {
+    "word": "quisk",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "quiskation": [
+   {
+    "word": "quiskation",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "quiskations": [
+   {
+    "word": "quiskation",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "quisked": [
+   {
+    "word": "quisk",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "quisks": [
+   {
+    "word": "quisk",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "quomp": [
+   {
+    "word": "quomp",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "quomped": [
+   {
+    "word": "quomp",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "quomps": [
+   {
+    "word": "quomp",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "rondle": [
+   {
+    "word": "rondle",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "rondles": [
+   {
+    "word": "rondle",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "should": [
+   {
+    "word": "should",
+    "pos": "v",
+    "approved": false
+   }
+  ],
+  "skeen": [
+   {
+    "word": "skeen",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "skeens": [
+   {
+    "word": "skeen",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "skub": [
+   {
+    "word": "skub",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "skubbed": [
+   {
+    "word": "skub",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "skubs": [
+   {
+    "word": "skub",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "smuck": [
+   {
+    "word": "smuck",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "smucks": [
+   {
+    "word": "smuck",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "snarb": [
+   {
+    "word": "snarb",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "snarbal": [
+   {
+    "word": "snarbal",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "snarbed": [
+   {
+    "word": "snarb",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "snarbs": [
+   {
+    "word": "snarb",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "snib": [
+   {
+    "word": "snib",
+    "pos": "n",
+    "approved": true
+   },
+   {
+    "word": "snib",
+    "pos": "v",
+    "approved": false
+   }
+  ],
+  "snibbed": [
+   {
+    "word": "snib",
+    "pos": "v",
+    "approved": false,
+    "variant": true
+   }
+  ],
+  "snibbing": [
+   {
+    "word": "snib",
+    "pos": "v",
+    "approved": false,
+    "variant": true
+   }
+  ],
+  "snibs": [
+   {
+    "word": "snib",
+    "pos": "n",
+    "approved": true
+   },
+   {
+    "word": "snib",
+    "pos": "v",
+    "approved": false,
+    "variant": true
+   }
+  ],
+  "sniv": [
+   {
+    "word": "sniv",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "snivs": [
+   {
+    "word": "sniv",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "snoggle": [
+   {
+    "word": "snoggle",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "snoggles": [
+   {
+    "word": "snoggle",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "snorch": [
+   {
+    "word": "snorch",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "snorched": [
+   {
+    "word": "snorch",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "snorches": [
+   {
+    "word": "snorch",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "spekkles": [
+   {
+    "word": "spekkles",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "spirn": [
+   {
+    "word": "spirn",
+    "pos": "v",
+    "approved": false
+   }
+  ],
+  "spirned": [
+   {
+    "word": "spirn",
+    "pos": "v",
+    "approved": false,
+    "variant": true
+   }
+  ],
+  "spirning": [
+   {
+    "word": "spirn",
+    "pos": "v",
+    "approved": false,
+    "variant": true
+   }
+  ],
+  "spirns": [
+   {
+    "word": "spirn",
+    "pos": "v",
+    "approved": false,
+    "variant": true
+   }
+  ],
+  "splue": [
+   {
+    "word": "splue",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "splues": [
+   {
+    "word": "splue",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "sprent": [
+   {
+    "word": "sprock",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "sprill": [
+   {
+    "word": "sprill",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "sprills": [
+   {
+    "word": "sprill",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "sprock": [
+   {
+    "word": "sprock",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "sprocks": [
+   {
+    "word": "sprock",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "spurl": [
+   {
+    "word": "spurl",
+    "pos": "adj",
+    "approved": false
+   }
+  ],
+  "tamb": [
+   {
+    "word": "tamb",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "tambs": [
+   {
+    "word": "tamb",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "that": [
+   {
+    "word": "that",
+    "pos": "conj",
+    "approved": true
+   }
+  ],
+  "the": [
+   {
+    "word": "the",
+    "pos": "art",
+    "approved": true
+   }
+  ],
+  "then": [
+   {
+    "word": "then",
+    "pos": "adv",
+    "approved": true
+   }
+  ],
+  "these": [
+   {
+    "word": "these",
+    "pos": "pron",
+    "approved": true
+   }
+  ],
+  "this": [
+   {
+    "word": "this",
+    "pos": "pron",
+    "approved": true
+   }
+  ],
+  "to": [
+   {
+    "word": "to",
+    "pos": "prep",
+    "approved": true
+   }
+  ],
+  "tosk": [
+   {
+    "word": "tosk",
+    "pos": "n",
+    "approved": true
+   },
+   {
+    "word": "tosk",
+    "pos": "v",
+    "approved": false
+   }
+  ],
+  "tosks": [
+   {
+    "word": "tosk",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "trosk": [
+   {
+    "word": "trosk",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "trosked": [
+   {
+    "word": "trosk",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "trosks": [
+   {
+    "word": "trosk",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "unplob": [
+   {
+    "word": "unplob",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "unplobbed": [
+   {
+    "word": "unplob",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "unplobs": [
+   {
+    "word": "unplob",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "up": [
+   {
+    "word": "up",
+    "pos": "adv",
+    "approved": true
+   }
+  ],
+  "vakk": [
+   {
+    "word": "vakk",
+    "pos": "adj",
+    "approved": true
+   }
+  ],
+  "vear": [
+   {
+    "word": "vear",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "vears": [
+   {
+    "word": "vear",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "vesk": [
+   {
+    "word": "vesk",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "vesked": [
+   {
+    "word": "vesk",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "vesks": [
+   {
+    "word": "vesk",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "vonk": [
+   {
+    "word": "vonk",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "vonks": [
+   {
+    "word": "vonk",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "vorbary": [
+   {
+    "word": "vorbary",
+    "pos": "adj",
+    "approved": true
+   }
+  ],
+  "vore": [
+   {
+    "word": "vear",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "vorn": [
+   {
+    "word": "vear",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "vorsk": [
+   {
+    "word": "vorsk",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "vorsks": [
+   {
+    "word": "vorsk",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "vosquence": [
+   {
+    "word": "vosquence",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "vosquences": [
+   {
+    "word": "vosquence",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "vrom": [
+   {
+    "word": "vrom",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "was": [
+   {
+    "word": "be",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "we": [
+   {
+    "word": "we",
+    "pos": "pron",
+    "approved": true
+   }
+  ],
+  "wemble": [
+   {
+    "word": "wemble",
+    "pos": "v",
+    "approved": true
+   },
+   {
+    "word": "wemble",
+    "pos": "adj",
+    "approved": true
+   }
+  ],
+  "wembled": [
+   {
+    "word": "wemble",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "wembles": [
+   {
+    "word": "wemble",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "were": [
+   {
+    "word": "be",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "whask": [
+   {
+    "word": "whask",
+    "pos": "adj",
+    "approved": true
+   }
+  ],
+  "when": [
+   {
+    "word": "when",
+    "pos": "conj",
+    "approved": true
+   }
+  ],
+  "will": [
+   {
+    "word": "will",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "wirl": [
+   {
+    "word": "wirl",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "wirled": [
+   {
+    "word": "wirl",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "wirls": [
+   {
+    "word": "wirl",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "with": [
+   {
+    "word": "with",
+    "pos": "prep",
+    "approved": true
+   }
+  ],
+  "wugget": [
+   {
+    "word": "wugget",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "wuggets": [
+   {
+    "word": "wugget",
+    "pos": "n",
+    "approved": true
+   }
+  ],
+  "yarb": [
+   {
+    "word": "yorb",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "yimp": [
+   {
+    "word": "yimp",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "yimped": [
+   {
+    "word": "yimp",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "yimps": [
+   {
+    "word": "yimp",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "yorb": [
+   {
+    "word": "yorb",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "yorben": [
+   {
+    "word": "yorb",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "yorbs": [
+   {
+    "word": "yorb",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "you": [
+   {
+    "word": "you",
+    "pos": "pron",
+    "approved": true
+   }
+  ],
+  "zarvolize": [
+   {
+    "word": "zarvolize",
+    "pos": "v",
+    "approved": false
+   }
+  ],
+  "zarvolized": [
+   {
+    "word": "zarvolize",
+    "pos": "v",
+    "approved": false,
+    "variant": true
+   }
+  ],
+  "zarvolizes": [
+   {
+    "word": "zarvolize",
+    "pos": "v",
+    "approved": false,
+    "variant": true
+   }
+  ],
+  "zarvolizing": [
+   {
+    "word": "zarvolize",
+    "pos": "v",
+    "approved": false,
+    "variant": true
+   }
+  ],
+  "zeffle": [
+   {
+    "word": "zeffle",
+    "pos": "v",
+    "approved": false
+   }
+  ],
+  "zeffled": [
+   {
+    "word": "zeffle",
+    "pos": "v",
+    "approved": false,
+    "variant": true
+   }
+  ],
+  "zeffles": [
+   {
+    "word": "zeffle",
+    "pos": "v",
+    "approved": false,
+    "variant": true
+   }
+  ],
+  "zeffling": [
+   {
+    "word": "zeffle",
+    "pos": "v",
+    "approved": false,
+    "variant": true
+   }
+  ],
+  "zelk": [
+   {
+    "word": "zelk",
+    "pos": "v",
+    "approved": false
+   }
+  ],
+  "zorbulate": [
+   {
+    "word": "zorbulate",
+    "pos": "v",
+    "approved": false
+   }
+  ]
+ }
+}

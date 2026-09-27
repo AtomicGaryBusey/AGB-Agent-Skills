@@ -1,0 +1,24 @@
+// risky (each line should hit at least one SWIFT.md grep)
+let f = ISO8601DateFormatter()
+f.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+if let d = f.date(from: s) { use(d) }
+decoder.dateDecodingStrategy = .iso8601
+let d = try Date(s, strategy: .iso8601)
+let d2 = try Date.ISO8601FormatStyle(includingFractionalSeconds: true).parse(s)
+let out = Date.ISO8601FormatStyle(timeZone: .current).format(date)
+let out2 = date.formatted(Date.ISO8601FormatStyle(timeZone: tz))
+df.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
+df.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+df.dateFormat = "YYYY-MM-dd'T'HH:mm:ssXXXXX"
+df.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXXX"
+let df = DateFormatter()
+df.isLenient = true
+let s = "\(date)"
+let s2 = date.description
+encoder.dateEncodingStrategy = .deferredToDate
+let e = JSONEncoder()
+ISO8601DateFormatter.string(from: d, timeZone: tz, formatOptions: [.withInternetDateTime, .withSpaceBetweenDateAndTime])
+// safe (should hit only the informational ISO8601DateFormatter / DateFormatter( rows, not the defect rows)
+df.locale = Locale(identifier: "en_US_POSIX")
+df.dateFormat = "yyyy-MM-dd'T'HH:mm:ssXXXXX"
+let ok = try parseRFC3339Strict(s)

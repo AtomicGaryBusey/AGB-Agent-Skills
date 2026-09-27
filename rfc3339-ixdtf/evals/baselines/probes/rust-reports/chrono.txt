@@ -1,0 +1,48 @@
+Conformance report -- target: <scratch>/rfcskill/eval-rust/target/release/adapter chrono
+section                             pass  lenient  strict  wrong  reason  error  interp  skip  total
+RFC3339 App. D                         0        0       0      0       0      0       0    12     12
+RFC3339 errata                         1        0       0      0       0      0       0     7      8
+RFC3339 §4.3 / RFC9557 §2              3        0       0      0       0      0       0     0      3
+RFC3339 §5.6                          79        2       0      0       0      0       0     3     84
+RFC3339 §5.7                          35        5       0      0       0      0       5     6     51
+RFC3339 §5.8                           5        0       0      0       0      0       0     0      5
+RFC9557 §1.2                           0        0       0      0       0      0       0     3      3
+RFC9557 §3.2                           0        0       0      0       0      0       0     4      4
+RFC9557 §3.3                           0        0       0      0       0      0       0    16     16
+RFC9557 §3.4                           0        0       0      0       0      0       0    31     31
+RFC9557 §4.1                           0        0       0      0       0      0       0    52     52
+RFC9557 §4.2                           0        0       0      0       0      0       0     5      5
+TOTAL                                123        7       0      0       0      0       5   139    274
+
+TOO LENIENT (accepted, should reject): 7
+  3339-5.6-015     [RFC3339 §5.6] '2024-01-01 12:00:00Z'
+      expected invalid (R3339-5.6/date-time-separator) -- ABNF requires T/t; the §5.6 NOTE about a space is permissive prose (erratum 5783, Held)
+  3339-5.6-028     [RFC3339 §5.6] '2024-01-01T12:00:00−05:00'
+      expected invalid (R3339-5.6/time-offset) -- U+2212 MINUS SIGN is not '-'
+  3339-5.7-033     [RFC3339 §5.7] '2016-12-31T23:59:60+01:00'
+      expected invalid (R3339-5.7/leap-second-offset) -- local 23:59:60 with +01:00 is 22:59:60Z: §5.7 says the point is shifted by the offset
+  3339-5.7-034     [RFC3339 §5.7] '2016-12-31T23:59:60-05:00'
+      expected invalid (R3339-5.7/leap-second-offset) -- unshifted local 23:59:60 with -05:00
+  3339-5.7-035     [RFC3339 §5.7] '2016-12-30T23:59:60Z'
+      expected invalid (R3339-5.7/leap-second-position) -- not end of month
+  3339-5.7-036     [RFC3339 §5.7] '2016-12-31T23:58:60Z'
+      expected invalid (R3339-5.7/leap-second-position) -- not 23:59
+  3339-5.7-037     [RFC3339 §5.7] '2016-12-31T12:00:60Z'
+      expected invalid (R3339-5.7/leap-second-position) -- midday
+
+INTERPRETATION (RFC permits either verdict; not a failure): 5
+  3339-5.7-039     [RFC3339 §5.7] '2016-06-30T23:59:60Z'
+      target ACCEPTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-040     [RFC3339 §5.7] '2016-03-31T23:59:60Z'
+      target ACCEPTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-042     [RFC3339 §5.7] '2016-01-31T23:59:60Z'
+      target ACCEPTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-045     [RFC3339 §5.7] '1971-12-31T23:59:60Z'
+      target ACCEPTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference; UTC leap seconds began in 1972
+  3339-5.7-047     [RFC3339 §5.7] '2024-12-31T23:59:60Z'
+      target ACCEPTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+
+123/130 passed (94.6%), 5 interpretation (excluded), 139 skipped
+  skipped: 28 non-default options (--target-options fixed: target has a fixed policy)
+  skipped: 111 not applicable to --target-kind
+  fields: 17 accepted vectors compared, 0 WRONG VALUE; 4 not compared (no 'fields' object, or none of the vector's field names)

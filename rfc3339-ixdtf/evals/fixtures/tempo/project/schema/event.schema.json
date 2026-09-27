@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tempo.example/schema/event.schema.json",
+  "title": "Tempo Event",
+  "description": "One element of the `events` array returned by GET /v1/events.",
+  "type": "object",
+  "required": ["id", "title", "start", "start_utc", "end", "reminder_at", "created_at", "received_at"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^evt_[a-z0-9_]+$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "start": {
+      "description": "Start of the event as an RFC 9557 IXDTF string: RFC 3339 date-time plus a time-zone suffix and optional calendar tag.",
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]+)?(Z|[+-][0-9]{2}:[0-9]{2})\\[.+\\]$"
+    },
+    "start_utc": {
+      "description": "Start of the event as a UTC instant.",
+      "type": "string",
+      "format": "date-time"
+    },
+    "end": {
+      "description": "End of the event in the venue's local offset.",
+      "type": "string",
+      "format": "date-time"
+    },
+    "reminder_at": {
+      "description": "When the reminder notification fires.",
+      "type": "string",
+      "format": "date-time"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "received_at": {
+      "description": "Server receipt time of this response, UTC, millisecond precision.",
+      "type": "string",
+      "format": "date-time"
+    },
+    "all_day_date": {
+      "description": "Calendar date of an all-day event.",
+      "type": "string",
+      "format": "date-time"
+    },
+    "source_seen_at": {
+      "description": "For partner-feed events: when the partner last saw the event.",
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

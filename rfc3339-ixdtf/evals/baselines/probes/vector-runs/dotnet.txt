@@ -1,0 +1,1056 @@
+Vector runs: dotnet  (probes/run_vector_probes.py; vectors/vectors.json sha256 4e700dd49a208ee6..., 310 vectors)
+runner flags: --batch --target-options fixed --target-has-tzdata yes --target-kind <kind>; TZ=America/New_York
+
+dotnet: 10.0.300
+
+program:key                      kind       pass too-len too-str wrong-v   error interpr    skip   total   pass%
+dotnet:datetime-parse            rfc3339     111      21      15       0       0       6     157     310    75.5
+dotnet:datetime-parse-roundtrip  rfc3339     111      21      15       0       0       6     157     310    75.5
+dotnet:dto-parse                 rfc3339     111      21      15       0       0       6     157     310    75.5
+dotnet:dto-parseexact-o          rfc3339      88       0      59       0       0       6     157     310    59.9
+dotnet:dto-parseexact-ssK        rfc3339     113       3      31       0       0       6     157     310    76.9
+dotnet:dto-parseexact-FFFFFFFK   rfc3339     119       5      23       0       0       6     157     310    81.0
+dotnet:stj-dto                   rfc3339     121       6      20       0       0       6     157     310    82.3
+dotnet:stj-datetime              rfc3339     121       6      20       0       0       6     157     310    82.3
+dotnet:xmlconvert-dto            rfc3339     122       8      17       0       0       6     157     310    83.0
+
+==============================================================================
+dotnet:datetime-parse  (--target-kind rfc3339)
+==============================================================================
+Conformance report -- target: dotnet <build>/dotnet/probe_dotnet.dll adapter datetime-parse
+  runner 0.4.0 | vectors vectors/vectors.json sha256:4e700dd49a20 (310) | python 3.13.9 (darwin) | host TZ America/New_York (EST/EDT) | tzdata 2026c | tz-matrix - | mode stdin, batch yes, jobs 1 | 2026-09-26T08:01:28Z | 0.06s
+section                             pass  lenient  strict  wrong  tzdep  reason  error  interp  skip  total
+RFC3339 App. A                         7        0       0      0      0       0      0       0     0      7
+RFC3339 App. D                         0        0       0      0      0       0      0       0    12     12
+RFC3339 errata                         1        0       0      0      0       0      0       0     7      8
+RFC3339 §1                             4        0       0      0      0       0      0       0     0      4
+RFC3339 §4.3 / RFC9557 §2              3        0       0      0      0       0      0       0     0      3
+RFC3339 §5.4                           1        2       0      0      0       0      0       0     0      3
+RFC3339 §5.6                          60       19       3      0      0       0      0       0     3     85
+RFC3339 §5.7                          32        0      10      0      0       0      0       6     7     55
+RFC3339 §5.8                           3        0       2      0      0       0      0       0     0      5
+RFC9557 §1.2                           0        0       0      0      0       0      0       0     3      3
+RFC9557 §3.2                           0        0       0      0      0       0      0       0     4      4
+RFC9557 §3.3                           0        0       0      0      0       0      0       0    16     16
+RFC9557 §3.4                           0        0       0      0      0       0      0       0    39     39
+RFC9557 §4.1                           0        0       0      0      0       0      0       0    52     52
+RFC9557 §4.2                           0        0       0      0      0       0      0       0     5      5
+RFC9557 §5                             0        0       0      0      0       0      0       0     1      1
+RFC9557 §7.2                           0        0       0      0      0       0      0       0     8      8
+TOTAL                                111       21      15      0      0       0      0       6   157    310
+
+TOO LENIENT (accepted, should reject): 21
+  3339-5.6-015     [RFC3339 §5.6] '2024-01-01 12:00:00Z'
+      expected invalid (R3339-5.6/date-time-separator) -- ABNF requires T/t; the §5.6 NOTE about a space is permissive prose (erratum 5783, Held)
+  3339-5.6-020     [RFC3339 §5.6] '2024-01-01'
+      expected invalid (R3339-5.6/date-time-separator) -- full-date alone is not a date-time
+  3339-5.6-021     [RFC3339 §5.6] '2024-01-01T12:00Z'
+      expected invalid (R3339-5.6/time-second) -- seconds are mandatory
+  3339-5.6-022     [RFC3339 §5.6] '2024-01-01T12:00:00'
+      expected invalid (R3339-5.6/time-offset) -- time-offset mandatory; unqualified local time (§4.4)
+  3339-5.6-023     [RFC3339 §5.6] '2024-01-01T12:00:00+0100'
+      expected invalid (R3339-5.6/time-numoffset) -- offset without colon
+  3339-5.6-024     [RFC3339 §5.6] '2024-01-01T12:00:00+01'
+      expected invalid (R3339-5.6/time-numoffset) -- hour-only offset
+  3339-5.6-025     [RFC3339 §5.6] '2024-01-01T12:00:00+1:00'
+      expected invalid (R3339-5.6/time-numoffset) -- 1-digit offset hour
+  3339-5.6-029     [RFC3339 §5.6] '2024-01-01T12:00:00 Z'
+      expected invalid (R3339-5.6/time-offset) -- space before Z
+  3339-5.6-033     [RFC3339 §5.6] '2024-01-01T12:00:00,5Z'
+      expected invalid (R3339-5.6/time-secfrac) -- comma fraction is only in App. A ISO grammar
+  3339-5.6-039     [RFC3339 §5.6] '2024-1-01T12:00:00Z'
+      expected invalid (R3339-5.6/date-month) -- 1-digit month
+  3339-5.6-040     [RFC3339 §5.6] '2024-01-1T12:00:00Z'
+      expected invalid (R3339-5.6/date-mday) -- 1-digit day
+  3339-5.6-051     [RFC3339 §5.6] '2024/01/01T12:00:00Z'
+      expected invalid (R3339-5.6/date-separator) -- slash date
+  3339-5.6-055     [RFC3339 §5.6] '2024-01-01T12:00:00Z\n'
+      expected invalid (R3339-5.6/trailing-characters) -- trailing newline (regex $ pitfall)
+  3339-5.6-056     [RFC3339 §5.6] '2024-01-01T12:00:00Z '
+      expected invalid (R3339-5.6/trailing-characters) -- trailing space
+  3339-5.6-057     [RFC3339 §5.6] ' 2024-01-01T12:00:00Z'
+      expected invalid (R3339-5.6/date-fullyear) -- leading space
+  3339-5.6-064     [RFC3339 §5.6] '2024-01-01T00:00:00Z\x00'
+      expected invalid (R3339-5.6/trailing-characters) -- trailing NUL (C-string truncation pitfall); cannot be passed via argv
+  3339-5.6-066     [RFC3339 §5.6] '2024-01-01T00:00:00Z\r'
+      expected invalid (R3339-5.6/trailing-characters) -- trailing CR
+  3339-5.6-067     [RFC3339 §5.6] '2024-01-01T00:00:00Z\r\n'
+      expected invalid (R3339-5.6/trailing-characters) -- trailing CRLF
+  3339-5.6-071     [RFC3339 §5.6] '2024-01-01\xa000:00:00Z'
+      expected invalid (R3339-5.6/date-time-separator) -- NBSP U+00A0 is not SP
+  3339-5.4-001     [RFC3339 §5.4] 'Fri, 1985-04-12T23:20:50Z'
+      expected invalid (R3339-5.6/date-fullyear) -- §5.4: 'the day of week should not be included'; the grammar has no place for it
+  3339-5.4-003     [RFC3339 §5.4] 'Sat, 1985-04-12T23:20:50Z'
+      expected invalid (R3339-5.6/date-fullyear) -- weekday that disagrees with the date (1985-04-12 was a Friday): a lenient parser must not silently pick either field (App. B)
+
+TOO STRICT (rejected, should accept): 15
+  3339-5.8-003     [RFC3339 §5.8] '1990-12-31T23:59:60Z'
+      expected valid (ok) -- §5.8 leap second at end of 1990
+  3339-5.8-004     [RFC3339 §5.8] '1990-12-31T15:59:60-08:00'
+      expected valid (ok) -- §5.8: same leap second in PST -- offset-shifted leap second point (§5.7)
+  3339-5.6-004     [RFC3339 §5.6] '0000-01-01T00:00:00Z'
+      expected valid (ok) -- date-fullyear = 4DIGIT admits 0000
+  3339-5.6-009     [RFC3339 §5.6] '2024-01-01T00:00:00+23:59'
+      expected valid (ok) -- time-numoffset uses time-hour/time-minute: +23:59 is the maximum
+  3339-5.6-010     [RFC3339 §5.6] '2024-01-01T00:00:00-23:59'
+      expected valid (ok) -- minimum offset
+  3339-5.7-007     [RFC3339 §5.7] '0000-02-29T00:00:00Z'
+      expected valid (ok) -- year 0000: 0 % 400 == 0 per App. C code
+  3339-5.7-025     [RFC3339 §5.7] '2016-12-31T23:59:60Z'
+      expected valid (ok) -- real leap second (IERS Bulletin C 52)
+  3339-5.7-026     [RFC3339 §5.7] '2016-12-31T23:59:60z'
+      expected valid (R3339-5.6/lowercase-letter) -- leap second, lowercase z
+  3339-5.7-027     [RFC3339 §5.7] '2016-12-31T23:59:60.999Z'
+      expected valid (ok) -- fraction within leap second
+  3339-5.7-028     [RFC3339 §5.7] '2016-12-31T23:59:60+00:00'
+      expected valid (ok) -- +00:00 leap second
+  3339-5.7-029     [RFC3339 §5.7] '2016-12-31T23:59:60-00:00'
+      expected valid (R9557-2.3/negative-zero-offset) -- -00:00 leap second
+  3339-5.7-030     [RFC3339 §5.7] '2017-01-01T00:59:60+01:00'
+      expected valid (ok) -- §5.7: leap second point shifted by +01:00 -> next local day 00:59:60
+  3339-5.7-031     [RFC3339 §5.7] '2016-12-31T18:59:60-05:00'
+      expected valid (ok) -- shifted by -05:00
+  3339-5.7-032     [RFC3339 §5.7] '2017-01-01T05:29:60+05:30'
+      expected valid (ok) -- shifted by +05:30
+  3339-5.7-038     [RFC3339 §5.7] '2015-06-30T23:59:60Z'
+      expected valid (ok) -- real June leap second
+
+INTERPRETATION (RFC permits either verdict, or a leap-second representation; not a failure): 6
+  3339-5.7-039     [RFC3339 §5.7] '2016-06-30T23:59:60Z'
+      target REJECTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-040     [RFC3339 §5.7] '2016-03-31T23:59:60Z'
+      target REJECTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-042     [RFC3339 §5.7] '2016-01-31T23:59:60Z'
+      target REJECTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-045     [RFC3339 §5.7] '1971-12-31T23:59:60Z'
+      target REJECTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference; UTC leap seconds began in 1972
+  3339-5.7-047     [RFC3339 §5.7] '2024-12-31T23:59:60Z'
+      target REJECTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-055     [RFC3339 §5.7] '2035-06-30T23:59:59Z'
+      target ACCEPTED -- §5.7: 'It is also possible for a leap second to be subtracted, at which times the maximum value of time-second is "58"'. None has ever been subtracted, so 23:59:59 is valid at every past month end; beyond the validity of any leap-second table a validator cannot know whether one will be, and may accept (none announced) or flag the value
+
+111/147 passed (75.5%), 6 interpretation (excluded), 157 skipped
+  skipped: 29 non-default options (--target-options fixed: target has a fixed policy)
+  skipped: 128 not applicable to --target-kind
+  fields: 0 accepted vectors compared, 0 WRONG VALUE; 17 not compared (no 'fields' object, or none of the vector's field names)
+
+==============================================================================
+dotnet:datetime-parse-roundtrip  (--target-kind rfc3339)
+==============================================================================
+Conformance report -- target: dotnet <build>/dotnet/probe_dotnet.dll adapter datetime-parse-roundtrip
+  runner 0.4.0 | vectors vectors/vectors.json sha256:4e700dd49a20 (310) | python 3.13.9 (darwin) | host TZ America/New_York (EST/EDT) | tzdata 2026c | tz-matrix - | mode stdin, batch yes, jobs 1 | 2026-09-26T08:01:28Z | 0.06s
+section                             pass  lenient  strict  wrong  tzdep  reason  error  interp  skip  total
+RFC3339 App. A                         7        0       0      0      0       0      0       0     0      7
+RFC3339 App. D                         0        0       0      0      0       0      0       0    12     12
+RFC3339 errata                         1        0       0      0      0       0      0       0     7      8
+RFC3339 §1                             4        0       0      0      0       0      0       0     0      4
+RFC3339 §4.3 / RFC9557 §2              3        0       0      0      0       0      0       0     0      3
+RFC3339 §5.4                           1        2       0      0      0       0      0       0     0      3
+RFC3339 §5.6                          60       19       3      0      0       0      0       0     3     85
+RFC3339 §5.7                          32        0      10      0      0       0      0       6     7     55
+RFC3339 §5.8                           3        0       2      0      0       0      0       0     0      5
+RFC9557 §1.2                           0        0       0      0      0       0      0       0     3      3
+RFC9557 §3.2                           0        0       0      0      0       0      0       0     4      4
+RFC9557 §3.3                           0        0       0      0      0       0      0       0    16     16
+RFC9557 §3.4                           0        0       0      0      0       0      0       0    39     39
+RFC9557 §4.1                           0        0       0      0      0       0      0       0    52     52
+RFC9557 §4.2                           0        0       0      0      0       0      0       0     5      5
+RFC9557 §5                             0        0       0      0      0       0      0       0     1      1
+RFC9557 §7.2                           0        0       0      0      0       0      0       0     8      8
+TOTAL                                111       21      15      0      0       0      0       6   157    310
+
+TOO LENIENT (accepted, should reject): 21
+  3339-5.6-015     [RFC3339 §5.6] '2024-01-01 12:00:00Z'
+      expected invalid (R3339-5.6/date-time-separator) -- ABNF requires T/t; the §5.6 NOTE about a space is permissive prose (erratum 5783, Held)
+  3339-5.6-020     [RFC3339 §5.6] '2024-01-01'
+      expected invalid (R3339-5.6/date-time-separator) -- full-date alone is not a date-time
+  3339-5.6-021     [RFC3339 §5.6] '2024-01-01T12:00Z'
+      expected invalid (R3339-5.6/time-second) -- seconds are mandatory
+  3339-5.6-022     [RFC3339 §5.6] '2024-01-01T12:00:00'
+      expected invalid (R3339-5.6/time-offset) -- time-offset mandatory; unqualified local time (§4.4)
+  3339-5.6-023     [RFC3339 §5.6] '2024-01-01T12:00:00+0100'
+      expected invalid (R3339-5.6/time-numoffset) -- offset without colon
+  3339-5.6-024     [RFC3339 §5.6] '2024-01-01T12:00:00+01'
+      expected invalid (R3339-5.6/time-numoffset) -- hour-only offset
+  3339-5.6-025     [RFC3339 §5.6] '2024-01-01T12:00:00+1:00'
+      expected invalid (R3339-5.6/time-numoffset) -- 1-digit offset hour
+  3339-5.6-029     [RFC3339 §5.6] '2024-01-01T12:00:00 Z'
+      expected invalid (R3339-5.6/time-offset) -- space before Z
+  3339-5.6-033     [RFC3339 §5.6] '2024-01-01T12:00:00,5Z'
+      expected invalid (R3339-5.6/time-secfrac) -- comma fraction is only in App. A ISO grammar
+  3339-5.6-039     [RFC3339 §5.6] '2024-1-01T12:00:00Z'
+      expected invalid (R3339-5.6/date-month) -- 1-digit month
+  3339-5.6-040     [RFC3339 §5.6] '2024-01-1T12:00:00Z'
+      expected invalid (R3339-5.6/date-mday) -- 1-digit day
+  3339-5.6-051     [RFC3339 §5.6] '2024/01/01T12:00:00Z'
+      expected invalid (R3339-5.6/date-separator) -- slash date
+  3339-5.6-055     [RFC3339 §5.6] '2024-01-01T12:00:00Z\n'
+      expected invalid (R3339-5.6/trailing-characters) -- trailing newline (regex $ pitfall)
+  3339-5.6-056     [RFC3339 §5.6] '2024-01-01T12:00:00Z '
+      expected invalid (R3339-5.6/trailing-characters) -- trailing space
+  3339-5.6-057     [RFC3339 §5.6] ' 2024-01-01T12:00:00Z'
+      expected invalid (R3339-5.6/date-fullyear) -- leading space
+  3339-5.6-064     [RFC3339 §5.6] '2024-01-01T00:00:00Z\x00'
+      expected invalid (R3339-5.6/trailing-characters) -- trailing NUL (C-string truncation pitfall); cannot be passed via argv
+  3339-5.6-066     [RFC3339 §5.6] '2024-01-01T00:00:00Z\r'
+      expected invalid (R3339-5.6/trailing-characters) -- trailing CR
+  3339-5.6-067     [RFC3339 §5.6] '2024-01-01T00:00:00Z\r\n'
+      expected invalid (R3339-5.6/trailing-characters) -- trailing CRLF
+  3339-5.6-071     [RFC3339 §5.6] '2024-01-01\xa000:00:00Z'
+      expected invalid (R3339-5.6/date-time-separator) -- NBSP U+00A0 is not SP
+  3339-5.4-001     [RFC3339 §5.4] 'Fri, 1985-04-12T23:20:50Z'
+      expected invalid (R3339-5.6/date-fullyear) -- §5.4: 'the day of week should not be included'; the grammar has no place for it
+  3339-5.4-003     [RFC3339 §5.4] 'Sat, 1985-04-12T23:20:50Z'
+      expected invalid (R3339-5.6/date-fullyear) -- weekday that disagrees with the date (1985-04-12 was a Friday): a lenient parser must not silently pick either field (App. B)
+
+TOO STRICT (rejected, should accept): 15
+  3339-5.8-003     [RFC3339 §5.8] '1990-12-31T23:59:60Z'
+      expected valid (ok) -- §5.8 leap second at end of 1990
+  3339-5.8-004     [RFC3339 §5.8] '1990-12-31T15:59:60-08:00'
+      expected valid (ok) -- §5.8: same leap second in PST -- offset-shifted leap second point (§5.7)
+  3339-5.6-004     [RFC3339 §5.6] '0000-01-01T00:00:00Z'
+      expected valid (ok) -- date-fullyear = 4DIGIT admits 0000
+  3339-5.6-009     [RFC3339 §5.6] '2024-01-01T00:00:00+23:59'
+      expected valid (ok) -- time-numoffset uses time-hour/time-minute: +23:59 is the maximum
+  3339-5.6-010     [RFC3339 §5.6] '2024-01-01T00:00:00-23:59'
+      expected valid (ok) -- minimum offset
+  3339-5.7-007     [RFC3339 §5.7] '0000-02-29T00:00:00Z'
+      expected valid (ok) -- year 0000: 0 % 400 == 0 per App. C code
+  3339-5.7-025     [RFC3339 §5.7] '2016-12-31T23:59:60Z'
+      expected valid (ok) -- real leap second (IERS Bulletin C 52)
+  3339-5.7-026     [RFC3339 §5.7] '2016-12-31T23:59:60z'
+      expected valid (R3339-5.6/lowercase-letter) -- leap second, lowercase z
+  3339-5.7-027     [RFC3339 §5.7] '2016-12-31T23:59:60.999Z'
+      expected valid (ok) -- fraction within leap second
+  3339-5.7-028     [RFC3339 §5.7] '2016-12-31T23:59:60+00:00'
+      expected valid (ok) -- +00:00 leap second
+  3339-5.7-029     [RFC3339 §5.7] '2016-12-31T23:59:60-00:00'
+      expected valid (R9557-2.3/negative-zero-offset) -- -00:00 leap second
+  3339-5.7-030     [RFC3339 §5.7] '2017-01-01T00:59:60+01:00'
+      expected valid (ok) -- §5.7: leap second point shifted by +01:00 -> next local day 00:59:60
+  3339-5.7-031     [RFC3339 §5.7] '2016-12-31T18:59:60-05:00'
+      expected valid (ok) -- shifted by -05:00
+  3339-5.7-032     [RFC3339 §5.7] '2017-01-01T05:29:60+05:30'
+      expected valid (ok) -- shifted by +05:30
+  3339-5.7-038     [RFC3339 §5.7] '2015-06-30T23:59:60Z'
+      expected valid (ok) -- real June leap second
+
+INTERPRETATION (RFC permits either verdict, or a leap-second representation; not a failure): 6
+  3339-5.7-039     [RFC3339 §5.7] '2016-06-30T23:59:60Z'
+      target REJECTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-040     [RFC3339 §5.7] '2016-03-31T23:59:60Z'
+      target REJECTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-042     [RFC3339 §5.7] '2016-01-31T23:59:60Z'
+      target REJECTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-045     [RFC3339 §5.7] '1971-12-31T23:59:60Z'
+      target REJECTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference; UTC leap seconds began in 1972
+  3339-5.7-047     [RFC3339 §5.7] '2024-12-31T23:59:60Z'
+      target REJECTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-055     [RFC3339 §5.7] '2035-06-30T23:59:59Z'
+      target ACCEPTED -- §5.7: 'It is also possible for a leap second to be subtracted, at which times the maximum value of time-second is "58"'. None has ever been subtracted, so 23:59:59 is valid at every past month end; beyond the validity of any leap-second table a validator cannot know whether one will be, and may accept (none announced) or flag the value
+
+111/147 passed (75.5%), 6 interpretation (excluded), 157 skipped
+  skipped: 29 non-default options (--target-options fixed: target has a fixed policy)
+  skipped: 128 not applicable to --target-kind
+  fields: 0 accepted vectors compared, 0 WRONG VALUE; 17 not compared (no 'fields' object, or none of the vector's field names)
+
+==============================================================================
+dotnet:dto-parse  (--target-kind rfc3339)
+==============================================================================
+Conformance report -- target: dotnet <build>/dotnet/probe_dotnet.dll adapter dto-parse
+  runner 0.4.0 | vectors vectors/vectors.json sha256:4e700dd49a20 (310) | python 3.13.9 (darwin) | host TZ America/New_York (EST/EDT) | tzdata 2026c | tz-matrix - | mode stdin, batch yes, jobs 1 | 2026-09-26T08:01:28Z | 0.06s
+section                             pass  lenient  strict  wrong  tzdep  reason  error  interp  skip  total
+RFC3339 App. A                         7        0       0      0      0       0      0       0     0      7
+RFC3339 App. D                         0        0       0      0      0       0      0       0    12     12
+RFC3339 errata                         1        0       0      0      0       0      0       0     7      8
+RFC3339 §1                             4        0       0      0      0       0      0       0     0      4
+RFC3339 §4.3 / RFC9557 §2              3        0       0      0      0       0      0       0     0      3
+RFC3339 §5.4                           1        2       0      0      0       0      0       0     0      3
+RFC3339 §5.6                          60       19       3      0      0       0      0       0     3     85
+RFC3339 §5.7                          32        0      10      0      0       0      0       6     7     55
+RFC3339 §5.8                           3        0       2      0      0       0      0       0     0      5
+RFC9557 §1.2                           0        0       0      0      0       0      0       0     3      3
+RFC9557 §3.2                           0        0       0      0      0       0      0       0     4      4
+RFC9557 §3.3                           0        0       0      0      0       0      0       0    16     16
+RFC9557 §3.4                           0        0       0      0      0       0      0       0    39     39
+RFC9557 §4.1                           0        0       0      0      0       0      0       0    52     52
+RFC9557 §4.2                           0        0       0      0      0       0      0       0     5      5
+RFC9557 §5                             0        0       0      0      0       0      0       0     1      1
+RFC9557 §7.2                           0        0       0      0      0       0      0       0     8      8
+TOTAL                                111       21      15      0      0       0      0       6   157    310
+
+TOO LENIENT (accepted, should reject): 21
+  3339-5.6-015     [RFC3339 §5.6] '2024-01-01 12:00:00Z'
+      expected invalid (R3339-5.6/date-time-separator) -- ABNF requires T/t; the §5.6 NOTE about a space is permissive prose (erratum 5783, Held)
+  3339-5.6-020     [RFC3339 §5.6] '2024-01-01'
+      expected invalid (R3339-5.6/date-time-separator) -- full-date alone is not a date-time
+  3339-5.6-021     [RFC3339 §5.6] '2024-01-01T12:00Z'
+      expected invalid (R3339-5.6/time-second) -- seconds are mandatory
+  3339-5.6-022     [RFC3339 §5.6] '2024-01-01T12:00:00'
+      expected invalid (R3339-5.6/time-offset) -- time-offset mandatory; unqualified local time (§4.4)
+  3339-5.6-023     [RFC3339 §5.6] '2024-01-01T12:00:00+0100'
+      expected invalid (R3339-5.6/time-numoffset) -- offset without colon
+  3339-5.6-024     [RFC3339 §5.6] '2024-01-01T12:00:00+01'
+      expected invalid (R3339-5.6/time-numoffset) -- hour-only offset
+  3339-5.6-025     [RFC3339 §5.6] '2024-01-01T12:00:00+1:00'
+      expected invalid (R3339-5.6/time-numoffset) -- 1-digit offset hour
+  3339-5.6-029     [RFC3339 §5.6] '2024-01-01T12:00:00 Z'
+      expected invalid (R3339-5.6/time-offset) -- space before Z
+  3339-5.6-033     [RFC3339 §5.6] '2024-01-01T12:00:00,5Z'
+      expected invalid (R3339-5.6/time-secfrac) -- comma fraction is only in App. A ISO grammar
+  3339-5.6-039     [RFC3339 §5.6] '2024-1-01T12:00:00Z'
+      expected invalid (R3339-5.6/date-month) -- 1-digit month
+  3339-5.6-040     [RFC3339 §5.6] '2024-01-1T12:00:00Z'
+      expected invalid (R3339-5.6/date-mday) -- 1-digit day
+  3339-5.6-051     [RFC3339 §5.6] '2024/01/01T12:00:00Z'
+      expected invalid (R3339-5.6/date-separator) -- slash date
+  3339-5.6-055     [RFC3339 §5.6] '2024-01-01T12:00:00Z\n'
+      expected invalid (R3339-5.6/trailing-characters) -- trailing newline (regex $ pitfall)
+  3339-5.6-056     [RFC3339 §5.6] '2024-01-01T12:00:00Z '
+      expected invalid (R3339-5.6/trailing-characters) -- trailing space
+  3339-5.6-057     [RFC3339 §5.6] ' 2024-01-01T12:00:00Z'
+      expected invalid (R3339-5.6/date-fullyear) -- leading space
+  3339-5.6-064     [RFC3339 §5.6] '2024-01-01T00:00:00Z\x00'
+      expected invalid (R3339-5.6/trailing-characters) -- trailing NUL (C-string truncation pitfall); cannot be passed via argv
+  3339-5.6-066     [RFC3339 §5.6] '2024-01-01T00:00:00Z\r'
+      expected invalid (R3339-5.6/trailing-characters) -- trailing CR
+  3339-5.6-067     [RFC3339 §5.6] '2024-01-01T00:00:00Z\r\n'
+      expected invalid (R3339-5.6/trailing-characters) -- trailing CRLF
+  3339-5.6-071     [RFC3339 §5.6] '2024-01-01\xa000:00:00Z'
+      expected invalid (R3339-5.6/date-time-separator) -- NBSP U+00A0 is not SP
+  3339-5.4-001     [RFC3339 §5.4] 'Fri, 1985-04-12T23:20:50Z'
+      expected invalid (R3339-5.6/date-fullyear) -- §5.4: 'the day of week should not be included'; the grammar has no place for it
+  3339-5.4-003     [RFC3339 §5.4] 'Sat, 1985-04-12T23:20:50Z'
+      expected invalid (R3339-5.6/date-fullyear) -- weekday that disagrees with the date (1985-04-12 was a Friday): a lenient parser must not silently pick either field (App. B)
+
+TOO STRICT (rejected, should accept): 15
+  3339-5.8-003     [RFC3339 §5.8] '1990-12-31T23:59:60Z'
+      expected valid (ok) -- §5.8 leap second at end of 1990
+  3339-5.8-004     [RFC3339 §5.8] '1990-12-31T15:59:60-08:00'
+      expected valid (ok) -- §5.8: same leap second in PST -- offset-shifted leap second point (§5.7)
+  3339-5.6-004     [RFC3339 §5.6] '0000-01-01T00:00:00Z'
+      expected valid (ok) -- date-fullyear = 4DIGIT admits 0000
+  3339-5.6-009     [RFC3339 §5.6] '2024-01-01T00:00:00+23:59'
+      expected valid (ok) -- time-numoffset uses time-hour/time-minute: +23:59 is the maximum
+  3339-5.6-010     [RFC3339 §5.6] '2024-01-01T00:00:00-23:59'
+      expected valid (ok) -- minimum offset
+  3339-5.7-007     [RFC3339 §5.7] '0000-02-29T00:00:00Z'
+      expected valid (ok) -- year 0000: 0 % 400 == 0 per App. C code
+  3339-5.7-025     [RFC3339 §5.7] '2016-12-31T23:59:60Z'
+      expected valid (ok) -- real leap second (IERS Bulletin C 52)
+  3339-5.7-026     [RFC3339 §5.7] '2016-12-31T23:59:60z'
+      expected valid (R3339-5.6/lowercase-letter) -- leap second, lowercase z
+  3339-5.7-027     [RFC3339 §5.7] '2016-12-31T23:59:60.999Z'
+      expected valid (ok) -- fraction within leap second
+  3339-5.7-028     [RFC3339 §5.7] '2016-12-31T23:59:60+00:00'
+      expected valid (ok) -- +00:00 leap second
+  3339-5.7-029     [RFC3339 §5.7] '2016-12-31T23:59:60-00:00'
+      expected valid (R9557-2.3/negative-zero-offset) -- -00:00 leap second
+  3339-5.7-030     [RFC3339 §5.7] '2017-01-01T00:59:60+01:00'
+      expected valid (ok) -- §5.7: leap second point shifted by +01:00 -> next local day 00:59:60
+  3339-5.7-031     [RFC3339 §5.7] '2016-12-31T18:59:60-05:00'
+      expected valid (ok) -- shifted by -05:00
+  3339-5.7-032     [RFC3339 §5.7] '2017-01-01T05:29:60+05:30'
+      expected valid (ok) -- shifted by +05:30
+  3339-5.7-038     [RFC3339 §5.7] '2015-06-30T23:59:60Z'
+      expected valid (ok) -- real June leap second
+
+INTERPRETATION (RFC permits either verdict, or a leap-second representation; not a failure): 6
+  3339-5.7-039     [RFC3339 §5.7] '2016-06-30T23:59:60Z'
+      target REJECTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-040     [RFC3339 §5.7] '2016-03-31T23:59:60Z'
+      target REJECTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-042     [RFC3339 §5.7] '2016-01-31T23:59:60Z'
+      target REJECTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-045     [RFC3339 §5.7] '1971-12-31T23:59:60Z'
+      target REJECTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference; UTC leap seconds began in 1972
+  3339-5.7-047     [RFC3339 §5.7] '2024-12-31T23:59:60Z'
+      target REJECTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-055     [RFC3339 §5.7] '2035-06-30T23:59:59Z'
+      target ACCEPTED -- §5.7: 'It is also possible for a leap second to be subtracted, at which times the maximum value of time-second is "58"'. None has ever been subtracted, so 23:59:59 is valid at every past month end; beyond the validity of any leap-second table a validator cannot know whether one will be, and may accept (none announced) or flag the value
+
+111/147 passed (75.5%), 6 interpretation (excluded), 157 skipped
+  skipped: 29 non-default options (--target-options fixed: target has a fixed policy)
+  skipped: 128 not applicable to --target-kind
+  fields: 13 accepted vectors compared, 0 WRONG VALUE; 4 not compared (no 'fields' object, or none of the vector's field names)
+
+==============================================================================
+dotnet:dto-parseexact-o  (--target-kind rfc3339)
+==============================================================================
+Conformance report -- target: dotnet <build>/dotnet/probe_dotnet.dll adapter dto-parseexact-o
+  runner 0.4.0 | vectors vectors/vectors.json sha256:4e700dd49a20 (310) | python 3.13.9 (darwin) | host TZ America/New_York (EST/EDT) | tzdata 2026c | tz-matrix - | mode stdin, batch yes, jobs 1 | 2026-09-26T08:01:29Z | 0.05s
+section                             pass  lenient  strict  wrong  tzdep  reason  error  interp  skip  total
+RFC3339 App. A                         6        0       1      0      0       0      0       0     0      7
+RFC3339 App. D                         0        0       0      0      0       0      0       0    12     12
+RFC3339 errata                         1        0       0      0      0       0      0       0     7      8
+RFC3339 §1                             4        0       0      0      0       0      0       0     0      4
+RFC3339 §4.3 / RFC9557 §2              0        0       3      0      0       0      0       0     0      3
+RFC3339 §5.4                           3        0       0      0      0       0      0       0     0      3
+RFC3339 §5.6                          58        0      24      0      0       0      0       0     3     85
+RFC3339 §5.7                          16        0      26      0      0       0      0       6     7     55
+RFC3339 §5.8                           0        0       5      0      0       0      0       0     0      5
+RFC9557 §1.2                           0        0       0      0      0       0      0       0     3      3
+RFC9557 §3.2                           0        0       0      0      0       0      0       0     4      4
+RFC9557 §3.3                           0        0       0      0      0       0      0       0    16     16
+RFC9557 §3.4                           0        0       0      0      0       0      0       0    39     39
+RFC9557 §4.1                           0        0       0      0      0       0      0       0    52     52
+RFC9557 §4.2                           0        0       0      0      0       0      0       0     5      5
+RFC9557 §5                             0        0       0      0      0       0      0       0     1      1
+RFC9557 §7.2                           0        0       0      0      0       0      0       0     8      8
+TOTAL                                 88        0      59      0      0       0      0       6   157    310
+
+TOO STRICT (rejected, should accept): 59
+  3339-5.8-001     [RFC3339 §5.8] '1985-04-12T23:20:50.52Z'
+      expected valid (ok) -- §5.8 example 1
+  3339-5.8-002     [RFC3339 §5.8] '1996-12-19T16:39:57-08:00'
+      expected valid (ok) -- §5.8 example 2
+  3339-5.8-003     [RFC3339 §5.8] '1990-12-31T23:59:60Z'
+      expected valid (ok) -- §5.8 leap second at end of 1990
+  3339-5.8-004     [RFC3339 §5.8] '1990-12-31T15:59:60-08:00'
+      expected valid (ok) -- §5.8: same leap second in PST -- offset-shifted leap second point (§5.7)
+  3339-5.8-005     [RFC3339 §5.8] '1937-01-01T12:00:27.87+00:20'
+      expected valid (ok) -- §5.8 closest representable offset for +00:19:32.13
+  3339-5.6-001     [RFC3339 §5.6] '2024-01-01t00:00:00z'
+      expected valid (R3339-5.6/lowercase-letter) -- §5.6 NOTE: 't'/'z' may be lower case; generators SHOULD use upper case (warning only)
+  3339-5.6-002     [RFC3339 §5.6] '2024-01-01T00:00:00z'
+      expected valid (R3339-5.6/lowercase-letter) -- lowercase z only
+  3339-5.6-003     [RFC3339 §5.6] '2024-01-01t00:00:00Z'
+      expected valid (R3339-5.6/lowercase-letter) -- lowercase t only
+  3339-5.6-004     [RFC3339 §5.6] '0000-01-01T00:00:00Z'
+      expected valid (ok) -- date-fullyear = 4DIGIT admits 0000
+  3339-5.6-005     [RFC3339 §5.6] '9999-12-31T23:59:59Z'
+      expected valid (ok) -- max 4DIGIT year
+  3339-5.6-006     [RFC3339 §5.6] '2024-01-01T00:00:00.000000000001Z'
+      expected valid (ok) -- time-secfrac = "." 1*DIGIT: no upper bound on digits
+  3339-5.6-007     [RFC3339 §5.6] '2024-01-01T00:00:00.0Z'
+      expected valid (ok) -- single fraction digit
+  3339-5.6-008     [RFC3339 §5.6] '2024-01-01T12:00:00.5Z'
+      expected valid (ok) -- fraction without leading zero requirement in §5.6 (erratum 4110 concerns App. A only)
+  3339-5.6-009     [RFC3339 §5.6] '2024-01-01T00:00:00+23:59'
+      expected valid (ok) -- time-numoffset uses time-hour/time-minute: +23:59 is the maximum
+  3339-5.6-010     [RFC3339 §5.6] '2024-01-01T00:00:00-23:59'
+      expected valid (ok) -- minimum offset
+  3339-5.6-011     [RFC3339 §5.6] '2024-01-01T00:00:00+14:00'
+      expected valid (ok) -- real-world max offset
+  3339-5.6-012     [RFC3339 §5.6] '2024-01-01T00:00:00+05:45'
+      expected valid (ok) -- 45-minute offset
+  3339-5.6-013     [RFC3339 §5.6] '2024-01-01T23:59:59.999999999Z'
+      expected valid (ok) -- nanosecond fraction
+  3339-5.6-014     [RFC3339 §5.6] '2024-01-01T12:00:00.123456789-03:30'
+      expected valid (ok) -- fraction + negative half-hour offset
+  3339-5.7-003     [RFC3339 §5.7] '2024-02-29T00:00:00Z'
+      expected valid (ok) -- leap year (divisible by 4)
+  3339-5.7-005     [RFC3339 §5.7] '2000-02-29T00:00:00Z'
+      expected valid (ok) -- divisible by 400 (App. C)
+  3339-5.7-007     [RFC3339 §5.7] '0000-02-29T00:00:00Z'
+      expected valid (ok) -- year 0000: 0 % 400 == 0 per App. C code
+  3339-5.7-009     [RFC3339 §5.7] '2023-02-28T00:00:00Z'
+      expected valid (ok) -- Feb 28 common year
+  3339-5.7-011     [RFC3339 §5.7] '2024-04-30T00:00:00Z'
+      expected valid (ok) -- month 04 day 30
+  3339-5.7-013     [RFC3339 §5.7] '2024-06-30T00:00:00Z'
+      expected valid (ok) -- month 06 day 30
+  3339-5.7-015     [RFC3339 §5.7] '2024-09-30T00:00:00Z'
+      expected valid (ok) -- month 09 day 30
+  3339-5.7-017     [RFC3339 §5.7] '2024-11-30T00:00:00Z'
+      expected valid (ok) -- month 11 day 30
+  3339-5.7-018     [RFC3339 §5.7] '2024-01-31T00:00:00Z'
+      expected valid (ok) -- month 01 has 31 days
+  3339-5.7-019     [RFC3339 §5.7] '2024-03-31T00:00:00Z'
+      expected valid (ok) -- month 03 has 31 days
+  3339-5.7-020     [RFC3339 §5.7] '2024-05-31T00:00:00Z'
+      expected valid (ok) -- month 05 has 31 days
+  3339-5.7-021     [RFC3339 §5.7] '2024-07-31T00:00:00Z'
+      expected valid (ok) -- month 07 has 31 days
+  3339-5.7-022     [RFC3339 §5.7] '2024-08-31T00:00:00Z'
+      expected valid (ok) -- month 08 has 31 days
+  3339-5.7-023     [RFC3339 §5.7] '2024-10-31T00:00:00Z'
+      expected valid (ok) -- month 10 has 31 days
+  3339-5.7-024     [RFC3339 §5.7] '2024-12-31T00:00:00Z'
+      expected valid (ok) -- month 12 has 31 days
+  3339-5.7-025     [RFC3339 §5.7] '2016-12-31T23:59:60Z'
+      expected valid (ok) -- real leap second (IERS Bulletin C 52)
+  3339-5.7-026     [RFC3339 §5.7] '2016-12-31T23:59:60z'
+      expected valid (R3339-5.6/lowercase-letter) -- leap second, lowercase z
+  3339-5.7-027     [RFC3339 §5.7] '2016-12-31T23:59:60.999Z'
+      expected valid (ok) -- fraction within leap second
+  3339-5.7-028     [RFC3339 §5.7] '2016-12-31T23:59:60+00:00'
+      expected valid (ok) -- +00:00 leap second
+  3339-5.7-029     [RFC3339 §5.7] '2016-12-31T23:59:60-00:00'
+      expected valid (R9557-2.3/negative-zero-offset) -- -00:00 leap second
+  3339-5.7-030     [RFC3339 §5.7] '2017-01-01T00:59:60+01:00'
+      expected valid (ok) -- §5.7: leap second point shifted by +01:00 -> next local day 00:59:60
+  3339-5.7-031     [RFC3339 §5.7] '2016-12-31T18:59:60-05:00'
+      expected valid (ok) -- shifted by -05:00
+  3339-5.7-032     [RFC3339 §5.7] '2017-01-01T05:29:60+05:30'
+      expected valid (ok) -- shifted by +05:30
+  3339-5.7-038     [RFC3339 §5.7] '2015-06-30T23:59:60Z'
+      expected valid (ok) -- real June leap second
+  3339-4.3-001     [RFC3339 §4.3 / RFC9557 §2] '2024-06-01T12:00:00Z'
+      expected valid (ok) -- Z: UTC known, local offset unknown (RFC 9557 §2)
+  3339-4.3-002     [RFC3339 §4.3 / RFC9557 §2] '2024-06-01T12:00:00-00:00'
+      expected valid (R9557-2.3/negative-zero-offset) -- -00:00 same meaning as Z; not deprecated (§2.3)
+  3339-4.3-003     [RFC3339 §4.3 / RFC9557 §2] '2024-06-01T12:00:00+00:00'
+      expected valid (ok) -- +00:00: UTC is preferred reference (§2.3)
+  3339-5.6-073     [RFC3339 §5.6] '2024-01-01T00:00:00.1234567890123456789012345678901234567890'...(+1011 chars)
+      expected valid (ok) -- 1050-digit fraction: time-secfrac = '.' 1*DIGIT has no upper bound
+  3339-5.6-074     [RFC3339 §5.6] '2024-01-01T00:00:00.0000000000000000000000000000000000000000'...(+1016 chars)
+      expected valid (ok) -- 1050-digit all-zero fraction with numeric offset
+  3339-5.6-075     [RFC3339 §5.6] '0050-06-01T00:00:00Z'
+      expected valid (ok) -- year 50 must stay year 50 (Date.UTC / two-digit-year remap gives 1950)
+  3339-5.6-076     [RFC3339 §5.6] '0099-12-31T23:59:59Z'
+      expected valid (ok) -- year 99 (two-digit-year remap gives 1999)
+  3339-5.6-077     [RFC3339 §5.6] '0001-01-01T00:00:00Z'
+      expected valid (ok) -- year 1: first day of the proleptic calendar
+  3339-5.6-078     [RFC3339 §5.6] '0050-06-01T00:30:00+01:00'
+      expected valid (ok) -- year 50 with an offset; the UTC instant is 0050-05-31T23:30Z
+  3339-5.6-079     [RFC3339 §5.6] '2024-01-01T12:00:00-00:30'
+      expected valid (ok) -- negative sub-hour offset: sign applies to the minutes too (-00:30 = -30, not +30)
+  3339-5.6-080     [RFC3339 §5.6] '2024-01-01T12:00:00.5+05:45'
+      expected valid (ok) -- fraction and +05:45 offset
+  3339-5.6-081     [RFC3339 §5.6] '2024-01-01T12:00:00.123-03:30'
+      expected valid (ok) -- millisecond fraction, -03:30 offset
+  3339-5.6-082     [RFC3339 §5.6] '2024-01-01T12:00:00.052Z'
+      expected valid (ok) -- leading zero in fraction must be kept (.052 is not .52)
+  3339-A-007       [RFC3339 App. A] '2020-01-01T00:00:00.5Z'
+      expected valid (ok) -- fraction after full 2-digit seconds (errata 4110 positive case)
+  3339-5.7-052     [RFC3339 §5.7] '2016-12-31T23:59:58Z'
+      expected valid (ok) -- 58 is always a valid time-second (a negative leap second makes it the last second)
+  3339-5.7-053     [RFC3339 §5.7] '2016-12-31T23:59:59Z'
+      expected valid (ok) -- no negative leap second has ever been subtracted: 59 is valid at every past month end
+
+INTERPRETATION (RFC permits either verdict, or a leap-second representation; not a failure): 6
+  3339-5.7-039     [RFC3339 §5.7] '2016-06-30T23:59:60Z'
+      target REJECTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-040     [RFC3339 §5.7] '2016-03-31T23:59:60Z'
+      target REJECTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-042     [RFC3339 §5.7] '2016-01-31T23:59:60Z'
+      target REJECTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-045     [RFC3339 §5.7] '1971-12-31T23:59:60Z'
+      target REJECTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference; UTC leap seconds began in 1972
+  3339-5.7-047     [RFC3339 §5.7] '2024-12-31T23:59:60Z'
+      target REJECTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-055     [RFC3339 §5.7] '2035-06-30T23:59:59Z'
+      target REJECTED -- §5.7: 'It is also possible for a leap second to be subtracted, at which times the maximum value of time-second is "58"'. None has ever been subtracted, so 23:59:59 is valid at every past month end; beyond the validity of any leap-second table a validator cannot know whether one will be, and may accept (none announced) or flag the value
+
+88/147 passed (59.9%), 6 interpretation (excluded), 157 skipped
+  skipped: 29 non-default options (--target-options fixed: target has a fixed policy)
+  skipped: 128 not applicable to --target-kind
+
+==============================================================================
+dotnet:dto-parseexact-ssK  (--target-kind rfc3339)
+==============================================================================
+Conformance report -- target: dotnet <build>/dotnet/probe_dotnet.dll adapter dto-parseexact-ssK
+  runner 0.4.0 | vectors vectors/vectors.json sha256:4e700dd49a20 (310) | python 3.13.9 (darwin) | host TZ America/New_York (EST/EDT) | tzdata 2026c | tz-matrix - | mode stdin, batch yes, jobs 1 | 2026-09-26T08:01:29Z | 0.06s
+section                             pass  lenient  strict  wrong  tzdep  reason  error  interp  skip  total
+RFC3339 App. A                         6        0       1      0      0       0      0       0     0      7
+RFC3339 App. D                         0        0       0      0      0       0      0       0    12     12
+RFC3339 errata                         1        0       0      0      0       0      0       0     7      8
+RFC3339 §1                             4        0       0      0      0       0      0       0     0      4
+RFC3339 §4.3 / RFC9557 §2              3        0       0      0      0       0      0       0     0      3
+RFC3339 §5.4                           3        0       0      0      0       0      0       0     0      3
+RFC3339 §5.6                          63        3      16      0      0       0      0       0     3     85
+RFC3339 §5.7                          32        0      10      0      0       0      0       6     7     55
+RFC3339 §5.8                           1        0       4      0      0       0      0       0     0      5
+RFC9557 §1.2                           0        0       0      0      0       0      0       0     3      3
+RFC9557 §3.2                           0        0       0      0      0       0      0       0     4      4
+RFC9557 §3.3                           0        0       0      0      0       0      0       0    16     16
+RFC9557 §3.4                           0        0       0      0      0       0      0       0    39     39
+RFC9557 §4.1                           0        0       0      0      0       0      0       0    52     52
+RFC9557 §4.2                           0        0       0      0      0       0      0       0     5      5
+RFC9557 §5                             0        0       0      0      0       0      0       0     1      1
+RFC9557 §7.2                           0        0       0      0      0       0      0       0     8      8
+TOTAL                                113        3      31      0      0       0      0       6   157    310
+
+TOO LENIENT (accepted, should reject): 3
+  3339-5.6-022     [RFC3339 §5.6] '2024-01-01T12:00:00'
+      expected invalid (R3339-5.6/time-offset) -- time-offset mandatory; unqualified local time (§4.4)
+  3339-5.6-023     [RFC3339 §5.6] '2024-01-01T12:00:00+0100'
+      expected invalid (R3339-5.6/time-numoffset) -- offset without colon
+  3339-5.6-025     [RFC3339 §5.6] '2024-01-01T12:00:00+1:00'
+      expected invalid (R3339-5.6/time-numoffset) -- 1-digit offset hour
+
+TOO STRICT (rejected, should accept): 31
+  3339-5.8-001     [RFC3339 §5.8] '1985-04-12T23:20:50.52Z'
+      expected valid (ok) -- §5.8 example 1
+  3339-5.8-003     [RFC3339 §5.8] '1990-12-31T23:59:60Z'
+      expected valid (ok) -- §5.8 leap second at end of 1990
+  3339-5.8-004     [RFC3339 §5.8] '1990-12-31T15:59:60-08:00'
+      expected valid (ok) -- §5.8: same leap second in PST -- offset-shifted leap second point (§5.7)
+  3339-5.8-005     [RFC3339 §5.8] '1937-01-01T12:00:27.87+00:20'
+      expected valid (ok) -- §5.8 closest representable offset for +00:19:32.13
+  3339-5.6-001     [RFC3339 §5.6] '2024-01-01t00:00:00z'
+      expected valid (R3339-5.6/lowercase-letter) -- §5.6 NOTE: 't'/'z' may be lower case; generators SHOULD use upper case (warning only)
+  3339-5.6-002     [RFC3339 §5.6] '2024-01-01T00:00:00z'
+      expected valid (R3339-5.6/lowercase-letter) -- lowercase z only
+  3339-5.6-003     [RFC3339 §5.6] '2024-01-01t00:00:00Z'
+      expected valid (R3339-5.6/lowercase-letter) -- lowercase t only
+  3339-5.6-004     [RFC3339 §5.6] '0000-01-01T00:00:00Z'
+      expected valid (ok) -- date-fullyear = 4DIGIT admits 0000
+  3339-5.6-006     [RFC3339 §5.6] '2024-01-01T00:00:00.000000000001Z'
+      expected valid (ok) -- time-secfrac = "." 1*DIGIT: no upper bound on digits
+  3339-5.6-007     [RFC3339 §5.6] '2024-01-01T00:00:00.0Z'
+      expected valid (ok) -- single fraction digit
+  3339-5.6-008     [RFC3339 §5.6] '2024-01-01T12:00:00.5Z'
+      expected valid (ok) -- fraction without leading zero requirement in §5.6 (erratum 4110 concerns App. A only)
+  3339-5.6-009     [RFC3339 §5.6] '2024-01-01T00:00:00+23:59'
+      expected valid (ok) -- time-numoffset uses time-hour/time-minute: +23:59 is the maximum
+  3339-5.6-010     [RFC3339 §5.6] '2024-01-01T00:00:00-23:59'
+      expected valid (ok) -- minimum offset
+  3339-5.6-013     [RFC3339 §5.6] '2024-01-01T23:59:59.999999999Z'
+      expected valid (ok) -- nanosecond fraction
+  3339-5.6-014     [RFC3339 §5.6] '2024-01-01T12:00:00.123456789-03:30'
+      expected valid (ok) -- fraction + negative half-hour offset
+  3339-5.7-007     [RFC3339 §5.7] '0000-02-29T00:00:00Z'
+      expected valid (ok) -- year 0000: 0 % 400 == 0 per App. C code
+  3339-5.7-025     [RFC3339 §5.7] '2016-12-31T23:59:60Z'
+      expected valid (ok) -- real leap second (IERS Bulletin C 52)
+  3339-5.7-026     [RFC3339 §5.7] '2016-12-31T23:59:60z'
+      expected valid (R3339-5.6/lowercase-letter) -- leap second, lowercase z
+  3339-5.7-027     [RFC3339 §5.7] '2016-12-31T23:59:60.999Z'
+      expected valid (ok) -- fraction within leap second
+  3339-5.7-028     [RFC3339 §5.7] '2016-12-31T23:59:60+00:00'
+      expected valid (ok) -- +00:00 leap second
+  3339-5.7-029     [RFC3339 §5.7] '2016-12-31T23:59:60-00:00'
+      expected valid (R9557-2.3/negative-zero-offset) -- -00:00 leap second
+  3339-5.7-030     [RFC3339 §5.7] '2017-01-01T00:59:60+01:00'
+      expected valid (ok) -- §5.7: leap second point shifted by +01:00 -> next local day 00:59:60
+  3339-5.7-031     [RFC3339 §5.7] '2016-12-31T18:59:60-05:00'
+      expected valid (ok) -- shifted by -05:00
+  3339-5.7-032     [RFC3339 §5.7] '2017-01-01T05:29:60+05:30'
+      expected valid (ok) -- shifted by +05:30
+  3339-5.7-038     [RFC3339 §5.7] '2015-06-30T23:59:60Z'
+      expected valid (ok) -- real June leap second
+  3339-5.6-073     [RFC3339 §5.6] '2024-01-01T00:00:00.1234567890123456789012345678901234567890'...(+1011 chars)
+      expected valid (ok) -- 1050-digit fraction: time-secfrac = '.' 1*DIGIT has no upper bound
+  3339-5.6-074     [RFC3339 §5.6] '2024-01-01T00:00:00.0000000000000000000000000000000000000000'...(+1016 chars)
+      expected valid (ok) -- 1050-digit all-zero fraction with numeric offset
+  3339-5.6-080     [RFC3339 §5.6] '2024-01-01T12:00:00.5+05:45'
+      expected valid (ok) -- fraction and +05:45 offset
+  3339-5.6-081     [RFC3339 §5.6] '2024-01-01T12:00:00.123-03:30'
+      expected valid (ok) -- millisecond fraction, -03:30 offset
+  3339-5.6-082     [RFC3339 §5.6] '2024-01-01T12:00:00.052Z'
+      expected valid (ok) -- leading zero in fraction must be kept (.052 is not .52)
+  3339-A-007       [RFC3339 App. A] '2020-01-01T00:00:00.5Z'
+      expected valid (ok) -- fraction after full 2-digit seconds (errata 4110 positive case)
+
+INTERPRETATION (RFC permits either verdict, or a leap-second representation; not a failure): 6
+  3339-5.7-039     [RFC3339 §5.7] '2016-06-30T23:59:60Z'
+      target REJECTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-040     [RFC3339 §5.7] '2016-03-31T23:59:60Z'
+      target REJECTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-042     [RFC3339 §5.7] '2016-01-31T23:59:60Z'
+      target REJECTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-045     [RFC3339 §5.7] '1971-12-31T23:59:60Z'
+      target REJECTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference; UTC leap seconds began in 1972
+  3339-5.7-047     [RFC3339 §5.7] '2024-12-31T23:59:60Z'
+      target REJECTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-055     [RFC3339 §5.7] '2035-06-30T23:59:59Z'
+      target ACCEPTED -- §5.7: 'It is also possible for a leap second to be subtracted, at which times the maximum value of time-second is "58"'. None has ever been subtracted, so 23:59:59 is valid at every past month end; beyond the validity of any leap-second table a validator cannot know whether one will be, and may accept (none announced) or flag the value
+
+113/147 passed (76.9%), 6 interpretation (excluded), 157 skipped
+  skipped: 29 non-default options (--target-options fixed: target has a fixed policy)
+  skipped: 128 not applicable to --target-kind
+  fields: 7 accepted vectors compared, 0 WRONG VALUE; 2 not compared (no 'fields' object, or none of the vector's field names)
+
+==============================================================================
+dotnet:dto-parseexact-FFFFFFFK  (--target-kind rfc3339)
+==============================================================================
+Conformance report -- target: dotnet <build>/dotnet/probe_dotnet.dll adapter dto-parseexact-FFFFFFFK
+  runner 0.4.0 | vectors vectors/vectors.json sha256:4e700dd49a20 (310) | python 3.13.9 (darwin) | host TZ America/New_York (EST/EDT) | tzdata 2026c | tz-matrix - | mode stdin, batch yes, jobs 1 | 2026-09-26T08:01:29Z | 0.06s
+section                             pass  lenient  strict  wrong  tzdep  reason  error  interp  skip  total
+RFC3339 App. A                         6        1       0      0      0       0      0       0     0      7
+RFC3339 App. D                         0        0       0      0      0       0      0       0    12     12
+RFC3339 errata                         1        0       0      0      0       0      0       0     7      8
+RFC3339 §1                             4        0       0      0      0       0      0       0     0      4
+RFC3339 §4.3 / RFC9557 §2              3        0       0      0      0       0      0       0     0      3
+RFC3339 §5.4                           3        0       0      0      0       0      0       0     0      3
+RFC3339 §5.6                          67        4      11      0      0       0      0       0     3     85
+RFC3339 §5.7                          32        0      10      0      0       0      0       6     7     55
+RFC3339 §5.8                           3        0       2      0      0       0      0       0     0      5
+RFC9557 §1.2                           0        0       0      0      0       0      0       0     3      3
+RFC9557 §3.2                           0        0       0      0      0       0      0       0     4      4
+RFC9557 §3.3                           0        0       0      0      0       0      0       0    16     16
+RFC9557 §3.4                           0        0       0      0      0       0      0       0    39     39
+RFC9557 §4.1                           0        0       0      0      0       0      0       0    52     52
+RFC9557 §4.2                           0        0       0      0      0       0      0       0     5      5
+RFC9557 §5                             0        0       0      0      0       0      0       0     1      1
+RFC9557 §7.2                           0        0       0      0      0       0      0       0     8      8
+TOTAL                                119        5      23      0      0       0      0       6   157    310
+
+TOO LENIENT (accepted, should reject): 5
+  3339-5.6-022     [RFC3339 §5.6] '2024-01-01T12:00:00'
+      expected invalid (R3339-5.6/time-offset) -- time-offset mandatory; unqualified local time (§4.4)
+  3339-5.6-023     [RFC3339 §5.6] '2024-01-01T12:00:00+0100'
+      expected invalid (R3339-5.6/time-numoffset) -- offset without colon
+  3339-5.6-025     [RFC3339 §5.6] '2024-01-01T12:00:00+1:00'
+      expected invalid (R3339-5.6/time-numoffset) -- 1-digit offset hour
+  3339-5.6-032     [RFC3339 §5.6] '2024-01-01T12:00:00.Z'
+      expected invalid (R3339-5.6/time-secfrac) -- '.' needs 1*DIGIT
+  3339-A-005       [RFC3339 App. A] '2020-01-01T00:00:05.Z'
+      expected invalid (R3339-5.6/time-secfrac) -- fraction point with no digits after 2DIGIT seconds (errata 4110)
+
+TOO STRICT (rejected, should accept): 23
+  3339-5.8-003     [RFC3339 §5.8] '1990-12-31T23:59:60Z'
+      expected valid (ok) -- §5.8 leap second at end of 1990
+  3339-5.8-004     [RFC3339 §5.8] '1990-12-31T15:59:60-08:00'
+      expected valid (ok) -- §5.8: same leap second in PST -- offset-shifted leap second point (§5.7)
+  3339-5.6-001     [RFC3339 §5.6] '2024-01-01t00:00:00z'
+      expected valid (R3339-5.6/lowercase-letter) -- §5.6 NOTE: 't'/'z' may be lower case; generators SHOULD use upper case (warning only)
+  3339-5.6-002     [RFC3339 §5.6] '2024-01-01T00:00:00z'
+      expected valid (R3339-5.6/lowercase-letter) -- lowercase z only
+  3339-5.6-003     [RFC3339 §5.6] '2024-01-01t00:00:00Z'
+      expected valid (R3339-5.6/lowercase-letter) -- lowercase t only
+  3339-5.6-004     [RFC3339 §5.6] '0000-01-01T00:00:00Z'
+      expected valid (ok) -- date-fullyear = 4DIGIT admits 0000
+  3339-5.6-006     [RFC3339 §5.6] '2024-01-01T00:00:00.000000000001Z'
+      expected valid (ok) -- time-secfrac = "." 1*DIGIT: no upper bound on digits
+  3339-5.6-009     [RFC3339 §5.6] '2024-01-01T00:00:00+23:59'
+      expected valid (ok) -- time-numoffset uses time-hour/time-minute: +23:59 is the maximum
+  3339-5.6-010     [RFC3339 §5.6] '2024-01-01T00:00:00-23:59'
+      expected valid (ok) -- minimum offset
+  3339-5.6-013     [RFC3339 §5.6] '2024-01-01T23:59:59.999999999Z'
+      expected valid (ok) -- nanosecond fraction
+  3339-5.6-014     [RFC3339 §5.6] '2024-01-01T12:00:00.123456789-03:30'
+      expected valid (ok) -- fraction + negative half-hour offset
+  3339-5.7-007     [RFC3339 §5.7] '0000-02-29T00:00:00Z'
+      expected valid (ok) -- year 0000: 0 % 400 == 0 per App. C code
+  3339-5.7-025     [RFC3339 §5.7] '2016-12-31T23:59:60Z'
+      expected valid (ok) -- real leap second (IERS Bulletin C 52)
+  3339-5.7-026     [RFC3339 §5.7] '2016-12-31T23:59:60z'
+      expected valid (R3339-5.6/lowercase-letter) -- leap second, lowercase z
+  3339-5.7-027     [RFC3339 §5.7] '2016-12-31T23:59:60.999Z'
+      expected valid (ok) -- fraction within leap second
+  3339-5.7-028     [RFC3339 §5.7] '2016-12-31T23:59:60+00:00'
+      expected valid (ok) -- +00:00 leap second
+  3339-5.7-029     [RFC3339 §5.7] '2016-12-31T23:59:60-00:00'
+      expected valid (R9557-2.3/negative-zero-offset) -- -00:00 leap second
+  3339-5.7-030     [RFC3339 §5.7] '2017-01-01T00:59:60+01:00'
+      expected valid (ok) -- §5.7: leap second point shifted by +01:00 -> next local day 00:59:60
+  3339-5.7-031     [RFC3339 §5.7] '2016-12-31T18:59:60-05:00'
+      expected valid (ok) -- shifted by -05:00
+  3339-5.7-032     [RFC3339 §5.7] '2017-01-01T05:29:60+05:30'
+      expected valid (ok) -- shifted by +05:30
+  3339-5.7-038     [RFC3339 §5.7] '2015-06-30T23:59:60Z'
+      expected valid (ok) -- real June leap second
+  3339-5.6-073     [RFC3339 §5.6] '2024-01-01T00:00:00.1234567890123456789012345678901234567890'...(+1011 chars)
+      expected valid (ok) -- 1050-digit fraction: time-secfrac = '.' 1*DIGIT has no upper bound
+  3339-5.6-074     [RFC3339 §5.6] '2024-01-01T00:00:00.0000000000000000000000000000000000000000'...(+1016 chars)
+      expected valid (ok) -- 1050-digit all-zero fraction with numeric offset
+
+INTERPRETATION (RFC permits either verdict, or a leap-second representation; not a failure): 6
+  3339-5.7-039     [RFC3339 §5.7] '2016-06-30T23:59:60Z'
+      target REJECTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-040     [RFC3339 §5.7] '2016-03-31T23:59:60Z'
+      target REJECTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-042     [RFC3339 §5.7] '2016-01-31T23:59:60Z'
+      target REJECTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-045     [RFC3339 §5.7] '1971-12-31T23:59:60Z'
+      target REJECTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference; UTC leap seconds began in 1972
+  3339-5.7-047     [RFC3339 §5.7] '2024-12-31T23:59:60Z'
+      target REJECTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-055     [RFC3339 §5.7] '2035-06-30T23:59:59Z'
+      target ACCEPTED -- §5.7: 'It is also possible for a leap second to be subtracted, at which times the maximum value of time-second is "58"'. None has ever been subtracted, so 23:59:59 is valid at every past month end; beyond the validity of any leap-second table a validator cannot know whether one will be, and may accept (none announced) or flag the value
+
+119/147 passed (81.0%), 6 interpretation (excluded), 157 skipped
+  skipped: 29 non-default options (--target-options fixed: target has a fixed policy)
+  skipped: 128 not applicable to --target-kind
+  fields: 12 accepted vectors compared, 0 WRONG VALUE; 2 not compared (no 'fields' object, or none of the vector's field names)
+
+==============================================================================
+dotnet:stj-dto  (--target-kind rfc3339)
+==============================================================================
+Conformance report -- target: dotnet <build>/dotnet/probe_dotnet.dll adapter stj-dto
+  runner 0.4.0 | vectors vectors/vectors.json sha256:4e700dd49a20 (310) | python 3.13.9 (darwin) | host TZ America/New_York (EST/EDT) | tzdata 2026c | tz-matrix - | mode stdin, batch yes, jobs 1 | 2026-09-26T08:01:29Z | 0.06s
+section                             pass  lenient  strict  wrong  tzdep  reason  error  interp  skip  total
+RFC3339 App. A                         6        1       0      0      0       0      0       0     0      7
+RFC3339 App. D                         0        0       0      0      0       0      0       0    12     12
+RFC3339 errata                         1        0       0      0      0       0      0       0     7      8
+RFC3339 §1                             4        0       0      0      0       0      0       0     0      4
+RFC3339 §4.3 / RFC9557 §2              3        0       0      0      0       0      0       0     0      3
+RFC3339 §5.4                           3        0       0      0      0       0      0       0     0      3
+RFC3339 §5.6                          69        5       8      0      0       0      0       0     3     85
+RFC3339 §5.7                          32        0      10      0      0       0      0       6     7     55
+RFC3339 §5.8                           3        0       2      0      0       0      0       0     0      5
+RFC9557 §1.2                           0        0       0      0      0       0      0       0     3      3
+RFC9557 §3.2                           0        0       0      0      0       0      0       0     4      4
+RFC9557 §3.3                           0        0       0      0      0       0      0       0    16     16
+RFC9557 §3.4                           0        0       0      0      0       0      0       0    39     39
+RFC9557 §4.1                           0        0       0      0      0       0      0       0    52     52
+RFC9557 §4.2                           0        0       0      0      0       0      0       0     5      5
+RFC9557 §5                             0        0       0      0      0       0      0       0     1      1
+RFC9557 §7.2                           0        0       0      0      0       0      0       0     8      8
+TOTAL                                121        6      20      0      0       0      0       6   157    310
+
+TOO LENIENT (accepted, should reject): 6
+  3339-5.6-020     [RFC3339 §5.6] '2024-01-01'
+      expected invalid (R3339-5.6/date-time-separator) -- full-date alone is not a date-time
+  3339-5.6-021     [RFC3339 §5.6] '2024-01-01T12:00Z'
+      expected invalid (R3339-5.6/time-second) -- seconds are mandatory
+  3339-5.6-022     [RFC3339 §5.6] '2024-01-01T12:00:00'
+      expected invalid (R3339-5.6/time-offset) -- time-offset mandatory; unqualified local time (§4.4)
+  3339-5.6-024     [RFC3339 §5.6] '2024-01-01T12:00:00+01'
+      expected invalid (R3339-5.6/time-numoffset) -- hour-only offset
+  3339-5.6-032     [RFC3339 §5.6] '2024-01-01T12:00:00.Z'
+      expected invalid (R3339-5.6/time-secfrac) -- '.' needs 1*DIGIT
+  3339-A-005       [RFC3339 App. A] '2020-01-01T00:00:05.Z'
+      expected invalid (R3339-5.6/time-secfrac) -- fraction point with no digits after 2DIGIT seconds (errata 4110)
+
+TOO STRICT (rejected, should accept): 20
+  3339-5.8-003     [RFC3339 §5.8] '1990-12-31T23:59:60Z'
+      expected valid (ok) -- §5.8 leap second at end of 1990
+  3339-5.8-004     [RFC3339 §5.8] '1990-12-31T15:59:60-08:00'
+      expected valid (ok) -- §5.8: same leap second in PST -- offset-shifted leap second point (§5.7)
+  3339-5.6-001     [RFC3339 §5.6] '2024-01-01t00:00:00z'
+      expected valid (R3339-5.6/lowercase-letter) -- §5.6 NOTE: 't'/'z' may be lower case; generators SHOULD use upper case (warning only)
+  3339-5.6-002     [RFC3339 §5.6] '2024-01-01T00:00:00z'
+      expected valid (R3339-5.6/lowercase-letter) -- lowercase z only
+  3339-5.6-003     [RFC3339 §5.6] '2024-01-01t00:00:00Z'
+      expected valid (R3339-5.6/lowercase-letter) -- lowercase t only
+  3339-5.6-004     [RFC3339 §5.6] '0000-01-01T00:00:00Z'
+      expected valid (ok) -- date-fullyear = 4DIGIT admits 0000
+  3339-5.6-009     [RFC3339 §5.6] '2024-01-01T00:00:00+23:59'
+      expected valid (ok) -- time-numoffset uses time-hour/time-minute: +23:59 is the maximum
+  3339-5.6-010     [RFC3339 §5.6] '2024-01-01T00:00:00-23:59'
+      expected valid (ok) -- minimum offset
+  3339-5.7-007     [RFC3339 §5.7] '0000-02-29T00:00:00Z'
+      expected valid (ok) -- year 0000: 0 % 400 == 0 per App. C code
+  3339-5.7-025     [RFC3339 §5.7] '2016-12-31T23:59:60Z'
+      expected valid (ok) -- real leap second (IERS Bulletin C 52)
+  3339-5.7-026     [RFC3339 §5.7] '2016-12-31T23:59:60z'
+      expected valid (R3339-5.6/lowercase-letter) -- leap second, lowercase z
+  3339-5.7-027     [RFC3339 §5.7] '2016-12-31T23:59:60.999Z'
+      expected valid (ok) -- fraction within leap second
+  3339-5.7-028     [RFC3339 §5.7] '2016-12-31T23:59:60+00:00'
+      expected valid (ok) -- +00:00 leap second
+  3339-5.7-029     [RFC3339 §5.7] '2016-12-31T23:59:60-00:00'
+      expected valid (R9557-2.3/negative-zero-offset) -- -00:00 leap second
+  3339-5.7-030     [RFC3339 §5.7] '2017-01-01T00:59:60+01:00'
+      expected valid (ok) -- §5.7: leap second point shifted by +01:00 -> next local day 00:59:60
+  3339-5.7-031     [RFC3339 §5.7] '2016-12-31T18:59:60-05:00'
+      expected valid (ok) -- shifted by -05:00
+  3339-5.7-032     [RFC3339 §5.7] '2017-01-01T05:29:60+05:30'
+      expected valid (ok) -- shifted by +05:30
+  3339-5.7-038     [RFC3339 §5.7] '2015-06-30T23:59:60Z'
+      expected valid (ok) -- real June leap second
+  3339-5.6-073     [RFC3339 §5.6] '2024-01-01T00:00:00.1234567890123456789012345678901234567890'...(+1011 chars)
+      expected valid (ok) -- 1050-digit fraction: time-secfrac = '.' 1*DIGIT has no upper bound
+  3339-5.6-074     [RFC3339 §5.6] '2024-01-01T00:00:00.0000000000000000000000000000000000000000'...(+1016 chars)
+      expected valid (ok) -- 1050-digit all-zero fraction with numeric offset
+
+INTERPRETATION (RFC permits either verdict, or a leap-second representation; not a failure): 6
+  3339-5.7-039     [RFC3339 §5.7] '2016-06-30T23:59:60Z'
+      target REJECTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-040     [RFC3339 §5.7] '2016-03-31T23:59:60Z'
+      target REJECTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-042     [RFC3339 §5.7] '2016-01-31T23:59:60Z'
+      target REJECTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-045     [RFC3339 §5.7] '1971-12-31T23:59:60Z'
+      target REJECTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference; UTC leap seconds began in 1972
+  3339-5.7-047     [RFC3339 §5.7] '2024-12-31T23:59:60Z'
+      target REJECTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-055     [RFC3339 §5.7] '2035-06-30T23:59:59Z'
+      target ACCEPTED -- §5.7: 'It is also possible for a leap second to be subtracted, at which times the maximum value of time-second is "58"'. None has ever been subtracted, so 23:59:59 is valid at every past month end; beyond the validity of any leap-second table a validator cannot know whether one will be, and may accept (none announced) or flag the value
+
+121/147 passed (82.3%), 6 interpretation (excluded), 157 skipped
+  skipped: 29 non-default options (--target-options fixed: target has a fixed policy)
+  skipped: 128 not applicable to --target-kind
+  fields: 12 accepted vectors compared, 0 WRONG VALUE; 3 not compared (no 'fields' object, or none of the vector's field names)
+
+==============================================================================
+dotnet:stj-datetime  (--target-kind rfc3339)
+==============================================================================
+Conformance report -- target: dotnet <build>/dotnet/probe_dotnet.dll adapter stj-datetime
+  runner 0.4.0 | vectors vectors/vectors.json sha256:4e700dd49a20 (310) | python 3.13.9 (darwin) | host TZ America/New_York (EST/EDT) | tzdata 2026c | tz-matrix - | mode stdin, batch yes, jobs 1 | 2026-09-26T08:01:30Z | 0.06s
+section                             pass  lenient  strict  wrong  tzdep  reason  error  interp  skip  total
+RFC3339 App. A                         6        1       0      0      0       0      0       0     0      7
+RFC3339 App. D                         0        0       0      0      0       0      0       0    12     12
+RFC3339 errata                         1        0       0      0      0       0      0       0     7      8
+RFC3339 §1                             4        0       0      0      0       0      0       0     0      4
+RFC3339 §4.3 / RFC9557 §2              3        0       0      0      0       0      0       0     0      3
+RFC3339 §5.4                           3        0       0      0      0       0      0       0     0      3
+RFC3339 §5.6                          69        5       8      0      0       0      0       0     3     85
+RFC3339 §5.7                          32        0      10      0      0       0      0       6     7     55
+RFC3339 §5.8                           3        0       2      0      0       0      0       0     0      5
+RFC9557 §1.2                           0        0       0      0      0       0      0       0     3      3
+RFC9557 §3.2                           0        0       0      0      0       0      0       0     4      4
+RFC9557 §3.3                           0        0       0      0      0       0      0       0    16     16
+RFC9557 §3.4                           0        0       0      0      0       0      0       0    39     39
+RFC9557 §4.1                           0        0       0      0      0       0      0       0    52     52
+RFC9557 §4.2                           0        0       0      0      0       0      0       0     5      5
+RFC9557 §5                             0        0       0      0      0       0      0       0     1      1
+RFC9557 §7.2                           0        0       0      0      0       0      0       0     8      8
+TOTAL                                121        6      20      0      0       0      0       6   157    310
+
+TOO LENIENT (accepted, should reject): 6
+  3339-5.6-020     [RFC3339 §5.6] '2024-01-01'
+      expected invalid (R3339-5.6/date-time-separator) -- full-date alone is not a date-time
+  3339-5.6-021     [RFC3339 §5.6] '2024-01-01T12:00Z'
+      expected invalid (R3339-5.6/time-second) -- seconds are mandatory
+  3339-5.6-022     [RFC3339 §5.6] '2024-01-01T12:00:00'
+      expected invalid (R3339-5.6/time-offset) -- time-offset mandatory; unqualified local time (§4.4)
+  3339-5.6-024     [RFC3339 §5.6] '2024-01-01T12:00:00+01'
+      expected invalid (R3339-5.6/time-numoffset) -- hour-only offset
+  3339-5.6-032     [RFC3339 §5.6] '2024-01-01T12:00:00.Z'
+      expected invalid (R3339-5.6/time-secfrac) -- '.' needs 1*DIGIT
+  3339-A-005       [RFC3339 App. A] '2020-01-01T00:00:05.Z'
+      expected invalid (R3339-5.6/time-secfrac) -- fraction point with no digits after 2DIGIT seconds (errata 4110)
+
+TOO STRICT (rejected, should accept): 20
+  3339-5.8-003     [RFC3339 §5.8] '1990-12-31T23:59:60Z'
+      expected valid (ok) -- §5.8 leap second at end of 1990
+  3339-5.8-004     [RFC3339 §5.8] '1990-12-31T15:59:60-08:00'
+      expected valid (ok) -- §5.8: same leap second in PST -- offset-shifted leap second point (§5.7)
+  3339-5.6-001     [RFC3339 §5.6] '2024-01-01t00:00:00z'
+      expected valid (R3339-5.6/lowercase-letter) -- §5.6 NOTE: 't'/'z' may be lower case; generators SHOULD use upper case (warning only)
+  3339-5.6-002     [RFC3339 §5.6] '2024-01-01T00:00:00z'
+      expected valid (R3339-5.6/lowercase-letter) -- lowercase z only
+  3339-5.6-003     [RFC3339 §5.6] '2024-01-01t00:00:00Z'
+      expected valid (R3339-5.6/lowercase-letter) -- lowercase t only
+  3339-5.6-004     [RFC3339 §5.6] '0000-01-01T00:00:00Z'
+      expected valid (ok) -- date-fullyear = 4DIGIT admits 0000
+  3339-5.6-009     [RFC3339 §5.6] '2024-01-01T00:00:00+23:59'
+      expected valid (ok) -- time-numoffset uses time-hour/time-minute: +23:59 is the maximum
+  3339-5.6-010     [RFC3339 §5.6] '2024-01-01T00:00:00-23:59'
+      expected valid (ok) -- minimum offset
+  3339-5.7-007     [RFC3339 §5.7] '0000-02-29T00:00:00Z'
+      expected valid (ok) -- year 0000: 0 % 400 == 0 per App. C code
+  3339-5.7-025     [RFC3339 §5.7] '2016-12-31T23:59:60Z'
+      expected valid (ok) -- real leap second (IERS Bulletin C 52)
+  3339-5.7-026     [RFC3339 §5.7] '2016-12-31T23:59:60z'
+      expected valid (R3339-5.6/lowercase-letter) -- leap second, lowercase z
+  3339-5.7-027     [RFC3339 §5.7] '2016-12-31T23:59:60.999Z'
+      expected valid (ok) -- fraction within leap second
+  3339-5.7-028     [RFC3339 §5.7] '2016-12-31T23:59:60+00:00'
+      expected valid (ok) -- +00:00 leap second
+  3339-5.7-029     [RFC3339 §5.7] '2016-12-31T23:59:60-00:00'
+      expected valid (R9557-2.3/negative-zero-offset) -- -00:00 leap second
+  3339-5.7-030     [RFC3339 §5.7] '2017-01-01T00:59:60+01:00'
+      expected valid (ok) -- §5.7: leap second point shifted by +01:00 -> next local day 00:59:60
+  3339-5.7-031     [RFC3339 §5.7] '2016-12-31T18:59:60-05:00'
+      expected valid (ok) -- shifted by -05:00
+  3339-5.7-032     [RFC3339 §5.7] '2017-01-01T05:29:60+05:30'
+      expected valid (ok) -- shifted by +05:30
+  3339-5.7-038     [RFC3339 §5.7] '2015-06-30T23:59:60Z'
+      expected valid (ok) -- real June leap second
+  3339-5.6-073     [RFC3339 §5.6] '2024-01-01T00:00:00.1234567890123456789012345678901234567890'...(+1011 chars)
+      expected valid (ok) -- 1050-digit fraction: time-secfrac = '.' 1*DIGIT has no upper bound
+  3339-5.6-074     [RFC3339 §5.6] '2024-01-01T00:00:00.0000000000000000000000000000000000000000'...(+1016 chars)
+      expected valid (ok) -- 1050-digit all-zero fraction with numeric offset
+
+INTERPRETATION (RFC permits either verdict, or a leap-second representation; not a failure): 6
+  3339-5.7-039     [RFC3339 §5.7] '2016-06-30T23:59:60Z'
+      target REJECTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-040     [RFC3339 §5.7] '2016-03-31T23:59:60Z'
+      target REJECTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-042     [RFC3339 §5.7] '2016-01-31T23:59:60Z'
+      target REJECTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-045     [RFC3339 §5.7] '1971-12-31T23:59:60Z'
+      target REJECTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference; UTC leap seconds began in 1972
+  3339-5.7-047     [RFC3339 §5.7] '2024-12-31T23:59:60Z'
+      target REJECTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-055     [RFC3339 §5.7] '2035-06-30T23:59:59Z'
+      target ACCEPTED -- §5.7: 'It is also possible for a leap second to be subtracted, at which times the maximum value of time-second is "58"'. None has ever been subtracted, so 23:59:59 is valid at every past month end; beyond the validity of any leap-second table a validator cannot know whether one will be, and may accept (none announced) or flag the value
+
+121/147 passed (82.3%), 6 interpretation (excluded), 157 skipped
+  skipped: 29 non-default options (--target-options fixed: target has a fixed policy)
+  skipped: 128 not applicable to --target-kind
+  fields: 0 accepted vectors compared, 0 WRONG VALUE; 15 not compared (no 'fields' object, or none of the vector's field names)
+
+==============================================================================
+dotnet:xmlconvert-dto  (--target-kind rfc3339)
+==============================================================================
+Conformance report -- target: dotnet <build>/dotnet/probe_dotnet.dll adapter xmlconvert-dto
+  runner 0.4.0 | vectors vectors/vectors.json sha256:4e700dd49a20 (310) | python 3.13.9 (darwin) | host TZ America/New_York (EST/EDT) | tzdata 2026c | tz-matrix - | mode stdin, batch yes, jobs 1 | 2026-09-26T08:01:30Z | 0.06s
+section                             pass  lenient  strict  wrong  tzdep  reason  error  interp  skip  total
+RFC3339 App. A                         7        0       0      0      0       0      0       0     0      7
+RFC3339 App. D                         0        0       0      0      0       0      0       0    12     12
+RFC3339 errata                         1        0       0      0      0       0      0       0     7      8
+RFC3339 §1                             4        0       0      0      0       0      0       0     0      4
+RFC3339 §4.3 / RFC9557 §2              3        0       0      0      0       0      0       0     0      3
+RFC3339 §5.4                           3        0       0      0      0       0      0       0     0      3
+RFC3339 §5.6                          69        8       5      0      0       0      0       0     3     85
+RFC3339 §5.7                          32        0      10      0      0       0      0       6     7     55
+RFC3339 §5.8                           3        0       2      0      0       0      0       0     0      5
+RFC9557 §1.2                           0        0       0      0      0       0      0       0     3      3
+RFC9557 §3.2                           0        0       0      0      0       0      0       0     4      4
+RFC9557 §3.3                           0        0       0      0      0       0      0       0    16     16
+RFC9557 §3.4                           0        0       0      0      0       0      0       0    39     39
+RFC9557 §4.1                           0        0       0      0      0       0      0       0    52     52
+RFC9557 §4.2                           0        0       0      0      0       0      0       0     5      5
+RFC9557 §5                             0        0       0      0      0       0      0       0     1      1
+RFC9557 §7.2                           0        0       0      0      0       0      0       0     8      8
+TOTAL                                122        8      17      0      0       0      0       6   157    310
+
+TOO LENIENT (accepted, should reject): 8
+  3339-5.6-020     [RFC3339 §5.6] '2024-01-01'
+      expected invalid (R3339-5.6/date-time-separator) -- full-date alone is not a date-time
+  3339-5.6-022     [RFC3339 §5.6] '2024-01-01T12:00:00'
+      expected invalid (R3339-5.6/time-offset) -- time-offset mandatory; unqualified local time (§4.4)
+  3339-5.6-027     [RFC3339 §5.6] '2024-01-01T12:00:00+01:60'
+      expected invalid (R3339-5.6/time-numoffset-minute) -- offset minute uses time-minute 00-59
+  3339-5.6-055     [RFC3339 §5.6] '2024-01-01T12:00:00Z\n'
+      expected invalid (R3339-5.6/trailing-characters) -- trailing newline (regex $ pitfall)
+  3339-5.6-056     [RFC3339 §5.6] '2024-01-01T12:00:00Z '
+      expected invalid (R3339-5.6/trailing-characters) -- trailing space
+  3339-5.6-057     [RFC3339 §5.6] ' 2024-01-01T12:00:00Z'
+      expected invalid (R3339-5.6/date-fullyear) -- leading space
+  3339-5.6-066     [RFC3339 §5.6] '2024-01-01T00:00:00Z\r'
+      expected invalid (R3339-5.6/trailing-characters) -- trailing CR
+  3339-5.6-067     [RFC3339 §5.6] '2024-01-01T00:00:00Z\r\n'
+      expected invalid (R3339-5.6/trailing-characters) -- trailing CRLF
+
+TOO STRICT (rejected, should accept): 17
+  3339-5.8-003     [RFC3339 §5.8] '1990-12-31T23:59:60Z'
+      expected valid (ok) -- §5.8 leap second at end of 1990
+  3339-5.8-004     [RFC3339 §5.8] '1990-12-31T15:59:60-08:00'
+      expected valid (ok) -- §5.8: same leap second in PST -- offset-shifted leap second point (§5.7)
+  3339-5.6-001     [RFC3339 §5.6] '2024-01-01t00:00:00z'
+      expected valid (R3339-5.6/lowercase-letter) -- §5.6 NOTE: 't'/'z' may be lower case; generators SHOULD use upper case (warning only)
+  3339-5.6-003     [RFC3339 §5.6] '2024-01-01t00:00:00Z'
+      expected valid (R3339-5.6/lowercase-letter) -- lowercase t only
+  3339-5.6-004     [RFC3339 §5.6] '0000-01-01T00:00:00Z'
+      expected valid (ok) -- date-fullyear = 4DIGIT admits 0000
+  3339-5.6-009     [RFC3339 §5.6] '2024-01-01T00:00:00+23:59'
+      expected valid (ok) -- time-numoffset uses time-hour/time-minute: +23:59 is the maximum
+  3339-5.6-010     [RFC3339 §5.6] '2024-01-01T00:00:00-23:59'
+      expected valid (ok) -- minimum offset
+  3339-5.7-007     [RFC3339 §5.7] '0000-02-29T00:00:00Z'
+      expected valid (ok) -- year 0000: 0 % 400 == 0 per App. C code
+  3339-5.7-025     [RFC3339 §5.7] '2016-12-31T23:59:60Z'
+      expected valid (ok) -- real leap second (IERS Bulletin C 52)
+  3339-5.7-026     [RFC3339 §5.7] '2016-12-31T23:59:60z'
+      expected valid (R3339-5.6/lowercase-letter) -- leap second, lowercase z
+  3339-5.7-027     [RFC3339 §5.7] '2016-12-31T23:59:60.999Z'
+      expected valid (ok) -- fraction within leap second
+  3339-5.7-028     [RFC3339 §5.7] '2016-12-31T23:59:60+00:00'
+      expected valid (ok) -- +00:00 leap second
+  3339-5.7-029     [RFC3339 §5.7] '2016-12-31T23:59:60-00:00'
+      expected valid (R9557-2.3/negative-zero-offset) -- -00:00 leap second
+  3339-5.7-030     [RFC3339 §5.7] '2017-01-01T00:59:60+01:00'
+      expected valid (ok) -- §5.7: leap second point shifted by +01:00 -> next local day 00:59:60
+  3339-5.7-031     [RFC3339 §5.7] '2016-12-31T18:59:60-05:00'
+      expected valid (ok) -- shifted by -05:00
+  3339-5.7-032     [RFC3339 §5.7] '2017-01-01T05:29:60+05:30'
+      expected valid (ok) -- shifted by +05:30
+  3339-5.7-038     [RFC3339 §5.7] '2015-06-30T23:59:60Z'
+      expected valid (ok) -- real June leap second
+
+INTERPRETATION (RFC permits either verdict, or a leap-second representation; not a failure): 6
+  3339-5.7-039     [RFC3339 §5.7] '2016-06-30T23:59:60Z'
+      target REJECTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-040     [RFC3339 §5.7] '2016-03-31T23:59:60Z'
+      target REJECTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-042     [RFC3339 §5.7] '2016-01-31T23:59:60Z'
+      target REJECTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-045     [RFC3339 §5.7] '1971-12-31T23:59:60Z'
+      target REJECTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference; UTC leap seconds began in 1972
+  3339-5.7-047     [RFC3339 §5.7] '2024-12-31T23:59:60Z'
+      target REJECTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-055     [RFC3339 §5.7] '2035-06-30T23:59:59Z'
+      target ACCEPTED -- §5.7: 'It is also possible for a leap second to be subtracted, at which times the maximum value of time-second is "58"'. None has ever been subtracted, so 23:59:59 is valid at every past month end; beyond the validity of any leap-second table a validator cannot know whether one will be, and may accept (none announced) or flag the value
+
+122/147 passed (83.0%), 6 interpretation (excluded), 157 skipped
+  skipped: 29 non-default options (--target-options fixed: target has a fixed policy)
+  skipped: 128 not applicable to --target-kind
+  fields: 13 accepted vectors compared, 0 WRONG VALUE; 3 not compared (no 'fields' object, or none of the vector's field names)

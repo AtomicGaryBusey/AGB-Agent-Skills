@@ -1,0 +1,20 @@
+  [TRIGGER/installed] Our parser accepts `2023-02-30`; audit it
+  [TRIGGER/installed] Review this JSON Schema's `format: date-time` fields
+  [TRIGGER/installed] Does our API emit valid RFC 3339 timestamps?
+  [no/other-tool:Bash] Parse `2026-09-24T12:00:00+02:00[Europe/Paris]` in Go
+  [TRIGGER/installed] Test chrono vs jiff against RFC 3339 vectors
+  [TRIGGER/installed] Scan this repo for risky strftime/`%z` timestamp formatting
+  [no/other-tool:Bash] Handle `[u-ca=hebrew]` suffix tags in our deserializer
+  [no/other-tool:Bash] Is a leap second `23:59:60` legal in our log format?
+  [TRIGGER/installed] Check GlideDateTime serialization in our ServiceNow app
+  [no] Should we send `Z` or `+00:00` when the offset is unknown?
+  [no/other-tool:Bash] Parse RFC 5322 email Date headers
+  [no/other-tool:Bash] Parse ISO 8601 durations like `P3DT4H`
+  [no/other-tool:Bash] Why is my DST arithmetic off by an hour?
+  [no/other-skill] Build a calendar UI date picker
+  [no/other-tool:ToolSearch] Pick a time zone for our cron job
+  [no] Convert an ISO week date `2026-W39-5`
+  [no/other-tool:Bash] Sort my list alphabetically
+  [no] Format an HTTP-date header
+  [no] Store timestamps in Postgres as `timestamptz` or `bigint`?
+  [no] Explain Unix epoch overflow in 2038

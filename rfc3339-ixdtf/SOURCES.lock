@@ -1,0 +1,237 @@
+{
+  "meta": {
+    "schema": 1,
+    "skill": "rfc3339-ixdtf",
+    "generator": "tools/revalidate.py 1.0.0",
+    "updated": "2026-09-26",
+    "snapshots": {
+      "sources": "2026-09-26",
+      "upstream": "2026-09-26",
+      "local": "2026-09-26"
+    },
+    "baseline_snapshot": "2026-09-24 (SKILL.md metadata)",
+    "urls": {
+      "errata": "https://www.rfc-editor.org/errata/<rfc>",
+      "iana": "https://www.iana.org/assignments/internet-date-time-format/internet-date-time-format.xml"
+    }
+  },
+  "skill": {
+    "name": "rfc3339-ixdtf",
+    "version": "1.0.0",
+    "claimed_errata": {
+      "rfc3339": [
+        "293",
+        "1584",
+        "3710",
+        "4110",
+        "5624",
+        "5783",
+        "6533"
+      ],
+      "rfc9557": [
+        "8192"
+      ]
+    }
+  },
+  "sources": {
+    "errata": {
+      "rfc3339": {
+        "293": {
+          "status": "Verified",
+          "type": "Editorial",
+          "reported": "2005-05-26"
+        },
+        "1584": {
+          "status": "Verified",
+          "type": "Editorial",
+          "reported": "2008-11-03"
+        },
+        "3710": {
+          "status": "Verified",
+          "type": "Editorial",
+          "reported": "2013-08-26"
+        },
+        "4110": {
+          "status": "Verified",
+          "type": "Technical",
+          "reported": "2014-09-12"
+        },
+        "5624": {
+          "status": "Held for Document Update",
+          "type": "Editorial",
+          "reported": "2019-02-06"
+        },
+        "5783": {
+          "status": "Held for Document Update",
+          "type": "Technical",
+          "reported": "2019-07-15"
+        },
+        "6533": {
+          "status": "Held for Document Update",
+          "type": "Editorial",
+          "reported": "2021-04-13"
+        }
+      },
+      "rfc9557": {
+        "8192": {
+          "status": "Rejected",
+          "type": "Editorial",
+          "reported": "2024-12-01"
+        }
+      }
+    },
+    "iana_internet_date_time_format": {
+      "created": "2023-10-24",
+      "updated": "2024-05-22",
+      "registries": {
+        "timestamp-suffix-tag-keys": {
+          "u-ca": {
+            "status": "Permanent",
+            "date": "2023-10-03",
+            "description": "Preferred Calendar for Presentation"
+          }
+        }
+      }
+    },
+    "skill_md_errata_list_matches_live": {
+      "rfc3339": true,
+      "rfc9557": true
+    }
+  },
+  "local": {
+    "tzdata": "2026c",
+    "leap_seconds_file_expires": "2027-06-28",
+    "tools": {
+      "python": "3.13.9",
+      "node": "26.8.1",
+      "java": "25.0.1",
+      "dotnet": "10.0.300",
+      "ruby": "3.4.7",
+      "go": "1.27.1",
+      "rustc": "1.98.1",
+      "swift": "6.4",
+      "node_temporal": "native"
+    }
+  },
+  "upstream": {
+    "tzdb": "2026d",
+    "leap_seconds_list_expires": "2027-06-28",
+    "go": "1.27.1",
+    "node": {
+      "current": "26.10.0",
+      "lts": "24.21.0",
+      "latest_in_probed_major": "26.10.0"
+    },
+    "dotnet": {
+      "newest_channel": "11.0 (11.0.100-rc.1.26425.128, go-live)",
+      "latest_sdk_in_probed_channel": "10.0.401"
+    },
+    "packages": {
+      "crates:chrono": "0.4.45",
+      "crates:time": "0.3.55",
+      "crates:jiff": "0.2.37",
+      "pypi:pydantic": "2.13.5",
+      "pypi:python-dateutil": "2.9.0.post0",
+      "pypi:jsonschema": "4.26.0",
+      "npm:ajv": "8.20.0",
+      "npm:ajv-formats": "3.0.1"
+    }
+  },
+  "ecosystem_probed": {
+    "files": {
+      "python.md": {
+        "Python": "3.13.9",
+        "python-dateutil": "2.9.0.post0",
+        "pydantic": "2.13.5",
+        "jsonschema": "4.26.0",
+        "rfc3339-validator": "0.1.4"
+      },
+      "javascript.md": {
+        "Node": "26.8.1",
+        "V8": "14.6",
+        "ajv": "8.20.0",
+        "ajv-formats": "3.0.1"
+      },
+      "java.md": {
+        "Temurin": "25.0.1"
+      },
+      "dotnet.md": {
+        ".NET SDK": "10.0.300",
+        "runtime": "10.0.8"
+      },
+      "ruby.md": {
+        "Ruby": "3.4.7"
+      },
+      "go.md": {
+        "Go": "1.27.1"
+      },
+      "rust.md": {
+        "Rust": "1.98.1",
+        "chrono": "0.4.45",
+        "time": "0.3.55",
+        "jiff": "0.2.37",
+        "serde_json": "1.0.151"
+      },
+      "swift.md": {
+        "Swift": "6.4",
+        "macOS": "27.0"
+      },
+      "sql.md": {
+        "SQLite": "3.51.0",
+        "PostgreSQL": "17.11",
+        "psycopg": "3.3.6"
+      },
+      "protobuf.md": {
+        "protobuf": "7.36.2",
+        "google.golang.org/protobuf": "1.36.12"
+      },
+      "jsonschema.md": {
+        "santhosh-tekuri/jsonschema": "6.0.3",
+        "networknt": "3.0.7",
+        "itu": "1.14.0",
+        "JsonSchema.Net": "9.4.0",
+        "jsonschema": "4.26.0",
+        "openapi-generator": "7.25.0"
+      },
+      "servicenow.md": {
+        "Fluent SDK": "4.13.0"
+      }
+    },
+    "tzdata": "2026c"
+  },
+  "artifacts": {
+    "vectors_sha256": "4e700dd49a208ee6961d88264085e5599949c5175f291b9fba07610ba6c3ab01",
+    "rfcdt_version": "1.1.0",
+    "runner_version": "0.4.0"
+  },
+  "tests": {
+    "selfcheck": {
+      "exit": 0,
+      "status": "OK",
+      "checks": {
+        "leap-seconds": "OK",
+        "leap-seconds-expiry": "OK",
+        "calendars": "OK",
+        "tz-version": "OK"
+      }
+    },
+    "unit": {
+      "exit": 0,
+      "ran": 170,
+      "result": "OK",
+      "skipped": 2
+    },
+    "vectors": {
+      "exit": 0,
+      "count": 310,
+      "pass": 275,
+      "interpretation": 35,
+      "fail": 0,
+      "skip": 0
+    },
+    "gen_vectors_check": {
+      "exit": 0,
+      "up_to_date": true
+    }
+  }
+}

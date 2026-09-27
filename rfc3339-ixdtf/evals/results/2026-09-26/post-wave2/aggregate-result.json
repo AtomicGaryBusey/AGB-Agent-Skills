@@ -1,0 +1,1275 @@
+{
+  "schemaVersion": 1,
+  "claudeVersion": "2.1.283",
+  "startedAt": "2026-09-26T07:09:53.676Z",
+  "durationSeconds": 563,
+  "costUsd": 2.5620456000000003,
+  "partial": false,
+  "suite": {
+    "root": "~/.claude/skills/rfc3339-ixdtf/evals/plugin",
+    "ablation": "none",
+    "judgeModel": "sonnet",
+    "threshold": 0,
+    "concurrency": 1,
+    "plugins": [
+      {
+        "name": "rfc3339-ixdtf-eval",
+        "version": "0.0.1",
+        "path": "~/.claude/skills/rfc3339-ixdtf/evals/plugin"
+      }
+    ]
+  },
+  "cases": [
+    {
+      "name": "rfc-consumer",
+      "dir": "cases/rfc-consumer",
+      "source": "mixed",
+      "promptMarkdown": "This is Tempo, an event scheduling service (api.py, timeutil.py, client/, schema/, docs/). Audit the timestamp consumers - timeutil.parse_timestamp / parse_ixdtf in Python and the web client's client/parse.mjs - for adherence to RFC 3339 and RFC 9557. Cite each finding as file:line. No shell is available in this environment, so review the files statically; do not delegate to subagents and do not ask me questions. Give the complete audit report as your final reply.",
+      "runsPerCase": 1,
+      "timeoutSeconds": 1500,
+      "maxTurns": 40,
+      "graders": [
+        {
+          "name": "no-peek",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "trace",
+            "pattern": "answer-key\\.md|keyspec\\.json|/graders/",
+            "flags": "",
+            "match": "not_contains"
+          }
+        },
+        {
+          "name": "nodecoy-judge",
+          "type": "llm",
+          "weight": 1,
+          "graderMarkdown": "The reply is an audit report. Each item below is a specific property of the\naudited project that is known to be COMPLIANT (a decoy).\n\n- D2: timeutil's Python parser accepting lower-case 't' and 'z' (timeutil.py:22, :25, :88). RFC 3339 5.6 NOTE allows lower case; accepting it is correct. (The JS client REJECTING lower case is seeded defect C6 and is not this decoy.) Flagging the Python parser's acceptance of lower case is a false positive.\n- D3: Both parsers skipping the critical-zone vs. offset consistency check when the offset is Z or -00:00 (timeutil.py:145-146, client/parse.mjs:89-90). RFC 9557 3.4 Figure 2: Z / -00:00 asserts no local offset, so 2022-07-08T00:14:07Z[!Europe/London] is not inconsistent. Flagging the skip as a defect is a false positive.\n\nJudge ONLY whether the reply reports that specific property as a defect.\n- Findings about OTHER problems that happen to mention the same heading, line\n  or file do not count (for example a real sorting or parsing defect whose\n  evidence cites the decoy's line, or an editorial note about something else\n  on that heading).\n- Explicitly calling the property compliant, acceptable or \"no finding\" is a\n  PASS for that item.\n- A findings-table row (Nonconformity, Deviation or Advisory) whose subject IS\n  the decoy property, or a recommendation to change the decoy property itself,\n  counts as reporting it.\n\nAnswer PASS if no decoy property is reported as a defect; FAIL otherwise, and\nname the decoy.",
+          "config": {
+            "criteria": "The reply is an audit report. Each item below is a specific property of the\naudited project that is known to be COMPLIANT (a decoy).\n\n- D2: timeutil's Python parser accepting lower-case 't' and 'z' (timeutil.py:22, :25, :88). RFC 3339 5.6 NOTE allows lower case; accepting it is correct. (The JS client REJECTING lower case is seeded defect C6 and is not this decoy.) Flagging the Python parser's acceptance of lower case is a false positive.\n- D3: Both parsers skipping the critical-zone vs. offset consistency check when the offset is Z or -00:00 (timeutil.py:145-146, client/parse.mjs:89-90). RFC 9557 3.4 Figure 2: Z / -00:00 asserts no local offset, so 2022-07-08T00:14:07Z[!Europe/London] is not inconsistent. Flagging the skip as a defect is a false positive.\n\nJudge ONLY whether the reply reports that specific property as a defect.\n- Findings about OTHER problems that happen to mention the same heading, line\n  or file do not count (for example a real sorting or parsing defect whose\n  evidence cites the decoy's line, or an editorial note about something else\n  on that heading).\n- Explicitly calling the property compliant, acceptable or \"no finding\" is a\n  PASS for that item.\n- A findings-table row (Nonconformity, Deviation or Advisory) whose subject IS\n  the decoy property, or a recommendation to change the decoy property itself,\n  counts as reporting it.\n\nAnswer PASS if no decoy property is reported as a defect; FAIL otherwise, and\nname the decoy.",
+            "focus": "last_message"
+          }
+        },
+        {
+          "name": "recall-C1",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:timeutil\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:100|99|98|26|25|24)(?!\\d)))(?=[^\\n]*(?:fullmatch|newline|\\\\n|trailing|re\\.match|\\$|\\\\Z))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-C2",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:timeutil\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:107|106|105|104|103|102)(?!\\d)))(?=[^\\n]*(?:leap|:60|second=60|23:59:60))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-C3",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:timeutil\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:109|108|107|106|26|25|24)(?!\\d)))(?=[^\\n]*(?:offset.{0,40}(optional|missing|absent|omitted)|(no|missing|without (an )?) offset|LOCAL_TZ|host|local (time )?zone|4\\.4))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-C4",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:timeutil\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:135|134|133|132)(?!\\d)))(?=[^\\n]*(?:elective|unknown|knort|suffix key|KNOWN_SUFFIX))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-C5",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:parse\\.mjs[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:14|13|12)(?!\\d)))(?=[^\\n]*(?:\\^|anchor|prefix|junk|leading|start))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-C6",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:parse\\.mjs[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:12|11|10|9)(?!\\d)))(?=[^\\n]*(?:lower|case.?insens|/i|i flag|'t'|'z'))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-C7",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:parse\\.mjs[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:78|77|76|69|68|67|18|17|16)(?!\\d)))(?=[^\\n]*(?:MAX_MDAY|02-30|Feb|day.{0,30}month|roll|5\\.7|mday))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-C8",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:parse\\.mjs[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:51|50|49)(?!\\d)))(?=[^\\n]*(?:critical|\\[!|!knort))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-C9",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:parse\\.mjs[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:52|51|50)(?!\\d)))(?=[^\\n]*(?:duplicate|first|overwrit|last|chinese))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-C1",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:timeutil\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:100|99|98|26|25|24)(?!\\d)))(?=[^\\n]*(?:fullmatch|newline|\\\\n|trailing|re\\.match|\\$|\\\\Z))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies))\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-C2",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:timeutil\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:107|106|105|104|103|102)(?!\\d)))(?=[^\\n]*(?:leap|:60|second=60|23:59:60))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies))\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-C3",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:timeutil\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:109|108|107|106|26|25|24)(?!\\d)))(?=[^\\n]*(?:offset.{0,40}(optional|missing|absent|omitted)|(no|missing|without (an )?) offset|LOCAL_TZ|host|local (time )?zone|4\\.4))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies))\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-C4",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:timeutil\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:135|134|133|132)(?!\\d)))(?=[^\\n]*(?:elective|unknown|knort|suffix key|KNOWN_SUFFIX))(?=[^\\n]*(?:\\b(?:Deviations?|Advisor(?:y|ies))\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-C5",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:parse\\.mjs[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:14|13|12)(?!\\d)))(?=[^\\n]*(?:\\^|anchor|prefix|junk|leading|start))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies))\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-C6",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:parse\\.mjs[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:12|11|10|9)(?!\\d)))(?=[^\\n]*(?:lower|case.?insens|/i|i flag|'t'|'z'))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies))\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-C7",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:parse\\.mjs[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:78|77|76|69|68|67|18|17|16)(?!\\d)))(?=[^\\n]*(?:MAX_MDAY|02-30|Feb|day.{0,30}month|roll|5\\.7|mday))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies))\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-C8",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:parse\\.mjs[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:51|50|49)(?!\\d)))(?=[^\\n]*(?:critical|\\[!|!knort))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies))\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-C9",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:parse\\.mjs[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:52|51|50)(?!\\d)))(?=[^\\n]*(?:duplicate|first|overwrit|last|chinese))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies))\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "skill-used",
+          "type": "tool_used",
+          "weight": 1,
+          "config": {
+            "tool": "Skill",
+            "input_match": "\"skill\"\\s*:\\s*\"(?:[\\w-]+:)?rfc3339\\-ixdtf\"",
+            "min": 1
+          }
+        }
+      ],
+      "arms": {
+        "with": [
+          {
+            "score": 1,
+            "passed": true,
+            "turns": 11,
+            "costUsd": 0.5702666000000001,
+            "judgeCostUsd": 0.041016,
+            "durationSeconds": 168,
+            "startedAt": "2026-09-26T07:09:53.734Z",
+            "error": null,
+            "tracePath": "<run-sandbox>/out/trace.jsonl",
+            "skippedPaidGraders": false,
+            "graders": [
+              {
+                "name": "no-peek",
+                "passed": true,
+                "weight": 1,
+                "explanation": "pattern absent as expected",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "nodecoy-judge",
+                "passed": true,
+                "weight": 1,
+                "explanation": "judge votes: PASS PASS PASS",
+                "withOnly": false,
+                "scored": true,
+                "judgeVotes": [
+                  true,
+                  true,
+                  true
+                ],
+                "evidence": "# RFC 3339 / RFC 9557 audit: Tempo timestamp consumers\n\n**Scope:** I audited only the consumers: `timeutil.parse_timestamp` (RFC 3339), `timeutil.parse_ixdtf` (IXDTF, used by partner-feed ingest in `api.ingest`) and `client/parse.mjs` `parseTimestamp`/`parseSuffix` (IXDTF). The contract in `docs/API.md` sets these options: lower-case `t`/`z` accepted (`docs/API.md:43-44`), any number of fraction digits (`docs/API.md:38-39`), unknown elective tags ignored (`:49`), first duplicate wins (`:52`). It states no leap-second policy and no space separator.\n\n**Evidence:** Static review only. No shell was available, so I did not run the scanner, the conformance vectors, `selfcheck` or `tests/test_timeutil.py`. Every \"input \u2192 result\" below comes from reading the code, not from running it.\n\n**Summary:** 12 nonconformities, 1 deviation, 2 advisories, 5 review notes.\n\n## Findings\n\n| # | Severity | Ref | Target | Location | Finding | Evidence (traced) | Fix |\n|---|---|---|---|---|---|---|---|\n| 1 | Nonconformity | 3339 \u00a75.6 (`date-time = full-date \"T\" full-time`, `time-offset` required); 9557 \u00a74.1 | consumer (ingest gate) | `timeutil.py:25`, `timeutil.py:107-108`, `timeutil.py:16`, reached through `timeutil.py:116` | The offset is optional in the regex. A missing offset is replaced with `default_tz` or `LOCAL_TZ`. `LOCAL_TZ` is the host's fixed offset, captured once at import, so it can also be wrong across DST. The result depends on the host time zone and can be the wrong instant. With IXDTF the zone suffix is also ignored when it computes the instant. | `\"2026-04-02T18:00:00\"` is accepted with the host offset. `\"2026-04-02T18:00:00[Europe/Berlin]\"` is accepted, and the instant is computed in the host zone, not Berlin. | Make the offset group mandatory and remove the `default_tz`/`LOCAL_TZ` fallback. |\n| 2 | Nonconformity | 3339 \u00a75.6 grammar | consumer | `timeutil.py:25` (`$`), `timeutil.py:99` | In Python, `$` also matches just before a trailing `\\n`, so the string does not have to end where the grammar ends. `parse_ixdtf` inherits this through `head`. | `\"2026-03-14T13:30:00Z\\n\"` is accepted. `\"2026-03-14T13:30:00Z\\n[Europe/Paris]\"` is accepted. | Use `_TS_RE.fullmatch(text)` or end the pattern with `\\Z`. |\n| 3 | Nonconformity (also breaks 9557 \u00a74.1 `suffix-values` grammar) | 9557 \u00a73.3 (critical unprocessable MUST be erroneous; conflicting duplicates where one is critical MUST be erroneous) | consumer | `timeutil.py:127`, `timeutil.py:133-135`, `timeutil.py:27` | For key=value tags, the parser computes the critical flag and never uses it. `u-ca` values are not validated, and `_TAG_RE` accepts any value characters. | `\"\u2026Z[!u-ca=klingon]\"` is accepted with calendar `klingon`. `\"\u2026Z[u-ca=hebrew][!u-ca=japanese]\"` returns `hebrew` but should be an error. `\"\u2026Z[u-ca=he brew]\"` is accepted. | Check values against `suffix-values` (`[A-Za-z0-9]+(-[A-Za-z0-9]+)*`). Check `u-ca` against the supported calendars and reject a critical unknown value. Keep `(value, critical)` per key and reject a conflicting duplicate if either copy is critical. |\n| 4 | Nonconformity (wrong value) | 9557 \u00a74.1 (`time-numoffset = sign time-hour \":\" time-minute`) | consumer | `timeutil.py:27`, `timeutil.py:91`, `timeutil.py:139` | `_offset()` slices `[1:3]` and `[4:6]` without checking the format. Any key starting with `+` or `-` is treated as an offset zone. | `\"[+0845]\"` is read as +08:05, so `\"2026-01-01T00:00:00+08:05[!+0845]\"` passes the consistency check. `\"[+08:45junk]\"` is read as +08:45. | Match the zone against `^[+-]\\d{2}:\\d{2}$` (and the tz-name grammar) before interpreting it. |\n| 5 | Nonconformity (too strict) | 9557 \u00a74.1 (offset time zones allowed) | consumer (ingest) | `api.py:50` | `ingest` calls `ZoneInfo(start.zone)` on whatever `parse_ixdtf` returned. For a valid offset zone this raises `ZoneInfoNotFoundError` and the record fails ingest. | `\"2026-04-02T18:00:00+08:45[+08:45]\"`: the parse succeeds, then `ingest` raises. | Have `parse_ixdtf` return a resolved `tzinfo` (it already builds one at `timeutil.py:139`) and use that. |\n| 6 | Nonconformity (too strict) | 3339 \u00a75.6 (`time-second` 00-60, `date-fullyear` 4DIGIT), \u00a75.7 | consumer | `timeutil.py:103-106` | Building a stdlib `datetime` rejects valid inputs: a leap second `:60`, and year 0000 (`MINYEAR` is 1). No profile restriction is documented. | `\"2016-12-31T23:59:60Z\"` raises `ValueError`. `\"0000-01-01T00:00:00Z\"` raises `ValueError`. | Validate `:60` against \u00a75.7, then map it (for example to :59.999999 plus a flag) or document a \"no leap second\" profile. Also document or handle year 0000. |\n| 7 | Nonconformity (too lenient, wrong value) | 3339 \u00a75.6 grammar | consumer | `client/parse.mjs:13` | `STAMP_RE` has `$` but no `^`, so `exec` matches a valid-looking tail anywhere in the string. | `\"garbage2026-03-14T09:30:00Z\"` is accepted. `\"12026-03-14T09:30:00Z\"` is accepted as year 2026. | Add `'^' +` at the start of the pattern. |\n| 8 | Nonconformity (too strict) | 3339 \u00a75.6 NOTE (`T`/`Z` may be lower case); ABNF is case-insensitive | consumer | `client/parse.mjs:10`, `client/parse.mjs:11`, `client/parse.mjs:20` | Only upper-case `T` and `Z` are accepted. This contradicts `docs/API.md:43-44`. | `\"1985-04-12t23:20:50.52z\"` throws \"invalid timestamp\". The Python parser accepts it (`tests/test_timeutil.py:41-44`). | Use `[Tt]` and `[Zz]`, and compare case-insensitively in `parseOffset` and at line 89. |\n| 9 | Nonconformity (wrong instant) | 3339 \u00a75.7 (day must fit month and year) | consumer | `client/parse.mjs:17`, `client/parse.mjs:68`, `client/parse.mjs:77` | Every month is capped at day 31. `Date.UTC` then rolls invalid dates into the next month. | `\"2023-02-30T10:00:00Z\"` returns `iso: \"2023-03-02T10:00:00.000Z\"`. `\"2025-04-31T\u2026\"` gives May 1. | Check against the actual days in the month (with leap-year rules), or compare the `Date.UTC` result's fields back to the input. |\n| 10 | Nonconformity (too lenient) | 3339 \u00a75.7 (`:60` only at a month end in which a leap second occurs, offset-adjusted) | consumer | `client/parse.mjs:71` | `second === 60` is accepted at any time of day and any date. | `\"2026-03-14T09:30:60Z\"` is accepted with `leapSecond: true`. | Allow `:60` only when the UTC-adjusted time is 23:59 on the last day of a month. Choose a month policy (see review notes). |\n| 11 | Nonconformity (wrong instant) | 3339 \u00a75.6 (`date-fullyear` 0000-9999) | consumer | `client/parse.mjs:77` | `Date.UTC` maps years 0\u201399 to 1900\u20131999. | `\"0050-06-01T00:00:00Z\"` returns `iso: \"1950-06-01T00:00:00.000Z\"`. | Build the date with `new Date(0)` plus `setUTCFullYear(year, month-1, day)`, or use `Temporal.Instant.from`. |\n| 12 | Nonconformity | 9557 \u00a73.3 (critical unknown key/value MUST be erroneous; first occurrence of a repeated key wins; critical conflict is erroneous) | consumer | `client/parse.mjs:33-34`, `client/parse.mjs:50`, `client/parse.mjs:51` | Unknown keys are skipped (`continue`) even when marked critical. Repeated keys overwrite, so the last one wins. Critical `u-ca` values are not validated. This contradicts `docs/API.md:50-52`. | `\"\u2026Z[!x-foo=bar]\"` is accepted. `\"\u2026Z[u-ca=chinese][u-ca=japanese]\"` gives `calendar: \"japanese\"` (should be `chinese`). `\"\u2026Z[!u-ca=klingon]\"` is accepted. | For an unknown key: throw if critical, otherwise skip. Keep only the first value per key and throw on a conflict if any copy is critical. Validate calendar identifiers when the tag is critical. |\n| 13 | Deviation (false contract, reported once) | 3339 \u00a75.6; 9557 \u00a73.3 | consumer contract | `docs/API.md:19-21`, `:43-44`, `:49`, `:52` | The documented contract does not match the consumers: (a) it tells clients to accept \"any ISO 8601\" including the compact `20260314T133000Z`, which is not RFC 3339, and neither parser accepts it; (b) lower-case is rejected by the JS parser (#8); (c) \"unknown elective tags are ignored\", but Python rejects them (#A1); (d) \"first occurrence is used\", but JS uses the last (#12). | See the linked rows. | Restrict the contract to RFC 3339 and RFC 9557 (drop the compact form), then align both parsers with it. |\n| A1 | Advisory | 9557 \u00a73.3 (unknown elective key: may be ignored) | consumer | `timeutil.py:133-134` | Every unknown key is rejected, whether elective or critical, so the elective/critical distinction is lost. This also breaks partner feeds that add harmless tags. | `\"2026-04-02T18:00:00+02:00[Europe/Berlin][x-src=feed]\"` raises \"unsupported suffix key\". | Skip unknown elective keys. Reject unknown critical keys and `_`-prefixed experimental keys. |\n| A2 | Advisory | 9557 \u00a72 (`Z` = offset unknown vs `+00:00` = UTC preferred) | consumer \u2192 re-emit | `timeutil.py:88-89`, `timeutil.py:94`, `api.py:50,54` (then `format_ixdtf`); `client/parse.mjs:20,98` | Both consumers turn `Z`, `-00:00` and `+00:00` into the same zero offset. On ingest, a `Z` input with no suffix is re-emitted as `+00:00[UTC]`, which states a local context the partner never gave. | `ingest({\"start\": \"2026-04-02T16:00:00Z\", \u2026})` gives a `start` of `\"2026-04-02T16:00:00+00:00[UTC]\"`. | Keep an `offset_known` flag in `Stamp` and in the JS result, and emit `Z` when the offset is unknown. |\n\n## Review notes\n- **Sub-minute (LMT) zone offsets** (`timeutil.py:147`, `client/parse.mjs:59,90`): the consistency check compares exact offsets. Before a zone adopted standard time its offset often had seconds (for example Paris before 1911 was +00:09:21), which `time-numoffset` cannot express. So any historical timestamp with a critical zone is always rejected. RFC 9557 leaves this open. Rounding to the nearest minute is a reasonable tolerance.\n- **Leap-second representation** in JS (`client/parse.mjs:77,99`): mapping `:60` to `:59` and setting `leapSecond` is an acceptable choice once #10 is fixed. For the month rule I would use the Appendix D reading (end of March, June, September or December from 1972), or the real IERS table.\n- **Temporal dependency** (`client/parse.mjs:58`): this needs a global `Temporal`. Without it, the `catch` at line 85 rejects every critical zone and silently drops elective ones. That is conformant (the zone cannot be evaluated), but it quietly degrades behaviour, so check the target runtimes.\n- **Handled correctly:** `Z`/`-00:00` with a critical zone skips the consistency check (`timeutil.py:145`, `client/parse.mjs:89`). Unknown elective zones are dropped and unknown critical zones rejected. The zone is required to come first. Experimental `_` keys are rejected (`client/parse.mjs:49`; Python rejects them through its allowlist). Offset ranges are checked. Fractions are truncated to \u00b5s/ms. Python validates impossible dates. Python's first-wins for elective duplicates is right (`timeutil.py:135`).\n- **Tz-name grammar:** neither parser checks it directly. They rely on `ZoneInfo` or Temporal to reject bad names. Note that `ZoneInfo` lookups follow the filesystem, so on case-insensitive filesystems like macOS they may accept wrong-case names.\n\n## Not run / not applicable\n- `rfcdt.py scan`, `run_vectors.py` (310 vectors), `rfcdt.py selfcheck` and the unit tests were not run because no shell was available. None of the vector buckets are graded from tool output, and I make no clean-result claims.\n- **Out of scope (producers and schema), not graded, but worth a follow-up:**\n  - `format_utc` (`timeutil.py:51`, used at `api.py:33`) labels the local wall time with `Z`, which gives the wrong instant.\n  - `%z` gives `-0400` with no colon (`timeutil.py:13,56`).\n  - `format_reminder` drops the seconds (`timeutil.py:61`, and the test at `tests/test_timeutil.py:32` asserts that).\n  - `created_at` is naive, so it has no offset (`api.py:25,36`).\n  - `all_day_date` is a date but the schema says `format: date-time` (`schema/event.schema.json:50`).\n  - `format_epoch` emits `+00:00` for an unknown offset (`timeutil.py:66`).\n  - `zone_label` produces `[UTC+05:30]` for fixed offsets (`timeutil.py:70`).\n  - The `start` pattern in the schema is `\\[.+\\]` (`schema/event.schema.json:21`).\n  - Given all of the above, the \"CI guarantees well-formed\" claim in `docs/API.md:13-15` is false.\n\n## Assumptions\n- `parse_ixdtf` is treated as an input gate because it handles partner-feed ingest (`timeutil.py:3-4`, `docs/API.md:58-59`), and `parse_timestamp` because it claims RFC 3339. That is why leniency is graded as a Nonconformity.\n- The only supported calendar is `u-ca` (`KNOWN_SUFFIX_KEYS` and `KNOWN_KEYS`).\n- The system tz database is available to `zoneinfo`, and Temporal is available to the client.\n\n## Reproduction\nThis is a static trace against the files as they are in the working tree, with no versions probed. To confirm, write a small adapter for each parser (read a string on stdin, print `{\"ok\": \u2026, \"fields\": \u2026}`) and run:\n\n`python3 ~/.claude/skills/rfc3339-ixdtf/scripts/run_vectors.py --target \"<adapter>\" --target-kind both --target-has-tzdata yes --tz-matrix UTC,America/St_Johns,Asia/Kathmandu --report md`\n\nThe `--tz-matrix` option will show the host-time-zone dependence in #1. Record the output of `rfcdt.py selfcheck` alongside the results."
+              },
+              {
+                "name": "recall-C1",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:timeutil\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:100|99|98|26|25|24)(?!\\d)))(?=[^\\n]*(?:fullmatch|newline|\\\\n|trailing|re\\.match|\\$|\\\\Z))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-C2",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:timeutil\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:107|106|105|104|103|102)(?!\\d)))(?=[^\\n]*(?:leap|:60|second=60|23:59:60))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-C3",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:timeutil\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:109|108|107|106|26|25|24)(?!\\d)))(?=[^\\n]*(?:offset.{0,40}(optional|missing|absent|omitted)|(no|missing|without (an )?) offset|LOCAL_TZ|host|local (time )?zone|4\\.4))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-C4",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:timeutil\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:135|134|133|132)(?!\\d)))(?=[^\\n]*(?:elective|unknown|knort|suffix key|KNOWN_SUFFIX))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-C5",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:parse\\.mjs[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:14|13|12)(?!\\d)))(?=[^\\n]*(?:\\^|anchor|prefix|junk|leading|start))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-C6",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:parse\\.mjs[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:12|11|10|9)(?!\\d)))(?=[^\\n]*(?:lower|case.?insens|/i|i flag|'t'|'z'))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-C7",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:parse\\.mjs[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:78|77|76|69|68|67|18|17|16)(?!\\d)))(?=[^\\n]*(?:MAX_MDAY|02-30|Feb|day.{0,30}month|roll|5\\.7|mday))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-C8",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:parse\\.mjs[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:51|50|49)(?!\\d)))(?=[^\\n]*(?:critical|\\[!|!knort))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-C9",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:parse\\.mjs[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:52|51|50)(?!\\d)))(?=[^\\n]*(?:duplicate|first|overwrit|last|chinese))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-C1",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:timeutil\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:100|99|98|26|25|24)(?!\\d)))(?=[^\\n]*(?:fullmatch|newline|\\\\n|trailing|re\\.match|\\$|\\\\Z))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies))\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-C2",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:timeutil\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:107|106|105|104|103|102)(?!\\d)))(?=[^\\n]*(?:leap|:60|second=60|23:59:60))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies))\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-C3",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:timeutil\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:109|108|107|106|26|25|24)(?!\\d)))(?=[^\\n]*(?:offset.{0,40}(optional|missing|absent|omitted)|(no|missing|without (an )?) offset|LOCAL_TZ|host|local (time )?zone|4\\.4))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies))\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-C4",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:timeutil\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:135|134|133|132)(?!\\d)))(?=[^\\n]*(?:elective|unknown|knort|suffix key|KNOWN_SUFFIX))(?=[^\\n]*(?:\\b(?:Deviations?|Advisor(?:y|ies))\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-C5",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:parse\\.mjs[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:14|13|12)(?!\\d)))(?=[^\\n]*(?:\\^|anchor|prefix|junk|leading|start))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies))\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-C6",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:parse\\.mjs[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:12|11|10|9)(?!\\d)))(?=[^\\n]*(?:lower|case.?insens|/i|i flag|'t'|'z'))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies))\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-C7",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:parse\\.mjs[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:78|77|76|69|68|67|18|17|16)(?!\\d)))(?=[^\\n]*(?:MAX_MDAY|02-30|Feb|day.{0,30}month|roll|5\\.7|mday))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies))\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-C8",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:parse\\.mjs[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:51|50|49)(?!\\d)))(?=[^\\n]*(?:critical|\\[!|!knort))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies))\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-C9",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:parse\\.mjs[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:52|51|50)(?!\\d)))(?=[^\\n]*(?:duplicate|first|overwrit|last|chinese))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies))\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "skill-used",
+                "passed": true,
+                "weight": 1,
+                "explanation": "Skill called 1x (expected 1..\u221e)",
+                "withOnly": false,
+                "scored": true
+              }
+            ]
+          }
+        ]
+      },
+      "aggregates": {
+        "score": 1,
+        "passRate": 1
+      }
+    },
+    {
+      "name": "rfc-decoys",
+      "dir": "cases/rfc-decoys",
+      "source": "mixed",
+      "promptMarkdown": "A reviewer flagged three things in Tempo's timestamp handling (api.py, timeutil.py, client/parse.mjs). For each one, tell me whether it is an RFC 3339 / RFC 9557 violation and, if it is, how severe; then give me your report. (1) format_instant in timeutil.py always emits exactly three fractional-second digits with Z (used for received_at). (2) timeutil's parser accepts lower-case 't' and 'z'. (3) Both parsers skip the critical time-zone vs. offset consistency check when the offset is Z or -00:00. No shell is available in this environment, so review the files statically; do not delegate to subagents and do not ask me questions.",
+      "runsPerCase": 1,
+      "timeoutSeconds": 1500,
+      "maxTurns": 40,
+      "graders": [
+        {
+          "name": "decoy-verdicts",
+          "type": "llm",
+          "weight": 1,
+          "graderMarkdown": "The user asked about the queried items listed below; all of them are\nCOMPLIANT.\n\n- D1: format_instant (timeutil.py:46) emitting exactly three fractional digits with Z for received_at (api.py:37), documented in docs/API.md:35-39. time-secfrac allows any precision, the profile is documented, and Z suits a receipt instant with no local-time meaning (RFC 9557 2.2). Calling the fixed millisecond precision or the Z a violation is a false positive.\n- D2: timeutil's Python parser accepting lower-case 't' and 'z' (timeutil.py:22, :25, :88). RFC 3339 5.6 NOTE allows lower case; accepting it is correct. (The JS client REJECTING lower case is seeded defect C6 and is not this decoy.) Flagging the Python parser's acceptance of lower case is a false positive.\n- D3: Both parsers skipping the critical-zone vs. offset consistency check when the offset is Z or -00:00 (timeutil.py:145-146, client/parse.mjs:89-90). RFC 9557 3.4 Figure 2: Z / -00:00 asserts no local offset, so 2022-07-08T00:14:07Z[!Europe/London] is not inconsistent. Flagging the skip as a defect is a false positive.\n\nPASS only if the reply gives an explicit verdict for each queried item and\nevery verdict is \"compliant / not a defect / acceptable as is\" (a remark that\nthe item could optionally be improved is acceptable as long as it is not\npresented as a nonconformity or deviation).\nFAIL if any item is called a violation, nonconformity, deviation or defect,\nor if the reply gives no verdict for an item.",
+          "config": {
+            "criteria": "The user asked about the queried items listed below; all of them are\nCOMPLIANT.\n\n- D1: format_instant (timeutil.py:46) emitting exactly three fractional digits with Z for received_at (api.py:37), documented in docs/API.md:35-39. time-secfrac allows any precision, the profile is documented, and Z suits a receipt instant with no local-time meaning (RFC 9557 2.2). Calling the fixed millisecond precision or the Z a violation is a false positive.\n- D2: timeutil's Python parser accepting lower-case 't' and 'z' (timeutil.py:22, :25, :88). RFC 3339 5.6 NOTE allows lower case; accepting it is correct. (The JS client REJECTING lower case is seeded defect C6 and is not this decoy.) Flagging the Python parser's acceptance of lower case is a false positive.\n- D3: Both parsers skipping the critical-zone vs. offset consistency check when the offset is Z or -00:00 (timeutil.py:145-146, client/parse.mjs:89-90). RFC 9557 3.4 Figure 2: Z / -00:00 asserts no local offset, so 2022-07-08T00:14:07Z[!Europe/London] is not inconsistent. Flagging the skip as a defect is a false positive.\n\nPASS only if the reply gives an explicit verdict for each queried item and\nevery verdict is \"compliant / not a defect / acceptable as is\" (a remark that\nthe item could optionally be improved is acceptable as long as it is not\npresented as a nonconformity or deviation).\nFAIL if any item is called a violation, nonconformity, deviation or defect,\nor if the reply gives no verdict for an item.",
+            "focus": "last_message"
+          }
+        },
+        {
+          "name": "no-peek",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "trace",
+            "pattern": "answer-key\\.md|keyspec\\.json|/graders/",
+            "flags": "",
+            "match": "not_contains"
+          }
+        },
+        {
+          "name": "nodecoy-D1",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:timeutil\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:47|46|45)(?!\\d)|format_instant))(?=[^\\n]*(?:millisecond|three|3 (fractional )?digits|fraction|secfrac|precision))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Deviations?|Advisor(?:y|ies))\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "not_contains"
+          }
+        },
+        {
+          "name": "nodecoy-judge",
+          "type": "llm",
+          "weight": 1,
+          "graderMarkdown": "The reply is an audit report. Each item below is a specific property of the\naudited project that is known to be COMPLIANT (a decoy).\n\n- D1: format_instant (timeutil.py:46) emitting exactly three fractional digits with Z for received_at (api.py:37), documented in docs/API.md:35-39. time-secfrac allows any precision, the profile is documented, and Z suits a receipt instant with no local-time meaning (RFC 9557 2.2). Calling the fixed millisecond precision or the Z a violation is a false positive.\n- D2: timeutil's Python parser accepting lower-case 't' and 'z' (timeutil.py:22, :25, :88). RFC 3339 5.6 NOTE allows lower case; accepting it is correct. (The JS client REJECTING lower case is seeded defect C6 and is not this decoy.) Flagging the Python parser's acceptance of lower case is a false positive.\n- D3: Both parsers skipping the critical-zone vs. offset consistency check when the offset is Z or -00:00 (timeutil.py:145-146, client/parse.mjs:89-90). RFC 9557 3.4 Figure 2: Z / -00:00 asserts no local offset, so 2022-07-08T00:14:07Z[!Europe/London] is not inconsistent. Flagging the skip as a defect is a false positive.\n\nJudge ONLY whether the reply reports that specific property as a defect.\n- Findings about OTHER problems that happen to mention the same heading, line\n  or file do not count (for example a real sorting or parsing defect whose\n  evidence cites the decoy's line, or an editorial note about something else\n  on that heading).\n- Explicitly calling the property compliant, acceptable or \"no finding\" is a\n  PASS for that item.\n- A findings-table row (Nonconformity, Deviation or Advisory) whose subject IS\n  the decoy property, or a recommendation to change the decoy property itself,\n  counts as reporting it.\n\nAnswer PASS if no decoy property is reported as a defect; FAIL otherwise, and\nname the decoy.",
+          "config": {
+            "criteria": "The reply is an audit report. Each item below is a specific property of the\naudited project that is known to be COMPLIANT (a decoy).\n\n- D1: format_instant (timeutil.py:46) emitting exactly three fractional digits with Z for received_at (api.py:37), documented in docs/API.md:35-39. time-secfrac allows any precision, the profile is documented, and Z suits a receipt instant with no local-time meaning (RFC 9557 2.2). Calling the fixed millisecond precision or the Z a violation is a false positive.\n- D2: timeutil's Python parser accepting lower-case 't' and 'z' (timeutil.py:22, :25, :88). RFC 3339 5.6 NOTE allows lower case; accepting it is correct. (The JS client REJECTING lower case is seeded defect C6 and is not this decoy.) Flagging the Python parser's acceptance of lower case is a false positive.\n- D3: Both parsers skipping the critical-zone vs. offset consistency check when the offset is Z or -00:00 (timeutil.py:145-146, client/parse.mjs:89-90). RFC 9557 3.4 Figure 2: Z / -00:00 asserts no local offset, so 2022-07-08T00:14:07Z[!Europe/London] is not inconsistent. Flagging the skip as a defect is a false positive.\n\nJudge ONLY whether the reply reports that specific property as a defect.\n- Findings about OTHER problems that happen to mention the same heading, line\n  or file do not count (for example a real sorting or parsing defect whose\n  evidence cites the decoy's line, or an editorial note about something else\n  on that heading).\n- Explicitly calling the property compliant, acceptable or \"no finding\" is a\n  PASS for that item.\n- A findings-table row (Nonconformity, Deviation or Advisory) whose subject IS\n  the decoy property, or a recommendation to change the decoy property itself,\n  counts as reporting it.\n\nAnswer PASS if no decoy property is reported as a defect; FAIL otherwise, and\nname the decoy.",
+            "focus": "last_message"
+          }
+        },
+        {
+          "name": "skill-used",
+          "type": "tool_used",
+          "weight": 1,
+          "config": {
+            "tool": "Skill",
+            "input_match": "\"skill\"\\s*:\\s*\"(?:[\\w-]+:)?rfc3339\\-ixdtf\"",
+            "min": 1
+          }
+        }
+      ],
+      "arms": {
+        "with": [
+          {
+            "score": 1,
+            "passed": true,
+            "turns": 10,
+            "costUsd": 0.40807740000000003,
+            "judgeCostUsd": 0.051792000000000005,
+            "durationSeconds": 97,
+            "startedAt": "2026-09-26T07:12:42.013Z",
+            "error": null,
+            "tracePath": "<run-sandbox>/out/trace.jsonl",
+            "skippedPaidGraders": false,
+            "graders": [
+              {
+                "name": "decoy-verdicts",
+                "passed": true,
+                "weight": 1,
+                "explanation": "judge votes: PASS PASS PASS",
+                "withOnly": false,
+                "scored": true,
+                "judgeVotes": [
+                  true,
+                  true,
+                  true
+                ],
+                "evidence": "I checked all three flagged items against the RFC text: **none of them violates RFC 3339 or RFC 9557.** Each one is either explicitly allowed or required by the RFCs. While checking them I found other timestamp problems in the same files that are real violations. They're in the report below.\n\n## The three flagged items\n\n**(1) `format_instant` always writes three fractional digits and `Z`: not a violation.**\n- The grammar allows any number of fraction digits (`time-secfrac = \".\" 1*DIGIT`, \u00a75.6). The \u00a75.6 NOTE says a specification may restrict the format further as long as the output stays inside the grammar, and `docs/API.md:34-39` states this millisecond restriction.\n- Cutting off extra digits rather than rounding is fine.\n- `Z` is also correct. Under RFC 9557 \u00a72, `Z` means \"UTC is known, local offset unknown\", which fits a server receipt time. Sample output: `2026-03-14T13:30:05.987Z` (from `tests/test_timeutil.py:17`), which is valid.\n- Severity: none.\n\n**(2) `timeutil` accepts lower-case `t` and `z`: not a violation.**\n- The \u00a75.6 NOTE says `T` and `Z` \"may alternatively be lower case\". ABNF strings are case-insensitive, so `1985-04-12t23:20:50.52z` is valid input and rejecting it would be too strict.\n- The code handles it consistently: `_TS_RE` at `timeutil.py:22,25`, `_offset` at `:88`, and the `\"Zz\"` test at `:145`.\n- One small related point: `client/parse.mjs:10-11` accepts upper case only. The \u00a75.6 NOTE allows that restriction, but it contradicts `docs/API.md:43-44` (\"Parsers accept lower-case\"). That's a documentation problem, folded into finding 13.\n\n**(3) Both parsers skip the critical-zone consistency check for `Z` and `-00:00`: not a violation, and required.**\n- RFC 9557 \u00a73.4 and the \u00a72 update say `Z` or `-00:00` assert no local offset. So `2022-07-08T00:14:07Z[!Europe/London]` is consistent and must not be rejected. Running the check here would be the error.\n- Both parsers still reject an explicit mismatch such as `+00:00[!Europe/London]` (`timeutil.py:145-148`, `parse.mjs:89-91`, test at `tests/test_timeutil.py:56-62`).\n- One catch: in `timeutil`, a date-time with no offset at all counts as \"offset known\" and gets compared using the host's local zone. The root cause is finding 6.\n\n---\n\n# RFC 3339 / RFC 9557 adherence \u2014 Tempo (api.py, timeutil.py, client/parse.mjs, docs/API.md)\n\nScope: producer (`api.serialize`, `timeutil.format_*`) and consumer (`timeutil.parse_*`, `client/parse.mjs`), IXDTF profile for `start`, RFC 3339 elsewhere. Declared options: millisecond `Z` for `received_at`, upper-case output, lower-case accepted, first key wins.\nEvidence: static review only. No scan, vectors, producer checks or selfcheck were run (no shell). Every \"input \u2192 output\" below is worked out by hand from the code.\nSummary: 10 nonconformities, 1 deviation, 2 advisories, 3 review notes (the flagged items).\n\n## Findings\n| # | Severity | Ref | Target | Location | Finding | Evidence (derived) | Fix |\n|---|---|---|---|---|---|---|---|\n| 1 | Nonconformity | 3339 \u00a74.2, \u00a75.6 | producer | `timeutil.py:51`, `api.py:33` | `format_utc` writes local wall time with a literal `Z` and never converts to UTC, so the instant is wrong | NY 09:30 EDT \u2192 `start_utc: 2026-03-14T09:30:00Z` (should be `13:30:00Z`) | `dt.astimezone(timezone.utc)` first |\n| 2 | Nonconformity | 3339 \u00a75.6 `time-numoffset` | producer | `timeutil.py:13,56`, `api.py:34` | `%z` writes the offset without a colon | `end: 2026-03-14T11:00:00-0400` | `dt.isoformat(timespec=\"seconds\")` |\n| 3 | Nonconformity | 3339 \u00a75.6 `partial-time` | producer | `timeutil.py:59-61`, `api.py:35` | `reminder_at` drops the seconds field (the test locks this in) | `2026-03-14T09:15-04:00` | Keep `:00` seconds; fix the test |\n| 4 | Nonconformity | 3339 \u00a75.6 `time-offset` | producer | `api.py:25,36` | `created_at` defaults to a naive `datetime.now`, so the output has no offset | `2026-09-26T10:00:00` | `datetime.now(timezone.utc)`, or reject naive values |\n| 5 | Nonconformity | 9557 \u00a74.1 `time-zone-name` | producer | `timeutil.py:69-70,77` | For fixed-offset tzinfo, `zone_label` falls back to `str(tz)`, which gives an invalid suffix | evt_0002 \u2192 `2026-05-04T10:00:00+05:30[UTC+05:30]` (`:` is not a valid tzchar) | Leave out the suffix for fixed offsets, or require a `ZoneInfo` |\n| 6 | Nonconformity | 3339 \u00a75.6, \u00a74.4 | consumer (ingest gate) | `timeutil.py:25,107-108,16` | The offset is optional. When it's missing, the parser uses the host's local offset, frozen at import time, so the same input gives different instants on different hosts. The offset-less head also skips item (3) correctly: it's treated as a known offset and compared | `2026-04-02T18:00:00` \u2192 host-dependent instant | Make the offset required |\n| 7 | Nonconformity | 9557 \u00a73.3 (critical MUST) | consumer | `parse.mjs:50` | An unknown **critical** key is silently ignored | `\u2026Z[!foo=bar]` accepted | Throw when `critical && !KNOWN_KEYS.has(key)` |\n| 8 | Nonconformity | 9557 \u00a73.3 (first wins) | consumer | `parse.mjs:51` | A repeated key uses the last value, so the effective tags are wrong (docs say first wins) | `\u2026[u-ca=chinese][u-ca=japanese]` \u2192 `japanese` | Assign only if the key isn't already set; error if either copy is critical and they conflict |\n| 9 | Nonconformity | 3339 \u00a75.7 | consumer | `parse.mjs:17,68-77` | Day is checked against 31 regardless of month, and `Date.UTC` rolls invalid dates forward (wrong instant). `:60` is accepted at any minute and then clamped | `2026-02-30T00:00:00Z` \u2192 2026-03-02. `2026-03-14T10:15:60Z` accepted | Check days per month; allow `:60` only at 23:59 UTC |\n| 10 | Nonconformity | 3339 \u00a75.6 `time-second` 00-60, \u00a75.7 | consumer | `timeutil.py:103-106` | A valid leap second makes `datetime()` raise, and no profile documents that restriction | `2016-12-31T23:59:60Z` \u2192 `ValueError` | Handle `:60` (e.g. map to :59.999999 with a flag) or document the restriction |\n| 11 | Advisory | 9557 \u00a72 | producer | `timeutil.py:66`, `api.py:42` | `source_seen_at` uses `+00:00` even though the docs say its local offset is unknown | `2026-03-26T16:00:00+00:00` | Write `Z` |\n| 12 | Advisory | 9557 \u00a73.3 | consumer | `timeutil.py:133-134` | Every unknown **elective** tag is rejected, which erases the difference between elective and critical tags (docs say electives are ignored) | `\u2026[foo=bar]` \u2192 `ValueError` | Ignore unknown electives; reject only critical ones and `_` keys |\n| 13 | Deviation | docs vs. rows 1-5 | schema/docs | `docs/API.md:12-21,43-44` | The docs claim the non-existent `schema/event.schema.json` is enforced in CI. They list the ISO 8601 basic form `20260314T133000Z`, which isn't RFC 3339 and which both parsers reject. They say parsers accept lower case, but `parse.mjs` doesn't | see rows 1-5 | Add the schema and validation, or correct the docs |\n\n## Review notes\n- **(1) Millisecond `Z` precision profile:** a documented restriction that stays inside the grammar (\u00a75.6 NOTE). Compliant.\n- **(2) Lower-case `t`/`z` accepted by `timeutil`:** valid input under \u00a75.6 NOTE. `parse.mjs` rejecting it is a MAY-level restriction; the only issue is the doc mismatch in row 13.\n- **(3) Consistency check skipped for `Z`/`-00:00`:** required behaviour under RFC 9557 \u00a72/\u00a73.4. Compliant in both parsers.\n- `parse.mjs` needs a global `Temporal`. Without it, every zone lookup throws: critical zones are rejected and elective zones are dropped. Whether that happens depends on the runtime.\n\n## Not run / not applicable\nNone of `rfcdt.py scan`, `run_vectors.py`, `rfcdt.py check` or `selfcheck` were run (no shell). That's why there are no vector counts, and I'm not claiming anything passed. `schema/event.schema.json` isn't in the repo.\n\n## Assumptions\n- `start` follows the IXDTF profile; all other fields follow RFC 3339 as `docs/API.md` states.\n- `timeutil.parse_*` sits at an ingest gate (partner feeds).\n- Python 3.11+ (`zoneinfo`); tz data is whatever the host provides.\n\n## Reproduction\nStatic reading of the files at the lines cited. To confirm the findings, run `python3 $S/rfcdt.py check` on the `python3 api.py` output, and `run_vectors.py --target-kind both` with thin adapters around `timeutil.parse_ixdtf` and `parseTimestamp`."
+              },
+              {
+                "name": "no-peek",
+                "passed": true,
+                "weight": 1,
+                "explanation": "pattern absent as expected",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "nodecoy-D1",
+                "passed": true,
+                "weight": 1,
+                "explanation": "pattern absent as expected",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "nodecoy-judge",
+                "passed": true,
+                "weight": 1,
+                "explanation": "judge votes: PASS PASS PASS",
+                "withOnly": false,
+                "scored": true,
+                "judgeVotes": [
+                  true,
+                  true,
+                  true
+                ],
+                "evidence": "I checked all three flagged items against the RFC text: **none of them violates RFC 3339 or RFC 9557.** Each one is either explicitly allowed or required by the RFCs. While checking them I found other timestamp problems in the same files that are real violations. They're in the report below.\n\n## The three flagged items\n\n**(1) `format_instant` always writes three fractional digits and `Z`: not a violation.**\n- The grammar allows any number of fraction digits (`time-secfrac = \".\" 1*DIGIT`, \u00a75.6). The \u00a75.6 NOTE says a specification may restrict the format further as long as the output stays inside the grammar, and `docs/API.md:34-39` states this millisecond restriction.\n- Cutting off extra digits rather than rounding is fine.\n- `Z` is also correct. Under RFC 9557 \u00a72, `Z` means \"UTC is known, local offset unknown\", which fits a server receipt time. Sample output: `2026-03-14T13:30:05.987Z` (from `tests/test_timeutil.py:17`), which is valid.\n- Severity: none.\n\n**(2) `timeutil` accepts lower-case `t` and `z`: not a violation.**\n- The \u00a75.6 NOTE says `T` and `Z` \"may alternatively be lower case\". ABNF strings are case-insensitive, so `1985-04-12t23:20:50.52z` is valid input and rejecting it would be too strict.\n- The code handles it consistently: `_TS_RE` at `timeutil.py:22,25`, `_offset` at `:88`, and the `\"Zz\"` test at `:145`.\n- One small related point: `client/parse.mjs:10-11` accepts upper case only. The \u00a75.6 NOTE allows that restriction, but it contradicts `docs/API.md:43-44` (\"Parsers accept lower-case\"). That's a documentation problem, folded into finding 13.\n\n**(3) Both parsers skip the critical-zone consistency check for `Z` and `-00:00`: not a violation, and required.**\n- RFC 9557 \u00a73.4 and the \u00a72 update say `Z` or `-00:00` assert no local offset. So `2022-07-08T00:14:07Z[!Europe/London]` is consistent and must not be rejected. Running the check here would be the error.\n- Both parsers still reject an explicit mismatch such as `+00:00[!Europe/London]` (`timeutil.py:145-148`, `parse.mjs:89-91`, test at `tests/test_timeutil.py:56-62`).\n- One catch: in `timeutil`, a date-time with no offset at all counts as \"offset known\" and gets compared using the host's local zone. The root cause is finding 6.\n\n---\n\n# RFC 3339 / RFC 9557 adherence \u2014 Tempo (api.py, timeutil.py, client/parse.mjs, docs/API.md)\n\nScope: producer (`api.serialize`, `timeutil.format_*`) and consumer (`timeutil.parse_*`, `client/parse.mjs`), IXDTF profile for `start`, RFC 3339 elsewhere. Declared options: millisecond `Z` for `received_at`, upper-case output, lower-case accepted, first key wins.\nEvidence: static review only. No scan, vectors, producer checks or selfcheck were run (no shell). Every \"input \u2192 output\" below is worked out by hand from the code.\nSummary: 10 nonconformities, 1 deviation, 2 advisories, 3 review notes (the flagged items).\n\n## Findings\n| # | Severity | Ref | Target | Location | Finding | Evidence (derived) | Fix |\n|---|---|---|---|---|---|---|---|\n| 1 | Nonconformity | 3339 \u00a74.2, \u00a75.6 | producer | `timeutil.py:51`, `api.py:33` | `format_utc` writes local wall time with a literal `Z` and never converts to UTC, so the instant is wrong | NY 09:30 EDT \u2192 `start_utc: 2026-03-14T09:30:00Z` (should be `13:30:00Z`) | `dt.astimezone(timezone.utc)` first |\n| 2 | Nonconformity | 3339 \u00a75.6 `time-numoffset` | producer | `timeutil.py:13,56`, `api.py:34` | `%z` writes the offset without a colon | `end: 2026-03-14T11:00:00-0400` | `dt.isoformat(timespec=\"seconds\")` |\n| 3 | Nonconformity | 3339 \u00a75.6 `partial-time` | producer | `timeutil.py:59-61`, `api.py:35` | `reminder_at` drops the seconds field (the test locks this in) | `2026-03-14T09:15-04:00` | Keep `:00` seconds; fix the test |\n| 4 | Nonconformity | 3339 \u00a75.6 `time-offset` | producer | `api.py:25,36` | `created_at` defaults to a naive `datetime.now`, so the output has no offset | `2026-09-26T10:00:00` | `datetime.now(timezone.utc)`, or reject naive values |\n| 5 | Nonconformity | 9557 \u00a74.1 `time-zone-name` | producer | `timeutil.py:69-70,77` | For fixed-offset tzinfo, `zone_label` falls back to `str(tz)`, which gives an invalid suffix | evt_0002 \u2192 `2026-05-04T10:00:00+05:30[UTC+05:30]` (`:` is not a valid tzchar) | Leave out the suffix for fixed offsets, or require a `ZoneInfo` |\n| 6 | Nonconformity | 3339 \u00a75.6, \u00a74.4 | consumer (ingest gate) | `timeutil.py:25,107-108,16` | The offset is optional. When it's missing, the parser uses the host's local offset, frozen at import time, so the same input gives different instants on different hosts. The offset-less head also skips item (3) correctly: it's treated as a known offset and compared | `2026-04-02T18:00:00` \u2192 host-dependent instant | Make the offset required |\n| 7 | Nonconformity | 9557 \u00a73.3 (critical MUST) | consumer | `parse.mjs:50` | An unknown **critical** key is silently ignored | `\u2026Z[!foo=bar]` accepted | Throw when `critical && !KNOWN_KEYS.has(key)` |\n| 8 | Nonconformity | 9557 \u00a73.3 (first wins) | consumer | `parse.mjs:51` | A repeated key uses the last value, so the effective tags are wrong (docs say first wins) | `\u2026[u-ca=chinese][u-ca=japanese]` \u2192 `japanese` | Assign only if the key isn't already set; error if either copy is critical and they conflict |\n| 9 | Nonconformity | 3339 \u00a75.7 | consumer | `parse.mjs:17,68-77` | Day is checked against 31 regardless of month, and `Date.UTC` rolls invalid dates forward (wrong instant). `:60` is accepted at any minute and then clamped | `2026-02-30T00:00:00Z` \u2192 2026-03-02. `2026-03-14T10:15:60Z` accepted | Check days per month; allow `:60` only at 23:59 UTC |\n| 10 | Nonconformity | 3339 \u00a75.6 `time-second` 00-60, \u00a75.7 | consumer | `timeutil.py:103-106` | A valid leap second makes `datetime()` raise, and no profile documents that restriction | `2016-12-31T23:59:60Z` \u2192 `ValueError` | Handle `:60` (e.g. map to :59.999999 with a flag) or document the restriction |\n| 11 | Advisory | 9557 \u00a72 | producer | `timeutil.py:66`, `api.py:42` | `source_seen_at` uses `+00:00` even though the docs say its local offset is unknown | `2026-03-26T16:00:00+00:00` | Write `Z` |\n| 12 | Advisory | 9557 \u00a73.3 | consumer | `timeutil.py:133-134` | Every unknown **elective** tag is rejected, which erases the difference between elective and critical tags (docs say electives are ignored) | `\u2026[foo=bar]` \u2192 `ValueError` | Ignore unknown electives; reject only critical ones and `_` keys |\n| 13 | Deviation | docs vs. rows 1-5 | schema/docs | `docs/API.md:12-21,43-44` | The docs claim the non-existent `schema/event.schema.json` is enforced in CI. They list the ISO 8601 basic form `20260314T133000Z`, which isn't RFC 3339 and which both parsers reject. They say parsers accept lower case, but `parse.mjs` doesn't | see rows 1-5 | Add the schema and validation, or correct the docs |\n\n## Review notes\n- **(1) Millisecond `Z` precision profile:** a documented restriction that stays inside the grammar (\u00a75.6 NOTE). Compliant.\n- **(2) Lower-case `t`/`z` accepted by `timeutil`:** valid input under \u00a75.6 NOTE. `parse.mjs` rejecting it is a MAY-level restriction; the only issue is the doc mismatch in row 13.\n- **(3) Consistency check skipped for `Z`/`-00:00`:** required behaviour under RFC 9557 \u00a72/\u00a73.4. Compliant in both parsers.\n- `parse.mjs` needs a global `Temporal`. Without it, every zone lookup throws: critical zones are rejected and elective zones are dropped. Whether that happens depends on the runtime.\n\n## Not run / not applicable\nNone of `rfcdt.py scan`, `run_vectors.py`, `rfcdt.py check` or `selfcheck` were run (no shell). That's why there are no vector counts, and I'm not claiming anything passed. `schema/event.schema.json` isn't in the repo.\n\n## Assumptions\n- `start` follows the IXDTF profile; all other fields follow RFC 3339 as `docs/API.md` states.\n- `timeutil.parse_*` sits at an ingest gate (partner feeds).\n- Python 3.11+ (`zoneinfo`); tz data is whatever the host provides.\n\n## Reproduction\nStatic reading of the files at the lines cited. To confirm the findings, run `python3 $S/rfcdt.py check` on the `python3 api.py` output, and `run_vectors.py --target-kind both` with thin adapters around `timeutil.parse_ixdtf` and `parseTimestamp`."
+              },
+              {
+                "name": "skill-used",
+                "passed": true,
+                "weight": 1,
+                "explanation": "Skill called 1x (expected 1..\u221e)",
+                "withOnly": false,
+                "scored": true
+              }
+            ]
+          }
+        ]
+      },
+      "aggregates": {
+        "score": 1,
+        "passRate": 1
+      }
+    },
+    {
+      "name": "rfc-producer",
+      "dir": "cases/rfc-producer",
+      "source": "mixed",
+      "promptMarkdown": "This is Tempo, an event scheduling service (api.py, timeutil.py, client/, schema/, docs/). Audit the timestamp producers - the formatting helpers in timeutil.py and the JSON fields that api.py emits - for adherence to RFC 3339 and RFC 9557. Cite each finding as file:line. No shell is available in this environment, so review the files statically; do not delegate to subagents and do not ask me questions. Give the complete audit report as your final reply.",
+      "runsPerCase": 1,
+      "timeoutSeconds": 1500,
+      "maxTurns": 40,
+      "graders": [
+        {
+          "name": "no-peek",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "trace",
+            "pattern": "answer-key\\.md|keyspec\\.json|/graders/",
+            "flags": "",
+            "match": "not_contains"
+          }
+        },
+        {
+          "name": "nodecoy-D1",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:timeutil\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:47|46|45)(?!\\d)|format_instant))(?=[^\\n]*(?:millisecond|three|3 (fractional )?digits|fraction|secfrac|precision))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Deviations?|Advisor(?:y|ies))\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "not_contains"
+          }
+        },
+        {
+          "name": "nodecoy-judge",
+          "type": "llm",
+          "weight": 1,
+          "graderMarkdown": "The reply is an audit report. Each item below is a specific property of the\naudited project that is known to be COMPLIANT (a decoy).\n\n- D1: format_instant (timeutil.py:46) emitting exactly three fractional digits with Z for received_at (api.py:37), documented in docs/API.md:35-39. time-secfrac allows any precision, the profile is documented, and Z suits a receipt instant with no local-time meaning (RFC 9557 2.2). Calling the fixed millisecond precision or the Z a violation is a false positive.\n\nJudge ONLY whether the reply reports that specific property as a defect.\n- Findings about OTHER problems that happen to mention the same heading, line\n  or file do not count (for example a real sorting or parsing defect whose\n  evidence cites the decoy's line, or an editorial note about something else\n  on that heading).\n- Explicitly calling the property compliant, acceptable or \"no finding\" is a\n  PASS for that item.\n- A findings-table row (Nonconformity, Deviation or Advisory) whose subject IS\n  the decoy property, or a recommendation to change the decoy property itself,\n  counts as reporting it.\n\nAnswer PASS if no decoy property is reported as a defect; FAIL otherwise, and\nname the decoy.",
+          "config": {
+            "criteria": "The reply is an audit report. Each item below is a specific property of the\naudited project that is known to be COMPLIANT (a decoy).\n\n- D1: format_instant (timeutil.py:46) emitting exactly three fractional digits with Z for received_at (api.py:37), documented in docs/API.md:35-39. time-secfrac allows any precision, the profile is documented, and Z suits a receipt instant with no local-time meaning (RFC 9557 2.2). Calling the fixed millisecond precision or the Z a violation is a false positive.\n\nJudge ONLY whether the reply reports that specific property as a defect.\n- Findings about OTHER problems that happen to mention the same heading, line\n  or file do not count (for example a real sorting or parsing defect whose\n  evidence cites the decoy's line, or an editorial note about something else\n  on that heading).\n- Explicitly calling the property compliant, acceptable or \"no finding\" is a\n  PASS for that item.\n- A findings-table row (Nonconformity, Deviation or Advisory) whose subject IS\n  the decoy property, or a recommendation to change the decoy property itself,\n  counts as reporting it.\n\nAnswer PASS if no decoy property is reported as a defect; FAIL otherwise, and\nname the decoy.",
+            "focus": "last_message"
+          }
+        },
+        {
+          "name": "recall-P1",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:timeutil\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:52|51|50)(?!\\d)|api\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:34|33|32)(?!\\d)))(?=[^\\n]*(?:format_utc|start_utc|wall|astimezone|wrong instant|mislabel|13:30|local))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-P2",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:timeutil\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:57|56|55|14|13|12)(?!\\d)|api\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:35|34|33)(?!\\d)))(?=[^\\n]*(?:%z|colon|-0400|numoffset|basic|format_offset))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-P3",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:api\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:37|36|35|26|25|24)(?!\\d)))(?=[^\\n]*(?:naive|created_at|datetime\\.now|no offset|missing offset|without (an )?offset|4\\.4))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-P4",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:timeutil\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:62|61|60|15|14|13)(?!\\d)|api\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:36|35|34)(?!\\d)))(?=[^\\n]*(?:second|%S|09:15|REMINDER|partial-time|reminder))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-P5",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:timeutil\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:67|66|65)(?!\\d)|api\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:43|42|41)(?!\\d)))(?=[^\\n]*(?:\\+00:00|format_epoch|unknown|epoch|source_seen))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-P6",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:timeutil\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:78|77|76|71|70|69)(?!\\d)|api\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:33|32|31)(?!\\d)))(?=[^\\n]*(?:zone_label|UTC\\+05:30|str\\(tz\\)|time-zone-name|bracket|suffix|zone))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-P1",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:timeutil\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:52|51|50)(?!\\d)|api\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:34|33|32)(?!\\d)))(?=[^\\n]*(?:format_utc|start_utc|wall|astimezone|wrong instant|mislabel|13:30|local))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies))\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-P2",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:timeutil\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:57|56|55|14|13|12)(?!\\d)|api\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:35|34|33)(?!\\d)))(?=[^\\n]*(?:%z|colon|-0400|numoffset|basic|format_offset))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies))\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-P3",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:api\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:37|36|35|26|25|24)(?!\\d)))(?=[^\\n]*(?:naive|created_at|datetime\\.now|no offset|missing offset|without (an )?offset|4\\.4))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies))\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-P4",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:timeutil\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:62|61|60|15|14|13)(?!\\d)|api\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:36|35|34)(?!\\d)))(?=[^\\n]*(?:second|%S|09:15|REMINDER|partial-time|reminder))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies))\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-P5",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:timeutil\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:67|66|65)(?!\\d)|api\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:43|42|41)(?!\\d)))(?=[^\\n]*(?:\\+00:00|format_epoch|unknown|epoch|source_seen))(?=[^\\n]*(?:\\b(?:Deviations?|Advisor(?:y|ies))\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-P6",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:timeutil\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:78|77|76|71|70|69)(?!\\d)|api\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:33|32|31)(?!\\d)))(?=[^\\n]*(?:zone_label|UTC\\+05:30|str\\(tz\\)|time-zone-name|bracket|suffix|zone))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies))\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "skill-used",
+          "type": "tool_used",
+          "weight": 1,
+          "config": {
+            "tool": "Skill",
+            "input_match": "\"skill\"\\s*:\\s*\"(?:[\\w-]+:)?rfc3339\\-ixdtf\"",
+            "min": 1
+          }
+        }
+      ],
+      "arms": {
+        "with": [
+          {
+            "score": 1,
+            "passed": true,
+            "turns": 14,
+            "costUsd": 0.6730278000000001,
+            "judgeCostUsd": 0.03715200000000002,
+            "durationSeconds": 133,
+            "startedAt": "2026-09-26T07:14:18.967Z",
+            "error": null,
+            "tracePath": "<run-sandbox>/out/trace.jsonl",
+            "skippedPaidGraders": false,
+            "graders": [
+              {
+                "name": "no-peek",
+                "passed": true,
+                "weight": 1,
+                "explanation": "pattern absent as expected",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "nodecoy-D1",
+                "passed": true,
+                "weight": 1,
+                "explanation": "pattern absent as expected",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "nodecoy-judge",
+                "passed": true,
+                "weight": 1,
+                "explanation": "judge votes: PASS PASS PASS",
+                "withOnly": false,
+                "scored": true,
+                "judgeVotes": [
+                  true,
+                  true,
+                  true
+                ],
+                "evidence": "# RFC 3339 / RFC 9557 adherence audit: Tempo timestamp producers\n\n**Scope:** I audited the producers only: the `format_*` helpers in `timeutil.py` and the JSON fields built in `api.py` `serialize()`. I used the schema, the docs and the tests only to find out what is claimed. The profile is IXDTF (RFC 9557) for `start` and RFC 3339 `date-time` for every other field. Declared options, from `docs/API.md`: upper-case `T`/`Z`, and `received_at` uses exactly 3 fraction digits with `Z`. `start_utc` is used as a sort key.\n\n**Evidence:** This was a static review only, because no shell was available. I did not run `rfcdt.py scan`, the vectors, `rfcdt.py check` or `selfcheck`. I worked out the output of each field by hand for the 5 sample events in `api.py:79-105`. I relied on the probed CPython behaviour in the skill's `ecosystem/python.md` (rows 220, 223, 225-231) and on the snapshot in `tests/test_timeutil.py:30-32`. Of the 8 timestamp fields, 5 give invalid or wrong-instant output on the shipped sample data, and 2 more do so under the probe inputs.\n\n**Summary:** 9 nonconformities, 2 deviations, 1 advisory, 5 review notes.\n\n## Worked-out output of `python3 api.py` (evt_0001, New York, 2026-03-14 09:30 EDT)\n\n| Field | Emitted | Valid? |\n|---|---|---|\n| `start` | `2026-03-14T09:30:00-04:00[America/New_York]` | yes |\n| `start_utc` | `2026-03-14T09:30:00Z` | grammatical, **wrong instant** (true: `13:30:00Z`) |\n| `end` | `2026-03-14T11:00:00-0400` | **no**: offset has no colon |\n| `reminder_at` | `2026-03-14T09:15-04:00` | **no**: no seconds |\n| `created_at` | `2026-09-26T\u2026:\u2026:\u2026` (naive local) | **no**: no offset |\n| `received_at` | `2026-09-26T\u2026\u200b.123Z` | yes |\n\nFor evt_0002 (fixed offset IST), `start` is `2026-05-04T10:00:00+05:30[UTC+05:30]`, which is **invalid**. For evt_feed_0092, `start_utc` is `2026-09-11T19:00:00Z`, but the true instant is `2026-09-12T02:00:00Z`, so even the date is wrong.\n\n## Findings\n\n| # | Severity | Check ID | Ref | Target | Location | Finding | Evidence | Fix |\n|---|---|---|---|---|---|---|---|---|\n| 1 | Nonconformity | R3339-4.4-03, R3339-5.1-02, R3339-2-02 | 3339 \u00a74.3, \u00a75.1; 9557 \u00a72 | producer | `timeutil.py:51` (used by `api.py:33`) | `format_utc` puts a literal `Z` on the datetime's own wall time. It never calls `astimezone(timezone.utc)`, so every non-UTC event gets a false instant. Naive input is also accepted silently. Because `start_utc` is the documented sort key (`docs/API.md:26`), events in different zones also sort in the wrong order. | NY `09:30-04:00` \u2192 `2026-03-14T09:30:00Z` (should be `13:30:00Z`). LA `19:00-07:00` \u2192 `2026-09-11T19:00:00Z` (should be `2026-09-12T02:00:00Z`). Berlin `18:00+02:00` \u2192 `18:00:00Z` (should be `16:00:00Z`). | Reject naive values, then `dt.astimezone(timezone.utc).strftime(\"%Y-%m-%dT%H:%M:%SZ\")`, or reuse `format_instant`. |\n| 2 | Nonconformity | R3339-5.6-09, R3339-5.6-19 (and R3339-5.6-10 for naive input) | 3339 \u00a75.6 `time-numoffset` | producer | `timeutil.py:13`, `timeutil.py:56` (used by `api.py:34`) | `RFC3339_FMT` uses `%z`, which prints `\u00b1HHMM` with no colon. Despite its name, the output is outside the grammar. A naive datetime makes `%z` expand to an empty string, so there is no offset at all. | NY `end` \u2192 `2026-03-14T11:00:00-0400`. IST \u2192 `2026-05-04T10:15:00+0530`. Berlin \u2192 `2026-04-02T20:30:00+0200`. | Use `dt.isoformat(timespec=\"seconds\")` or `%:z` (Python \u2265 3.12), and reject naive values. |\n| 3 | Nonconformity | R3339-5.6-07 | 3339 \u00a75.6 `partial-time` (seconds mandatory) | producer | `timeutil.py:14`, `timeutil.py:61` (used by `api.py:35`) | `REMINDER_FMT` drops seconds. `dt.isoformat()[-6:]` also assumes the last 6 characters are always `\u00b1HH:MM`. That is false for a naive value (you get the time instead) and for sub-minute offsets (you get a fragment). The test `tests/test_timeutil.py:30-32` locks the invalid output in. | NY \u2192 `2026-03-14T09:15-04:00`. IST \u2192 `2026-05-04T09:55+05:30`. Naive `09:15:42` \u2192 `2026-03-14T09:15:15:42`. | `dt.replace(second=0, microsecond=0).isoformat()` \u2192 `2026-03-14T09:15:00-04:00`, and update the test. |\n| 4 | Nonconformity | R3339-4.2-02, R3339-4.4-03 | 3339 \u00a74.2, \u00a75.6 (offset meaning) | producer | `api.py:35` | `event.start - event.reminder` subtracts in wall-clock time within a `ZoneInfo` zone. Near a DST change this gives a nonexistent or ambiguous local time, and Python then attaches the offset from the wrong side of the transition. The reminder instant is wrong. | NY 2026-03-08, start `03:10-04:00` (07:10Z), minus 15 min \u2192 wall `02:55`, fold 0 \u2192 `\u2026T02:55-05:00` = 07:55Z. That is 45 min *after* the start instead of 15 min before (should be 06:55Z = `01:55-05:00`). | Subtract in UTC: `(event.start.astimezone(timezone.utc) - event.reminder).astimezone(event.start.tzinfo)`. |\n| 5 | Nonconformity | R3339-5.6-10, R3339-3-05, R9557-2-01 | 3339 \u00a75.6, \u00a73 | producer | `api.py:25`, `api.py:36` | `created_at` defaults to `datetime.now()`, which is naive local time. `.isoformat()` on it prints no offset, and the schema (`event.schema.json:38-41`) and docs (`docs/API.md:29`) both claim RFC 3339 \"with offset\". | `created_at` \u2192 `2026-09-26T10:15:00` (no `time-offset`; see `python.md` row 220). | `default_factory=lambda: datetime.now(timezone.utc)` and serialise with `timeutil.format_instant`. |\n| 6 | Nonconformity | R9557-4.1-03, R9557-1.2-01 | 9557 \u00a74.1 `time-zone-name`; \u00a71.2 | producer | `timeutil.py:69-70`, `timeutil.py:77` (used by `api.py:32`) | `zone_label` falls back to `str(tz)` for any tzinfo without `.key`. For `datetime.timezone` this gives `UTC+05:30`, and `:` is not a `time-zone-char`. Correcting it to `[+05:30]` would still be an offset time zone made up from the offset, which \u00a71.2 forbids. Other tzinfo types give labels like `tzlocal()`, or abbreviations such as `EDT` that are grammatical but are not IANA names. The same problem hits partner records whose offset has no zone: `api.py:50` falls back to `start.instant.tzinfo`. | evt_0002 \u2192 `2026-05-04T10:00:00+05:30[UTC+05:30]`. A `Z` partner record \u2192 `\u2026+00:00[UTC]`. | Add the suffix only when `getattr(tz, \"key\", None)` is an IANA name. Otherwise emit the plain RFC 3339 `date-time`. |\n| 7 | Nonconformity | R9557-4.1-08, R9557-5-01, R9557-3.1-01 | 9557 \u00a74.1 `suffix-value`, \u00a75 | producer | `timeutil.py:79` (data from `timeutil.py:27`, `api.py:56`) | `format_ixdtf` puts `calendar` into `[u-ca=\u2026]` without validating it. Ingest accepts any value matching `[^\\[\\]]+`, so partner input passes straight through to the output. | Feed `start` `\u2026[u-ca=hebrew lunar]` \u2192 emitted `\u2026[America/Los_Angeles][u-ca=hebrew lunar]` (a space is outside `1*alphanum`). | Validate the value against `^[a-z0-9]{3,8}(-[a-z0-9]{3,8})*$` (a Unicode calendar identifier) before emitting it, or drop it. |\n| 8 | Nonconformity | R3339-4.2-03, R3339-5.6-09 | 3339 \u00a74.2, \u00a75.6 | producer | `timeutil.py:77` (`isoformat`), `timeutil.py:56` (`%z`), `timeutil.py:61` (slice) | Offsets that are not whole minutes (LMT and other historical `ZoneInfo` offsets) come out with seconds, which is outside `time-numoffset`. `format_ixdtf` and `format_offset` pass them through, and `format_reminder` cuts them into fragments. | Paris 1850: `isoformat` \u2192 `1850-01-01T00:00:00+00:09:21` (`python.md` row 226). `%z` \u2192 `+000921`. The reminder slice gives `:09:21`. | Convert to UTC (or round the offset *and* shift the wall time) before formatting, or reject such values. |\n| 9 | Nonconformity | R3339-5.6-01 (production choice), erratum 5624 | 3339 \u00a75.6 `full-date` vs `date-time` | schema / producer | `api.py:40` \u2194 `schema/event.schema.json:47-51` | `all_day_date` emits a valid `full-date`, but the schema declares `\"format\": \"date-time\"`, so the field is claimed as a production it does not match. | `date(2026,6,19).isoformat()` \u2192 `2026-06-19`, which fails `date-time`. | Change the schema to `\"format\": \"date\"`, since the value is correct. |\n| 10 | Deviation | \u2014 (false contract claim) | 3339 \u00a75.6 | docs | `docs/API.md:13-15` | The docs claim that CI validation \"guarantees that all timestamp fields are well-formed\". The repo has no CI config or validator setup, 2020-12 `format` is annotation-only by default, and findings #2, #3, #5, #6 and #9 are invalid in the shipped sample response. | See the rows above. | Remove the claim, or add a real check: a format-assertion validator plus `rfcdt.py check` over `api.py` output. |\n| 11 | Deviation | R3339-5.2-02 | 3339 \u00a75.6 (profile) | docs | `docs/API.md:19-21` | The contract says timestamps are \"ISO 8601\" and tells clients to accept the basic format `20260314T133000Z`. That is not RFC 3339, and the field table (lines 25-32) and schema contradict it. | `20260314T133000Z` fails the `date-time` ABNF. | State \"RFC 3339 `date-time` (RFC 9557 for `start`)\" and drop the basic-format example. |\n| 12 | Advisory | R9557-2-01, R9557-2-02, R3339-4.3-01 | 9557 \u00a72 | producer | `timeutil.py:66` (used by `api.py:42`) | `source_seen_at` comes from a bare POSIX time, and the docs say the local offset is unknown (`docs/API.md:32`). `isoformat()` on a `timezone.utc` value still emits `+00:00`, which asserts that UTC is the preferred reference. RFC 9557 \u00a72 recommends `Z`. | `1774540800.0` \u2192 `2026-03-26T16:00:00+00:00`. `1788000000.0` \u2192 `2026-08-29T10:40:00+00:00`. | `datetime.fromtimestamp(s, timezone.utc).strftime(\"%Y-%m-%dT%H:%M:%SZ\")`, or reuse `format_instant`. |\n\n## Review notes\n- **`received_at` complies** (`timeutil.py:41-46`, `api.py:37`). It rejects naive values, converts to UTC, uses exactly 3 fraction digits (truncated) and a `Z`. That matches the stated profile (`docs/API.md:36-37`). Using `Z` for server receipt time fits RFC 9557 \u00a72.\n- **`start` complies for IANA-keyed zones.** Examples are `\u2026-04:00[America/New_York]`, `\u2026+02:00[Europe/Berlin]` and `\u2026-07:00[America/Los_Angeles][u-ca=hebrew]`. It is in the grammar and the offset matches the zone. RFC 9557 \u00a73 does not require producers to keep criticality, but ingest drops the partner's `!` flag (`timeutil.py:119`, not stored in `Stamp`), so re-emitted suffixes are always elective.\n- **Schema `start` pattern** (`event.schema.json:21`): `\\[.+\\]$` accepts `[UTC+05:30]` and `[u-ca=hebrew lunar]`, so it would not catch #6 or #7 even if it were enforced. The other fields depend on `format`, which only annotates unless assertion is turned on.\n- **`%Y` for years below 1000:** padding depends on the platform's `strftime`. The probe in `python.md` row 233 printed `0999` on its platform. Tempo's sample data is well above 1000, so I did not grade this.\n- **Case:** every producer emits upper-case `T` and `Z`, as the docs require (`docs/API.md:43`).\n\n## Not run / not applicable\n- I did not run `rfcdt.py scan`, `rfcdt.py check`, `run_vectors.py` or `selfcheck`, because there is no shell. The outputs above are derived by hand from the code and the probed library behaviour in `references/ecosystem/python.md`, not captured from a run.\n- I did not grade the consumer role (`timeutil.parse_timestamp`/`parse_ixdtf`, `client/parse.mjs`) because it was out of scope. Two things are worth a follow-up: `parse_timestamp` reads a missing offset as host-local time (`timeutil.py:107-108`), and `api.py:50` calls `ZoneInfo(start.zone)` on an offset zone such as `[+08:45]`, which raises.\n\n## Assumptions\n- CPython \u2265 3.9 with `zoneinfo` and a current tzdata. The first 2026 DST change in New York is on 2026-03-08, so on 2026-03-14 the offset is \u221204:00, which agrees with `tests/test_timeutil.py:27`.\n- I treat every field in the schema as claimed RFC 3339 `date-time` (IXDTF for `start`), as `schema/event.schema.json` and `docs/API.md:25-32` state.\n\n## Reproduction\nOnce a shell is available, confirm with:\n```bash\nS=~/.claude/skills/rfc3339-ixdtf/scripts\npython3 $S/rfcdt.py selfcheck\npython3 $S/rfcdt.py scan timeutil.py api.py --json\npython3 api.py > out.json\n# validate every timestamp field in out.json:\npython3 $S/rfcdt.py check '2026-03-14T11:00:00-0400' --json                      # expect invalid (#2)\npython3 $S/rfcdt.py check '2026-05-04T10:00:00+05:30[UTC+05:30]' --profile ixdtf --json  # expect invalid (#6)\npython3 -m unittest tests/test_timeutil.py   # test_reminder_is_minute_precision should fail once #3 is fixed\n```"
+              },
+              {
+                "name": "recall-P1",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:timeutil\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:52|51|50)(?!\\d)|api\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:34|33|32)(?!\\d)))(?=[^\\n]*(?:format_utc|start_utc|wall|astimezone|wrong instant|mislabel|13:30|local))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-P2",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:timeutil\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:57|56|55|14|13|12)(?!\\d)|api\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:35|34|33)(?!\\d)))(?=[^\\n]*(?:%z|colon|-0400|numoffset|basic|format_offset))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-P3",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:api\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:37|36|35|26|25|24)(?!\\d)))(?=[^\\n]*(?:naive|created_at|datetime\\.now|no offset|missing offset|without (an )?offset|4\\.4))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-P4",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:timeutil\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:62|61|60|15|14|13)(?!\\d)|api\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:36|35|34)(?!\\d)))(?=[^\\n]*(?:second|%S|09:15|REMINDER|partial-time|reminder))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-P5",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:timeutil\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:67|66|65)(?!\\d)|api\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:43|42|41)(?!\\d)))(?=[^\\n]*(?:\\+00:00|format_epoch|unknown|epoch|source_seen))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-P6",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:timeutil\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:78|77|76|71|70|69)(?!\\d)|api\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:33|32|31)(?!\\d)))(?=[^\\n]*(?:zone_label|UTC\\+05:30|str\\(tz\\)|time-zone-name|bracket|suffix|zone))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-P1",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:timeutil\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:52|51|50)(?!\\d)|api\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:34|33|32)(?!\\d)))(?=[^\\n]*(?:format_utc|start_utc|wall|astimezone|wrong instant|mislabel|13:30|local))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies))\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-P2",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:timeutil\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:57|56|55|14|13|12)(?!\\d)|api\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:35|34|33)(?!\\d)))(?=[^\\n]*(?:%z|colon|-0400|numoffset|basic|format_offset))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies))\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-P3",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:api\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:37|36|35|26|25|24)(?!\\d)))(?=[^\\n]*(?:naive|created_at|datetime\\.now|no offset|missing offset|without (an )?offset|4\\.4))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies))\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-P4",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:timeutil\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:62|61|60|15|14|13)(?!\\d)|api\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:36|35|34)(?!\\d)))(?=[^\\n]*(?:second|%S|09:15|REMINDER|partial-time|reminder))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies))\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-P5",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:timeutil\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:67|66|65)(?!\\d)|api\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:43|42|41)(?!\\d)))(?=[^\\n]*(?:\\+00:00|format_epoch|unknown|epoch|source_seen))(?=[^\\n]*(?:\\b(?:Deviations?|Advisor(?:y|ies))\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-P6",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:timeutil\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:78|77|76|71|70|69)(?!\\d)|api\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:33|32|31)(?!\\d)))(?=[^\\n]*(?:zone_label|UTC\\+05:30|str\\(tz\\)|time-zone-name|bracket|suffix|zone))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies))\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "skill-used",
+                "passed": true,
+                "weight": 1,
+                "explanation": "Skill called 1x (expected 1..\u221e)",
+                "withOnly": false,
+                "scored": true
+              }
+            ]
+          }
+        ]
+      },
+      "aggregates": {
+        "score": 1,
+        "passRate": 1
+      }
+    },
+    {
+      "name": "rfc-refusal-duration",
+      "dir": "cases/rfc-refusal-duration",
+      "source": "mixed",
+      "promptMarkdown": "Parse ISO 8601 durations like P3DT4H into a Python timedelta. What's the cleanest way?",
+      "runsPerCase": 1,
+      "timeoutSeconds": 300,
+      "maxTurns": 4,
+      "graders": [
+        {
+          "name": "skill-not-used",
+          "type": "tool_used",
+          "weight": 1,
+          "config": {
+            "tool": "Skill",
+            "input_match": "\"skill\"\\s*:\\s*\"(?:[\\w-]+:)?rfc3339\\-ixdtf\"",
+            "min": 0,
+            "max": 0
+          }
+        }
+      ],
+      "arms": {
+        "with": [
+          {
+            "score": 1,
+            "passed": true,
+            "turns": 1,
+            "costUsd": 0.06404860000000001,
+            "judgeCostUsd": 0,
+            "durationSeconds": 12,
+            "startedAt": "2026-09-26T07:16:31.687Z",
+            "error": null,
+            "tracePath": "<run-sandbox>/out/trace.jsonl",
+            "skippedPaidGraders": false,
+            "graders": [
+              {
+                "name": "skill-not-used",
+                "passed": true,
+                "weight": 1,
+                "explanation": "Skill called 0x (expected 0..0)",
+                "withOnly": false,
+                "scored": true
+              }
+            ]
+          }
+        ]
+      },
+      "aggregates": {
+        "score": 1,
+        "passRate": 1
+      }
+    },
+    {
+      "name": "rfc-refusal-httpdate",
+      "dir": "cases/rfc-refusal-httpdate",
+      "source": "mixed",
+      "promptMarkdown": "Format an HTTP-date header value for Last-Modified in Go. Which layout constant should I use?",
+      "runsPerCase": 1,
+      "timeoutSeconds": 300,
+      "maxTurns": 4,
+      "graders": [
+        {
+          "name": "skill-not-used",
+          "type": "tool_used",
+          "weight": 1,
+          "config": {
+            "tool": "Skill",
+            "input_match": "\"skill\"\\s*:\\s*\"(?:[\\w-]+:)?rfc3339\\-ixdtf\"",
+            "min": 0,
+            "max": 0
+          }
+        }
+      ],
+      "arms": {
+        "with": [
+          {
+            "score": 1,
+            "passed": true,
+            "turns": 1,
+            "costUsd": 0.054564600000000005,
+            "judgeCostUsd": 0,
+            "durationSeconds": 7,
+            "startedAt": "2026-09-26T07:16:43.729Z",
+            "error": null,
+            "tracePath": "<run-sandbox>/out/trace.jsonl",
+            "skippedPaidGraders": false,
+            "graders": [
+              {
+                "name": "skill-not-used",
+                "passed": true,
+                "weight": 1,
+                "explanation": "Skill called 0x (expected 0..0)",
+                "withOnly": false,
+                "scored": true
+              }
+            ]
+          }
+        ]
+      },
+      "aggregates": {
+        "score": 1,
+        "passRate": 1
+      }
+    },
+    {
+      "name": "rfc-schema",
+      "dir": "cases/rfc-schema",
+      "source": "mixed",
+      "promptMarkdown": "This is Tempo, an event scheduling service (api.py, timeutil.py, client/, schema/, docs/). Audit the timestamp contract - schema/event.schema.json and docs/API.md - for adherence to RFC 3339 and RFC 9557. Cite each finding as file:line. No shell is available in this environment, so review the files statically; do not delegate to subagents and do not ask me questions. Give the complete audit report as your final reply.",
+      "runsPerCase": 1,
+      "timeoutSeconds": 1500,
+      "maxTurns": 40,
+      "graders": [
+        {
+          "name": "no-peek",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "trace",
+            "pattern": "answer-key\\.md|keyspec\\.json|/graders/",
+            "flags": "",
+            "match": "not_contains"
+          }
+        },
+        {
+          "name": "nodecoy-D1",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:timeutil\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:47|46|45)(?!\\d)|format_instant))(?=[^\\n]*(?:millisecond|three|3 (fractional )?digits|fraction|secfrac|precision))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Deviations?|Advisor(?:y|ies))\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "not_contains"
+          }
+        },
+        {
+          "name": "nodecoy-judge",
+          "type": "llm",
+          "weight": 1,
+          "graderMarkdown": "The reply is an audit report. Each item below is a specific property of the\naudited project that is known to be COMPLIANT (a decoy).\n\n- D1: format_instant (timeutil.py:46) emitting exactly three fractional digits with Z for received_at (api.py:37), documented in docs/API.md:35-39. time-secfrac allows any precision, the profile is documented, and Z suits a receipt instant with no local-time meaning (RFC 9557 2.2). Calling the fixed millisecond precision or the Z a violation is a false positive.\n\nJudge ONLY whether the reply reports that specific property as a defect.\n- Findings about OTHER problems that happen to mention the same heading, line\n  or file do not count (for example a real sorting or parsing defect whose\n  evidence cites the decoy's line, or an editorial note about something else\n  on that heading).\n- Explicitly calling the property compliant, acceptable or \"no finding\" is a\n  PASS for that item.\n- A findings-table row (Nonconformity, Deviation or Advisory) whose subject IS\n  the decoy property, or a recommendation to change the decoy property itself,\n  counts as reporting it.\n\nAnswer PASS if no decoy property is reported as a defect; FAIL otherwise, and\nname the decoy.",
+          "config": {
+            "criteria": "The reply is an audit report. Each item below is a specific property of the\naudited project that is known to be COMPLIANT (a decoy).\n\n- D1: format_instant (timeutil.py:46) emitting exactly three fractional digits with Z for received_at (api.py:37), documented in docs/API.md:35-39. time-secfrac allows any precision, the profile is documented, and Z suits a receipt instant with no local-time meaning (RFC 9557 2.2). Calling the fixed millisecond precision or the Z a violation is a false positive.\n\nJudge ONLY whether the reply reports that specific property as a defect.\n- Findings about OTHER problems that happen to mention the same heading, line\n  or file do not count (for example a real sorting or parsing defect whose\n  evidence cites the decoy's line, or an editorial note about something else\n  on that heading).\n- Explicitly calling the property compliant, acceptable or \"no finding\" is a\n  PASS for that item.\n- A findings-table row (Nonconformity, Deviation or Advisory) whose subject IS\n  the decoy property, or a recommendation to change the decoy property itself,\n  counts as reporting it.\n\nAnswer PASS if no decoy property is reported as a defect; FAIL otherwise, and\nname the decoy.",
+            "focus": "last_message"
+          }
+        },
+        {
+          "name": "recall-S1",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:event\\.schema\\.json[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:56|55|54|46|45|44|41|40|39|37|36|35|32|31|30|27|26|25|3|2|1)(?!\\d)|API\\.md[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:16|15|14|13|12|11)(?!\\d)))(?=[^\\n]*(?:annotation|assert|vocab|guarantee|CI|validator|2020-12))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-S2",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:API\\.md[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:22|21|20|19|18)(?!\\d)))(?=[^\\n]*(?:ISO 8601|basic|20260314T133000Z|compact|profile))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-S3",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:event\\.schema\\.json[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:51|50|49|48|47|46)(?!\\d)|api\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:41|40|39)(?!\\d)))(?=[^\\n]*(?:all_day|full-date|\"date\"))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-S1",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:event\\.schema\\.json[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:56|55|54|46|45|44|41|40|39|37|36|35|32|31|30|27|26|25|3|2|1)(?!\\d)|API\\.md[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:16|15|14|13|12|11)(?!\\d)))(?=[^\\n]*(?:annotation|assert|vocab|guarantee|CI|validator|2020-12))(?=[^\\n]*(?:\\b(?:Deviations?|Nonconformit(?:y|ies))\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-S2",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:API\\.md[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:22|21|20|19|18)(?!\\d)))(?=[^\\n]*(?:ISO 8601|basic|20260314T133000Z|compact|profile))(?=[^\\n]*(?:\\b(?:Deviations?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-S3",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:event\\.schema\\.json[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:51|50|49|48|47|46)(?!\\d)|api\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:41|40|39)(?!\\d)))(?=[^\\n]*(?:all_day|full-date|\"date\"))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "skill-used",
+          "type": "tool_used",
+          "weight": 1,
+          "config": {
+            "tool": "Skill",
+            "input_match": "\"skill\"\\s*:\\s*\"(?:[\\w-]+:)?rfc3339\\-ixdtf\"",
+            "min": 1
+          }
+        }
+      ],
+      "arms": {
+        "with": [
+          {
+            "score": 1,
+            "passed": true,
+            "turns": 14,
+            "costUsd": 0.7920606,
+            "judgeCostUsd": 0.035027999999999976,
+            "durationSeconds": 145,
+            "startedAt": "2026-09-26T07:16:50.913Z",
+            "error": null,
+            "tracePath": "<run-sandbox>/out/trace.jsonl",
+            "skippedPaidGraders": false,
+            "graders": [
+              {
+                "name": "no-peek",
+                "passed": true,
+                "weight": 1,
+                "explanation": "pattern absent as expected",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "nodecoy-D1",
+                "passed": true,
+                "weight": 1,
+                "explanation": "pattern absent as expected",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "nodecoy-judge",
+                "passed": true,
+                "weight": 1,
+                "explanation": "judge votes: PASS PASS PASS",
+                "withOnly": false,
+                "scored": true,
+                "judgeVotes": [
+                  true,
+                  true,
+                  true
+                ],
+                "evidence": "# RFC 3339 / RFC 9557 adherence: Tempo timestamp contract\n\n**Scope:** the schema (`schema/event.schema.json`) and the contract docs (`docs/API.md`). The contract claims two profiles: `start` is IXDTF (RFC 9557) and the other fields are RFC 3339 `date-time`. Options it declares:\n- Generators emit upper-case `T`/`Z` and parsers accept `t`/`z` (API.md:43-44).\n- `received_at` has exactly 3 fraction digits and ends in `Z` (API.md:36-37).\n- Clients accept fractions of any length (API.md:38-39).\n- `start` must carry a zone suffix (schema:19-21).\n- Suffix rules are at API.md:46-54.\n\n**Evidence:** I reviewed everything statically. No shell was available, so I didn't run `rfcdt.py scan`, the vector runner or `selfcheck`. To check the contract's claims, I worked out producer output by hand from `api.py` and `timeutil.py`. I did not execute those outputs; they are marked \"traced\" below.\n\n**Summary:** 5 nonconformities, 2 deviations, 2 advisories, 7 review notes. A further 6 implementation defects are listed after the table but not counted.\n\n## Findings\n\n| # | Severity | Check ID | Ref | Target | Location | Finding | Evidence | Fix |\n|---|---|---|---|---|---|---|---|---|\n| 1 | **Nonconformity** | R3339-5.6-03/04/05/06/07/09/16, R9557-4.1-01/02, R9557-3.2-01 (schema side), R9557-3.3-04 | 3339 \u00a75.6; 9557 \u00a73.1, \u00a74.1 | schema | schema/event.schema.json:21 (claim at :19) | The `start` pattern is the only check on `start` (it has no `format`). It uses `[0-9]{2}` with no range limits, and `\\[.+\\]$` accepts any text in brackets. The suffix grammar is not enforced: it doesn't require the zone first, doesn't limit key characters (lower case only), doesn't validate the `!` flag, and doesn't stop trailing text. It also accepts a string with only a calendar tag and no zone, although API.md:25 says the zone is always there. | These all match the pattern: `2026-13-45T25:61:99+99:99[x]`, `\u2026+05:30[UTC+05:30]` (`:` is not allowed in `time-zone-part`), `\u2026Z[U-CA=hebrew]` (upper-case key), `\u2026Z[_foo=bar]` (experimental key), `\u2026Z[Europe/Paris] junk]`, `\u2026-04:00[u-ca=hebrew]` (no zone), `\u2026Z[!!x]`. | Put a strict RFC 3339 core in the pattern (month `0[1-9]\\|1[0-2]`, hour `[01][0-9]\\|2[0-3]`, \u2026, offset `[+-]([01][0-9]\\|2[0-3]):[0-5][0-9]`). Then use `\\[!?(zone-name\\|[+-]HH:MM)\\](\\[!?[a-z][a-z0-9-]*=[A-Za-z0-9]+(-[A-Za-z0-9]+)*\\])*$`, where the name parts follow \u00a74.1 `time-zone-part`. Add `\"not\":{\"pattern\":\"\\n\"}` because Python and .NET let `$` match before a trailing newline. |\n| 2 | **Nonconformity** | R9557-1.2-01, R9557-4.1-02 | 9557 \u00a71.2 (MUST NOT), \u00a74.1 | schema + producer | schema/event.schema.json:19-21, docs/API.md:25; produced at timeutil.py:70,77 | The contract requires a zone suffix on every `start`. Some events have no IANA zone: fixed-offset events, and partner records with no zone (api.py:50). For those, `format_ixdtf` builds a suffix from `str(tzinfo)`. The result is invalid, and it is also the offset-copied-into-a-suffix pattern that \u00a71.2 forbids. Finding #1 means the schema lets it through. | evt_0002 (traced): `2026-05-04T10:00:00+05:30[UTC+05:30]` | Make the suffix optional for events with no IANA zone (\u00a73.3: suffixes are optional). Emit a suffix only when `tzinfo.key` exists. Never write `[+05:30]` or `[UTC+05:30]`. |\n| 3 | **Nonconformity** | R3339-5.6-18 | 3339 \u00a75.6 (`full-date`, erratum 5624); JSON Schema `date` | schema | schema/event.schema.json:47-51; docs/API.md:31 | `all_day_date` is described as a \"calendar date\" but declared `format: date-time`. A plain date can never be a valid `date-time`, so every correct value fails once format checks are on. | `all_day_date` = `2026-06-19` (api.py:40, traced) fails `date-time`. | Change it to `\"format\": \"date\"` (`full-date`). |\n| 4 | **Nonconformity** | R9557-3.2-01 | 9557 \u00a73.2 (MUST reject) | docs (consumer contract) | docs/API.md:49 | The docs say unknown elective tags are ignored. They make no exception for experimental keys (starting with `_`). \u00a73.2 says those keys MUST be rejected, with or without `!`, unless the consumer is configured for the experiment. Clients that follow the docs will accept `[_foo=bar]`. | `1996-12-19T16:39:57-08:00[_foo=bar]`: the docs say ignore it, the RFC says reject it. | Add: \"Tags whose key starts with `_` are rejected unless the client is configured for that experiment.\" |\n| 5 | **Nonconformity** | R9557-3.3-06 (and -05) | 9557 \u00a73.3 (MUST treat as erroneous) | docs (consumer contract) | docs/API.md:52 | \"The first occurrence is used\" is stated for every repeated key. \u00a73.3 allows first-wins only when all copies are elective. If any copy of a conflicting key is critical, the string is erroneous in either order. timeutil.py:135 (`setdefault`) does what the docs say. | `2022-07-08T00:14:07Z[u-ca=chinese][!u-ca=japanese]`: the docs give chinese, the RFC says erroneous. | Change it to: \"If all copies are elective, the first is used. If any copy is critical and the values differ, the timestamp is invalid.\" |\n| 6 | **Deviation** | R3339-5.6-01, R3339-5.6-19, R3339-5.6-16 | 3339 \u00a75.6, App. A | docs | docs/API.md:19-21 | The docs call every timestamp \"ISO 8601\" and tell clients to accept \"any ISO 8601 representation\". The example given, `20260314T133000Z`, is ISO 8601 basic format, which is outside the RFC 3339 grammar. That conflicts with the table below it (API.md:25-30) and with `format: date-time`. It also pushes clients to be more lenient than the RFC. | `20260314T133000Z` fails RFC 3339 `date-time`. | Say \"RFC 3339 \u00a75.6 `date-time` (and RFC 9557 IXDTF for `start`)\". Remove the basic-format example and the \"any ISO 8601\" wording. |\n| 7 | **Deviation** | (contract claim, rule 1) | 3339 \u00a75.6 | docs + schema | docs/API.md:13-15; schema/event.schema.json:2 | The docs say CI validation \"guarantees that all timestamp fields are well-formed\". That is false for two reasons. (a) Under draft 2020-12, `format` is only an annotation unless format assertion is turned on, and the repo has no CI config or validator setup. (b) Traced output breaks the schema's own `date-time` in several fields. | Traced sample output: `end` = `2026-03-14T11:00:00-0400` (no colon; timeutil.py:13,56), `reminder_at` = `2026-03-14T09:15-04:00` (no seconds; timeutil.py:14,61, locked in by tests/test_timeutil.py:32), `created_at` = `2026-09-26T\u2026` with no offset (naive `datetime.now`, api.py:25,36), and `all_day_date` = `2026-06-19` (#3). | Turn format assertion on and use a real checker (e.g. `jsonschema[format]` with `FORMAT_CHECKER`), add strict `pattern`s, and add the CI step. Until then, remove the guarantee. |\n| 8 | Advisory | R3339-5.1-01/02 | 3339 \u00a75.1 | schema + docs | docs/API.md:26, docs/API.md:30; schema/event.schema.json:23-26, :42-45 | `start_utc` is \"used for sorting\", but the schema accepts any offset and any fraction length. Sorting the strings gives the correct order only when every value has the same offset and precision. The UTC-only rule (and for `received_at`, milliseconds plus `Z`) appears only in prose, even though API.md:13 calls the schema \"the source of truth\". | `2026-03-14T09:30:00-04:00` and `2026-03-14T13:30:00.5Z` both pass as `start_utc` and sort in the wrong order. | Pin the profiles with patterns: `start_utc` `\u2026:[0-5][0-9]Z$`, and `received_at` `\u2026\\.[0-9]{3}Z$`. |\n| 9 | Advisory | R9557-2-01/02 | 9557 \u00a72 | docs + schema | docs/API.md:32; schema/event.schema.json:52-56 | The docs say the local offset of `source_seen_at` is unknown. Under RFC 9557 that should be written `Z`, but the contract doesn't require it. The producer writes `+00:00`, which claims UTC is the preferred reference. | timeutil.py:66: `fromtimestamp(\u2026, tz=utc).isoformat()` gives `\u2026+00:00`. | Specify `Z` in the docs and in a schema pattern, and emit it with `strftime(\"%Y-%m-%dT%H:%M:%SZ\")` on the UTC value. |\n\n### Where the code breaks the contract (evidence only, not counted)\nThese fall outside the scope you gave me (schema and docs), but they show where rows of the contract are broken:\n- **Wrong time in `start_utc`.** timeutil.py:51 adds a literal `Z` to local wall time without converting to UTC. evt_0001 gives `2026-03-14T09:30:00Z` where it should be `13:30:00Z`. That breaks API.md:26 (\"the same instant as `start`\"). The string is well-formed, so no schema can catch it. This is the most serious defect in the service.\n- **Offsets without a colon.** timeutil.py:13 and :56 use `%z`, which writes `-0400`.\n- **Seconds dropped.** timeutil.py:61 leaves the seconds out of `reminder_at`.\n- **No offset on `created_at`.** api.py:25 uses naive `datetime.now`, so `created_at` has no offset.\n- **Ingest assumes host time.** On the ingest side (API.md:58-59), timeutil.py:25 makes the offset optional and timeutil.py:108 then assumes host-local time. `2026-04-02T18:00:00[Europe/Berlin]` is accepted.\n- **Unknown tags rejected.** timeutil.py:133-134 rejects every unknown tag, which contradicts API.md:49. This is an Advisory under rule 4.\n\n## Review notes\n- **Case, schema:21 vs API.md:43-44.** The `start` pattern accepts only upper-case `T`/`Z`. \u00a75.6 NOTE lets a producer profile restrict case, so this is fine for checking server output. But clients that reuse the schema to check input would be too strict compared with API.md:44. Say which use the schema is for.\n- **Required suffix, schema:21.** RFC 9557 \u00a73.3 lets an application require suffix tags, so requiring one is a valid profile choice in itself. Finding #2 is only about how the requirement is met.\n- **`[Area/City]`, API.md:25.** This wording is narrower than the RFC 9557 grammar and the tz database. It leaves out `UTC`, `Etc/GMT+5`, three-part names like `America/Argentina/Buenos_Aires`, and offset zones. I read it as descriptive, not as a restriction.\n- **`Z` in `start`, API.md:25 vs schema:21.** The docs say \"numeric offset\" but the pattern allows `Z`. `Z[zone]` is valid and means the local offset is unknown (9557 \u00a73.4 Fig. 2). Pick one.\n- **API.md:50-54.** It says unprocessable critical *tags* are errors, but not that an unknown critical *zone name* is also an error (9557 \u00a73.3/\u00a74.1). The code handles that case (timeutil.py:141-142). The rule \"with `Z` there is no disagreement\" should also cover `-00:00` (9557 \u00a72); timeutil.py:145 already does.\n- **API.md:48.** \"Zone suffix comes first\" is correct (\u00a74.1: `suffix = [time-zone] *suffix-tag`).\n- **Not stated anywhere:** the leap-second policy (whether `:60` is accepted and on which dates), and the fraction precision for fields other than `received_at`. RFC 3339 allows these to vary, so this isn't a defect, but clients need to know.\n\n## Not run / not applicable\n- `rfcdt.py scan`, `run_vectors.py`, `rfcdt.py check` and `selfcheck` were not run because no shell was available. So there are no vector pass rates and no tool-verified producer samples. All producer strings above are traced by hand from the source.\n- I did not audit the client (`client/parse.mjs`) because it was out of scope.\n- I found no CI or validator configuration in the repo (the only files are `api.py`, `timeutil.py`, `tests/`, `client/`, `schema/` and `docs/`), so I had no configured validator to test against.\n\n## Assumptions\n- The schema is checked with a draft 2020-12 validator and default settings (format is annotation only), since the repo sets up nothing else.\n- Patterns follow ECMA-262 semantics, as JSON Schema specifies. The trailing-newline problem only applies on Python and .NET validators.\n- tz data: New York on 2026-03-14 is UTC\u221204:00 (DST starts 2026-03-08).\n\n## Reproduction\nOnce a shell is available (S=`~/.claude/skills/rfc3339-ixdtf/scripts`):\n```bash\npython3 api.py > /tmp/sample.json\npython3 $S/rfcdt.py check '2026-03-14T11:00:00-0400' --json             # end: expect invalid\npython3 $S/rfcdt.py check '2026-05-04T10:00:00+05:30[UTC+05:30]' --profile ixdtf --json  # start: expect invalid suffix\npython3 $S/rfcdt.py scan schema docs timeutil.py api.py --json\npython3 $S/rfcdt.py selfcheck\n```\nTo test the `start` pattern, write an adapter that applies the pattern from schema:21 with ECMA-262 `u`-flag semantics. Run it with `run_vectors.py --target-kind ixdtf --target-options fixed --target-has-tzdata no`. I expect a large TOO LENIENT bucket, which would confirm #1."
+              },
+              {
+                "name": "recall-S1",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:event\\.schema\\.json[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:56|55|54|46|45|44|41|40|39|37|36|35|32|31|30|27|26|25|3|2|1)(?!\\d)|API\\.md[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:16|15|14|13|12|11)(?!\\d)))(?=[^\\n]*(?:annotation|assert|vocab|guarantee|CI|validator|2020-12))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-S2",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:API\\.md[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:22|21|20|19|18)(?!\\d)))(?=[^\\n]*(?:ISO 8601|basic|20260314T133000Z|compact|profile))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-S3",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:event\\.schema\\.json[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:51|50|49|48|47|46)(?!\\d)|api\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:41|40|39)(?!\\d)))(?=[^\\n]*(?:all_day|full-date|\"date\"))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-S1",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:event\\.schema\\.json[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:56|55|54|46|45|44|41|40|39|37|36|35|32|31|30|27|26|25|3|2|1)(?!\\d)|API\\.md[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:16|15|14|13|12|11)(?!\\d)))(?=[^\\n]*(?:annotation|assert|vocab|guarantee|CI|validator|2020-12))(?=[^\\n]*(?:\\b(?:Deviations?|Nonconformit(?:y|ies))\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-S2",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:API\\.md[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:22|21|20|19|18)(?!\\d)))(?=[^\\n]*(?:ISO 8601|basic|20260314T133000Z|compact|profile))(?=[^\\n]*(?:\\b(?:Deviations?)\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-S3",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:event\\.schema\\.json[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:51|50|49|48|47|46)(?!\\d)|api\\.py[`'\\\"]?(?:[:#]L?\\s?|,?\\s+(?:lines?|l\\.|L)\\s*)(?:41|40|39)(?!\\d)))(?=[^\\n]*(?:all_day|full-date|\"date\"))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "skill-used",
+                "passed": true,
+                "weight": 1,
+                "explanation": "Skill called 1x (expected 1..\u221e)",
+                "withOnly": false,
+                "scored": true
+              }
+            ]
+          }
+        ]
+      },
+      "aggregates": {
+        "score": 1,
+        "passRate": 1
+      }
+    }
+  ],
+  "aggregates": {
+    "casesTotal": 6,
+    "casesPassed": 6,
+    "overallScore": 1,
+    "overallPassRate": 1
+  }
+}

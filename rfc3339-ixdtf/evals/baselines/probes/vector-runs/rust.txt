@@ -1,0 +1,1069 @@
+Vector runs: rust  (probes/run_vector_probes.py; vectors/vectors.json sha256 4e700dd49a208ee6..., 310 vectors)
+runner flags: --batch --target-options fixed --target-has-tzdata yes --target-kind <kind>; TZ=America/New_York
+
+rust: rustc 1.98.1 (48a229cea 2026-09-01) (Homebrew)
+
+program:key                      kind       pass too-len too-str wrong-v   error interpr    skip   total   pass%
+rust:chrono                      rfc3339     140       7       0       0       0       6     157     310    95.2
+rust:chrono-fromstr              rfc3339     124      23       0       0       0       6     157     310    84.4
+rust:chrono-serde                rfc3339     124      23       0       0       0       6     157     310    84.4
+rust:time                        rfc3339     142       2       0       0       0       9     157     310    98.6
+rust:jiff-timestamp              rfc3339     123      17       4       0       0       9     157     310    85.4
+rust:jiff-timestamp-both         both        196      38       6       0       0      38      32     310    81.7
+rust:jiff-zoned-reject           ixdtf       151       6       6       0       0      20     127     310    92.6
+rust:jiff-zoned-always-offset    ixdtf       142       8       5       0       0      28     127     310    91.6
+rust:jiff-zoned-always-timezone  ixdtf       142       8       5       0       0      28     127     310    91.6
+rust:jiff-zoned-prefer-offset    ixdtf       142       8       5       0       0      28     127     310    91.6
+
+==============================================================================
+rust:chrono  (--target-kind rfc3339)
+==============================================================================
+Conformance report -- target: <build>/rust-target/release/adapter adapter chrono
+  runner 0.4.0 | vectors vectors/vectors.json sha256:4e700dd49a20 (310) | python 3.13.9 (darwin) | host TZ America/New_York (EST/EDT) | tzdata 2026c | tz-matrix - | mode stdin, batch yes, jobs 1 | 2026-09-26T08:01:39Z | 0.01s
+section                             pass  lenient  strict  wrong  tzdep  reason  error  interp  skip  total
+RFC3339 App. A                         7        0       0      0      0       0      0       0     0      7
+RFC3339 App. D                         0        0       0      0      0       0      0       0    12     12
+RFC3339 errata                         1        0       0      0      0       0      0       0     7      8
+RFC3339 §1                             4        0       0      0      0       0      0       0     0      4
+RFC3339 §4.3 / RFC9557 §2              3        0       0      0      0       0      0       0     0      3
+RFC3339 §5.4                           3        0       0      0      0       0      0       0     0      3
+RFC3339 §5.6                          80        2       0      0      0       0      0       0     3     85
+RFC3339 §5.7                          37        5       0      0      0       0      0       6     7     55
+RFC3339 §5.8                           5        0       0      0      0       0      0       0     0      5
+RFC9557 §1.2                           0        0       0      0      0       0      0       0     3      3
+RFC9557 §3.2                           0        0       0      0      0       0      0       0     4      4
+RFC9557 §3.3                           0        0       0      0      0       0      0       0    16     16
+RFC9557 §3.4                           0        0       0      0      0       0      0       0    39     39
+RFC9557 §4.1                           0        0       0      0      0       0      0       0    52     52
+RFC9557 §4.2                           0        0       0      0      0       0      0       0     5      5
+RFC9557 §5                             0        0       0      0      0       0      0       0     1      1
+RFC9557 §7.2                           0        0       0      0      0       0      0       0     8      8
+TOTAL                                140        7       0      0      0       0      0       6   157    310
+
+TOO LENIENT (accepted, should reject): 7
+  3339-5.6-015     [RFC3339 §5.6] '2024-01-01 12:00:00Z'
+      expected invalid (R3339-5.6/date-time-separator) -- ABNF requires T/t; the §5.6 NOTE about a space is permissive prose (erratum 5783, Held)
+  3339-5.6-028     [RFC3339 §5.6] '2024-01-01T12:00:00−05:00'
+      expected invalid (R3339-5.6/time-offset) -- U+2212 MINUS SIGN is not '-'
+  3339-5.7-033     [RFC3339 §5.7] '2016-12-31T23:59:60+01:00'
+      expected invalid (R3339-5.7/leap-second-offset) -- local 23:59:60 with +01:00 is 22:59:60Z: §5.7 says the point is shifted by the offset
+  3339-5.7-034     [RFC3339 §5.7] '2016-12-31T23:59:60-05:00'
+      expected invalid (R3339-5.7/leap-second-offset) -- unshifted local 23:59:60 with -05:00
+  3339-5.7-035     [RFC3339 §5.7] '2016-12-30T23:59:60Z'
+      expected invalid (R3339-5.7/leap-second-position) -- not end of month
+  3339-5.7-036     [RFC3339 §5.7] '2016-12-31T23:58:60Z'
+      expected invalid (R3339-5.7/leap-second-position) -- not 23:59
+  3339-5.7-037     [RFC3339 §5.7] '2016-12-31T12:00:60Z'
+      expected invalid (R3339-5.7/leap-second-position) -- midday
+
+INTERPRETATION (RFC permits either verdict, or a leap-second representation; not a failure): 6
+  3339-5.7-039     [RFC3339 §5.7] '2016-06-30T23:59:60Z'
+      target ACCEPTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-040     [RFC3339 §5.7] '2016-03-31T23:59:60Z'
+      target ACCEPTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-042     [RFC3339 §5.7] '2016-01-31T23:59:60Z'
+      target ACCEPTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-045     [RFC3339 §5.7] '1971-12-31T23:59:60Z'
+      target ACCEPTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference; UTC leap seconds began in 1972
+  3339-5.7-047     [RFC3339 §5.7] '2024-12-31T23:59:60Z'
+      target ACCEPTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-055     [RFC3339 §5.7] '2035-06-30T23:59:59Z'
+      target ACCEPTED -- §5.7: 'It is also possible for a leap second to be subtracted, at which times the maximum value of time-second is "58"'. None has ever been subtracted, so 23:59:59 is valid at every past month end; beyond the validity of any leap-second table a validator cannot know whether one will be, and may accept (none announced) or flag the value
+
+140/147 passed (95.2%), 6 interpretation (excluded), 157 skipped
+  skipped: 29 non-default options (--target-options fixed: target has a fixed policy)
+  skipped: 128 not applicable to --target-kind
+  fields: 18 accepted vectors compared, 0 WRONG VALUE; 4 not compared (no 'fields' object, or none of the vector's field names)
+
+==============================================================================
+rust:chrono-fromstr  (--target-kind rfc3339)
+==============================================================================
+Conformance report -- target: <build>/rust-target/release/adapter adapter chrono-fromstr
+  runner 0.4.0 | vectors vectors/vectors.json sha256:4e700dd49a20 (310) | python 3.13.9 (darwin) | host TZ America/New_York (EST/EDT) | tzdata 2026c | tz-matrix - | mode stdin, batch yes, jobs 1 | 2026-09-26T08:01:39Z | 0.01s
+section                             pass  lenient  strict  wrong  tzdep  reason  error  interp  skip  total
+RFC3339 App. A                         6        1       0      0      0       0      0       0     0      7
+RFC3339 App. D                         0        0       0      0      0       0      0       0    12     12
+RFC3339 errata                         1        0       0      0      0       0      0       0     7      8
+RFC3339 §1                             4        0       0      0      0       0      0       0     0      4
+RFC3339 §4.3 / RFC9557 §2              3        0       0      0      0       0      0       0     0      3
+RFC3339 §5.4                           3        0       0      0      0       0      0       0     0      3
+RFC3339 §5.6                          65       17       0      0      0       0      0       0     3     85
+RFC3339 §5.7                          37        5       0      0      0       0      0       6     7     55
+RFC3339 §5.8                           5        0       0      0      0       0      0       0     0      5
+RFC9557 §1.2                           0        0       0      0      0       0      0       0     3      3
+RFC9557 §3.2                           0        0       0      0      0       0      0       0     4      4
+RFC9557 §3.3                           0        0       0      0      0       0      0       0    16     16
+RFC9557 §3.4                           0        0       0      0      0       0      0       0    39     39
+RFC9557 §4.1                           0        0       0      0      0       0      0       0    52     52
+RFC9557 §4.2                           0        0       0      0      0       0      0       0     5      5
+RFC9557 §5                             0        0       0      0      0       0      0       0     1      1
+RFC9557 §7.2                           0        0       0      0      0       0      0       0     8      8
+TOTAL                                124       23       0      0      0       0      0       6   157    310
+
+TOO LENIENT (accepted, should reject): 23
+  3339-5.6-015     [RFC3339 §5.6] '2024-01-01 12:00:00Z'
+      expected invalid (R3339-5.6/date-time-separator) -- ABNF requires T/t; the §5.6 NOTE about a space is permissive prose (erratum 5783, Held)
+  3339-5.6-023     [RFC3339 §5.6] '2024-01-01T12:00:00+0100'
+      expected invalid (R3339-5.6/time-numoffset) -- offset without colon
+  3339-5.6-028     [RFC3339 §5.6] '2024-01-01T12:00:00−05:00'
+      expected invalid (R3339-5.6/time-offset) -- U+2212 MINUS SIGN is not '-'
+  3339-5.6-029     [RFC3339 §5.6] '2024-01-01T12:00:00 Z'
+      expected invalid (R3339-5.6/time-offset) -- space before Z
+  3339-5.6-030     [RFC3339 §5.6] '2024-01-01T12:00:00UTC'
+      expected invalid (R3339-5.6/time-offset) -- alphabetic zone (§4.2)
+  3339-5.6-035     [RFC3339 §5.6] '24-01-01T12:00:00Z'
+      expected invalid (R3339-5.6/date-fullyear) -- 2-digit year (§3 Y2K)
+  3339-5.6-037     [RFC3339 §5.6] '+2024-01-01T12:00:00Z'
+      expected invalid (R3339-5.6/date-fullyear) -- ISO expanded year sign
+  3339-5.6-038     [RFC3339 §5.6] '-0001-01-01T00:00:00Z'
+      expected invalid (R3339-5.6/date-fullyear) -- negative year
+  3339-5.6-039     [RFC3339 §5.6] '2024-1-01T12:00:00Z'
+      expected invalid (R3339-5.6/date-month) -- 1-digit month
+  3339-5.6-040     [RFC3339 §5.6] '2024-01-1T12:00:00Z'
+      expected invalid (R3339-5.6/date-mday) -- 1-digit day
+  3339-5.6-045     [RFC3339 §5.6] '2024-01-01T1:00:00Z'
+      expected invalid (R3339-5.6/time-hour) -- 1-digit hour
+  3339-5.6-048     [RFC3339 §5.6] '2024-01-01T12:0:00Z'
+      expected invalid (R3339-5.6/time-minute) -- 1-digit minute
+  3339-5.6-055     [RFC3339 §5.6] '2024-01-01T12:00:00Z\n'
+      expected invalid (R3339-5.6/trailing-characters) -- trailing newline (regex $ pitfall)
+  3339-5.6-056     [RFC3339 §5.6] '2024-01-01T12:00:00Z '
+      expected invalid (R3339-5.6/trailing-characters) -- trailing space
+  3339-5.6-057     [RFC3339 §5.6] ' 2024-01-01T12:00:00Z'
+      expected invalid (R3339-5.6/date-fullyear) -- leading space
+  3339-5.7-033     [RFC3339 §5.7] '2016-12-31T23:59:60+01:00'
+      expected invalid (R3339-5.7/leap-second-offset) -- local 23:59:60 with +01:00 is 22:59:60Z: §5.7 says the point is shifted by the offset
+  3339-5.7-034     [RFC3339 §5.7] '2016-12-31T23:59:60-05:00'
+      expected invalid (R3339-5.7/leap-second-offset) -- unshifted local 23:59:60 with -05:00
+  3339-5.7-035     [RFC3339 §5.7] '2016-12-30T23:59:60Z'
+      expected invalid (R3339-5.7/leap-second-position) -- not end of month
+  3339-5.7-036     [RFC3339 §5.7] '2016-12-31T23:58:60Z'
+      expected invalid (R3339-5.7/leap-second-position) -- not 23:59
+  3339-5.7-037     [RFC3339 §5.7] '2016-12-31T12:00:60Z'
+      expected invalid (R3339-5.7/leap-second-position) -- midday
+  3339-5.6-066     [RFC3339 §5.6] '2024-01-01T00:00:00Z\r'
+      expected invalid (R3339-5.6/trailing-characters) -- trailing CR
+  3339-5.6-067     [RFC3339 §5.6] '2024-01-01T00:00:00Z\r\n'
+      expected invalid (R3339-5.6/trailing-characters) -- trailing CRLF
+  3339-A-004       [RFC3339 App. A] '2020-01-01T00:00:0.5Z'
+      expected invalid (R3339-5.6/time-second) -- one zero before the fraction: errata 4110 notes the grammar 'never allowed just one zero'
+
+INTERPRETATION (RFC permits either verdict, or a leap-second representation; not a failure): 6
+  3339-5.7-039     [RFC3339 §5.7] '2016-06-30T23:59:60Z'
+      target ACCEPTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-040     [RFC3339 §5.7] '2016-03-31T23:59:60Z'
+      target ACCEPTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-042     [RFC3339 §5.7] '2016-01-31T23:59:60Z'
+      target ACCEPTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-045     [RFC3339 §5.7] '1971-12-31T23:59:60Z'
+      target ACCEPTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference; UTC leap seconds began in 1972
+  3339-5.7-047     [RFC3339 §5.7] '2024-12-31T23:59:60Z'
+      target ACCEPTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-055     [RFC3339 §5.7] '2035-06-30T23:59:59Z'
+      target ACCEPTED -- §5.7: 'It is also possible for a leap second to be subtracted, at which times the maximum value of time-second is "58"'. None has ever been subtracted, so 23:59:59 is valid at every past month end; beyond the validity of any leap-second table a validator cannot know whether one will be, and may accept (none announced) or flag the value
+
+124/147 passed (84.4%), 6 interpretation (excluded), 157 skipped
+  skipped: 29 non-default options (--target-options fixed: target has a fixed policy)
+  skipped: 128 not applicable to --target-kind
+  fields: 18 accepted vectors compared, 0 WRONG VALUE; 4 not compared (no 'fields' object, or none of the vector's field names)
+
+==============================================================================
+rust:chrono-serde  (--target-kind rfc3339)
+==============================================================================
+Conformance report -- target: <build>/rust-target/release/adapter adapter chrono-serde
+  runner 0.4.0 | vectors vectors/vectors.json sha256:4e700dd49a20 (310) | python 3.13.9 (darwin) | host TZ America/New_York (EST/EDT) | tzdata 2026c | tz-matrix - | mode stdin, batch yes, jobs 1 | 2026-09-26T08:01:39Z | 0.01s
+section                             pass  lenient  strict  wrong  tzdep  reason  error  interp  skip  total
+RFC3339 App. A                         6        1       0      0      0       0      0       0     0      7
+RFC3339 App. D                         0        0       0      0      0       0      0       0    12     12
+RFC3339 errata                         1        0       0      0      0       0      0       0     7      8
+RFC3339 §1                             4        0       0      0      0       0      0       0     0      4
+RFC3339 §4.3 / RFC9557 §2              3        0       0      0      0       0      0       0     0      3
+RFC3339 §5.4                           3        0       0      0      0       0      0       0     0      3
+RFC3339 §5.6                          65       17       0      0      0       0      0       0     3     85
+RFC3339 §5.7                          37        5       0      0      0       0      0       6     7     55
+RFC3339 §5.8                           5        0       0      0      0       0      0       0     0      5
+RFC9557 §1.2                           0        0       0      0      0       0      0       0     3      3
+RFC9557 §3.2                           0        0       0      0      0       0      0       0     4      4
+RFC9557 §3.3                           0        0       0      0      0       0      0       0    16     16
+RFC9557 §3.4                           0        0       0      0      0       0      0       0    39     39
+RFC9557 §4.1                           0        0       0      0      0       0      0       0    52     52
+RFC9557 §4.2                           0        0       0      0      0       0      0       0     5      5
+RFC9557 §5                             0        0       0      0      0       0      0       0     1      1
+RFC9557 §7.2                           0        0       0      0      0       0      0       0     8      8
+TOTAL                                124       23       0      0      0       0      0       6   157    310
+
+TOO LENIENT (accepted, should reject): 23
+  3339-5.6-015     [RFC3339 §5.6] '2024-01-01 12:00:00Z'
+      expected invalid (R3339-5.6/date-time-separator) -- ABNF requires T/t; the §5.6 NOTE about a space is permissive prose (erratum 5783, Held)
+  3339-5.6-023     [RFC3339 §5.6] '2024-01-01T12:00:00+0100'
+      expected invalid (R3339-5.6/time-numoffset) -- offset without colon
+  3339-5.6-028     [RFC3339 §5.6] '2024-01-01T12:00:00−05:00'
+      expected invalid (R3339-5.6/time-offset) -- U+2212 MINUS SIGN is not '-'
+  3339-5.6-029     [RFC3339 §5.6] '2024-01-01T12:00:00 Z'
+      expected invalid (R3339-5.6/time-offset) -- space before Z
+  3339-5.6-030     [RFC3339 §5.6] '2024-01-01T12:00:00UTC'
+      expected invalid (R3339-5.6/time-offset) -- alphabetic zone (§4.2)
+  3339-5.6-035     [RFC3339 §5.6] '24-01-01T12:00:00Z'
+      expected invalid (R3339-5.6/date-fullyear) -- 2-digit year (§3 Y2K)
+  3339-5.6-037     [RFC3339 §5.6] '+2024-01-01T12:00:00Z'
+      expected invalid (R3339-5.6/date-fullyear) -- ISO expanded year sign
+  3339-5.6-038     [RFC3339 §5.6] '-0001-01-01T00:00:00Z'
+      expected invalid (R3339-5.6/date-fullyear) -- negative year
+  3339-5.6-039     [RFC3339 §5.6] '2024-1-01T12:00:00Z'
+      expected invalid (R3339-5.6/date-month) -- 1-digit month
+  3339-5.6-040     [RFC3339 §5.6] '2024-01-1T12:00:00Z'
+      expected invalid (R3339-5.6/date-mday) -- 1-digit day
+  3339-5.6-045     [RFC3339 §5.6] '2024-01-01T1:00:00Z'
+      expected invalid (R3339-5.6/time-hour) -- 1-digit hour
+  3339-5.6-048     [RFC3339 §5.6] '2024-01-01T12:0:00Z'
+      expected invalid (R3339-5.6/time-minute) -- 1-digit minute
+  3339-5.6-055     [RFC3339 §5.6] '2024-01-01T12:00:00Z\n'
+      expected invalid (R3339-5.6/trailing-characters) -- trailing newline (regex $ pitfall)
+  3339-5.6-056     [RFC3339 §5.6] '2024-01-01T12:00:00Z '
+      expected invalid (R3339-5.6/trailing-characters) -- trailing space
+  3339-5.6-057     [RFC3339 §5.6] ' 2024-01-01T12:00:00Z'
+      expected invalid (R3339-5.6/date-fullyear) -- leading space
+  3339-5.7-033     [RFC3339 §5.7] '2016-12-31T23:59:60+01:00'
+      expected invalid (R3339-5.7/leap-second-offset) -- local 23:59:60 with +01:00 is 22:59:60Z: §5.7 says the point is shifted by the offset
+  3339-5.7-034     [RFC3339 §5.7] '2016-12-31T23:59:60-05:00'
+      expected invalid (R3339-5.7/leap-second-offset) -- unshifted local 23:59:60 with -05:00
+  3339-5.7-035     [RFC3339 §5.7] '2016-12-30T23:59:60Z'
+      expected invalid (R3339-5.7/leap-second-position) -- not end of month
+  3339-5.7-036     [RFC3339 §5.7] '2016-12-31T23:58:60Z'
+      expected invalid (R3339-5.7/leap-second-position) -- not 23:59
+  3339-5.7-037     [RFC3339 §5.7] '2016-12-31T12:00:60Z'
+      expected invalid (R3339-5.7/leap-second-position) -- midday
+  3339-5.6-066     [RFC3339 §5.6] '2024-01-01T00:00:00Z\r'
+      expected invalid (R3339-5.6/trailing-characters) -- trailing CR
+  3339-5.6-067     [RFC3339 §5.6] '2024-01-01T00:00:00Z\r\n'
+      expected invalid (R3339-5.6/trailing-characters) -- trailing CRLF
+  3339-A-004       [RFC3339 App. A] '2020-01-01T00:00:0.5Z'
+      expected invalid (R3339-5.6/time-second) -- one zero before the fraction: errata 4110 notes the grammar 'never allowed just one zero'
+
+INTERPRETATION (RFC permits either verdict, or a leap-second representation; not a failure): 6
+  3339-5.7-039     [RFC3339 §5.7] '2016-06-30T23:59:60Z'
+      target ACCEPTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-040     [RFC3339 §5.7] '2016-03-31T23:59:60Z'
+      target ACCEPTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-042     [RFC3339 §5.7] '2016-01-31T23:59:60Z'
+      target ACCEPTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-045     [RFC3339 §5.7] '1971-12-31T23:59:60Z'
+      target ACCEPTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference; UTC leap seconds began in 1972
+  3339-5.7-047     [RFC3339 §5.7] '2024-12-31T23:59:60Z'
+      target ACCEPTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-055     [RFC3339 §5.7] '2035-06-30T23:59:59Z'
+      target ACCEPTED -- §5.7: 'It is also possible for a leap second to be subtracted, at which times the maximum value of time-second is "58"'. None has ever been subtracted, so 23:59:59 is valid at every past month end; beyond the validity of any leap-second table a validator cannot know whether one will be, and may accept (none announced) or flag the value
+
+124/147 passed (84.4%), 6 interpretation (excluded), 157 skipped
+  skipped: 29 non-default options (--target-options fixed: target has a fixed policy)
+  skipped: 128 not applicable to --target-kind
+  fields: 9 accepted vectors compared, 0 WRONG VALUE; 13 not compared (no 'fields' object, or none of the vector's field names)
+
+==============================================================================
+rust:time  (--target-kind rfc3339)
+==============================================================================
+Conformance report -- target: <build>/rust-target/release/adapter adapter time
+  runner 0.4.0 | vectors vectors/vectors.json sha256:4e700dd49a20 (310) | python 3.13.9 (darwin) | host TZ America/New_York (EST/EDT) | tzdata 2026c | tz-matrix - | mode stdin, batch yes, jobs 1 | 2026-09-26T08:01:39Z | 0.01s
+section                             pass  lenient  strict  wrong  tzdep  reason  error  interp  skip  total
+RFC3339 App. A                         7        0       0      0      0       0      0       0     0      7
+RFC3339 App. D                         0        0       0      0      0       0      0       0    12     12
+RFC3339 errata                         1        0       0      0      0       0      0       0     7      8
+RFC3339 §1                             4        0       0      0      0       0      0       0     0      4
+RFC3339 §4.3 / RFC9557 §2              3        0       0      0      0       0      0       0     0      3
+RFC3339 §5.4                           3        0       0      0      0       0      0       0     0      3
+RFC3339 §5.6                          80        2       0      0      0       0      0       0     3     85
+RFC3339 §5.7                          41        0       0      0      0       0      0       7     7     55
+RFC3339 §5.8                           3        0       0      0      0       0      0       2     0      5
+RFC9557 §1.2                           0        0       0      0      0       0      0       0     3      3
+RFC9557 §3.2                           0        0       0      0      0       0      0       0     4      4
+RFC9557 §3.3                           0        0       0      0      0       0      0       0    16     16
+RFC9557 §3.4                           0        0       0      0      0       0      0       0    39     39
+RFC9557 §4.1                           0        0       0      0      0       0      0       0    52     52
+RFC9557 §4.2                           0        0       0      0      0       0      0       0     5      5
+RFC9557 §5                             0        0       0      0      0       0      0       0     1      1
+RFC9557 §7.2                           0        0       0      0      0       0      0       0     8      8
+TOTAL                                142        2       0      0      0       0      0       9   157    310
+
+TOO LENIENT (accepted, should reject): 2
+  3339-5.6-015     [RFC3339 §5.6] '2024-01-01 12:00:00Z'
+      expected invalid (R3339-5.6/date-time-separator) -- ABNF requires T/t; the §5.6 NOTE about a space is permissive prose (erratum 5783, Held)
+  3339-5.6-018     [RFC3339 §5.6] '2024-01-01_12:00:00Z'
+      expected invalid (R3339-5.6/date-time-separator) -- underscore separator
+
+INTERPRETATION (RFC permits either verdict, or a leap-second representation; not a failure): 9
+  3339-5.8-003     [RFC3339 §5.8] '1990-12-31T23:59:60Z'
+      target ACCEPTED (LEAP-SECOND REPRESENTATION: :59) -- leap-second representation: the target stores the valid leap second as :59 (a representation limit, not a wrong value)
+  3339-5.8-004     [RFC3339 §5.8] '1990-12-31T15:59:60-08:00'
+      target ACCEPTED (LEAP-SECOND REPRESENTATION: :59) -- leap-second representation: the target stores the valid leap second as :59 (a representation limit, not a wrong value)
+  3339-5.7-025     [RFC3339 §5.7] '2016-12-31T23:59:60Z'
+      target ACCEPTED (LEAP-SECOND REPRESENTATION: :59) -- leap-second representation: the target stores the valid leap second as :59 (a representation limit, not a wrong value)
+  3339-5.7-039     [RFC3339 §5.7] '2016-06-30T23:59:60Z'
+      target ACCEPTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-040     [RFC3339 §5.7] '2016-03-31T23:59:60Z'
+      target ACCEPTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-042     [RFC3339 §5.7] '2016-01-31T23:59:60Z'
+      target ACCEPTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-045     [RFC3339 §5.7] '1971-12-31T23:59:60Z'
+      target ACCEPTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference; UTC leap seconds began in 1972
+  3339-5.7-047     [RFC3339 §5.7] '2024-12-31T23:59:60Z'
+      target ACCEPTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-055     [RFC3339 §5.7] '2035-06-30T23:59:59Z'
+      target ACCEPTED -- §5.7: 'It is also possible for a leap second to be subtracted, at which times the maximum value of time-second is "58"'. None has ever been subtracted, so 23:59:59 is valid at every past month end; beyond the validity of any leap-second table a validator cannot know whether one will be, and may accept (none announced) or flag the value
+
+142/144 passed (98.6%), 9 interpretation (excluded), 157 skipped
+  skipped: 29 non-default options (--target-options fixed: target has a fixed policy)
+  skipped: 128 not applicable to --target-kind
+  fields: 18 accepted vectors compared, 0 WRONG VALUE; 4 not compared (no 'fields' object, or none of the vector's field names)
+
+==============================================================================
+rust:jiff-timestamp  (--target-kind rfc3339)
+==============================================================================
+Conformance report -- target: <build>/rust-target/release/adapter adapter jiff-timestamp
+  runner 0.4.0 | vectors vectors/vectors.json sha256:4e700dd49a20 (310) | python 3.13.9 (darwin) | host TZ America/New_York (EST/EDT) | tzdata 2026c | tz-matrix - | mode stdin, batch yes, jobs 1 | 2026-09-26T08:01:40Z | 0.01s
+section                             pass  lenient  strict  wrong  tzdep  reason  error  interp  skip  total
+RFC3339 App. A                         7        0       0      0      0       0      0       0     0      7
+RFC3339 App. D                         0        0       0      0      0       0      0       0    12     12
+RFC3339 errata                         0        1       0      0      0       0      0       0     7      8
+RFC3339 §1                             4        0       0      0      0       0      0       0     0      4
+RFC3339 §4.3 / RFC9557 §2              3        0       0      0      0       0      0       0     0      3
+RFC3339 §5.4                           3        0       0      0      0       0      0       0     0      3
+RFC3339 §5.6                          67       11       4      0      0       0      0       0     3     85
+RFC3339 §5.7                          36        5       0      0      0       0      0       7     7     55
+RFC3339 §5.8                           3        0       0      0      0       0      0       2     0      5
+RFC9557 §1.2                           0        0       0      0      0       0      0       0     3      3
+RFC9557 §3.2                           0        0       0      0      0       0      0       0     4      4
+RFC9557 §3.3                           0        0       0      0      0       0      0       0    16     16
+RFC9557 §3.4                           0        0       0      0      0       0      0       0    39     39
+RFC9557 §4.1                           0        0       0      0      0       0      0       0    52     52
+RFC9557 §4.2                           0        0       0      0      0       0      0       0     5      5
+RFC9557 §5                             0        0       0      0      0       0      0       0     1      1
+RFC9557 §7.2                           0        0       0      0      0       0      0       0     8      8
+TOTAL                                123       17       4      0      0       0      0       9   157    310
+
+TOO LENIENT (accepted, should reject): 17
+  3339-5.6-015     [RFC3339 §5.6] '2024-01-01 12:00:00Z'
+      expected invalid (R3339-5.6/date-time-separator) -- ABNF requires T/t; the §5.6 NOTE about a space is permissive prose (erratum 5783, Held)
+  3339-5.6-021     [RFC3339 §5.6] '2024-01-01T12:00Z'
+      expected invalid (R3339-5.6/time-second) -- seconds are mandatory
+  3339-5.6-023     [RFC3339 §5.6] '2024-01-01T12:00:00+0100'
+      expected invalid (R3339-5.6/time-numoffset) -- offset without colon
+  3339-5.6-024     [RFC3339 §5.6] '2024-01-01T12:00:00+01'
+      expected invalid (R3339-5.6/time-numoffset) -- hour-only offset
+  3339-5.6-026     [RFC3339 §5.6] '2024-01-01T12:00:00+24:00'
+      expected invalid (R3339-5.6/time-numoffset-hour) -- offset hour uses time-hour 00-23
+  3339-5.6-033     [RFC3339 §5.6] '2024-01-01T12:00:00,5Z'
+      expected invalid (R3339-5.6/time-secfrac) -- comma fraction is only in App. A ISO grammar
+  3339-5.6-052     [RFC3339 §5.6] '20240101T120000Z'
+      expected invalid (R3339-5.6/date-separator) -- ISO basic format
+  3339-5.6-062     [RFC3339 §5.6] '2022-07-08T00:14:07Z[Europe/Paris]'
+      expected invalid (R3339-5.6/trailing-characters) -- IXDTF suffix is not RFC 3339 date-time (profile rfc3339)
+  3339-5.6-063     [RFC3339 §5.6] '2024-01-01T12:00:00+01:00:00'
+      expected invalid (R3339-5.6/time-numoffset) -- offset with seconds (offset-has-seconds): time-numoffset is +hh:mm only
+  3339-5.7-033     [RFC3339 §5.7] '2016-12-31T23:59:60+01:00'
+      expected invalid (R3339-5.7/leap-second-offset) -- local 23:59:60 with +01:00 is 22:59:60Z: §5.7 says the point is shifted by the offset
+  3339-5.7-034     [RFC3339 §5.7] '2016-12-31T23:59:60-05:00'
+      expected invalid (R3339-5.7/leap-second-offset) -- unshifted local 23:59:60 with -05:00
+  3339-5.7-035     [RFC3339 §5.7] '2016-12-30T23:59:60Z'
+      expected invalid (R3339-5.7/leap-second-position) -- not end of month
+  3339-5.7-036     [RFC3339 §5.7] '2016-12-31T23:58:60Z'
+      expected invalid (R3339-5.7/leap-second-position) -- not 23:59
+  3339-5.7-037     [RFC3339 §5.7] '2016-12-31T12:00:60Z'
+      expected invalid (R3339-5.7/leap-second-position) -- midday
+  3339-errata-001  [RFC3339 errata] '2024-01-01T120000Z'
+      expected invalid (R3339-5.6/time-separator) -- erratum 1584 (Verified, App. A): mixed basic/extended is App. A only; §5.6 is extended
+  3339-5.6-084     [RFC3339 §5.6] '2024-01-01T00:00:00-00:44:30'
+      expected invalid (R3339-5.6/time-numoffset) -- offset with seconds (LMT-style -00:44:30); sub-minute offsets must be rounded (§4.2, §5.8)
+  3339-5.6-085     [RFC3339 §5.6] '1900-01-01T00:00:00+00:09:21'
+      expected invalid (R3339-5.6/time-numoffset) -- unconverted LMT offset with seconds
+
+TOO STRICT (rejected, should accept): 4
+  3339-5.6-005     [RFC3339 §5.6] '9999-12-31T23:59:59Z'
+      expected valid (ok) -- max 4DIGIT year
+  3339-5.6-006     [RFC3339 §5.6] '2024-01-01T00:00:00.000000000001Z'
+      expected valid (ok) -- time-secfrac = "." 1*DIGIT: no upper bound on digits
+  3339-5.6-073     [RFC3339 §5.6] '2024-01-01T00:00:00.1234567890123456789012345678901234567890'...(+1011 chars)
+      expected valid (ok) -- 1050-digit fraction: time-secfrac = '.' 1*DIGIT has no upper bound
+  3339-5.6-074     [RFC3339 §5.6] '2024-01-01T00:00:00.0000000000000000000000000000000000000000'...(+1016 chars)
+      expected valid (ok) -- 1050-digit all-zero fraction with numeric offset
+
+INTERPRETATION (RFC permits either verdict, or a leap-second representation; not a failure): 9
+  3339-5.8-003     [RFC3339 §5.8] '1990-12-31T23:59:60Z'
+      target ACCEPTED (LEAP-SECOND REPRESENTATION: :59) -- leap-second representation: the target stores the valid leap second as :59 (a representation limit, not a wrong value)
+  3339-5.8-004     [RFC3339 §5.8] '1990-12-31T15:59:60-08:00'
+      target ACCEPTED (LEAP-SECOND REPRESENTATION: :59) -- leap-second representation: the target stores the valid leap second as :59 (a representation limit, not a wrong value)
+  3339-5.7-025     [RFC3339 §5.7] '2016-12-31T23:59:60Z'
+      target ACCEPTED (LEAP-SECOND REPRESENTATION: :59) -- leap-second representation: the target stores the valid leap second as :59 (a representation limit, not a wrong value)
+  3339-5.7-039     [RFC3339 §5.7] '2016-06-30T23:59:60Z'
+      target ACCEPTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-040     [RFC3339 §5.7] '2016-03-31T23:59:60Z'
+      target ACCEPTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-042     [RFC3339 §5.7] '2016-01-31T23:59:60Z'
+      target ACCEPTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-045     [RFC3339 §5.7] '1971-12-31T23:59:60Z'
+      target ACCEPTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference; UTC leap seconds began in 1972
+  3339-5.7-047     [RFC3339 §5.7] '2024-12-31T23:59:60Z'
+      target ACCEPTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-055     [RFC3339 §5.7] '2035-06-30T23:59:59Z'
+      target ACCEPTED -- §5.7: 'It is also possible for a leap second to be subtracted, at which times the maximum value of time-second is "58"'. None has ever been subtracted, so 23:59:59 is valid at every past month end; beyond the validity of any leap-second table a validator cannot know whether one will be, and may accept (none announced) or flag the value
+
+123/144 passed (85.4%), 9 interpretation (excluded), 157 skipped
+  skipped: 29 non-default options (--target-options fixed: target has a fixed policy)
+  skipped: 128 not applicable to --target-kind
+  fields: 20 accepted vectors compared, 0 WRONG VALUE
+
+==============================================================================
+rust:jiff-timestamp-both  (--target-kind both)
+==============================================================================
+Conformance report -- target: <build>/rust-target/release/adapter adapter jiff-timestamp-both
+  runner 0.4.0 | vectors vectors/vectors.json sha256:4e700dd49a20 (310) | python 3.13.9 (darwin) | host TZ America/New_York (EST/EDT) | tzdata 2026c | tz-matrix - | mode stdin, batch yes, jobs 1 | 2026-09-26T08:01:40Z | 0.01s
+section                             pass  lenient  strict  wrong  tzdep  reason  error  interp  skip  total
+RFC3339 App. A                         7        0       0      0      0       0      0       0     0      7
+RFC3339 App. D                         0        0       0      0      0       0      0       0    12     12
+RFC3339 errata                         0        1       0      0      0       0      0       0     7      8
+RFC3339 §1                             4        0       0      0      0       0      0       0     0      4
+RFC3339 §4.3 / RFC9557 §2              3        0       0      0      0       0      0       0     0      3
+RFC3339 §5.4                           3        0       0      0      0       0      0       0     0      3
+RFC3339 §5.6                          67       11       4      0      0       0      0       0     3     85
+RFC3339 §5.7                          36        5       0      0      0       0      0       7     7     55
+RFC3339 §5.8                           3        0       0      0      0       0      0       2     0      5
+RFC9557 §1.2                           2        1       0      0      0       0      0       0     0      3
+RFC9557 §3.2                           1        1       0      0      0       0      0       0     2      4
+RFC9557 §3.3                           6        0       2      0      0       0      0       8     0     16
+RFC9557 §3.4                          16       11       0      0      0       0      0      12     0     39
+RFC9557 §4.1                          38        7       0      0      0       0      0       7     0     52
+RFC9557 §4.2                           3        1       0      0      0       0      0       0     1      5
+RFC9557 §5                             1        0       0      0      0       0      0       0     0      1
+RFC9557 §7.2                           6        0       0      0      0       0      0       2     0      8
+TOTAL                                196       38       6      0      0       0      0      38    32    310
+
+TOO LENIENT (accepted, should reject): 38
+  3339-5.6-015     [RFC3339 §5.6] '2024-01-01 12:00:00Z'
+      expected invalid (R3339-5.6/date-time-separator) -- ABNF requires T/t; the §5.6 NOTE about a space is permissive prose (erratum 5783, Held)
+  3339-5.6-021     [RFC3339 §5.6] '2024-01-01T12:00Z'
+      expected invalid (R3339-5.6/time-second) -- seconds are mandatory
+  3339-5.6-023     [RFC3339 §5.6] '2024-01-01T12:00:00+0100'
+      expected invalid (R3339-5.6/time-numoffset) -- offset without colon
+  3339-5.6-024     [RFC3339 §5.6] '2024-01-01T12:00:00+01'
+      expected invalid (R3339-5.6/time-numoffset) -- hour-only offset
+  3339-5.6-026     [RFC3339 §5.6] '2024-01-01T12:00:00+24:00'
+      expected invalid (R3339-5.6/time-numoffset-hour) -- offset hour uses time-hour 00-23
+  3339-5.6-033     [RFC3339 §5.6] '2024-01-01T12:00:00,5Z'
+      expected invalid (R3339-5.6/time-secfrac) -- comma fraction is only in App. A ISO grammar
+  3339-5.6-052     [RFC3339 §5.6] '20240101T120000Z'
+      expected invalid (R3339-5.6/date-separator) -- ISO basic format
+  3339-5.6-062     [RFC3339 §5.6] '2022-07-08T00:14:07Z[Europe/Paris]'
+      expected invalid (R3339-5.6/trailing-characters) -- IXDTF suffix is not RFC 3339 date-time (profile rfc3339)
+  3339-5.6-063     [RFC3339 §5.6] '2024-01-01T12:00:00+01:00:00'
+      expected invalid (R3339-5.6/time-numoffset) -- offset with seconds (offset-has-seconds): time-numoffset is +hh:mm only
+  3339-5.7-033     [RFC3339 §5.7] '2016-12-31T23:59:60+01:00'
+      expected invalid (R3339-5.7/leap-second-offset) -- local 23:59:60 with +01:00 is 22:59:60Z: §5.7 says the point is shifted by the offset
+  3339-5.7-034     [RFC3339 §5.7] '2016-12-31T23:59:60-05:00'
+      expected invalid (R3339-5.7/leap-second-offset) -- unshifted local 23:59:60 with -05:00
+  3339-5.7-035     [RFC3339 §5.7] '2016-12-30T23:59:60Z'
+      expected invalid (R3339-5.7/leap-second-position) -- not end of month
+  3339-5.7-036     [RFC3339 §5.7] '2016-12-31T23:58:60Z'
+      expected invalid (R3339-5.7/leap-second-position) -- not 23:59
+  3339-5.7-037     [RFC3339 §5.7] '2016-12-31T12:00:60Z'
+      expected invalid (R3339-5.7/leap-second-position) -- midday
+  3339-errata-001  [RFC3339 errata] '2024-01-01T120000Z'
+      expected invalid (R3339-5.6/time-separator) -- erratum 1584 (Verified, App. A): mixed basic/extended is App. A only; §5.6 is extended
+  9557-4.2-004     [RFC9557 §4.2] '1996-12-19T16:39:57-08:00[_foo=bar][_baz=bat]'
+      expected invalid (R9557-3.2/experimental-key) -- Figure 7 is only meaningful inside a configured experiment; §3.2 MUST reject otherwise
+  9557-1.2-002     [RFC9557 §1.2] '2020-01-01T00:00+01:00[Europe/Paris]'
+      expected invalid (R3339-5.6/time-second) -- §1.2 prose example omits seconds; the imported date-time ABNF requires them
+  9557-3.2-001     [RFC9557 §3.2] '2022-07-08T00:14:07Z[_foo=bar]'
+      expected invalid (R9557-3.2/experimental-key) -- elective experimental key still MUST be rejected
+  9557-3.4-002     [RFC9557 §3.4] '2022-07-08T00:14:07+01:00[!Europe/Paris]'
+      expected invalid (R9557-3.4/critical-inconsistency) -- §3.3 example: critical inconsistency MUST be acted on
+  9557-3.4-005     [RFC9557 §3.4] '2022-07-08T00:14:07+00:00[!Europe/London]'
+      expected invalid (R9557-3.4/critical-inconsistency) -- Figure 1 (critical)
+  9557-3.4-012     [RFC9557 §3.4] '2022-07-08T00:14:07+08:45[!+08:00]'
+      expected invalid (R9557-3.4/critical-inconsistency) -- critical offset time zone mismatch
+  9557-3.4-015     [RFC9557 §3.4] '2022-07-08T00:14:07+05:00[!Etc/GMT+5]'
+      expected invalid (R9557-3.4/critical-inconsistency) -- sign trap: Etc/GMT+5 is -05:00
+  9557-3.4-018     [RFC9557 §3.4] '2022-03-13T02:30:00-05:00[!America/New_York]'
+      expected invalid (R9557-3.4/critical-inconsistency) -- instant 07:30Z is after the gap: NY is -04:00
+  9557-3.4-020     [RFC9557 §3.4] '2022-07-08T00:14:07Z[!Mars/Olympus_Mons]'
+      expected invalid (R9557-4.1/critical-unknown-time-zone) -- §4.1: unknown tz name treated like any other inconsistency
+  9557-3.4-025     [RFC9557 §3.4] '2016-12-31T23:59:60+01:00[Europe/Paris]'
+      expected invalid (R3339-5.7/leap-second-offset) -- §5.7 still applies inside IXDTF
+  9557-4.1-009     [RFC9557 §4.1] '2022-07-08T00:14:07Z[+24:00]'
+      expected invalid (R9557-4.1/time-zone-offset) -- offset hour 24 in brackets
+  9557-4.1-010     [RFC9557 §4.1] '2022-07-08T00:14:07Z[+0500]'
+      expected invalid (R9557-4.1/time-zone-offset) -- no colon in bracketed offset
+  9557-4.1-018     [RFC9557 §4.1] '2022-07-08T00:14:07Z[.]'
+      expected invalid (R9557-4.1/time-zone-name) -- '.' part excluded
+  9557-4.1-019     [RFC9557 §4.1] '2022-07-08T00:14:07Z[..]'
+      expected invalid (R9557-4.1/time-zone-name) -- '..' part excluded
+  9557-4.1-020     [RFC9557 §4.1] '2022-07-08T00:14:07Z[Europe/../Paris]'
+      expected invalid (R9557-4.1/time-zone-name) -- path traversal part
+  9557-3.4-026     [RFC9557 §3.4] '0000-01-01T00:00:00+01:00[!Europe/Paris]'
+      expected invalid (R9557-3.3/critical-unprocessable) -- year 0000 is outside most tz implementations' range: a critical zone that cannot be processed MUST NOT be acted on (§3.3)
+  9557-3.4-030     [RFC9557 §3.4] '2022-07-08T00:14:07+01:00[!UTC]'
+      expected invalid (R9557-3.4/critical-inconsistency) -- +01:00 inconsistent with UTC zone
+  9557-4.1-043     [RFC9557 §4.1] '2022-07-08T00:14:07Z[!u-ca]'
+      expected invalid (R9557-4.1/critical-unknown-time-zone) -- critical time-zone-name 'u-ca' is not a known zone
+  3339-5.6-084     [RFC3339 §5.6] '2024-01-01T00:00:00-00:44:30'
+      expected invalid (R3339-5.6/time-numoffset) -- offset with seconds (LMT-style -00:44:30); sub-minute offsets must be rounded (§4.2, §5.8)
+  9557-4.1-049     [RFC9557 §4.1] '2022-07-08T00:14:07-00:44:30[Europe/Dublin]'
+      expected invalid (R3339-5.6/time-numoffset) -- offset with seconds is not time-numoffset in IXDTF either
+  9557-3.4-034     [RFC9557 §3.4] '2022-07-08T00:14:07+01:00[!US/Pacific]'
+      expected invalid (R9557-3.4/critical-inconsistency) -- inconsistent with the link target, or unknown without the link: invalid either way
+  9557-3.4-037     [RFC9557 §3.4] '2022-07-08T00:14:07+02:00[!Europe/Kiev]'
+      expected invalid (R9557-3.4/critical-inconsistency) -- Kyiv is +03:00 in July 2022: inconsistent if known, unknown if not -- invalid either way
+  3339-5.6-085     [RFC3339 §5.6] '1900-01-01T00:00:00+00:09:21'
+      expected invalid (R3339-5.6/time-numoffset) -- unconverted LMT offset with seconds
+
+TOO STRICT (rejected, should accept): 6
+  3339-5.6-005     [RFC3339 §5.6] '9999-12-31T23:59:59Z'
+      expected valid (ok) -- max 4DIGIT year
+  3339-5.6-006     [RFC3339 §5.6] '2024-01-01T00:00:00.000000000001Z'
+      expected valid (ok) -- time-secfrac = "." 1*DIGIT: no upper bound on digits
+  9557-3.3-006     [RFC9557 §3.3] '2022-07-08T00:14:07Z[!u-ca=hebrew][!u-ca=hebrew]'
+      expected valid (ok) -- identical critical duplicates are not inconsistent
+  9557-3.3-007     [RFC9557 §3.3] '2022-07-08T00:14:07Z[!u-ca=gregory]'
+      expected valid (ok) -- critical known key/value
+  3339-5.6-073     [RFC3339 §5.6] '2024-01-01T00:00:00.1234567890123456789012345678901234567890'...(+1011 chars)
+      expected valid (ok) -- 1050-digit fraction: time-secfrac = '.' 1*DIGIT has no upper bound
+  3339-5.6-074     [RFC3339 §5.6] '2024-01-01T00:00:00.0000000000000000000000000000000000000000'...(+1016 chars)
+      expected valid (ok) -- 1050-digit all-zero fraction with numeric offset
+
+INTERPRETATION (RFC permits either verdict, or a leap-second representation; not a failure): 38
+  3339-5.8-003     [RFC3339 §5.8] '1990-12-31T23:59:60Z'
+      target ACCEPTED (LEAP-SECOND REPRESENTATION: :59) -- leap-second representation: the target stores the valid leap second as :59 (a representation limit, not a wrong value)
+  3339-5.8-004     [RFC3339 §5.8] '1990-12-31T15:59:60-08:00'
+      target ACCEPTED (LEAP-SECOND REPRESENTATION: :59) -- leap-second representation: the target stores the valid leap second as :59 (a representation limit, not a wrong value)
+  3339-5.7-025     [RFC3339 §5.7] '2016-12-31T23:59:60Z'
+      target ACCEPTED (LEAP-SECOND REPRESENTATION: :59) -- leap-second representation: the target stores the valid leap second as :59 (a representation limit, not a wrong value)
+  3339-5.7-039     [RFC3339 §5.7] '2016-06-30T23:59:60Z'
+      target ACCEPTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-040     [RFC3339 §5.7] '2016-03-31T23:59:60Z'
+      target ACCEPTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  9557-3.3-001     [RFC9557 §3.3] '2022-07-08T00:14:07+01:00[knort=blargel]'
+      target ACCEPTED -- §3.3: elective tags may be ignored, but apps 'MAY also perform additional processing on inconsistent or unrecognized elective suffix tags'
+  9557-3.3-005     [RFC9557 §3.3] '2022-07-08T00:14:07Z[u-ca=chinese][u-ca=japanese]'
+      target ACCEPTED -- §3.3: duplicate elective key -- the first value MUST be used only by an app that 'does not want to perform additional processing'; additional processing may reject
+  9557-3.3-010     [RFC9557 §3.3] '2022-07-08T00:14:07Z[u-ca=klingon]'
+      target ACCEPTED -- §3.3: elective tags may be ignored, but apps 'MAY also perform additional processing on inconsistent or unrecognized elective suffix tags'
+  9557-3.3-011     [RFC9557 §3.3] '2022-07-08T00:14:07Z[u-ca=Hebrew]'
+      target ACCEPTED -- §3.3: elective tags may be ignored, but apps 'MAY also perform additional processing on inconsistent or unrecognized elective suffix tags'
+  9557-3.3-012     [RFC9557 §3.3] '2022-07-08T00:14:07Z[a-b_c9=x][u-ca=hebrew]'
+      target ACCEPTED -- §3.3: elective tags may be ignored, but apps 'MAY also perform additional processing on inconsistent or unrecognized elective suffix tags'
+  9557-3.4-001     [RFC9557 §3.4] '2022-07-08T00:14:07+01:00[Europe/Paris]'
+      target ACCEPTED -- §3.4: elective inconsistency -- the app 'MAY act on the inconsistency' (reject or resolve) or ignore the suffix (§3.3)
+  9557-3.4-006     [RFC9557 §3.4] '2022-07-08T00:14:07+00:00[Europe/London]'
+      target ACCEPTED -- §3.4: elective inconsistency -- the app 'MAY act on the inconsistency' (reject or resolve) or ignore the suffix (§3.3)
+  9557-3.4-011     [RFC9557 §3.4] '2022-07-08T00:14:07+08:45[+08:00]'
+      target ACCEPTED -- §3.4: elective inconsistency -- the app 'MAY act on the inconsistency' (reject or resolve) or ignore the suffix (§3.3)
+  9557-3.4-013     [RFC9557 §3.4] '2022-07-08T00:14:07Z[!+08:45]'
+      target ACCEPTED -- §2/§3.4: Z (= -00:00) asserts no local offset, so by the letter there is no inconsistency; but an offset time zone asserts one, and an app MAY treat the pair as inconsistent (and, if critical, MUST then act)
+  9557-3.4-021     [RFC9557 §3.4] '2022-07-08T00:14:07Z[Mars/Olympus_Mons]'
+      target ACCEPTED -- §4.1: an unknown time-zone-name is treated 'as any other inconsistency'; elective -> MAY act (§3.4)
+  9557-3.4-022     [RFC9557 §3.4] '2022-07-08T00:14:07Z[!europe/paris]'
+      target ACCEPTED -- §4.1: time-zone-name is 'intended to be the name of an IANA Time Zone'; the RFC does not say whether lookup is case-sensitive (IANA names are case-sensitive identifiers, most platforms look up case-insensitively)
+  9557-4.1-004     [RFC9557 §4.1] '2022-07-08T00:14:07Z[_Custom/Zone-1.x]'
+      target ACCEPTED -- §4.1: an unknown time-zone-name is treated 'as any other inconsistency'; elective -> MAY act (§3.4)
+  9557-4.1-005     [RFC9557 §4.1] '2022-07-08T00:14:07Z[.hidden]'
+      target ACCEPTED -- §4.1: an unknown time-zone-name is treated 'as any other inconsistency'; elective -> MAY act (§3.4)
+  9557-4.1-006     [RFC9557 §4.1] '2022-07-08T00:14:07Z[+05:00]'
+      target ACCEPTED -- §2/§3.4: Z (= -00:00) asserts no local offset, so by the letter there is no inconsistency; but an offset time zone asserts one, and an app MAY treat the pair as inconsistent (and, if critical, MUST then act)
+  9557-4.1-007     [RFC9557 §4.1] '2022-07-08T00:14:07Z[-00:00]'
+      target ACCEPTED -- §2/§3.4: Z (= -00:00) asserts no local offset, so by the letter there is no inconsistency; but an offset time zone asserts one, and an app MAY treat the pair as inconsistent (and, if critical, MUST then act)
+  9557-4.1-041     [RFC9557 §4.1] '2022-07-08T00:14:07Z[Z]'
+      target ACCEPTED -- §4.1: an unknown time-zone-name is treated 'as any other inconsistency'; elective -> MAY act (§3.4)
+  3339-5.7-042     [RFC3339 §5.7] '2016-01-31T23:59:60Z'
+      target ACCEPTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-045     [RFC3339 §5.7] '1971-12-31T23:59:60Z'
+      target ACCEPTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference; UTC leap seconds began in 1972
+  3339-5.7-047     [RFC3339 §5.7] '2024-12-31T23:59:60Z'
+      target ACCEPTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  9557-3.4-028     [RFC9557 §3.4] '2022-07-08T00:14:07-00:00[+01:00]'
+      target ACCEPTED -- §2/§3.4: Z (= -00:00) asserts no local offset, so by the letter there is no inconsistency; but an offset time zone asserts one, and an app MAY treat the pair as inconsistent (and, if critical, MUST then act)
+  9557-4.1-042     [RFC9557 §4.1] '2022-07-08T00:14:07Z[u-ca]'
+      target ACCEPTED -- §4.1: an unknown time-zone-name is treated 'as any other inconsistency'; elective -> MAY act (§3.4)
+  9557-4.1-044     [RFC9557 §4.1] '2022-07-08T00:14:07Z[Abcdefghijklmnopqrst/Uvwxyzabcdefghij]'
+      target ACCEPTED -- §4.1: an unknown time-zone-name is treated 'as any other inconsistency'; elective -> MAY act (§3.4)
+  9557-3.3-013     [RFC9557 §3.3] '2022-07-08T00:14:07Z[a=b][a=b]'
+      target ACCEPTED -- §3.3: duplicate elective key -- the first value MUST be used only by an app that 'does not want to perform additional processing'; additional processing may reject
+  9557-3.3-015     [RFC9557 §3.3] '2022-07-08T00:14:07Z[u-ca=chinese][u-ca=japanese]'
+      target ACCEPTED -- §3.3: duplicate elective key -- the first value MUST be used only by an app that 'does not want to perform additional processing'; additional processing may reject
+  9557-3.3-016     [RFC9557 §3.3] '2022-07-08T00:14:07Z[u-ca=hebrew][u-ca=hebrew]'
+      target ACCEPTED -- §3.3: duplicate elective key -- the first value MUST be used only by an app that 'does not want to perform additional processing'; additional processing may reject
+  3339-5.7-055     [RFC3339 §5.7] '2035-06-30T23:59:59Z'
+      target ACCEPTED -- §5.7: 'It is also possible for a leap second to be subtracted, at which times the maximum value of time-second is "58"'. None has ever been subtracted, so 23:59:59 is valid at every past month end; beyond the validity of any leap-second table a validator cannot know whether one will be, and may accept (none announced) or flag the value
+  9557-7.2-001     [RFC9557 §7.2] '2022-07-08T00:14:07Z[a=b][a=b][a=b][a=b][a=b][a=b][a=b][a=b]'...(+24960 chars)
+      target ACCEPTED -- §3.3 grammar '*suffix-tag' has no upper bound, and repeated/unknown elective tags may be ignored or given additional processing; §7.2 parser hardening lets an implementation bound the number of tags and reject beyond it
+  9557-7.2-002     [RFC9557 §7.2] '2022-07-08T00:14:07Z[Europe/Paris][u-ca=hebrew][u-ca=hebrew]'...(+64974 chars)
+      target ACCEPTED -- §3.3 grammar '*suffix-tag' has no upper bound, and repeated/unknown elective tags may be ignored or given additional processing; §7.2 parser hardening lets an implementation bound the number of tags and reject beyond it
+  9557-3.4-032     [RFC9557 §3.4] '2022-07-08T00:14:07-07:00[!US/Pacific]'
+      target ACCEPTED -- §4.1/§3.3: backward-compatibility link names (US/Pacific, Europe/Kiev) resolve to their canonical zone where the IANA 'backward' file is installed; builds without it (e.g. Debian's 2023 tzdata-legacy split) or tz releases before 2022b (Europe/Kyiv) do not know the name, and a critical unknown zone MUST then be rejected (§3.3/§4.1)
+  9557-3.4-033     [RFC9557 §3.4] '2022-01-08T00:14:07-08:00[US/Pacific]'
+      target ACCEPTED -- §4.1/§3.3: backward-compatibility link names (US/Pacific, Europe/Kiev) resolve to their canonical zone where the IANA 'backward' file is installed; builds without it (e.g. Debian's 2023 tzdata-legacy split) or tz releases before 2022b (Europe/Kyiv) do not know the name, and a critical unknown zone MUST then be rejected (§3.3/§4.1)
+  9557-3.4-035     [RFC9557 §3.4] '2022-07-08T00:14:07+03:00[!Europe/Kiev]'
+      target ACCEPTED -- §4.1/§3.3: backward-compatibility link names (US/Pacific, Europe/Kiev) resolve to their canonical zone where the IANA 'backward' file is installed; builds without it (e.g. Debian's 2023 tzdata-legacy split) or tz releases before 2022b (Europe/Kyiv) do not know the name, and a critical unknown zone MUST then be rejected (§3.3/§4.1)
+  9557-3.4-036     [RFC9557 §3.4] '2022-07-08T00:14:07+03:00[!Europe/Kyiv]'
+      target ACCEPTED -- §4.1/§3.3: backward-compatibility link names (US/Pacific, Europe/Kiev) resolve to their canonical zone where the IANA 'backward' file is installed; builds without it (e.g. Debian's 2023 tzdata-legacy split) or tz releases before 2022b (Europe/Kyiv) do not know the name, and a critical unknown zone MUST then be rejected (§3.3/§4.1)
+  9557-3.4-039     [RFC9557 §3.4] '1900-01-01T00:00:00+00:10[!Europe/Paris]'
+      target ACCEPTED -- RFC 3339 §4.2 NOTE / §5.8: a sub-minute historical offset (Paris LMT +00:09:21) must be 'converted to a representable time zone'; the closest is +00:09.  The RFCs do not say whether a §3.4 consistency check must require the nearest minute (+00:10 is then inconsistent) or may tolerate any written offset within a minute of the zone's
+
+196/240 passed (81.7%), 38 interpretation (excluded), 32 skipped
+  skipped: 32 non-default options (--target-options fixed: target has a fixed policy)
+  fields: 24 accepted vectors compared, 0 WRONG VALUE; 5 not compared (no 'fields' object, or none of the vector's field names)
+
+==============================================================================
+rust:jiff-zoned-reject  (--target-kind ixdtf)
+==============================================================================
+Conformance report -- target: <build>/rust-target/release/adapter adapter jiff-zoned-reject
+  runner 0.4.0 | vectors vectors/vectors.json sha256:4e700dd49a20 (310) | python 3.13.9 (darwin) | host TZ America/New_York (EST/EDT) | tzdata 2026c | tz-matrix - | mode stdin, batch yes, jobs 1 | 2026-09-26T08:01:40Z | 0.01s
+section                             pass  lenient  strict  wrong  tzdep  reason  error  interp  skip  total
+RFC3339 App. A                         6        0       0      0      0       0      0       0     1      7
+RFC3339 App. D                         0        0       0      0      0       0      0       0    12     12
+RFC3339 errata                         0        0       0      0      0       0      0       0     8      8
+RFC3339 §1                             4        0       0      0      0       0      0       0     0      4
+RFC3339 §4.3 / RFC9557 §2              0        0       0      0      0       0      0       0     3      3
+RFC3339 §5.4                           3        0       0      0      0       0      0       0     0      3
+RFC3339 §5.6                          45        0       3      0      0       0      0       0    37     85
+RFC3339 §5.7                          11        0       0      0      0       0      0       0    44     55
+RFC3339 §5.8                           0        0       0      0      0       0      0       0     5      5
+RFC9557 §1.2                           2        1       0      0      0       0      0       0     0      3
+RFC9557 §3.2                           1        0       0      0      0       0      0       0     3      4
+RFC9557 §3.3                           5        0       2      0      0       0      0       0     9     16
+RFC9557 §3.4                          25        1       1      0      0       0      0      12     0     39
+RFC9557 §4.1                          41        4       0      0      0       0      0       7     0     52
+RFC9557 §4.2                           2        0       0      0      0       0      0       0     3      5
+RFC9557 §5                             0        0       0      0      0       0      0       0     1      1
+RFC9557 §7.2                           6        0       0      0      0       0      0       1     1      8
+TOTAL                                151        6       6      0      0       0      0      20   127    310
+
+TOO LENIENT (accepted, should reject): 6
+  9557-1.2-002     [RFC9557 §1.2] '2020-01-01T00:00+01:00[Europe/Paris]'
+      expected invalid (R3339-5.6/time-second) -- §1.2 prose example omits seconds; the imported date-time ABNF requires them
+  9557-3.4-025     [RFC9557 §3.4] '2016-12-31T23:59:60+01:00[Europe/Paris]'
+      expected invalid (R3339-5.7/leap-second-offset) -- §5.7 still applies inside IXDTF
+  9557-4.1-009     [RFC9557 §4.1] '2022-07-08T00:14:07Z[+24:00]'
+      expected invalid (R9557-4.1/time-zone-offset) -- offset hour 24 in brackets
+  9557-4.1-010     [RFC9557 §4.1] '2022-07-08T00:14:07Z[+0500]'
+      expected invalid (R9557-4.1/time-zone-offset) -- no colon in bracketed offset
+  9557-4.1-040     [RFC9557 §4.1] '2022-07-08T00:14:07[Europe/Paris]'
+      expected invalid (R3339-5.6/time-offset) -- IXDTF still requires the RFC 3339 offset
+  9557-4.1-045     [RFC9557 §4.1] '2022-07-08[Europe/Paris]'
+      expected invalid (R3339-5.6/date-time-separator) -- date-time-ext = date-time suffix: a suffix on a bare full-date is not IXDTF
+
+TOO STRICT (rejected, should accept): 6
+  3339-5.6-006     [RFC3339 §5.6] '2024-01-01T00:00:00.000000000001Z'
+      expected valid (ok) -- time-secfrac = "." 1*DIGIT: no upper bound on digits
+  9557-3.3-006     [RFC9557 §3.3] '2022-07-08T00:14:07Z[!u-ca=hebrew][!u-ca=hebrew]'
+      expected valid (ok) -- identical critical duplicates are not inconsistent
+  9557-3.3-007     [RFC9557 §3.3] '2022-07-08T00:14:07Z[!u-ca=gregory]'
+      expected valid (ok) -- critical known key/value
+  9557-3.4-009     [RFC9557 §3.4] '2022-07-08T00:14:07-00:00[!Europe/London]'
+      expected valid (R9557-2.3/negative-zero-offset) -- §3.4: -00:00 may be used instead of Z
+  3339-5.6-073     [RFC3339 §5.6] '2024-01-01T00:00:00.1234567890123456789012345678901234567890'...(+1011 chars)
+      expected valid (ok) -- 1050-digit fraction: time-secfrac = '.' 1*DIGIT has no upper bound
+  3339-5.6-074     [RFC3339 §5.6] '2024-01-01T00:00:00.0000000000000000000000000000000000000000'...(+1016 chars)
+      expected valid (ok) -- 1050-digit all-zero fraction with numeric offset
+
+INTERPRETATION (RFC permits either verdict, or a leap-second representation; not a failure): 20
+  9557-3.4-001     [RFC9557 §3.4] '2022-07-08T00:14:07+01:00[Europe/Paris]'
+      target REJECTED -- §3.4: elective inconsistency -- the app 'MAY act on the inconsistency' (reject or resolve) or ignore the suffix (§3.3)
+  9557-3.4-006     [RFC9557 §3.4] '2022-07-08T00:14:07+00:00[Europe/London]'
+      target REJECTED -- §3.4: elective inconsistency -- the app 'MAY act on the inconsistency' (reject or resolve) or ignore the suffix (§3.3)
+  9557-3.4-011     [RFC9557 §3.4] '2022-07-08T00:14:07+08:45[+08:00]'
+      target REJECTED -- §3.4: elective inconsistency -- the app 'MAY act on the inconsistency' (reject or resolve) or ignore the suffix (§3.3)
+  9557-3.4-013     [RFC9557 §3.4] '2022-07-08T00:14:07Z[!+08:45]'
+      target ACCEPTED -- §2/§3.4: Z (= -00:00) asserts no local offset, so by the letter there is no inconsistency; but an offset time zone asserts one, and an app MAY treat the pair as inconsistent (and, if critical, MUST then act)
+  9557-3.4-021     [RFC9557 §3.4] '2022-07-08T00:14:07Z[Mars/Olympus_Mons]'
+      target REJECTED -- §4.1: an unknown time-zone-name is treated 'as any other inconsistency'; elective -> MAY act (§3.4)
+  9557-3.4-022     [RFC9557 §3.4] '2022-07-08T00:14:07Z[!europe/paris]'
+      target ACCEPTED -- §4.1: time-zone-name is 'intended to be the name of an IANA Time Zone'; the RFC does not say whether lookup is case-sensitive (IANA names are case-sensitive identifiers, most platforms look up case-insensitively)
+  9557-4.1-004     [RFC9557 §4.1] '2022-07-08T00:14:07Z[_Custom/Zone-1.x]'
+      target REJECTED -- §4.1: an unknown time-zone-name is treated 'as any other inconsistency'; elective -> MAY act (§3.4)
+  9557-4.1-005     [RFC9557 §4.1] '2022-07-08T00:14:07Z[.hidden]'
+      target REJECTED -- §4.1: an unknown time-zone-name is treated 'as any other inconsistency'; elective -> MAY act (§3.4)
+  9557-4.1-006     [RFC9557 §4.1] '2022-07-08T00:14:07Z[+05:00]'
+      target ACCEPTED -- §2/§3.4: Z (= -00:00) asserts no local offset, so by the letter there is no inconsistency; but an offset time zone asserts one, and an app MAY treat the pair as inconsistent (and, if critical, MUST then act)
+  9557-4.1-007     [RFC9557 §4.1] '2022-07-08T00:14:07Z[-00:00]'
+      target ACCEPTED -- §2/§3.4: Z (= -00:00) asserts no local offset, so by the letter there is no inconsistency; but an offset time zone asserts one, and an app MAY treat the pair as inconsistent (and, if critical, MUST then act)
+  9557-4.1-041     [RFC9557 §4.1] '2022-07-08T00:14:07Z[Z]'
+      target REJECTED -- §4.1: an unknown time-zone-name is treated 'as any other inconsistency'; elective -> MAY act (§3.4)
+  9557-3.4-028     [RFC9557 §3.4] '2022-07-08T00:14:07-00:00[+01:00]'
+      target REJECTED -- §2/§3.4: Z (= -00:00) asserts no local offset, so by the letter there is no inconsistency; but an offset time zone asserts one, and an app MAY treat the pair as inconsistent (and, if critical, MUST then act)
+  9557-4.1-042     [RFC9557 §4.1] '2022-07-08T00:14:07Z[u-ca]'
+      target REJECTED -- §4.1: an unknown time-zone-name is treated 'as any other inconsistency'; elective -> MAY act (§3.4)
+  9557-4.1-044     [RFC9557 §4.1] '2022-07-08T00:14:07Z[Abcdefghijklmnopqrst/Uvwxyzabcdefghij]'
+      target REJECTED -- §4.1: an unknown time-zone-name is treated 'as any other inconsistency'; elective -> MAY act (§3.4)
+  9557-7.2-002     [RFC9557 §7.2] '2022-07-08T00:14:07Z[Europe/Paris][u-ca=hebrew][u-ca=hebrew]'...(+64974 chars)
+      target ACCEPTED -- §3.3 grammar '*suffix-tag' has no upper bound, and repeated/unknown elective tags may be ignored or given additional processing; §7.2 parser hardening lets an implementation bound the number of tags and reject beyond it
+  9557-3.4-032     [RFC9557 §3.4] '2022-07-08T00:14:07-07:00[!US/Pacific]'
+      target ACCEPTED -- §4.1/§3.3: backward-compatibility link names (US/Pacific, Europe/Kiev) resolve to their canonical zone where the IANA 'backward' file is installed; builds without it (e.g. Debian's 2023 tzdata-legacy split) or tz releases before 2022b (Europe/Kyiv) do not know the name, and a critical unknown zone MUST then be rejected (§3.3/§4.1)
+  9557-3.4-033     [RFC9557 §3.4] '2022-01-08T00:14:07-08:00[US/Pacific]'
+      target ACCEPTED -- §4.1/§3.3: backward-compatibility link names (US/Pacific, Europe/Kiev) resolve to their canonical zone where the IANA 'backward' file is installed; builds without it (e.g. Debian's 2023 tzdata-legacy split) or tz releases before 2022b (Europe/Kyiv) do not know the name, and a critical unknown zone MUST then be rejected (§3.3/§4.1)
+  9557-3.4-035     [RFC9557 §3.4] '2022-07-08T00:14:07+03:00[!Europe/Kiev]'
+      target ACCEPTED -- §4.1/§3.3: backward-compatibility link names (US/Pacific, Europe/Kiev) resolve to their canonical zone where the IANA 'backward' file is installed; builds without it (e.g. Debian's 2023 tzdata-legacy split) or tz releases before 2022b (Europe/Kyiv) do not know the name, and a critical unknown zone MUST then be rejected (§3.3/§4.1)
+  9557-3.4-036     [RFC9557 §3.4] '2022-07-08T00:14:07+03:00[!Europe/Kyiv]'
+      target ACCEPTED -- §4.1/§3.3: backward-compatibility link names (US/Pacific, Europe/Kiev) resolve to their canonical zone where the IANA 'backward' file is installed; builds without it (e.g. Debian's 2023 tzdata-legacy split) or tz releases before 2022b (Europe/Kyiv) do not know the name, and a critical unknown zone MUST then be rejected (§3.3/§4.1)
+  9557-3.4-039     [RFC9557 §3.4] '1900-01-01T00:00:00+00:10[!Europe/Paris]'
+      target REJECTED -- RFC 3339 §4.2 NOTE / §5.8: a sub-minute historical offset (Paris LMT +00:09:21) must be 'converted to a representable time zone'; the closest is +00:09.  The RFCs do not say whether a §3.4 consistency check must require the nearest minute (+00:10 is then inconsistent) or may tolerate any written offset within a minute of the zone's
+
+151/163 passed (92.6%), 20 interpretation (excluded), 127 skipped
+  skipped: 94 skipped by the adapter ({"skip": true})
+  skipped: 32 non-default options (--target-options fixed: target has a fixed policy)
+  skipped: 1 not applicable to --target-kind
+  fields: 2 accepted vectors compared, 0 WRONG VALUE; 2 not compared (no 'fields' object, or none of the vector's field names)
+
+==============================================================================
+rust:jiff-zoned-always-offset  (--target-kind ixdtf)
+==============================================================================
+Conformance report -- target: <build>/rust-target/release/adapter adapter jiff-zoned-always-offset
+  runner 0.4.0 | vectors vectors/vectors.json sha256:4e700dd49a20 (310) | python 3.13.9 (darwin) | host TZ America/New_York (EST/EDT) | tzdata 2026c | tz-matrix - | mode stdin, batch yes, jobs 1 | 2026-09-26T08:01:40Z | 0.01s
+section                             pass  lenient  strict  wrong  tzdep  reason  error  interp  skip  total
+RFC3339 App. A                         6        0       0      0      0       0      0       0     1      7
+RFC3339 App. D                         0        0       0      0      0       0      0       0    12     12
+RFC3339 errata                         0        0       0      0      0       0      0       0     8      8
+RFC3339 §1                             4        0       0      0      0       0      0       0     0      4
+RFC3339 §4.3 / RFC9557 §2              0        0       0      0      0       0      0       0     3      3
+RFC3339 §5.4                           3        0       0      0      0       0      0       0     0      3
+RFC3339 §5.6                          45        0       3      0      0       0      0       0    37     85
+RFC3339 §5.7                          11        0       0      0      0       0      0       0    44     55
+RFC3339 §5.8                           0        0       0      0      0       0      0       0     5      5
+RFC9557 §1.2                           2        1       0      0      0       0      0       0     0      3
+RFC9557 §3.2                           1        0       0      0      0       0      0       0     3      4
+RFC9557 §3.3                           5        0       2      0      0       0      0       0     9     16
+RFC9557 §3.4                          17        2       0      0      0       0      0      20     0     39
+RFC9557 §4.1                          40        5       0      0      0       0      0       7     0     52
+RFC9557 §4.2                           2        0       0      0      0       0      0       0     3      5
+RFC9557 §5                             0        0       0      0      0       0      0       0     1      1
+RFC9557 §7.2                           6        0       0      0      0       0      0       1     1      8
+TOTAL                                142        8       5      0      0       0      0      28   127    310
+
+TOO LENIENT (accepted, should reject): 8
+  9557-1.2-002     [RFC9557 §1.2] '2020-01-01T00:00+01:00[Europe/Paris]'
+      expected invalid (R3339-5.6/time-second) -- §1.2 prose example omits seconds; the imported date-time ABNF requires them
+  9557-3.4-025     [RFC9557 §3.4] '2016-12-31T23:59:60+01:00[Europe/Paris]'
+      expected invalid (R3339-5.7/leap-second-offset) -- §5.7 still applies inside IXDTF
+  9557-4.1-009     [RFC9557 §4.1] '2022-07-08T00:14:07Z[+24:00]'
+      expected invalid (R9557-4.1/time-zone-offset) -- offset hour 24 in brackets
+  9557-4.1-010     [RFC9557 §4.1] '2022-07-08T00:14:07Z[+0500]'
+      expected invalid (R9557-4.1/time-zone-offset) -- no colon in bracketed offset
+  9557-4.1-040     [RFC9557 §4.1] '2022-07-08T00:14:07[Europe/Paris]'
+      expected invalid (R3339-5.6/time-offset) -- IXDTF still requires the RFC 3339 offset
+  9557-3.4-026     [RFC9557 §3.4] '0000-01-01T00:00:00+01:00[!Europe/Paris]'
+      expected invalid (R9557-3.3/critical-unprocessable); 'resolved' only counts on resolvable vectors -- year 0000 is outside most tz implementations' range: a critical zone that cannot be processed MUST NOT be acted on (§3.3)
+  9557-4.1-045     [RFC9557 §4.1] '2022-07-08[Europe/Paris]'
+      expected invalid (R3339-5.6/date-time-separator) -- date-time-ext = date-time suffix: a suffix on a bare full-date is not IXDTF
+  9557-4.1-049     [RFC9557 §4.1] '2022-07-08T00:14:07-00:44:30[Europe/Dublin]'
+      expected invalid (R3339-5.6/time-numoffset); 'resolved' only counts on resolvable vectors -- offset with seconds is not time-numoffset in IXDTF either
+
+TOO STRICT (rejected, should accept): 5
+  3339-5.6-006     [RFC3339 §5.6] '2024-01-01T00:00:00.000000000001Z'
+      expected valid (ok) -- time-secfrac = "." 1*DIGIT: no upper bound on digits
+  9557-3.3-006     [RFC9557 §3.3] '2022-07-08T00:14:07Z[!u-ca=hebrew][!u-ca=hebrew]'
+      expected valid (ok) -- identical critical duplicates are not inconsistent
+  9557-3.3-007     [RFC9557 §3.3] '2022-07-08T00:14:07Z[!u-ca=gregory]'
+      expected valid (ok) -- critical known key/value
+  3339-5.6-073     [RFC3339 §5.6] '2024-01-01T00:00:00.1234567890123456789012345678901234567890'...(+1011 chars)
+      expected valid (ok) -- 1050-digit fraction: time-secfrac = '.' 1*DIGIT has no upper bound
+  3339-5.6-074     [RFC3339 §5.6] '2024-01-01T00:00:00.0000000000000000000000000000000000000000'...(+1016 chars)
+      expected valid (ok) -- 1050-digit all-zero fraction with numeric offset
+
+INTERPRETATION (RFC permits either verdict, or a leap-second representation; not a failure): 28
+  9557-3.4-001     [RFC9557 §3.4] '2022-07-08T00:14:07+01:00[Europe/Paris]'
+      target ACCEPTED -- §3.4: elective inconsistency -- the app 'MAY act on the inconsistency' (reject or resolve) or ignore the suffix (§3.3)
+  9557-3.4-002     [RFC9557 §3.4] '2022-07-08T00:14:07+01:00[!Europe/Paris]'
+      target ACCEPTED (RESOLVED BY PROGRAMMED BEHAVIOUR) -- §3.3/§3.4: critical -> MUST act: 'reject the data or perform some other error handling' / 'resolving the inconsistency via ... programmed behavior'. An adapter that resolves it may report {"ok": true, "resolved": true}
+  9557-3.4-005     [RFC9557 §3.4] '2022-07-08T00:14:07+00:00[!Europe/London]'
+      target ACCEPTED (RESOLVED BY PROGRAMMED BEHAVIOUR) -- §3.3/§3.4: critical -> MUST act: 'reject the data or perform some other error handling' / 'resolving the inconsistency via ... programmed behavior'. An adapter that resolves it may report {"ok": true, "resolved": true}
+  9557-3.4-006     [RFC9557 §3.4] '2022-07-08T00:14:07+00:00[Europe/London]'
+      target ACCEPTED -- §3.4: elective inconsistency -- the app 'MAY act on the inconsistency' (reject or resolve) or ignore the suffix (§3.3)
+  9557-3.4-011     [RFC9557 §3.4] '2022-07-08T00:14:07+08:45[+08:00]'
+      target ACCEPTED -- §3.4: elective inconsistency -- the app 'MAY act on the inconsistency' (reject or resolve) or ignore the suffix (§3.3)
+  9557-3.4-012     [RFC9557 §3.4] '2022-07-08T00:14:07+08:45[!+08:00]'
+      target ACCEPTED (RESOLVED BY PROGRAMMED BEHAVIOUR) -- §3.3/§3.4: critical -> MUST act: 'reject the data or perform some other error handling' / 'resolving the inconsistency via ... programmed behavior'. An adapter that resolves it may report {"ok": true, "resolved": true}
+  9557-3.4-013     [RFC9557 §3.4] '2022-07-08T00:14:07Z[!+08:45]'
+      target ACCEPTED -- §2/§3.4: Z (= -00:00) asserts no local offset, so by the letter there is no inconsistency; but an offset time zone asserts one, and an app MAY treat the pair as inconsistent (and, if critical, MUST then act)
+  9557-3.4-015     [RFC9557 §3.4] '2022-07-08T00:14:07+05:00[!Etc/GMT+5]'
+      target ACCEPTED (RESOLVED BY PROGRAMMED BEHAVIOUR) -- §3.3/§3.4: critical -> MUST act: 'reject the data or perform some other error handling' / 'resolving the inconsistency via ... programmed behavior'. An adapter that resolves it may report {"ok": true, "resolved": true}
+  9557-3.4-018     [RFC9557 §3.4] '2022-03-13T02:30:00-05:00[!America/New_York]'
+      target ACCEPTED (RESOLVED BY PROGRAMMED BEHAVIOUR) -- §3.3/§3.4: critical -> MUST act: 'reject the data or perform some other error handling' / 'resolving the inconsistency via ... programmed behavior'. An adapter that resolves it may report {"ok": true, "resolved": true}
+  9557-3.4-021     [RFC9557 §3.4] '2022-07-08T00:14:07Z[Mars/Olympus_Mons]'
+      target REJECTED -- §4.1: an unknown time-zone-name is treated 'as any other inconsistency'; elective -> MAY act (§3.4)
+  9557-3.4-022     [RFC9557 §3.4] '2022-07-08T00:14:07Z[!europe/paris]'
+      target ACCEPTED -- §4.1: time-zone-name is 'intended to be the name of an IANA Time Zone'; the RFC does not say whether lookup is case-sensitive (IANA names are case-sensitive identifiers, most platforms look up case-insensitively)
+  9557-4.1-004     [RFC9557 §4.1] '2022-07-08T00:14:07Z[_Custom/Zone-1.x]'
+      target REJECTED -- §4.1: an unknown time-zone-name is treated 'as any other inconsistency'; elective -> MAY act (§3.4)
+  9557-4.1-005     [RFC9557 §4.1] '2022-07-08T00:14:07Z[.hidden]'
+      target REJECTED -- §4.1: an unknown time-zone-name is treated 'as any other inconsistency'; elective -> MAY act (§3.4)
+  9557-4.1-006     [RFC9557 §4.1] '2022-07-08T00:14:07Z[+05:00]'
+      target ACCEPTED -- §2/§3.4: Z (= -00:00) asserts no local offset, so by the letter there is no inconsistency; but an offset time zone asserts one, and an app MAY treat the pair as inconsistent (and, if critical, MUST then act)
+  9557-4.1-007     [RFC9557 §4.1] '2022-07-08T00:14:07Z[-00:00]'
+      target ACCEPTED -- §2/§3.4: Z (= -00:00) asserts no local offset, so by the letter there is no inconsistency; but an offset time zone asserts one, and an app MAY treat the pair as inconsistent (and, if critical, MUST then act)
+  9557-4.1-041     [RFC9557 §4.1] '2022-07-08T00:14:07Z[Z]'
+      target REJECTED -- §4.1: an unknown time-zone-name is treated 'as any other inconsistency'; elective -> MAY act (§3.4)
+  9557-3.4-028     [RFC9557 §3.4] '2022-07-08T00:14:07-00:00[+01:00]'
+      target ACCEPTED -- §2/§3.4: Z (= -00:00) asserts no local offset, so by the letter there is no inconsistency; but an offset time zone asserts one, and an app MAY treat the pair as inconsistent (and, if critical, MUST then act)
+  9557-3.4-030     [RFC9557 §3.4] '2022-07-08T00:14:07+01:00[!UTC]'
+      target ACCEPTED (RESOLVED BY PROGRAMMED BEHAVIOUR) -- §3.3/§3.4: critical -> MUST act: 'reject the data or perform some other error handling' / 'resolving the inconsistency via ... programmed behavior'. An adapter that resolves it may report {"ok": true, "resolved": true}
+  9557-4.1-042     [RFC9557 §4.1] '2022-07-08T00:14:07Z[u-ca]'
+      target REJECTED -- §4.1: an unknown time-zone-name is treated 'as any other inconsistency'; elective -> MAY act (§3.4)
+  9557-4.1-044     [RFC9557 §4.1] '2022-07-08T00:14:07Z[Abcdefghijklmnopqrst/Uvwxyzabcdefghij]'
+      target REJECTED -- §4.1: an unknown time-zone-name is treated 'as any other inconsistency'; elective -> MAY act (§3.4)
+  9557-7.2-002     [RFC9557 §7.2] '2022-07-08T00:14:07Z[Europe/Paris][u-ca=hebrew][u-ca=hebrew]'...(+64974 chars)
+      target ACCEPTED -- §3.3 grammar '*suffix-tag' has no upper bound, and repeated/unknown elective tags may be ignored or given additional processing; §7.2 parser hardening lets an implementation bound the number of tags and reject beyond it
+  9557-3.4-032     [RFC9557 §3.4] '2022-07-08T00:14:07-07:00[!US/Pacific]'
+      target ACCEPTED -- §4.1/§3.3: backward-compatibility link names (US/Pacific, Europe/Kiev) resolve to their canonical zone where the IANA 'backward' file is installed; builds without it (e.g. Debian's 2023 tzdata-legacy split) or tz releases before 2022b (Europe/Kyiv) do not know the name, and a critical unknown zone MUST then be rejected (§3.3/§4.1)
+  9557-3.4-033     [RFC9557 §3.4] '2022-01-08T00:14:07-08:00[US/Pacific]'
+      target ACCEPTED -- §4.1/§3.3: backward-compatibility link names (US/Pacific, Europe/Kiev) resolve to their canonical zone where the IANA 'backward' file is installed; builds without it (e.g. Debian's 2023 tzdata-legacy split) or tz releases before 2022b (Europe/Kyiv) do not know the name, and a critical unknown zone MUST then be rejected (§3.3/§4.1)
+  9557-3.4-034     [RFC9557 §3.4] '2022-07-08T00:14:07+01:00[!US/Pacific]'
+      target ACCEPTED (RESOLVED BY PROGRAMMED BEHAVIOUR) -- §3.3/§3.4: critical -> MUST act: 'reject the data or perform some other error handling' / 'resolving the inconsistency via ... programmed behavior'. An adapter that resolves it may report {"ok": true, "resolved": true}
+  9557-3.4-035     [RFC9557 §3.4] '2022-07-08T00:14:07+03:00[!Europe/Kiev]'
+      target ACCEPTED -- §4.1/§3.3: backward-compatibility link names (US/Pacific, Europe/Kiev) resolve to their canonical zone where the IANA 'backward' file is installed; builds without it (e.g. Debian's 2023 tzdata-legacy split) or tz releases before 2022b (Europe/Kyiv) do not know the name, and a critical unknown zone MUST then be rejected (§3.3/§4.1)
+  9557-3.4-036     [RFC9557 §3.4] '2022-07-08T00:14:07+03:00[!Europe/Kyiv]'
+      target ACCEPTED -- §4.1/§3.3: backward-compatibility link names (US/Pacific, Europe/Kiev) resolve to their canonical zone where the IANA 'backward' file is installed; builds without it (e.g. Debian's 2023 tzdata-legacy split) or tz releases before 2022b (Europe/Kyiv) do not know the name, and a critical unknown zone MUST then be rejected (§3.3/§4.1)
+  9557-3.4-037     [RFC9557 §3.4] '2022-07-08T00:14:07+02:00[!Europe/Kiev]'
+      target ACCEPTED (RESOLVED BY PROGRAMMED BEHAVIOUR) -- §3.3/§3.4: critical -> MUST act: 'reject the data or perform some other error handling' / 'resolving the inconsistency via ... programmed behavior'. An adapter that resolves it may report {"ok": true, "resolved": true}
+  9557-3.4-039     [RFC9557 §3.4] '1900-01-01T00:00:00+00:10[!Europe/Paris]'
+      target ACCEPTED -- RFC 3339 §4.2 NOTE / §5.8: a sub-minute historical offset (Paris LMT +00:09:21) must be 'converted to a representable time zone'; the closest is +00:09.  The RFCs do not say whether a §3.4 consistency check must require the nearest minute (+00:10 is then inconsistent) or may tolerate any written offset within a minute of the zone's
+
+142/155 passed (91.6%), 28 interpretation (excluded), 127 skipped
+  skipped: 94 skipped by the adapter ({"skip": true})
+  skipped: 32 non-default options (--target-options fixed: target has a fixed policy)
+  skipped: 1 not applicable to --target-kind
+  fields: 2 accepted vectors compared, 0 WRONG VALUE; 2 not compared (no 'fields' object, or none of the vector's field names)
+
+==============================================================================
+rust:jiff-zoned-always-timezone  (--target-kind ixdtf)
+==============================================================================
+Conformance report -- target: <build>/rust-target/release/adapter adapter jiff-zoned-always-timezone
+  runner 0.4.0 | vectors vectors/vectors.json sha256:4e700dd49a20 (310) | python 3.13.9 (darwin) | host TZ America/New_York (EST/EDT) | tzdata 2026c | tz-matrix - | mode stdin, batch yes, jobs 1 | 2026-09-26T08:01:40Z | 0.01s
+section                             pass  lenient  strict  wrong  tzdep  reason  error  interp  skip  total
+RFC3339 App. A                         6        0       0      0      0       0      0       0     1      7
+RFC3339 App. D                         0        0       0      0      0       0      0       0    12     12
+RFC3339 errata                         0        0       0      0      0       0      0       0     8      8
+RFC3339 §1                             4        0       0      0      0       0      0       0     0      4
+RFC3339 §4.3 / RFC9557 §2              0        0       0      0      0       0      0       0     3      3
+RFC3339 §5.4                           3        0       0      0      0       0      0       0     0      3
+RFC3339 §5.6                          45        0       3      0      0       0      0       0    37     85
+RFC3339 §5.7                          11        0       0      0      0       0      0       0    44     55
+RFC3339 §5.8                           0        0       0      0      0       0      0       0     5      5
+RFC9557 §1.2                           2        1       0      0      0       0      0       0     0      3
+RFC9557 §3.2                           1        0       0      0      0       0      0       0     3      4
+RFC9557 §3.3                           5        0       2      0      0       0      0       0     9     16
+RFC9557 §3.4                          17        2       0      0      0       0      0      20     0     39
+RFC9557 §4.1                          40        5       0      0      0       0      0       7     0     52
+RFC9557 §4.2                           2        0       0      0      0       0      0       0     3      5
+RFC9557 §5                             0        0       0      0      0       0      0       0     1      1
+RFC9557 §7.2                           6        0       0      0      0       0      0       1     1      8
+TOTAL                                142        8       5      0      0       0      0      28   127    310
+
+TOO LENIENT (accepted, should reject): 8
+  9557-1.2-002     [RFC9557 §1.2] '2020-01-01T00:00+01:00[Europe/Paris]'
+      expected invalid (R3339-5.6/time-second) -- §1.2 prose example omits seconds; the imported date-time ABNF requires them
+  9557-3.4-025     [RFC9557 §3.4] '2016-12-31T23:59:60+01:00[Europe/Paris]'
+      expected invalid (R3339-5.7/leap-second-offset) -- §5.7 still applies inside IXDTF
+  9557-4.1-009     [RFC9557 §4.1] '2022-07-08T00:14:07Z[+24:00]'
+      expected invalid (R9557-4.1/time-zone-offset) -- offset hour 24 in brackets
+  9557-4.1-010     [RFC9557 §4.1] '2022-07-08T00:14:07Z[+0500]'
+      expected invalid (R9557-4.1/time-zone-offset) -- no colon in bracketed offset
+  9557-4.1-040     [RFC9557 §4.1] '2022-07-08T00:14:07[Europe/Paris]'
+      expected invalid (R3339-5.6/time-offset) -- IXDTF still requires the RFC 3339 offset
+  9557-3.4-026     [RFC9557 §3.4] '0000-01-01T00:00:00+01:00[!Europe/Paris]'
+      expected invalid (R9557-3.3/critical-unprocessable); 'resolved' only counts on resolvable vectors -- year 0000 is outside most tz implementations' range: a critical zone that cannot be processed MUST NOT be acted on (§3.3)
+  9557-4.1-045     [RFC9557 §4.1] '2022-07-08[Europe/Paris]'
+      expected invalid (R3339-5.6/date-time-separator) -- date-time-ext = date-time suffix: a suffix on a bare full-date is not IXDTF
+  9557-4.1-049     [RFC9557 §4.1] '2022-07-08T00:14:07-00:44:30[Europe/Dublin]'
+      expected invalid (R3339-5.6/time-numoffset); 'resolved' only counts on resolvable vectors -- offset with seconds is not time-numoffset in IXDTF either
+
+TOO STRICT (rejected, should accept): 5
+  3339-5.6-006     [RFC3339 §5.6] '2024-01-01T00:00:00.000000000001Z'
+      expected valid (ok) -- time-secfrac = "." 1*DIGIT: no upper bound on digits
+  9557-3.3-006     [RFC9557 §3.3] '2022-07-08T00:14:07Z[!u-ca=hebrew][!u-ca=hebrew]'
+      expected valid (ok) -- identical critical duplicates are not inconsistent
+  9557-3.3-007     [RFC9557 §3.3] '2022-07-08T00:14:07Z[!u-ca=gregory]'
+      expected valid (ok) -- critical known key/value
+  3339-5.6-073     [RFC3339 §5.6] '2024-01-01T00:00:00.1234567890123456789012345678901234567890'...(+1011 chars)
+      expected valid (ok) -- 1050-digit fraction: time-secfrac = '.' 1*DIGIT has no upper bound
+  3339-5.6-074     [RFC3339 §5.6] '2024-01-01T00:00:00.0000000000000000000000000000000000000000'...(+1016 chars)
+      expected valid (ok) -- 1050-digit all-zero fraction with numeric offset
+
+INTERPRETATION (RFC permits either verdict, or a leap-second representation; not a failure): 28
+  9557-3.4-001     [RFC9557 §3.4] '2022-07-08T00:14:07+01:00[Europe/Paris]'
+      target ACCEPTED -- §3.4: elective inconsistency -- the app 'MAY act on the inconsistency' (reject or resolve) or ignore the suffix (§3.3)
+  9557-3.4-002     [RFC9557 §3.4] '2022-07-08T00:14:07+01:00[!Europe/Paris]'
+      target ACCEPTED (RESOLVED BY PROGRAMMED BEHAVIOUR) -- §3.3/§3.4: critical -> MUST act: 'reject the data or perform some other error handling' / 'resolving the inconsistency via ... programmed behavior'. An adapter that resolves it may report {"ok": true, "resolved": true}
+  9557-3.4-005     [RFC9557 §3.4] '2022-07-08T00:14:07+00:00[!Europe/London]'
+      target ACCEPTED (RESOLVED BY PROGRAMMED BEHAVIOUR) -- §3.3/§3.4: critical -> MUST act: 'reject the data or perform some other error handling' / 'resolving the inconsistency via ... programmed behavior'. An adapter that resolves it may report {"ok": true, "resolved": true}
+  9557-3.4-006     [RFC9557 §3.4] '2022-07-08T00:14:07+00:00[Europe/London]'
+      target ACCEPTED -- §3.4: elective inconsistency -- the app 'MAY act on the inconsistency' (reject or resolve) or ignore the suffix (§3.3)
+  9557-3.4-011     [RFC9557 §3.4] '2022-07-08T00:14:07+08:45[+08:00]'
+      target ACCEPTED -- §3.4: elective inconsistency -- the app 'MAY act on the inconsistency' (reject or resolve) or ignore the suffix (§3.3)
+  9557-3.4-012     [RFC9557 §3.4] '2022-07-08T00:14:07+08:45[!+08:00]'
+      target ACCEPTED (RESOLVED BY PROGRAMMED BEHAVIOUR) -- §3.3/§3.4: critical -> MUST act: 'reject the data or perform some other error handling' / 'resolving the inconsistency via ... programmed behavior'. An adapter that resolves it may report {"ok": true, "resolved": true}
+  9557-3.4-013     [RFC9557 §3.4] '2022-07-08T00:14:07Z[!+08:45]'
+      target ACCEPTED -- §2/§3.4: Z (= -00:00) asserts no local offset, so by the letter there is no inconsistency; but an offset time zone asserts one, and an app MAY treat the pair as inconsistent (and, if critical, MUST then act)
+  9557-3.4-015     [RFC9557 §3.4] '2022-07-08T00:14:07+05:00[!Etc/GMT+5]'
+      target ACCEPTED (RESOLVED BY PROGRAMMED BEHAVIOUR) -- §3.3/§3.4: critical -> MUST act: 'reject the data or perform some other error handling' / 'resolving the inconsistency via ... programmed behavior'. An adapter that resolves it may report {"ok": true, "resolved": true}
+  9557-3.4-018     [RFC9557 §3.4] '2022-03-13T02:30:00-05:00[!America/New_York]'
+      target ACCEPTED (RESOLVED BY PROGRAMMED BEHAVIOUR) -- §3.3/§3.4: critical -> MUST act: 'reject the data or perform some other error handling' / 'resolving the inconsistency via ... programmed behavior'. An adapter that resolves it may report {"ok": true, "resolved": true}
+  9557-3.4-021     [RFC9557 §3.4] '2022-07-08T00:14:07Z[Mars/Olympus_Mons]'
+      target REJECTED -- §4.1: an unknown time-zone-name is treated 'as any other inconsistency'; elective -> MAY act (§3.4)
+  9557-3.4-022     [RFC9557 §3.4] '2022-07-08T00:14:07Z[!europe/paris]'
+      target ACCEPTED -- §4.1: time-zone-name is 'intended to be the name of an IANA Time Zone'; the RFC does not say whether lookup is case-sensitive (IANA names are case-sensitive identifiers, most platforms look up case-insensitively)
+  9557-4.1-004     [RFC9557 §4.1] '2022-07-08T00:14:07Z[_Custom/Zone-1.x]'
+      target REJECTED -- §4.1: an unknown time-zone-name is treated 'as any other inconsistency'; elective -> MAY act (§3.4)
+  9557-4.1-005     [RFC9557 §4.1] '2022-07-08T00:14:07Z[.hidden]'
+      target REJECTED -- §4.1: an unknown time-zone-name is treated 'as any other inconsistency'; elective -> MAY act (§3.4)
+  9557-4.1-006     [RFC9557 §4.1] '2022-07-08T00:14:07Z[+05:00]'
+      target ACCEPTED -- §2/§3.4: Z (= -00:00) asserts no local offset, so by the letter there is no inconsistency; but an offset time zone asserts one, and an app MAY treat the pair as inconsistent (and, if critical, MUST then act)
+  9557-4.1-007     [RFC9557 §4.1] '2022-07-08T00:14:07Z[-00:00]'
+      target ACCEPTED -- §2/§3.4: Z (= -00:00) asserts no local offset, so by the letter there is no inconsistency; but an offset time zone asserts one, and an app MAY treat the pair as inconsistent (and, if critical, MUST then act)
+  9557-4.1-041     [RFC9557 §4.1] '2022-07-08T00:14:07Z[Z]'
+      target REJECTED -- §4.1: an unknown time-zone-name is treated 'as any other inconsistency'; elective -> MAY act (§3.4)
+  9557-3.4-028     [RFC9557 §3.4] '2022-07-08T00:14:07-00:00[+01:00]'
+      target ACCEPTED -- §2/§3.4: Z (= -00:00) asserts no local offset, so by the letter there is no inconsistency; but an offset time zone asserts one, and an app MAY treat the pair as inconsistent (and, if critical, MUST then act)
+  9557-3.4-030     [RFC9557 §3.4] '2022-07-08T00:14:07+01:00[!UTC]'
+      target ACCEPTED (RESOLVED BY PROGRAMMED BEHAVIOUR) -- §3.3/§3.4: critical -> MUST act: 'reject the data or perform some other error handling' / 'resolving the inconsistency via ... programmed behavior'. An adapter that resolves it may report {"ok": true, "resolved": true}
+  9557-4.1-042     [RFC9557 §4.1] '2022-07-08T00:14:07Z[u-ca]'
+      target REJECTED -- §4.1: an unknown time-zone-name is treated 'as any other inconsistency'; elective -> MAY act (§3.4)
+  9557-4.1-044     [RFC9557 §4.1] '2022-07-08T00:14:07Z[Abcdefghijklmnopqrst/Uvwxyzabcdefghij]'
+      target REJECTED -- §4.1: an unknown time-zone-name is treated 'as any other inconsistency'; elective -> MAY act (§3.4)
+  9557-7.2-002     [RFC9557 §7.2] '2022-07-08T00:14:07Z[Europe/Paris][u-ca=hebrew][u-ca=hebrew]'...(+64974 chars)
+      target ACCEPTED -- §3.3 grammar '*suffix-tag' has no upper bound, and repeated/unknown elective tags may be ignored or given additional processing; §7.2 parser hardening lets an implementation bound the number of tags and reject beyond it
+  9557-3.4-032     [RFC9557 §3.4] '2022-07-08T00:14:07-07:00[!US/Pacific]'
+      target ACCEPTED -- §4.1/§3.3: backward-compatibility link names (US/Pacific, Europe/Kiev) resolve to their canonical zone where the IANA 'backward' file is installed; builds without it (e.g. Debian's 2023 tzdata-legacy split) or tz releases before 2022b (Europe/Kyiv) do not know the name, and a critical unknown zone MUST then be rejected (§3.3/§4.1)
+  9557-3.4-033     [RFC9557 §3.4] '2022-01-08T00:14:07-08:00[US/Pacific]'
+      target ACCEPTED -- §4.1/§3.3: backward-compatibility link names (US/Pacific, Europe/Kiev) resolve to their canonical zone where the IANA 'backward' file is installed; builds without it (e.g. Debian's 2023 tzdata-legacy split) or tz releases before 2022b (Europe/Kyiv) do not know the name, and a critical unknown zone MUST then be rejected (§3.3/§4.1)
+  9557-3.4-034     [RFC9557 §3.4] '2022-07-08T00:14:07+01:00[!US/Pacific]'
+      target ACCEPTED (RESOLVED BY PROGRAMMED BEHAVIOUR) -- §3.3/§3.4: critical -> MUST act: 'reject the data or perform some other error handling' / 'resolving the inconsistency via ... programmed behavior'. An adapter that resolves it may report {"ok": true, "resolved": true}
+  9557-3.4-035     [RFC9557 §3.4] '2022-07-08T00:14:07+03:00[!Europe/Kiev]'
+      target ACCEPTED -- §4.1/§3.3: backward-compatibility link names (US/Pacific, Europe/Kiev) resolve to their canonical zone where the IANA 'backward' file is installed; builds without it (e.g. Debian's 2023 tzdata-legacy split) or tz releases before 2022b (Europe/Kyiv) do not know the name, and a critical unknown zone MUST then be rejected (§3.3/§4.1)
+  9557-3.4-036     [RFC9557 §3.4] '2022-07-08T00:14:07+03:00[!Europe/Kyiv]'
+      target ACCEPTED -- §4.1/§3.3: backward-compatibility link names (US/Pacific, Europe/Kiev) resolve to their canonical zone where the IANA 'backward' file is installed; builds without it (e.g. Debian's 2023 tzdata-legacy split) or tz releases before 2022b (Europe/Kyiv) do not know the name, and a critical unknown zone MUST then be rejected (§3.3/§4.1)
+  9557-3.4-037     [RFC9557 §3.4] '2022-07-08T00:14:07+02:00[!Europe/Kiev]'
+      target ACCEPTED (RESOLVED BY PROGRAMMED BEHAVIOUR) -- §3.3/§3.4: critical -> MUST act: 'reject the data or perform some other error handling' / 'resolving the inconsistency via ... programmed behavior'. An adapter that resolves it may report {"ok": true, "resolved": true}
+  9557-3.4-039     [RFC9557 §3.4] '1900-01-01T00:00:00+00:10[!Europe/Paris]'
+      target ACCEPTED -- RFC 3339 §4.2 NOTE / §5.8: a sub-minute historical offset (Paris LMT +00:09:21) must be 'converted to a representable time zone'; the closest is +00:09.  The RFCs do not say whether a §3.4 consistency check must require the nearest minute (+00:10 is then inconsistent) or may tolerate any written offset within a minute of the zone's
+
+142/155 passed (91.6%), 28 interpretation (excluded), 127 skipped
+  skipped: 94 skipped by the adapter ({"skip": true})
+  skipped: 32 non-default options (--target-options fixed: target has a fixed policy)
+  skipped: 1 not applicable to --target-kind
+  fields: 2 accepted vectors compared, 0 WRONG VALUE; 2 not compared (no 'fields' object, or none of the vector's field names)
+
+==============================================================================
+rust:jiff-zoned-prefer-offset  (--target-kind ixdtf)
+==============================================================================
+Conformance report -- target: <build>/rust-target/release/adapter adapter jiff-zoned-prefer-offset
+  runner 0.4.0 | vectors vectors/vectors.json sha256:4e700dd49a20 (310) | python 3.13.9 (darwin) | host TZ America/New_York (EST/EDT) | tzdata 2026c | tz-matrix - | mode stdin, batch yes, jobs 1 | 2026-09-26T08:01:40Z | 0.01s
+section                             pass  lenient  strict  wrong  tzdep  reason  error  interp  skip  total
+RFC3339 App. A                         6        0       0      0      0       0      0       0     1      7
+RFC3339 App. D                         0        0       0      0      0       0      0       0    12     12
+RFC3339 errata                         0        0       0      0      0       0      0       0     8      8
+RFC3339 §1                             4        0       0      0      0       0      0       0     0      4
+RFC3339 §4.3 / RFC9557 §2              0        0       0      0      0       0      0       0     3      3
+RFC3339 §5.4                           3        0       0      0      0       0      0       0     0      3
+RFC3339 §5.6                          45        0       3      0      0       0      0       0    37     85
+RFC3339 §5.7                          11        0       0      0      0       0      0       0    44     55
+RFC3339 §5.8                           0        0       0      0      0       0      0       0     5      5
+RFC9557 §1.2                           2        1       0      0      0       0      0       0     0      3
+RFC9557 §3.2                           1        0       0      0      0       0      0       0     3      4
+RFC9557 §3.3                           5        0       2      0      0       0      0       0     9     16
+RFC9557 §3.4                          17        2       0      0      0       0      0      20     0     39
+RFC9557 §4.1                          40        5       0      0      0       0      0       7     0     52
+RFC9557 §4.2                           2        0       0      0      0       0      0       0     3      5
+RFC9557 §5                             0        0       0      0      0       0      0       0     1      1
+RFC9557 §7.2                           6        0       0      0      0       0      0       1     1      8
+TOTAL                                142        8       5      0      0       0      0      28   127    310
+
+TOO LENIENT (accepted, should reject): 8
+  9557-1.2-002     [RFC9557 §1.2] '2020-01-01T00:00+01:00[Europe/Paris]'
+      expected invalid (R3339-5.6/time-second) -- §1.2 prose example omits seconds; the imported date-time ABNF requires them
+  9557-3.4-025     [RFC9557 §3.4] '2016-12-31T23:59:60+01:00[Europe/Paris]'
+      expected invalid (R3339-5.7/leap-second-offset) -- §5.7 still applies inside IXDTF
+  9557-4.1-009     [RFC9557 §4.1] '2022-07-08T00:14:07Z[+24:00]'
+      expected invalid (R9557-4.1/time-zone-offset) -- offset hour 24 in brackets
+  9557-4.1-010     [RFC9557 §4.1] '2022-07-08T00:14:07Z[+0500]'
+      expected invalid (R9557-4.1/time-zone-offset) -- no colon in bracketed offset
+  9557-4.1-040     [RFC9557 §4.1] '2022-07-08T00:14:07[Europe/Paris]'
+      expected invalid (R3339-5.6/time-offset) -- IXDTF still requires the RFC 3339 offset
+  9557-3.4-026     [RFC9557 §3.4] '0000-01-01T00:00:00+01:00[!Europe/Paris]'
+      expected invalid (R9557-3.3/critical-unprocessable); 'resolved' only counts on resolvable vectors -- year 0000 is outside most tz implementations' range: a critical zone that cannot be processed MUST NOT be acted on (§3.3)
+  9557-4.1-045     [RFC9557 §4.1] '2022-07-08[Europe/Paris]'
+      expected invalid (R3339-5.6/date-time-separator) -- date-time-ext = date-time suffix: a suffix on a bare full-date is not IXDTF
+  9557-4.1-049     [RFC9557 §4.1] '2022-07-08T00:14:07-00:44:30[Europe/Dublin]'
+      expected invalid (R3339-5.6/time-numoffset); 'resolved' only counts on resolvable vectors -- offset with seconds is not time-numoffset in IXDTF either
+
+TOO STRICT (rejected, should accept): 5
+  3339-5.6-006     [RFC3339 §5.6] '2024-01-01T00:00:00.000000000001Z'
+      expected valid (ok) -- time-secfrac = "." 1*DIGIT: no upper bound on digits
+  9557-3.3-006     [RFC9557 §3.3] '2022-07-08T00:14:07Z[!u-ca=hebrew][!u-ca=hebrew]'
+      expected valid (ok) -- identical critical duplicates are not inconsistent
+  9557-3.3-007     [RFC9557 §3.3] '2022-07-08T00:14:07Z[!u-ca=gregory]'
+      expected valid (ok) -- critical known key/value
+  3339-5.6-073     [RFC3339 §5.6] '2024-01-01T00:00:00.1234567890123456789012345678901234567890'...(+1011 chars)
+      expected valid (ok) -- 1050-digit fraction: time-secfrac = '.' 1*DIGIT has no upper bound
+  3339-5.6-074     [RFC3339 §5.6] '2024-01-01T00:00:00.0000000000000000000000000000000000000000'...(+1016 chars)
+      expected valid (ok) -- 1050-digit all-zero fraction with numeric offset
+
+INTERPRETATION (RFC permits either verdict, or a leap-second representation; not a failure): 28
+  9557-3.4-001     [RFC9557 §3.4] '2022-07-08T00:14:07+01:00[Europe/Paris]'
+      target ACCEPTED -- §3.4: elective inconsistency -- the app 'MAY act on the inconsistency' (reject or resolve) or ignore the suffix (§3.3)
+  9557-3.4-002     [RFC9557 §3.4] '2022-07-08T00:14:07+01:00[!Europe/Paris]'
+      target ACCEPTED (RESOLVED BY PROGRAMMED BEHAVIOUR) -- §3.3/§3.4: critical -> MUST act: 'reject the data or perform some other error handling' / 'resolving the inconsistency via ... programmed behavior'. An adapter that resolves it may report {"ok": true, "resolved": true}
+  9557-3.4-005     [RFC9557 §3.4] '2022-07-08T00:14:07+00:00[!Europe/London]'
+      target ACCEPTED (RESOLVED BY PROGRAMMED BEHAVIOUR) -- §3.3/§3.4: critical -> MUST act: 'reject the data or perform some other error handling' / 'resolving the inconsistency via ... programmed behavior'. An adapter that resolves it may report {"ok": true, "resolved": true}
+  9557-3.4-006     [RFC9557 §3.4] '2022-07-08T00:14:07+00:00[Europe/London]'
+      target ACCEPTED -- §3.4: elective inconsistency -- the app 'MAY act on the inconsistency' (reject or resolve) or ignore the suffix (§3.3)
+  9557-3.4-011     [RFC9557 §3.4] '2022-07-08T00:14:07+08:45[+08:00]'
+      target ACCEPTED -- §3.4: elective inconsistency -- the app 'MAY act on the inconsistency' (reject or resolve) or ignore the suffix (§3.3)
+  9557-3.4-012     [RFC9557 §3.4] '2022-07-08T00:14:07+08:45[!+08:00]'
+      target ACCEPTED (RESOLVED BY PROGRAMMED BEHAVIOUR) -- §3.3/§3.4: critical -> MUST act: 'reject the data or perform some other error handling' / 'resolving the inconsistency via ... programmed behavior'. An adapter that resolves it may report {"ok": true, "resolved": true}
+  9557-3.4-013     [RFC9557 §3.4] '2022-07-08T00:14:07Z[!+08:45]'
+      target ACCEPTED -- §2/§3.4: Z (= -00:00) asserts no local offset, so by the letter there is no inconsistency; but an offset time zone asserts one, and an app MAY treat the pair as inconsistent (and, if critical, MUST then act)
+  9557-3.4-015     [RFC9557 §3.4] '2022-07-08T00:14:07+05:00[!Etc/GMT+5]'
+      target ACCEPTED (RESOLVED BY PROGRAMMED BEHAVIOUR) -- §3.3/§3.4: critical -> MUST act: 'reject the data or perform some other error handling' / 'resolving the inconsistency via ... programmed behavior'. An adapter that resolves it may report {"ok": true, "resolved": true}
+  9557-3.4-018     [RFC9557 §3.4] '2022-03-13T02:30:00-05:00[!America/New_York]'
+      target ACCEPTED (RESOLVED BY PROGRAMMED BEHAVIOUR) -- §3.3/§3.4: critical -> MUST act: 'reject the data or perform some other error handling' / 'resolving the inconsistency via ... programmed behavior'. An adapter that resolves it may report {"ok": true, "resolved": true}
+  9557-3.4-021     [RFC9557 §3.4] '2022-07-08T00:14:07Z[Mars/Olympus_Mons]'
+      target REJECTED -- §4.1: an unknown time-zone-name is treated 'as any other inconsistency'; elective -> MAY act (§3.4)
+  9557-3.4-022     [RFC9557 §3.4] '2022-07-08T00:14:07Z[!europe/paris]'
+      target ACCEPTED -- §4.1: time-zone-name is 'intended to be the name of an IANA Time Zone'; the RFC does not say whether lookup is case-sensitive (IANA names are case-sensitive identifiers, most platforms look up case-insensitively)
+  9557-4.1-004     [RFC9557 §4.1] '2022-07-08T00:14:07Z[_Custom/Zone-1.x]'
+      target REJECTED -- §4.1: an unknown time-zone-name is treated 'as any other inconsistency'; elective -> MAY act (§3.4)
+  9557-4.1-005     [RFC9557 §4.1] '2022-07-08T00:14:07Z[.hidden]'
+      target REJECTED -- §4.1: an unknown time-zone-name is treated 'as any other inconsistency'; elective -> MAY act (§3.4)
+  9557-4.1-006     [RFC9557 §4.1] '2022-07-08T00:14:07Z[+05:00]'
+      target ACCEPTED -- §2/§3.4: Z (= -00:00) asserts no local offset, so by the letter there is no inconsistency; but an offset time zone asserts one, and an app MAY treat the pair as inconsistent (and, if critical, MUST then act)
+  9557-4.1-007     [RFC9557 §4.1] '2022-07-08T00:14:07Z[-00:00]'
+      target ACCEPTED -- §2/§3.4: Z (= -00:00) asserts no local offset, so by the letter there is no inconsistency; but an offset time zone asserts one, and an app MAY treat the pair as inconsistent (and, if critical, MUST then act)
+  9557-4.1-041     [RFC9557 §4.1] '2022-07-08T00:14:07Z[Z]'
+      target REJECTED -- §4.1: an unknown time-zone-name is treated 'as any other inconsistency'; elective -> MAY act (§3.4)
+  9557-3.4-028     [RFC9557 §3.4] '2022-07-08T00:14:07-00:00[+01:00]'
+      target ACCEPTED -- §2/§3.4: Z (= -00:00) asserts no local offset, so by the letter there is no inconsistency; but an offset time zone asserts one, and an app MAY treat the pair as inconsistent (and, if critical, MUST then act)
+  9557-3.4-030     [RFC9557 §3.4] '2022-07-08T00:14:07+01:00[!UTC]'
+      target ACCEPTED (RESOLVED BY PROGRAMMED BEHAVIOUR) -- §3.3/§3.4: critical -> MUST act: 'reject the data or perform some other error handling' / 'resolving the inconsistency via ... programmed behavior'. An adapter that resolves it may report {"ok": true, "resolved": true}
+  9557-4.1-042     [RFC9557 §4.1] '2022-07-08T00:14:07Z[u-ca]'
+      target REJECTED -- §4.1: an unknown time-zone-name is treated 'as any other inconsistency'; elective -> MAY act (§3.4)
+  9557-4.1-044     [RFC9557 §4.1] '2022-07-08T00:14:07Z[Abcdefghijklmnopqrst/Uvwxyzabcdefghij]'
+      target REJECTED -- §4.1: an unknown time-zone-name is treated 'as any other inconsistency'; elective -> MAY act (§3.4)
+  9557-7.2-002     [RFC9557 §7.2] '2022-07-08T00:14:07Z[Europe/Paris][u-ca=hebrew][u-ca=hebrew]'...(+64974 chars)
+      target ACCEPTED -- §3.3 grammar '*suffix-tag' has no upper bound, and repeated/unknown elective tags may be ignored or given additional processing; §7.2 parser hardening lets an implementation bound the number of tags and reject beyond it
+  9557-3.4-032     [RFC9557 §3.4] '2022-07-08T00:14:07-07:00[!US/Pacific]'
+      target ACCEPTED -- §4.1/§3.3: backward-compatibility link names (US/Pacific, Europe/Kiev) resolve to their canonical zone where the IANA 'backward' file is installed; builds without it (e.g. Debian's 2023 tzdata-legacy split) or tz releases before 2022b (Europe/Kyiv) do not know the name, and a critical unknown zone MUST then be rejected (§3.3/§4.1)
+  9557-3.4-033     [RFC9557 §3.4] '2022-01-08T00:14:07-08:00[US/Pacific]'
+      target ACCEPTED -- §4.1/§3.3: backward-compatibility link names (US/Pacific, Europe/Kiev) resolve to their canonical zone where the IANA 'backward' file is installed; builds without it (e.g. Debian's 2023 tzdata-legacy split) or tz releases before 2022b (Europe/Kyiv) do not know the name, and a critical unknown zone MUST then be rejected (§3.3/§4.1)
+  9557-3.4-034     [RFC9557 §3.4] '2022-07-08T00:14:07+01:00[!US/Pacific]'
+      target ACCEPTED (RESOLVED BY PROGRAMMED BEHAVIOUR) -- §3.3/§3.4: critical -> MUST act: 'reject the data or perform some other error handling' / 'resolving the inconsistency via ... programmed behavior'. An adapter that resolves it may report {"ok": true, "resolved": true}
+  9557-3.4-035     [RFC9557 §3.4] '2022-07-08T00:14:07+03:00[!Europe/Kiev]'
+      target ACCEPTED -- §4.1/§3.3: backward-compatibility link names (US/Pacific, Europe/Kiev) resolve to their canonical zone where the IANA 'backward' file is installed; builds without it (e.g. Debian's 2023 tzdata-legacy split) or tz releases before 2022b (Europe/Kyiv) do not know the name, and a critical unknown zone MUST then be rejected (§3.3/§4.1)
+  9557-3.4-036     [RFC9557 §3.4] '2022-07-08T00:14:07+03:00[!Europe/Kyiv]'
+      target ACCEPTED -- §4.1/§3.3: backward-compatibility link names (US/Pacific, Europe/Kiev) resolve to their canonical zone where the IANA 'backward' file is installed; builds without it (e.g. Debian's 2023 tzdata-legacy split) or tz releases before 2022b (Europe/Kyiv) do not know the name, and a critical unknown zone MUST then be rejected (§3.3/§4.1)
+  9557-3.4-037     [RFC9557 §3.4] '2022-07-08T00:14:07+02:00[!Europe/Kiev]'
+      target ACCEPTED (RESOLVED BY PROGRAMMED BEHAVIOUR) -- §3.3/§3.4: critical -> MUST act: 'reject the data or perform some other error handling' / 'resolving the inconsistency via ... programmed behavior'. An adapter that resolves it may report {"ok": true, "resolved": true}
+  9557-3.4-039     [RFC9557 §3.4] '1900-01-01T00:00:00+00:10[!Europe/Paris]'
+      target ACCEPTED -- RFC 3339 §4.2 NOTE / §5.8: a sub-minute historical offset (Paris LMT +00:09:21) must be 'converted to a representable time zone'; the closest is +00:09.  The RFCs do not say whether a §3.4 consistency check must require the nearest minute (+00:10 is then inconsistent) or may tolerate any written offset within a minute of the zone's
+
+142/155 passed (91.6%), 28 interpretation (excluded), 127 skipped
+  skipped: 94 skipped by the adapter ({"skip": true})
+  skipped: 32 non-default options (--target-options fixed: target has a fixed policy)
+  skipped: 1 not applicable to --target-kind
+  fields: 2 accepted vectors compared, 0 WRONG VALUE; 2 not compared (no 'fields' object, or none of the vector's field names)

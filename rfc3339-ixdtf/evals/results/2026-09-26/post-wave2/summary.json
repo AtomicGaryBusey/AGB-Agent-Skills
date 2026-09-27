@@ -1,0 +1,200 @@
+{
+  "costUsd": 2.5620456000000003,
+  "partial": false,
+  "partialReason": null,
+  "cases": {
+    "rfc-consumer": [
+      {
+        "run": 1,
+        "model": "claude-opus-5-5",
+        "error": null,
+        "costUsd": 0.5702666000000001,
+        "turns": 11,
+        "skill_used": true,
+        "skill_not_used": null,
+        "recall": "9/9",
+        "missed": [],
+        "severity_match": "9/9",
+        "severity_match_of_found": "9/9",
+        "severity_mismatch": [],
+        "decoy_rows_flagged_regex": [],
+        "decoy_judge_pass": true,
+        "decoy_verdicts_pass": null,
+        "no_peek": true,
+        "score": 1,
+        "expected_severity": {
+          "C1": [
+            "Nonconformity"
+          ],
+          "C2": [
+            "Nonconformity"
+          ],
+          "C3": [
+            "Nonconformity"
+          ],
+          "C4": [
+            "Deviation",
+            "Advisory"
+          ],
+          "C5": [
+            "Nonconformity"
+          ],
+          "C6": [
+            "Nonconformity"
+          ],
+          "C7": [
+            "Nonconformity"
+          ],
+          "C8": [
+            "Nonconformity"
+          ],
+          "C9": [
+            "Nonconformity"
+          ]
+        }
+      }
+    ],
+    "rfc-decoys": [
+      {
+        "run": 1,
+        "model": "claude-opus-5-5",
+        "error": null,
+        "costUsd": 0.40807740000000003,
+        "turns": 10,
+        "skill_used": true,
+        "skill_not_used": null,
+        "recall": null,
+        "missed": [],
+        "severity_match": null,
+        "severity_match_of_found": null,
+        "severity_mismatch": [],
+        "decoy_rows_flagged_regex": [],
+        "decoy_judge_pass": true,
+        "decoy_verdicts_pass": true,
+        "no_peek": true,
+        "score": 1,
+        "expected_severity": {}
+      }
+    ],
+    "rfc-producer": [
+      {
+        "run": 1,
+        "model": "claude-opus-5-5",
+        "error": null,
+        "costUsd": 0.6730278000000001,
+        "turns": 14,
+        "skill_used": true,
+        "skill_not_used": null,
+        "recall": "6/6",
+        "missed": [],
+        "severity_match": "6/6",
+        "severity_match_of_found": "6/6",
+        "severity_mismatch": [],
+        "decoy_rows_flagged_regex": [],
+        "decoy_judge_pass": true,
+        "decoy_verdicts_pass": null,
+        "no_peek": true,
+        "score": 1,
+        "expected_severity": {
+          "P1": [
+            "Nonconformity"
+          ],
+          "P2": [
+            "Nonconformity"
+          ],
+          "P3": [
+            "Nonconformity"
+          ],
+          "P4": [
+            "Nonconformity"
+          ],
+          "P5": [
+            "Deviation",
+            "Advisory"
+          ],
+          "P6": [
+            "Nonconformity"
+          ]
+        }
+      }
+    ],
+    "rfc-refusal-duration": [
+      {
+        "run": 1,
+        "model": "claude-opus-5-5",
+        "error": null,
+        "costUsd": 0.06404860000000001,
+        "turns": 1,
+        "skill_used": null,
+        "skill_not_used": true,
+        "recall": null,
+        "missed": [],
+        "severity_match": null,
+        "severity_match_of_found": null,
+        "severity_mismatch": [],
+        "decoy_rows_flagged_regex": [],
+        "decoy_judge_pass": null,
+        "decoy_verdicts_pass": null,
+        "no_peek": null,
+        "score": 1,
+        "expected_severity": {}
+      }
+    ],
+    "rfc-refusal-httpdate": [
+      {
+        "run": 1,
+        "model": "claude-opus-5-5",
+        "error": null,
+        "costUsd": 0.054564600000000005,
+        "turns": 1,
+        "skill_used": null,
+        "skill_not_used": true,
+        "recall": null,
+        "missed": [],
+        "severity_match": null,
+        "severity_match_of_found": null,
+        "severity_mismatch": [],
+        "decoy_rows_flagged_regex": [],
+        "decoy_judge_pass": null,
+        "decoy_verdicts_pass": null,
+        "no_peek": null,
+        "score": 1,
+        "expected_severity": {}
+      }
+    ],
+    "rfc-schema": [
+      {
+        "run": 1,
+        "model": "claude-opus-5-5",
+        "error": null,
+        "costUsd": 0.7920606,
+        "turns": 14,
+        "skill_used": true,
+        "skill_not_used": null,
+        "recall": "3/3",
+        "missed": [],
+        "severity_match": "3/3",
+        "severity_match_of_found": "3/3",
+        "severity_mismatch": [],
+        "decoy_rows_flagged_regex": [],
+        "decoy_judge_pass": true,
+        "decoy_verdicts_pass": null,
+        "no_peek": true,
+        "score": 1,
+        "expected_severity": {
+          "S1": [
+            "Deviation",
+            "Nonconformity"
+          ],
+          "S2": [
+            "Deviation"
+          ],
+          "S3": [
+            "Nonconformity",
+            "Deviation"
+          ]
+        }
+      }
+    ]
+  }
+}

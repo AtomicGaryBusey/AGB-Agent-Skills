@@ -1,0 +1,78 @@
+Conformance report -- target: <scratch>/rfcskill/eval-rust/target/release/adapter chrono-fromstr
+section                             pass  lenient  strict  wrong  reason  error  interp  skip  total
+RFC3339 App. D                         0        0       0      0       0      0       0    12     12
+RFC3339 errata                         1        0       0      0       0      0       0     7      8
+RFC3339 §4.3 / RFC9557 §2              3        0       0      0       0      0       0     0      3
+RFC3339 §5.6                          64       17       0      0       0      0       0     3     84
+RFC3339 §5.7                          35        5       0      0       0      0       5     6     51
+RFC3339 §5.8                           5        0       0      0       0      0       0     0      5
+RFC9557 §1.2                           0        0       0      0       0      0       0     3      3
+RFC9557 §3.2                           0        0       0      0       0      0       0     4      4
+RFC9557 §3.3                           0        0       0      0       0      0       0    16     16
+RFC9557 §3.4                           0        0       0      0       0      0       0    31     31
+RFC9557 §4.1                           0        0       0      0       0      0       0    52     52
+RFC9557 §4.2                           0        0       0      0       0      0       0     5      5
+TOTAL                                108       22       0      0       0      0       5   139    274
+
+TOO LENIENT (accepted, should reject): 22
+  3339-5.6-015     [RFC3339 §5.6] '2024-01-01 12:00:00Z'
+      expected invalid (R3339-5.6/date-time-separator) -- ABNF requires T/t; the §5.6 NOTE about a space is permissive prose (erratum 5783, Held)
+  3339-5.6-023     [RFC3339 §5.6] '2024-01-01T12:00:00+0100'
+      expected invalid (R3339-5.6/time-numoffset) -- offset without colon
+  3339-5.6-028     [RFC3339 §5.6] '2024-01-01T12:00:00−05:00'
+      expected invalid (R3339-5.6/time-offset) -- U+2212 MINUS SIGN is not '-'
+  3339-5.6-029     [RFC3339 §5.6] '2024-01-01T12:00:00 Z'
+      expected invalid (R3339-5.6/time-offset) -- space before Z
+  3339-5.6-030     [RFC3339 §5.6] '2024-01-01T12:00:00UTC'
+      expected invalid (R3339-5.6/time-offset) -- alphabetic zone (§4.2)
+  3339-5.6-035     [RFC3339 §5.6] '24-01-01T12:00:00Z'
+      expected invalid (R3339-5.6/date-fullyear) -- 2-digit year (§3 Y2K)
+  3339-5.6-037     [RFC3339 §5.6] '+2024-01-01T12:00:00Z'
+      expected invalid (R3339-5.6/date-fullyear) -- ISO expanded year sign
+  3339-5.6-038     [RFC3339 §5.6] '-0001-01-01T00:00:00Z'
+      expected invalid (R3339-5.6/date-fullyear) -- negative year
+  3339-5.6-039     [RFC3339 §5.6] '2024-1-01T12:00:00Z'
+      expected invalid (R3339-5.6/date-month) -- 1-digit month
+  3339-5.6-040     [RFC3339 §5.6] '2024-01-1T12:00:00Z'
+      expected invalid (R3339-5.6/date-mday) -- 1-digit day
+  3339-5.6-045     [RFC3339 §5.6] '2024-01-01T1:00:00Z'
+      expected invalid (R3339-5.6/time-hour) -- 1-digit hour
+  3339-5.6-048     [RFC3339 §5.6] '2024-01-01T12:0:00Z'
+      expected invalid (R3339-5.6/time-minute) -- 1-digit minute
+  3339-5.6-055     [RFC3339 §5.6] '2024-01-01T12:00:00Z\n'
+      expected invalid (R3339-5.6/trailing-characters) -- trailing newline (regex $ pitfall)
+  3339-5.6-056     [RFC3339 §5.6] '2024-01-01T12:00:00Z '
+      expected invalid (R3339-5.6/trailing-characters) -- trailing space
+  3339-5.6-057     [RFC3339 §5.6] ' 2024-01-01T12:00:00Z'
+      expected invalid (R3339-5.6/date-fullyear) -- leading space
+  3339-5.7-033     [RFC3339 §5.7] '2016-12-31T23:59:60+01:00'
+      expected invalid (R3339-5.7/leap-second-offset) -- local 23:59:60 with +01:00 is 22:59:60Z: §5.7 says the point is shifted by the offset
+  3339-5.7-034     [RFC3339 §5.7] '2016-12-31T23:59:60-05:00'
+      expected invalid (R3339-5.7/leap-second-offset) -- unshifted local 23:59:60 with -05:00
+  3339-5.7-035     [RFC3339 §5.7] '2016-12-30T23:59:60Z'
+      expected invalid (R3339-5.7/leap-second-position) -- not end of month
+  3339-5.7-036     [RFC3339 §5.7] '2016-12-31T23:58:60Z'
+      expected invalid (R3339-5.7/leap-second-position) -- not 23:59
+  3339-5.7-037     [RFC3339 §5.7] '2016-12-31T12:00:60Z'
+      expected invalid (R3339-5.7/leap-second-position) -- midday
+  3339-5.6-066     [RFC3339 §5.6] '2024-01-01T00:00:00Z\r'
+      expected invalid (R3339-5.6/trailing-characters) -- trailing CR
+  3339-5.6-067     [RFC3339 §5.6] '2024-01-01T00:00:00Z\r\n'
+      expected invalid (R3339-5.6/trailing-characters) -- trailing CRLF
+
+INTERPRETATION (RFC permits either verdict; not a failure): 5
+  3339-5.7-039     [RFC3339 §5.7] '2016-06-30T23:59:60Z'
+      target ACCEPTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-040     [RFC3339 §5.7] '2016-03-31T23:59:60Z'
+      target ACCEPTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-042     [RFC3339 §5.7] '2016-01-31T23:59:60Z'
+      target ACCEPTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+  3339-5.7-045     [RFC3339 §5.7] '1971-12-31T23:59:60Z'
+      target ACCEPTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference; UTC leap seconds began in 1972
+  3339-5.7-047     [RFC3339 §5.7] '2024-12-31T23:59:60Z'
+      target ACCEPTED -- §5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference
+
+108/130 passed (83.1%), 5 interpretation (excluded), 139 skipped
+  skipped: 28 non-default options (--target-options fixed: target has a fixed policy)
+  skipped: 111 not applicable to --target-kind
+  fields: 17 accepted vectors compared, 0 WRONG VALUE; 4 not compared (no 'fields' object, or none of the vector's field names)

@@ -1,0 +1,6002 @@
+{
+ "target": "<scratch>/rfcskill/eval-rust/target/release/adapter jiff-timestamp",
+ "totals": {
+  "total": 274,
+  "pass": 172,
+  "too-lenient": 35,
+  "too-strict": 6,
+  "wrong-value": 3,
+  "fail-reason": 0,
+  "error": 0,
+  "interpretation": 27,
+  "skip": 31,
+  "scored": 216,
+  "skipped_by": {
+   "options": 31
+  },
+  "fields_checked": 21,
+  "fields_not_compared": 4
+ },
+ "sections": {
+  "RFC3339 App. D": {
+   "total": 12,
+   "pass": 0,
+   "too-lenient": 0,
+   "too-strict": 0,
+   "wrong-value": 0,
+   "fail-reason": 0,
+   "error": 0,
+   "interpretation": 0,
+   "skip": 12
+  },
+  "RFC3339 errata": {
+   "total": 8,
+   "pass": 0,
+   "too-lenient": 1,
+   "too-strict": 0,
+   "wrong-value": 0,
+   "fail-reason": 0,
+   "error": 0,
+   "interpretation": 0,
+   "skip": 7
+  },
+  "RFC3339 §4.3 / RFC9557 §2": {
+   "total": 3,
+   "pass": 3,
+   "too-lenient": 0,
+   "too-strict": 0,
+   "wrong-value": 0,
+   "fail-reason": 0,
+   "error": 0,
+   "interpretation": 0,
+   "skip": 0
+  },
+  "RFC3339 §5.6": {
+   "total": 84,
+   "pass": 67,
+   "too-lenient": 10,
+   "too-strict": 4,
+   "wrong-value": 0,
+   "fail-reason": 0,
+   "error": 0,
+   "interpretation": 0,
+   "skip": 3
+  },
+  "RFC3339 §5.7": {
+   "total": 51,
+   "pass": 34,
+   "too-lenient": 5,
+   "too-strict": 0,
+   "wrong-value": 1,
+   "fail-reason": 0,
+   "error": 0,
+   "interpretation": 5,
+   "skip": 6
+  },
+  "RFC3339 §5.8": {
+   "total": 5,
+   "pass": 3,
+   "too-lenient": 0,
+   "too-strict": 0,
+   "wrong-value": 2,
+   "fail-reason": 0,
+   "error": 0,
+   "interpretation": 0,
+   "skip": 0
+  },
+  "RFC9557 §1.2": {
+   "total": 3,
+   "pass": 2,
+   "too-lenient": 1,
+   "too-strict": 0,
+   "wrong-value": 0,
+   "fail-reason": 0,
+   "error": 0,
+   "interpretation": 0,
+   "skip": 0
+  },
+  "RFC9557 §3.2": {
+   "total": 4,
+   "pass": 1,
+   "too-lenient": 1,
+   "too-strict": 0,
+   "wrong-value": 0,
+   "fail-reason": 0,
+   "error": 0,
+   "interpretation": 0,
+   "skip": 2
+  },
+  "RFC9557 §3.3": {
+   "total": 16,
+   "pass": 6,
+   "too-lenient": 0,
+   "too-strict": 2,
+   "wrong-value": 0,
+   "fail-reason": 0,
+   "error": 0,
+   "interpretation": 8,
+   "skip": 0
+  },
+  "RFC9557 §3.4": {
+   "total": 31,
+   "pass": 15,
+   "too-lenient": 9,
+   "too-strict": 0,
+   "wrong-value": 0,
+   "fail-reason": 0,
+   "error": 0,
+   "interpretation": 7,
+   "skip": 0
+  },
+  "RFC9557 §4.1": {
+   "total": 52,
+   "pass": 38,
+   "too-lenient": 7,
+   "too-strict": 0,
+   "wrong-value": 0,
+   "fail-reason": 0,
+   "error": 0,
+   "interpretation": 7,
+   "skip": 0
+  },
+  "RFC9557 §4.2": {
+   "total": 5,
+   "pass": 3,
+   "too-lenient": 1,
+   "too-strict": 0,
+   "wrong-value": 0,
+   "fail-reason": 0,
+   "error": 0,
+   "interpretation": 0,
+   "skip": 1
+  }
+ },
+ "results": [
+  {
+   "id": "3339-5.8-001",
+   "section": "RFC3339 §5.8",
+   "input": "1985-04-12T23:20:50.52Z",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "§5.8 example 1",
+   "output": {
+    "fields": {
+     "day": 12,
+     "hour": 23,
+     "leap_second": false,
+     "minute": 20,
+     "month": 4,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "secfrac": "520000000",
+     "second": 50,
+     "year": 1985
+    },
+    "ok": true,
+    "utc": "1985-04-12T23:20:50.52Z"
+   },
+   "choice": "accepted",
+   "fields_compared": true,
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.8-002",
+   "section": "RFC3339 §5.8",
+   "input": "1996-12-19T16:39:57-08:00",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "§5.8 example 2",
+   "output": {
+    "fields": {
+     "day": 19,
+     "hour": 16,
+     "leap_second": false,
+     "minute": 39,
+     "month": 12,
+     "offset_minutes": -480,
+     "offset_unknown": false,
+     "second": 57,
+     "year": 1996
+    },
+    "ok": true,
+    "utc": "1996-12-20T00:39:57Z"
+   },
+   "choice": "accepted",
+   "fields_compared": true,
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.8-003",
+   "section": "RFC3339 §5.8",
+   "input": "1990-12-31T23:59:60Z",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "§5.8 leap second at end of 1990",
+   "output": {
+    "fields": {
+     "day": 31,
+     "hour": 23,
+     "leap_second": false,
+     "minute": 59,
+     "month": 12,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 59,
+     "year": 1990
+    },
+    "ok": true,
+    "utc": "1990-12-31T23:59:59Z"
+   },
+   "choice": "accepted",
+   "fields_compared": true,
+   "status": "wrong-value",
+   "detail": "second: expected 60, got 59; leap_second: expected true, got false"
+  },
+  {
+   "id": "3339-5.8-004",
+   "section": "RFC3339 §5.8",
+   "input": "1990-12-31T15:59:60-08:00",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "§5.8: same leap second in PST -- offset-shifted leap second point (§5.7)",
+   "output": {
+    "fields": {
+     "day": 31,
+     "hour": 15,
+     "leap_second": false,
+     "minute": 59,
+     "month": 12,
+     "offset_minutes": -480,
+     "offset_unknown": false,
+     "second": 59,
+     "year": 1990
+    },
+    "ok": true,
+    "utc": "1990-12-31T23:59:59Z"
+   },
+   "choice": "accepted",
+   "fields_compared": true,
+   "status": "wrong-value",
+   "detail": "second: expected 60, got 59; leap_second: expected true, got false"
+  },
+  {
+   "id": "3339-5.8-005",
+   "section": "RFC3339 §5.8",
+   "input": "1937-01-01T12:00:27.87+00:20",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "§5.8 closest representable offset for +00:19:32.13",
+   "output": {
+    "fields": {
+     "day": 1,
+     "hour": 12,
+     "leap_second": false,
+     "minute": 0,
+     "month": 1,
+     "offset_minutes": 20,
+     "offset_unknown": false,
+     "secfrac": "870000000",
+     "second": 27,
+     "year": 1937
+    },
+    "ok": true,
+    "utc": "1937-01-01T11:40:27.87Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-001",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01t00:00:00z",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "§5.6 NOTE: 't'/'z' may be lower case; generators SHOULD use upper case (warning only)",
+   "output": {
+    "fields": {
+     "day": 1,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 0,
+     "month": 1,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 0,
+     "year": 2024
+    },
+    "ok": true,
+    "utc": "2024-01-01T00:00:00Z"
+   },
+   "choice": "accepted",
+   "fields_compared": true,
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-002",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01T00:00:00z",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "lowercase z only",
+   "output": {
+    "fields": {
+     "day": 1,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 0,
+     "month": 1,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 0,
+     "year": 2024
+    },
+    "ok": true,
+    "utc": "2024-01-01T00:00:00Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-003",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01t00:00:00Z",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "lowercase t only",
+   "output": {
+    "fields": {
+     "day": 1,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 0,
+     "month": 1,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 0,
+     "year": 2024
+    },
+    "ok": true,
+    "utc": "2024-01-01T00:00:00Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-004",
+   "section": "RFC3339 §5.6",
+   "input": "0000-01-01T00:00:00Z",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "date-fullyear = 4DIGIT admits 0000",
+   "output": {
+    "fields": {
+     "day": 1,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 0,
+     "month": 1,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 0,
+     "year": 0
+    },
+    "ok": true,
+    "utc": "0000-01-01T00:00:00Z"
+   },
+   "choice": "accepted",
+   "fields_compared": true,
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-005",
+   "section": "RFC3339 §5.6",
+   "input": "9999-12-31T23:59:59Z",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "max 4DIGIT year",
+   "output": {
+    "error": "failed to convert civil datetime to timestamp with offset +00: converting datetime with time zone offset `+00` to timestamp overflowed: parameter 'Unix timestamp seconds' is not in the required range of -377705023201..=253402207200",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "too-strict",
+   "detail": "expected valid (ok)"
+  },
+  {
+   "id": "3339-5.6-006",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01T00:00:00.000000000001Z",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "time-secfrac = \".\" 1*DIGIT: no upper bound on digits",
+   "output": {
+    "error": "parsed value '2024-01-01T00:00:00', but unparsed input \"001Z\" remains (expected no unparsed input)",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "too-strict",
+   "detail": "expected valid (ok)"
+  },
+  {
+   "id": "3339-5.6-007",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01T00:00:00.0Z",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "single fraction digit",
+   "output": {
+    "fields": {
+     "day": 1,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 0,
+     "month": 1,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 0,
+     "year": 2024
+    },
+    "ok": true,
+    "utc": "2024-01-01T00:00:00Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-008",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01T12:00:00.5Z",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "fraction without leading zero requirement in §5.6 (erratum 4110 concerns App. A only)",
+   "output": {
+    "fields": {
+     "day": 1,
+     "hour": 12,
+     "leap_second": false,
+     "minute": 0,
+     "month": 1,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "secfrac": "500000000",
+     "second": 0,
+     "year": 2024
+    },
+    "ok": true,
+    "utc": "2024-01-01T12:00:00.5Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-009",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01T00:00:00+23:59",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "time-numoffset uses time-hour/time-minute: +23:59 is the maximum",
+   "output": {
+    "fields": {
+     "day": 1,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 0,
+     "month": 1,
+     "offset_minutes": 1439,
+     "offset_unknown": false,
+     "second": 0,
+     "year": 2024
+    },
+    "ok": true,
+    "utc": "2023-12-31T00:01:00Z"
+   },
+   "choice": "accepted",
+   "fields_compared": true,
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-010",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01T00:00:00-23:59",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "minimum offset",
+   "output": {
+    "fields": {
+     "day": 1,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 0,
+     "month": 1,
+     "offset_minutes": -1439,
+     "offset_unknown": false,
+     "second": 0,
+     "year": 2024
+    },
+    "ok": true,
+    "utc": "2024-01-01T23:59:00Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-011",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01T00:00:00+14:00",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "real-world max offset",
+   "output": {
+    "fields": {
+     "day": 1,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 0,
+     "month": 1,
+     "offset_minutes": 840,
+     "offset_unknown": false,
+     "second": 0,
+     "year": 2024
+    },
+    "ok": true,
+    "utc": "2023-12-31T10:00:00Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-012",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01T00:00:00+05:45",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "45-minute offset",
+   "output": {
+    "fields": {
+     "day": 1,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 0,
+     "month": 1,
+     "offset_minutes": 345,
+     "offset_unknown": false,
+     "second": 0,
+     "year": 2024
+    },
+    "ok": true,
+    "utc": "2023-12-31T18:15:00Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-013",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01T23:59:59.999999999Z",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "nanosecond fraction",
+   "output": {
+    "fields": {
+     "day": 1,
+     "hour": 23,
+     "leap_second": false,
+     "minute": 59,
+     "month": 1,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "secfrac": "999999999",
+     "second": 59,
+     "year": 2024
+    },
+    "ok": true,
+    "utc": "2024-01-01T23:59:59.999999999Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-014",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01T12:00:00.123456789-03:30",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "fraction + negative half-hour offset",
+   "output": {
+    "fields": {
+     "day": 1,
+     "hour": 12,
+     "leap_second": false,
+     "minute": 0,
+     "month": 1,
+     "offset_minutes": -210,
+     "offset_unknown": false,
+     "secfrac": "123456789",
+     "second": 0,
+     "year": 2024
+    },
+    "ok": true,
+    "utc": "2024-01-01T15:30:00.123456789Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-015",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01 12:00:00Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "ABNF requires T/t; the §5.6 NOTE about a space is permissive prose (erratum 5783, Held)",
+   "output": {
+    "fields": {
+     "day": 1,
+     "hour": 12,
+     "leap_second": false,
+     "minute": 0,
+     "month": 1,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 0,
+     "year": 2024
+    },
+    "ok": true,
+    "utc": "2024-01-01T12:00:00Z"
+   },
+   "choice": "accepted",
+   "status": "too-lenient",
+   "detail": "expected invalid (R3339-5.6/date-time-separator)"
+  },
+  {
+   "id": "3339-5.6-016",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01 12:00:00Z",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "same input with allow_space_separator option",
+   "status": "skip",
+   "skip_kind": "options",
+   "detail": "non-default options {\"allow_space_separator\": true} (--target-options fixed)"
+  },
+  {
+   "id": "3339-5.6-017",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01  12:00:00Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "only a single SP is accepted even with the option",
+   "status": "skip",
+   "skip_kind": "options",
+   "detail": "non-default options {\"allow_space_separator\": true} (--target-options fixed)"
+  },
+  {
+   "id": "3339-5.6-018",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01_12:00:00Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "underscore separator",
+   "output": {
+    "error": "parsed value '2024-01-01', but unparsed input \"_12:00:00Z\" remains (expected no unparsed input)",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-019",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-0112:00:00Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "separator omitted",
+   "output": {
+    "error": "parsed value '2024-01-01', but unparsed input \"12:00:00Z\" remains (expected no unparsed input)",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-020",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "full-date alone is not a date-time",
+   "output": {
+    "error": "failed to find time component, which is required for parsing a timestamp",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-021",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01T12:00Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "seconds are mandatory",
+   "output": {
+    "fields": {
+     "day": 1,
+     "hour": 12,
+     "leap_second": false,
+     "minute": 0,
+     "month": 1,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 0,
+     "year": 2024
+    },
+    "ok": true,
+    "utc": "2024-01-01T12:00:00Z"
+   },
+   "choice": "accepted",
+   "status": "too-lenient",
+   "detail": "expected invalid (R3339-5.6/time-second)"
+  },
+  {
+   "id": "3339-5.6-022",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01T12:00:00",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "time-offset mandatory; unqualified local time (§4.4)",
+   "output": {
+    "error": "failed to find offset component, which is required for parsing a timestamp",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-023",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01T12:00:00+0100",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "offset without colon",
+   "output": {
+    "fields": {
+     "day": 1,
+     "hour": 12,
+     "leap_second": false,
+     "minute": 0,
+     "month": 1,
+     "offset_minutes": 60,
+     "offset_unknown": false,
+     "second": 0,
+     "year": 2024
+    },
+    "ok": true,
+    "utc": "2024-01-01T11:00:00Z"
+   },
+   "choice": "accepted",
+   "status": "too-lenient",
+   "detail": "expected invalid (R3339-5.6/time-numoffset)"
+  },
+  {
+   "id": "3339-5.6-024",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01T12:00:00+01",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "hour-only offset",
+   "output": {
+    "fields": {
+     "day": 1,
+     "hour": 12,
+     "leap_second": false,
+     "minute": 0,
+     "month": 1,
+     "offset_minutes": 60,
+     "offset_unknown": false,
+     "second": 0,
+     "year": 2024
+    },
+    "ok": true,
+    "utc": "2024-01-01T11:00:00Z"
+   },
+   "choice": "accepted",
+   "status": "too-lenient",
+   "detail": "expected invalid (R3339-5.6/time-numoffset)"
+  },
+  {
+   "id": "3339-5.6-025",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01T12:00:00+1:00",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "1-digit offset hour",
+   "output": {
+    "error": "failed to parse hours in UTC numeric offset: failed to parse hours (requires a two digit integer): invalid digit, expected 0-9 but got :",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-026",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01T12:00:00+24:00",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "offset hour uses time-hour 00-23",
+   "output": {
+    "fields": {
+     "day": 1,
+     "hour": 12,
+     "leap_second": false,
+     "minute": 0,
+     "month": 1,
+     "offset_minutes": 1440,
+     "offset_unknown": false,
+     "second": 0,
+     "year": 2024
+    },
+    "ok": true,
+    "utc": "2023-12-31T12:00:00Z"
+   },
+   "choice": "accepted",
+   "status": "too-lenient",
+   "detail": "expected invalid (R3339-5.6/time-numoffset-hour)"
+  },
+  {
+   "id": "3339-5.6-027",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01T12:00:00+01:60",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "offset minute uses time-minute 00-59",
+   "output": {
+    "error": "failed to parse minutes in UTC numeric offset: failed to parse minutes (requires a two digit integer): parameter 'time zone offset minutes' is not in the required range of -59..=59",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-028",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01T12:00:00−05:00",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "U+2212 MINUS SIGN is not '-'",
+   "output": {
+    "error": "parsed value '2024-01-01T12:00:00', but unparsed input \"−05:00\" remains (expected no unparsed input)",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-029",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01T12:00:00 Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "space before Z",
+   "output": {
+    "error": "parsed value '2024-01-01T12:00:00', but unparsed input \" Z\" remains (expected no unparsed input)",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-030",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01T12:00:00UTC",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "alphabetic zone (§4.2)",
+   "output": {
+    "error": "parsed value '2024-01-01T12:00:00', but unparsed input \"UTC\" remains (expected no unparsed input)",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-031",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01T12:00:00GMT+1",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "alphabetic zone",
+   "output": {
+    "error": "parsed value '2024-01-01T12:00:00', but unparsed input \"GMT+1\" remains (expected no unparsed input)",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-032",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01T12:00:00.Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "'.' needs 1*DIGIT",
+   "output": {
+    "error": "failed to parse fractional seconds in time: found decimal after seconds component, but did not find any digits after decimal",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-033",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01T12:00:00,5Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "comma fraction is only in App. A ISO grammar",
+   "output": {
+    "fields": {
+     "day": 1,
+     "hour": 12,
+     "leap_second": false,
+     "minute": 0,
+     "month": 1,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "secfrac": "500000000",
+     "second": 0,
+     "year": 2024
+    },
+    "ok": true,
+    "utc": "2024-01-01T12:00:00.5Z"
+   },
+   "choice": "accepted",
+   "status": "too-lenient",
+   "detail": "expected invalid (R3339-5.6/time-secfrac)"
+  },
+  {
+   "id": "3339-5.6-034",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01T12:00:00.5.5Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "two fractions",
+   "output": {
+    "error": "parsed value '2024-01-01T12:00:00.5', but unparsed input \".5Z\" remains (expected no unparsed input)",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-035",
+   "section": "RFC3339 §5.6",
+   "input": "24-01-01T12:00:00Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "2-digit year (§3 Y2K)",
+   "output": {
+    "error": "failed to parse four digit integer as year: invalid digit, expected 0-9 but got -",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-036",
+   "section": "RFC3339 §5.6",
+   "input": "12024-01-01T12:00:00Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "5-digit year: 4DIGIT then '-' expected",
+   "output": {
+    "error": "failed to parse two digit integer as month: invalid digit, expected 0-9 but got -",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-037",
+   "section": "RFC3339 §5.6",
+   "input": "+2024-01-01T12:00:00Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "ISO expanded year sign",
+   "output": {
+    "error": "failed to parse six digit integer as year: invalid digit, expected 0-9 but got -",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-038",
+   "section": "RFC3339 §5.6",
+   "input": "-0001-01-01T00:00:00Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "negative year",
+   "output": {
+    "error": "failed to parse six digit integer as year: invalid digit, expected 0-9 but got -",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-039",
+   "section": "RFC3339 §5.6",
+   "input": "2024-1-01T12:00:00Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "1-digit month",
+   "output": {
+    "error": "failed to parse two digit integer as month: invalid digit, expected 0-9 but got -",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-040",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-1T12:00:00Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "1-digit day",
+   "output": {
+    "error": "failed to parse two digit integer as day: invalid digit, expected 0-9 but got T",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-041",
+   "section": "RFC3339 §5.6",
+   "input": "2024-00-10T00:00:00Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "month 00",
+   "output": {
+    "error": "failed to parse two digit integer as month: parameter 'month' is not in the required range of 1..=12",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-042",
+   "section": "RFC3339 §5.6",
+   "input": "2024-13-10T00:00:00Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "month 13",
+   "output": {
+    "error": "failed to parse two digit integer as month: parameter 'month' is not in the required range of 1..=12",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-043",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-00T00:00:00Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "day 00",
+   "output": {
+    "error": "failed to parse two digit integer as day: parameter 'day' is not in the required range of 1..=31",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-044",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-32T00:00:00Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "day 32",
+   "output": {
+    "error": "failed to parse two digit integer as day: parameter 'day' is not in the required range of 1..=31",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-045",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01T1:00:00Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "1-digit hour",
+   "output": {
+    "error": "failed to parse two digit integer as hour: invalid digit, expected 0-9 but got :",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-046",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01T25:00:00Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "hour 25",
+   "output": {
+    "error": "failed to parse two digit integer as hour: parameter 'hour' is not in the required range of 0..=23",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-047",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01T12:60:00Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "minute 60",
+   "output": {
+    "error": "failed to parse two digit integer as minute: parameter 'minute' is not in the required range of 0..=59",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-048",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01T12:0:00Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "1-digit minute",
+   "output": {
+    "error": "failed to parse two digit integer as minute: invalid digit, expected 0-9 but got :",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-049",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01T12:00:61Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "second 61 (ABNF 00-60)",
+   "output": {
+    "error": "failed to parse two digit integer as second: parameter 'second' is not in the required range of 0..=60",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-050",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01T12:00:99Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "second 99",
+   "output": {
+    "error": "failed to parse two digit integer as second: parameter 'second' is not in the required range of 0..=60",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-051",
+   "section": "RFC3339 §5.6",
+   "input": "2024/01/01T12:00:00Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "slash date",
+   "output": {
+    "error": "failed to parse two digit integer as month: invalid digit, expected 0-9 but got /",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-052",
+   "section": "RFC3339 §5.6",
+   "input": "20240101T120000Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "ISO basic format",
+   "output": {
+    "fields": {
+     "day": 1,
+     "hour": 12,
+     "leap_second": false,
+     "minute": 0,
+     "month": 1,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 0,
+     "year": 2024
+    },
+    "ok": true,
+    "utc": "2024-01-01T12:00:00Z"
+   },
+   "choice": "accepted",
+   "status": "too-lenient",
+   "detail": "expected invalid (R3339-5.6/date-separator)"
+  },
+  {
+   "id": "3339-5.6-053",
+   "section": "RFC3339 §5.6",
+   "input": "2024-001T12:00:00Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "ISO ordinal date ('00' month)",
+   "output": {
+    "error": "failed to parse two digit integer as month: parameter 'month' is not in the required range of 1..=12",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-054",
+   "section": "RFC3339 §5.6",
+   "input": "2024-W01-1T12:00:00Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "ISO week date",
+   "output": {
+    "error": "failed to parse two digit integer as month: invalid digit, expected 0-9 but got W",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-055",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01T12:00:00Z\n",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "trailing newline (regex $ pitfall)",
+   "output": {
+    "error": "parsed value '2024-01-01T12:00:00Z', but unparsed input \"\\n\" remains (expected no unparsed input)",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-056",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01T12:00:00Z ",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "trailing space",
+   "output": {
+    "error": "parsed value '2024-01-01T12:00:00Z', but unparsed input \" \" remains (expected no unparsed input)",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-057",
+   "section": "RFC3339 §5.6",
+   "input": " 2024-01-01T12:00:00Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "leading space",
+   "output": {
+    "error": "failed to parse four digit integer as year: invalid digit, expected 0-9 but got  ",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-058",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01T12:00:00ZZ",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "double Z",
+   "output": {
+    "error": "parsed value '2024-01-01T12:00:00Z', but unparsed input \"Z\" remains (expected no unparsed input)",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-059",
+   "section": "RFC3339 §5.6",
+   "input": "２０２４-01-01T12:00:00Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "fullwidth digits: DIGIT is %x30-39 only",
+   "output": {
+    "error": "failed to parse four digit integer as year: invalid digit, expected 0-9 but got \\xEF",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-060",
+   "section": "RFC3339 §5.6",
+   "input": "٢٠٢٤-01-01T12:00:00Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "Arabic-Indic digits (Python \\d / str.isdigit pitfall)",
+   "output": {
+    "error": "failed to parse four digit integer as year: invalid digit, expected 0-9 but got \\xD9",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-061",
+   "section": "RFC3339 §5.6",
+   "input": "",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "empty string",
+   "output": {
+    "error": "expected four digit year (or leading sign for six digit year), but found end of input",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-062",
+   "section": "RFC3339 §5.6",
+   "input": "2022-07-08T00:14:07Z[Europe/Paris]",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "IXDTF suffix is not RFC 3339 date-time (profile rfc3339)",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 7,
+     "time_zone": {
+      "critical": false,
+      "kind": "name",
+      "name": "Europe/Paris"
+     },
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-08T00:14:07Z"
+   },
+   "choice": "accepted",
+   "status": "too-lenient",
+   "detail": "expected invalid (R3339-5.6/trailing-characters)"
+  },
+  {
+   "id": "3339-5.6-063",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01T12:00:00+01:00:00",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "offset with seconds (offset-has-seconds): time-numoffset is +hh:mm only",
+   "output": {
+    "fields": {
+     "day": 1,
+     "hour": 12,
+     "leap_second": false,
+     "minute": 0,
+     "month": 1,
+     "offset_minutes": 60,
+     "offset_unknown": false,
+     "second": 0,
+     "year": 2024
+    },
+    "ok": true,
+    "utc": "2024-01-01T11:00:00Z"
+   },
+   "choice": "accepted",
+   "status": "too-lenient",
+   "detail": "expected invalid (R3339-5.6/time-numoffset)"
+  },
+  {
+   "id": "3339-5.7-001",
+   "section": "RFC3339 §5.7",
+   "input": "2024-01-01T24:00:00Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "§5.7 forbids hour 24 (erratum 293 changes App. A only)",
+   "output": {
+    "error": "failed to parse two digit integer as hour: parameter 'hour' is not in the required range of 0..=23",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.7-002",
+   "section": "RFC3339 §5.7",
+   "input": "2023-02-29T00:00:00Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "Feb 29 in common year",
+   "output": {
+    "error": "parsed date is not valid: parameter 'day' for `2023-02` is invalid, must be in range `1..=28`",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.7-003",
+   "section": "RFC3339 §5.7",
+   "input": "2024-02-29T00:00:00Z",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "leap year (divisible by 4)",
+   "output": {
+    "fields": {
+     "day": 29,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 0,
+     "month": 2,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 0,
+     "year": 2024
+    },
+    "ok": true,
+    "utc": "2024-02-29T00:00:00Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.7-004",
+   "section": "RFC3339 §5.7",
+   "input": "1900-02-29T00:00:00Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "century non-leap (App. C)",
+   "output": {
+    "error": "parsed date is not valid: parameter 'day' for `1900-02` is invalid, must be in range `1..=28`",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.7-005",
+   "section": "RFC3339 §5.7",
+   "input": "2000-02-29T00:00:00Z",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "divisible by 400 (App. C)",
+   "output": {
+    "fields": {
+     "day": 29,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 0,
+     "month": 2,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 0,
+     "year": 2000
+    },
+    "ok": true,
+    "utc": "2000-02-29T00:00:00Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.7-006",
+   "section": "RFC3339 §5.7",
+   "input": "2100-02-29T00:00:00Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "2100 is not leap",
+   "output": {
+    "error": "parsed date is not valid: parameter 'day' for `2100-02` is invalid, must be in range `1..=28`",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.7-007",
+   "section": "RFC3339 §5.7",
+   "input": "0000-02-29T00:00:00Z",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "year 0000: 0 % 400 == 0 per App. C code",
+   "output": {
+    "fields": {
+     "day": 29,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 0,
+     "month": 2,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 0,
+     "year": 0
+    },
+    "ok": true,
+    "utc": "0000-02-29T00:00:00Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.7-008",
+   "section": "RFC3339 §5.7",
+   "input": "2024-02-30T00:00:00Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "Feb 30",
+   "output": {
+    "error": "parsed date is not valid: parameter 'day' for `2024-02` is invalid, must be in range `1..=29`",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.7-009",
+   "section": "RFC3339 §5.7",
+   "input": "2023-02-28T00:00:00Z",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "Feb 28 common year",
+   "output": {
+    "fields": {
+     "day": 28,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 0,
+     "month": 2,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 0,
+     "year": 2023
+    },
+    "ok": true,
+    "utc": "2023-02-28T00:00:00Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.7-010",
+   "section": "RFC3339 §5.7",
+   "input": "2024-04-31T00:00:00Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "month 04 has 30 days",
+   "output": {
+    "error": "parsed date is not valid: parameter 'day' for `2024-04` is invalid, must be in range `1..=30`",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.7-011",
+   "section": "RFC3339 §5.7",
+   "input": "2024-04-30T00:00:00Z",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "month 04 day 30",
+   "output": {
+    "fields": {
+     "day": 30,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 0,
+     "month": 4,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 0,
+     "year": 2024
+    },
+    "ok": true,
+    "utc": "2024-04-30T00:00:00Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.7-012",
+   "section": "RFC3339 §5.7",
+   "input": "2024-06-31T00:00:00Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "month 06 has 30 days",
+   "output": {
+    "error": "parsed date is not valid: parameter 'day' for `2024-06` is invalid, must be in range `1..=30`",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.7-013",
+   "section": "RFC3339 §5.7",
+   "input": "2024-06-30T00:00:00Z",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "month 06 day 30",
+   "output": {
+    "fields": {
+     "day": 30,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 0,
+     "month": 6,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 0,
+     "year": 2024
+    },
+    "ok": true,
+    "utc": "2024-06-30T00:00:00Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.7-014",
+   "section": "RFC3339 §5.7",
+   "input": "2024-09-31T00:00:00Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "month 09 has 30 days",
+   "output": {
+    "error": "parsed date is not valid: parameter 'day' for `2024-09` is invalid, must be in range `1..=30`",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.7-015",
+   "section": "RFC3339 §5.7",
+   "input": "2024-09-30T00:00:00Z",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "month 09 day 30",
+   "output": {
+    "fields": {
+     "day": 30,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 0,
+     "month": 9,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 0,
+     "year": 2024
+    },
+    "ok": true,
+    "utc": "2024-09-30T00:00:00Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.7-016",
+   "section": "RFC3339 §5.7",
+   "input": "2024-11-31T00:00:00Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "month 11 has 30 days",
+   "output": {
+    "error": "parsed date is not valid: parameter 'day' for `2024-11` is invalid, must be in range `1..=30`",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.7-017",
+   "section": "RFC3339 §5.7",
+   "input": "2024-11-30T00:00:00Z",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "month 11 day 30",
+   "output": {
+    "fields": {
+     "day": 30,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 0,
+     "month": 11,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 0,
+     "year": 2024
+    },
+    "ok": true,
+    "utc": "2024-11-30T00:00:00Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.7-018",
+   "section": "RFC3339 §5.7",
+   "input": "2024-01-31T00:00:00Z",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "month 01 has 31 days",
+   "output": {
+    "fields": {
+     "day": 31,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 0,
+     "month": 1,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 0,
+     "year": 2024
+    },
+    "ok": true,
+    "utc": "2024-01-31T00:00:00Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.7-019",
+   "section": "RFC3339 §5.7",
+   "input": "2024-03-31T00:00:00Z",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "month 03 has 31 days",
+   "output": {
+    "fields": {
+     "day": 31,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 0,
+     "month": 3,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 0,
+     "year": 2024
+    },
+    "ok": true,
+    "utc": "2024-03-31T00:00:00Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.7-020",
+   "section": "RFC3339 §5.7",
+   "input": "2024-05-31T00:00:00Z",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "month 05 has 31 days",
+   "output": {
+    "fields": {
+     "day": 31,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 0,
+     "month": 5,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 0,
+     "year": 2024
+    },
+    "ok": true,
+    "utc": "2024-05-31T00:00:00Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.7-021",
+   "section": "RFC3339 §5.7",
+   "input": "2024-07-31T00:00:00Z",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "month 07 has 31 days",
+   "output": {
+    "fields": {
+     "day": 31,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 0,
+     "month": 7,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 0,
+     "year": 2024
+    },
+    "ok": true,
+    "utc": "2024-07-31T00:00:00Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.7-022",
+   "section": "RFC3339 §5.7",
+   "input": "2024-08-31T00:00:00Z",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "month 08 has 31 days",
+   "output": {
+    "fields": {
+     "day": 31,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 0,
+     "month": 8,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 0,
+     "year": 2024
+    },
+    "ok": true,
+    "utc": "2024-08-31T00:00:00Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.7-023",
+   "section": "RFC3339 §5.7",
+   "input": "2024-10-31T00:00:00Z",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "month 10 has 31 days",
+   "output": {
+    "fields": {
+     "day": 31,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 0,
+     "month": 10,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 0,
+     "year": 2024
+    },
+    "ok": true,
+    "utc": "2024-10-31T00:00:00Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.7-024",
+   "section": "RFC3339 §5.7",
+   "input": "2024-12-31T00:00:00Z",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "month 12 has 31 days",
+   "output": {
+    "fields": {
+     "day": 31,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 0,
+     "month": 12,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 0,
+     "year": 2024
+    },
+    "ok": true,
+    "utc": "2024-12-31T00:00:00Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.7-025",
+   "section": "RFC3339 §5.7",
+   "input": "2016-12-31T23:59:60Z",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "real leap second (IERS Bulletin C 52)",
+   "output": {
+    "fields": {
+     "day": 31,
+     "hour": 23,
+     "leap_second": false,
+     "minute": 59,
+     "month": 12,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 59,
+     "year": 2016
+    },
+    "ok": true,
+    "utc": "2016-12-31T23:59:59Z"
+   },
+   "choice": "accepted",
+   "fields_compared": true,
+   "status": "wrong-value",
+   "detail": "leap_second: expected true, got false"
+  },
+  {
+   "id": "3339-5.7-026",
+   "section": "RFC3339 §5.7",
+   "input": "2016-12-31T23:59:60z",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "leap second, lowercase z",
+   "output": {
+    "fields": {
+     "day": 31,
+     "hour": 23,
+     "leap_second": false,
+     "minute": 59,
+     "month": 12,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 59,
+     "year": 2016
+    },
+    "ok": true,
+    "utc": "2016-12-31T23:59:59Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.7-027",
+   "section": "RFC3339 §5.7",
+   "input": "2016-12-31T23:59:60.999Z",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "fraction within leap second",
+   "output": {
+    "fields": {
+     "day": 31,
+     "hour": 23,
+     "leap_second": false,
+     "minute": 59,
+     "month": 12,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "secfrac": "999000000",
+     "second": 59,
+     "year": 2016
+    },
+    "ok": true,
+    "utc": "2016-12-31T23:59:59.999Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.7-028",
+   "section": "RFC3339 §5.7",
+   "input": "2016-12-31T23:59:60+00:00",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "+00:00 leap second",
+   "output": {
+    "fields": {
+     "day": 31,
+     "hour": 23,
+     "leap_second": false,
+     "minute": 59,
+     "month": 12,
+     "offset_minutes": 0,
+     "offset_unknown": false,
+     "second": 59,
+     "year": 2016
+    },
+    "ok": true,
+    "utc": "2016-12-31T23:59:59Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.7-029",
+   "section": "RFC3339 §5.7",
+   "input": "2016-12-31T23:59:60-00:00",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "-00:00 leap second",
+   "output": {
+    "fields": {
+     "day": 31,
+     "hour": 23,
+     "leap_second": false,
+     "minute": 59,
+     "month": 12,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 59,
+     "year": 2016
+    },
+    "ok": true,
+    "utc": "2016-12-31T23:59:59Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.7-030",
+   "section": "RFC3339 §5.7",
+   "input": "2017-01-01T00:59:60+01:00",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "§5.7: leap second point shifted by +01:00 -> next local day 00:59:60",
+   "output": {
+    "fields": {
+     "day": 1,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 59,
+     "month": 1,
+     "offset_minutes": 60,
+     "offset_unknown": false,
+     "second": 59,
+     "year": 2017
+    },
+    "ok": true,
+    "utc": "2016-12-31T23:59:59Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.7-031",
+   "section": "RFC3339 §5.7",
+   "input": "2016-12-31T18:59:60-05:00",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "shifted by -05:00",
+   "output": {
+    "fields": {
+     "day": 31,
+     "hour": 18,
+     "leap_second": false,
+     "minute": 59,
+     "month": 12,
+     "offset_minutes": -300,
+     "offset_unknown": false,
+     "second": 59,
+     "year": 2016
+    },
+    "ok": true,
+    "utc": "2016-12-31T23:59:59Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.7-032",
+   "section": "RFC3339 §5.7",
+   "input": "2017-01-01T05:29:60+05:30",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "shifted by +05:30",
+   "output": {
+    "fields": {
+     "day": 1,
+     "hour": 5,
+     "leap_second": false,
+     "minute": 29,
+     "month": 1,
+     "offset_minutes": 330,
+     "offset_unknown": false,
+     "second": 59,
+     "year": 2017
+    },
+    "ok": true,
+    "utc": "2016-12-31T23:59:59Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.7-033",
+   "section": "RFC3339 §5.7",
+   "input": "2016-12-31T23:59:60+01:00",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "local 23:59:60 with +01:00 is 22:59:60Z: §5.7 says the point is shifted by the offset",
+   "output": {
+    "fields": {
+     "day": 31,
+     "hour": 23,
+     "leap_second": false,
+     "minute": 59,
+     "month": 12,
+     "offset_minutes": 60,
+     "offset_unknown": false,
+     "second": 59,
+     "year": 2016
+    },
+    "ok": true,
+    "utc": "2016-12-31T22:59:59Z"
+   },
+   "choice": "accepted",
+   "status": "too-lenient",
+   "detail": "expected invalid (R3339-5.7/leap-second-offset)"
+  },
+  {
+   "id": "3339-5.7-034",
+   "section": "RFC3339 §5.7",
+   "input": "2016-12-31T23:59:60-05:00",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "unshifted local 23:59:60 with -05:00",
+   "output": {
+    "fields": {
+     "day": 31,
+     "hour": 23,
+     "leap_second": false,
+     "minute": 59,
+     "month": 12,
+     "offset_minutes": -300,
+     "offset_unknown": false,
+     "second": 59,
+     "year": 2016
+    },
+    "ok": true,
+    "utc": "2017-01-01T04:59:59Z"
+   },
+   "choice": "accepted",
+   "status": "too-lenient",
+   "detail": "expected invalid (R3339-5.7/leap-second-offset)"
+  },
+  {
+   "id": "3339-5.7-035",
+   "section": "RFC3339 §5.7",
+   "input": "2016-12-30T23:59:60Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "not end of month",
+   "output": {
+    "fields": {
+     "day": 30,
+     "hour": 23,
+     "leap_second": false,
+     "minute": 59,
+     "month": 12,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 59,
+     "year": 2016
+    },
+    "ok": true,
+    "utc": "2016-12-30T23:59:59Z"
+   },
+   "choice": "accepted",
+   "status": "too-lenient",
+   "detail": "expected invalid (R3339-5.7/leap-second-position)"
+  },
+  {
+   "id": "3339-5.7-036",
+   "section": "RFC3339 §5.7",
+   "input": "2016-12-31T23:58:60Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "not 23:59",
+   "output": {
+    "fields": {
+     "day": 31,
+     "hour": 23,
+     "leap_second": false,
+     "minute": 58,
+     "month": 12,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 59,
+     "year": 2016
+    },
+    "ok": true,
+    "utc": "2016-12-31T23:58:59Z"
+   },
+   "choice": "accepted",
+   "status": "too-lenient",
+   "detail": "expected invalid (R3339-5.7/leap-second-position)"
+  },
+  {
+   "id": "3339-5.7-037",
+   "section": "RFC3339 §5.7",
+   "input": "2016-12-31T12:00:60Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "midday",
+   "output": {
+    "fields": {
+     "day": 31,
+     "hour": 12,
+     "leap_second": false,
+     "minute": 0,
+     "month": 12,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 59,
+     "year": 2016
+    },
+    "ok": true,
+    "utc": "2016-12-31T12:00:59Z"
+   },
+   "choice": "accepted",
+   "status": "too-lenient",
+   "detail": "expected invalid (R3339-5.7/leap-second-position)"
+  },
+  {
+   "id": "3339-5.7-038",
+   "section": "RFC3339 §5.7",
+   "input": "2015-06-30T23:59:60Z",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "real June leap second",
+   "output": {
+    "fields": {
+     "day": 30,
+     "hour": 23,
+     "leap_second": false,
+     "minute": 59,
+     "month": 6,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 59,
+     "year": 2015
+    },
+    "ok": true,
+    "utc": "2015-06-30T23:59:59Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.7-039",
+   "section": "RFC3339 §5.7",
+   "input": "2016-06-30T23:59:60Z",
+   "profile": "rfc3339",
+   "expect": "either",
+   "notes": "June month end, no real leap second (iers-months accepts, table rejects)",
+   "interpretation": "§5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference",
+   "output": {
+    "fields": {
+     "day": 30,
+     "hour": 23,
+     "leap_second": false,
+     "minute": 59,
+     "month": 6,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 59,
+     "year": 2016
+    },
+    "ok": true,
+    "utc": "2016-06-30T23:59:59Z"
+   },
+   "choice": "accepted",
+   "status": "interpretation",
+   "detail": "target accepted"
+  },
+  {
+   "id": "3339-5.7-040",
+   "section": "RFC3339 §5.7",
+   "input": "2016-03-31T23:59:60Z",
+   "profile": "rfc3339",
+   "expect": "either",
+   "notes": "March month end: App. D second-preference opportunity, no real leap second",
+   "interpretation": "§5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference",
+   "output": {
+    "fields": {
+     "day": 31,
+     "hour": 23,
+     "leap_second": false,
+     "minute": 59,
+     "month": 3,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 59,
+     "year": 2016
+    },
+    "ok": true,
+    "utc": "2016-03-31T23:59:59Z"
+   },
+   "choice": "accepted",
+   "status": "interpretation",
+   "detail": "target accepted"
+  },
+  {
+   "id": "3339-5.7-041",
+   "section": "RFC3339 §5.7",
+   "input": "2016-12-31T12:00:60Z",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "leap_seconds=grammar: ABNF-only reading",
+   "status": "skip",
+   "skip_kind": "options",
+   "detail": "non-default options {\"leap_seconds\": \"grammar\"} (--target-options fixed)"
+  },
+  {
+   "id": "3339-D-001",
+   "section": "RFC3339 App. D",
+   "input": "1972-06-30T23:59:60Z",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "in embedded leap-second table",
+   "status": "skip",
+   "skip_kind": "options",
+   "detail": "non-default options {\"leap_seconds\": \"table\"} (--target-options fixed)"
+  },
+  {
+   "id": "3339-D-002",
+   "section": "RFC3339 App. D",
+   "input": "1998-12-31T23:59:60Z",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "in embedded leap-second table",
+   "status": "skip",
+   "skip_kind": "options",
+   "detail": "non-default options {\"leap_seconds\": \"table\"} (--target-options fixed)"
+  },
+  {
+   "id": "3339-D-003",
+   "section": "RFC3339 App. D",
+   "input": "2005-12-31T23:59:60Z",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "in embedded leap-second table",
+   "status": "skip",
+   "skip_kind": "options",
+   "detail": "non-default options {\"leap_seconds\": \"table\"} (--target-options fixed)"
+  },
+  {
+   "id": "3339-D-004",
+   "section": "RFC3339 App. D",
+   "input": "2008-12-31T23:59:60Z",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "in embedded leap-second table",
+   "status": "skip",
+   "skip_kind": "options",
+   "detail": "non-default options {\"leap_seconds\": \"table\"} (--target-options fixed)"
+  },
+  {
+   "id": "3339-D-005",
+   "section": "RFC3339 App. D",
+   "input": "2012-06-30T23:59:60Z",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "in embedded leap-second table",
+   "status": "skip",
+   "skip_kind": "options",
+   "detail": "non-default options {\"leap_seconds\": \"table\"} (--target-options fixed)"
+  },
+  {
+   "id": "3339-D-006",
+   "section": "RFC3339 App. D",
+   "input": "2015-06-30T23:59:60Z",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "in embedded leap-second table",
+   "status": "skip",
+   "skip_kind": "options",
+   "detail": "non-default options {\"leap_seconds\": \"table\"} (--target-options fixed)"
+  },
+  {
+   "id": "3339-D-007",
+   "section": "RFC3339 App. D",
+   "input": "2016-12-31T23:59:60Z",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "in embedded leap-second table",
+   "status": "skip",
+   "skip_kind": "options",
+   "detail": "non-default options {\"leap_seconds\": \"table\"} (--target-options fixed)"
+  },
+  {
+   "id": "3339-D-008",
+   "section": "RFC3339 App. D",
+   "input": "1990-12-31T15:59:60-08:00",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "table + offset shift",
+   "status": "skip",
+   "skip_kind": "options",
+   "detail": "non-default options {\"leap_seconds\": \"table\"} (--target-options fixed)"
+  },
+  {
+   "id": "3339-D-009",
+   "section": "RFC3339 App. D",
+   "input": "2016-06-30T23:59:60Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "no leap second at mid-2016",
+   "status": "skip",
+   "skip_kind": "options",
+   "detail": "non-default options {\"leap_seconds\": \"table\"} (--target-options fixed)"
+  },
+  {
+   "id": "3339-D-010",
+   "section": "RFC3339 App. D",
+   "input": "1971-12-31T23:59:60Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "UTC leap seconds start 1972",
+   "status": "skip",
+   "skip_kind": "options",
+   "detail": "non-default options {\"leap_seconds\": \"table\"} (--target-options fixed)"
+  },
+  {
+   "id": "3339-D-011",
+   "section": "RFC3339 App. D",
+   "input": "2024-12-31T23:59:60Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "after table cutoff 2016-12-31; none announced since",
+   "status": "skip",
+   "skip_kind": "options",
+   "detail": "non-default options {\"leap_seconds\": \"table\"} (--target-options fixed)"
+  },
+  {
+   "id": "3339-D-012",
+   "section": "RFC3339 App. D",
+   "input": "2016-12-31T23:59:60+01:00",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "positional rule applies before table lookup",
+   "status": "skip",
+   "skip_kind": "options",
+   "detail": "non-default options {\"leap_seconds\": \"table\"} (--target-options fixed)"
+  },
+  {
+   "id": "3339-4.3-001",
+   "section": "RFC3339 §4.3 / RFC9557 §2",
+   "input": "2024-06-01T12:00:00Z",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "Z: UTC known, local offset unknown (RFC 9557 §2)",
+   "output": {
+    "fields": {
+     "day": 1,
+     "hour": 12,
+     "leap_second": false,
+     "minute": 0,
+     "month": 6,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 0,
+     "year": 2024
+    },
+    "ok": true,
+    "utc": "2024-06-01T12:00:00Z"
+   },
+   "choice": "accepted",
+   "fields_compared": true,
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-4.3-002",
+   "section": "RFC3339 §4.3 / RFC9557 §2",
+   "input": "2024-06-01T12:00:00-00:00",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "-00:00 same meaning as Z; not deprecated (§2.3)",
+   "output": {
+    "fields": {
+     "day": 1,
+     "hour": 12,
+     "leap_second": false,
+     "minute": 0,
+     "month": 6,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 0,
+     "year": 2024
+    },
+    "ok": true,
+    "utc": "2024-06-01T12:00:00Z"
+   },
+   "choice": "accepted",
+   "fields_compared": true,
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-4.3-003",
+   "section": "RFC3339 §4.3 / RFC9557 §2",
+   "input": "2024-06-01T12:00:00+00:00",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "+00:00: UTC is preferred reference (§2.3)",
+   "output": {
+    "fields": {
+     "day": 1,
+     "hour": 12,
+     "leap_second": false,
+     "minute": 0,
+     "month": 6,
+     "offset_minutes": 0,
+     "offset_unknown": false,
+     "second": 0,
+     "year": 2024
+    },
+    "ok": true,
+    "utc": "2024-06-01T12:00:00Z"
+   },
+   "choice": "accepted",
+   "fields_compared": true,
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-errata-001",
+   "section": "RFC3339 errata",
+   "input": "2024-01-01T120000Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "erratum 1584 (Verified, App. A): mixed basic/extended is App. A only; §5.6 is extended",
+   "output": {
+    "fields": {
+     "day": 1,
+     "hour": 12,
+     "leap_second": false,
+     "minute": 0,
+     "month": 1,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 0,
+     "year": 2024
+    },
+    "ok": true,
+    "utc": "2024-01-01T12:00:00Z"
+   },
+   "choice": "accepted",
+   "status": "too-lenient",
+   "detail": "expected invalid (R3339-5.6/time-separator)"
+  },
+  {
+   "id": "3339-errata-002",
+   "section": "RFC3339 errata",
+   "input": "2024-02-29",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "erratum 5624 (Held): full-date production used alone",
+   "status": "skip",
+   "skip_kind": "options",
+   "detail": "non-default options {\"production\": \"full-date\"} (--target-options fixed)"
+  },
+  {
+   "id": "3339-errata-003",
+   "section": "RFC3339 errata",
+   "input": "2024-02-30",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "full-date production still applies §5.7",
+   "status": "skip",
+   "skip_kind": "options",
+   "detail": "non-default options {\"production\": \"full-date\"} (--target-options fixed)"
+  },
+  {
+   "id": "3339-errata-004",
+   "section": "RFC3339 errata",
+   "input": "12:00:00Z",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "full-time production",
+   "status": "skip",
+   "skip_kind": "options",
+   "detail": "non-default options {\"production\": \"full-time\"} (--target-options fixed)"
+  },
+  {
+   "id": "3339-errata-005",
+   "section": "RFC3339 errata",
+   "input": "12:00:00",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "full-time needs time-offset",
+   "status": "skip",
+   "skip_kind": "options",
+   "detail": "non-default options {\"production\": \"full-time\"} (--target-options fixed)"
+  },
+  {
+   "id": "3339-errata-006",
+   "section": "RFC3339 errata",
+   "input": "12:00:00.5",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "partial-time production",
+   "status": "skip",
+   "skip_kind": "options",
+   "detail": "non-default options {\"production\": \"partial-time\"} (--target-options fixed)"
+  },
+  {
+   "id": "3339-errata-007",
+   "section": "RFC3339 errata",
+   "input": "00:59:60+01:00",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "full-time leap second, shifted",
+   "status": "skip",
+   "skip_kind": "options",
+   "detail": "non-default options {\"production\": \"full-time\"} (--target-options fixed)"
+  },
+  {
+   "id": "3339-errata-008",
+   "section": "RFC3339 errata",
+   "input": "23:59:60+01:00",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "full-time leap second not shifted",
+   "status": "skip",
+   "skip_kind": "options",
+   "detail": "non-default options {\"production\": \"full-time\"} (--target-options fixed)"
+  },
+  {
+   "id": "9557-4.2-001",
+   "section": "RFC9557 §4.2",
+   "input": "1996-12-19T16:39:57-08:00",
+   "profile": "ixdtf",
+   "expect": "valid",
+   "notes": "Figure 4: suffix is optional",
+   "output": {
+    "fields": {
+     "day": 19,
+     "hour": 16,
+     "leap_second": false,
+     "minute": 39,
+     "month": 12,
+     "offset_minutes": -480,
+     "offset_unknown": false,
+     "second": 57,
+     "year": 1996
+    },
+    "ok": true,
+    "utc": "1996-12-20T00:39:57Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-4.2-002",
+   "section": "RFC9557 §4.2",
+   "input": "1996-12-19T16:39:57-08:00[America/Los_Angeles]",
+   "profile": "ixdtf",
+   "expect": "valid",
+   "notes": "Figure 5",
+   "output": {
+    "fields": {
+     "day": 19,
+     "hour": 16,
+     "leap_second": false,
+     "minute": 39,
+     "month": 12,
+     "offset_minutes": -480,
+     "offset_unknown": false,
+     "second": 57,
+     "time_zone": {
+      "critical": false,
+      "kind": "name",
+      "name": "America/Los_Angeles"
+     },
+     "year": 1996
+    },
+    "ok": true,
+    "utc": "1996-12-20T00:39:57Z"
+   },
+   "choice": "accepted",
+   "fields_compared": true,
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-4.2-003",
+   "section": "RFC9557 §4.2",
+   "input": "1996-12-19T16:39:57-08:00[America/Los_Angeles][u-ca=hebrew]",
+   "profile": "ixdtf",
+   "expect": "valid",
+   "notes": "Figure 6",
+   "output": {
+    "fields": {
+     "day": 19,
+     "hour": 16,
+     "leap_second": false,
+     "minute": 39,
+     "month": 12,
+     "offset_minutes": -480,
+     "offset_unknown": false,
+     "second": 57,
+     "time_zone": {
+      "critical": false,
+      "kind": "name",
+      "name": "America/Los_Angeles"
+     },
+     "year": 1996
+    },
+    "ok": true,
+    "utc": "1996-12-20T00:39:57Z"
+   },
+   "choice": "accepted",
+   "fields_compared": false,
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-4.2-004",
+   "section": "RFC9557 §4.2",
+   "input": "1996-12-19T16:39:57-08:00[_foo=bar][_baz=bat]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "Figure 7 is only meaningful inside a configured experiment; §3.2 MUST reject otherwise",
+   "output": {
+    "fields": {
+     "day": 19,
+     "hour": 16,
+     "leap_second": false,
+     "minute": 39,
+     "month": 12,
+     "offset_minutes": -480,
+     "offset_unknown": false,
+     "second": 57,
+     "year": 1996
+    },
+    "ok": true,
+    "utc": "1996-12-20T00:39:57Z"
+   },
+   "choice": "accepted",
+   "status": "too-lenient",
+   "detail": "expected invalid (R9557-3.2/experimental-key)"
+  },
+  {
+   "id": "9557-4.2-005",
+   "section": "RFC9557 §4.2",
+   "input": "1996-12-19T16:39:57-08:00[_foo=bar][_baz=bat]",
+   "profile": "ixdtf",
+   "expect": "valid",
+   "notes": "Figure 7 with both keys configured as experimental",
+   "status": "skip",
+   "skip_kind": "options",
+   "detail": "non-default options {\"experimental_keys\": [\"_foo\", \"_baz\"]} (--target-options fixed)"
+  },
+  {
+   "id": "9557-1.2-001",
+   "section": "RFC9557 §1.2",
+   "input": "2022-07-08T00:14:07+08:45[+08:45]",
+   "profile": "ixdtf",
+   "expect": "valid",
+   "notes": "offset time zone: allowed but strongly discouraged",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 525,
+     "offset_unknown": false,
+     "second": 7,
+     "time_zone": {
+      "critical": false,
+      "kind": "offset",
+      "offset_minutes": 525
+     },
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-07T15:29:07Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-1.2-002",
+   "section": "RFC9557 §1.2",
+   "input": "2020-01-01T00:00+01:00[Europe/Paris]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "§1.2 prose example omits seconds; the imported date-time ABNF requires them",
+   "output": {
+    "fields": {
+     "day": 1,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 0,
+     "month": 1,
+     "offset_minutes": 60,
+     "offset_unknown": false,
+     "second": 0,
+     "time_zone": {
+      "critical": false,
+      "kind": "name",
+      "name": "Europe/Paris"
+     },
+     "year": 2020
+    },
+    "ok": true,
+    "utc": "2019-12-31T23:00:00Z"
+   },
+   "choice": "accepted",
+   "status": "too-lenient",
+   "detail": "expected invalid (R3339-5.6/time-second)"
+  },
+  {
+   "id": "9557-1.2-003",
+   "section": "RFC9557 §1.2",
+   "input": "2020-01-01T00:00:00+01:00[Europe/Paris]",
+   "profile": "ixdtf",
+   "expect": "valid",
+   "notes": "§1.2 example with seconds restored",
+   "output": {
+    "fields": {
+     "day": 1,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 0,
+     "month": 1,
+     "offset_minutes": 60,
+     "offset_unknown": false,
+     "second": 0,
+     "time_zone": {
+      "critical": false,
+      "kind": "name",
+      "name": "Europe/Paris"
+     },
+     "year": 2020
+    },
+    "ok": true,
+    "utc": "2019-12-31T23:00:00Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-3.2-001",
+   "section": "RFC9557 §3.2",
+   "input": "2022-07-08T00:14:07Z[_foo=bar]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "elective experimental key still MUST be rejected",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 7,
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-08T00:14:07Z"
+   },
+   "choice": "accepted",
+   "status": "too-lenient",
+   "detail": "expected invalid (R9557-3.2/experimental-key)"
+  },
+  {
+   "id": "9557-3.2-002",
+   "section": "RFC9557 §3.2",
+   "input": "2022-07-08T00:14:07Z[!_foo=bar]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "critical experimental key",
+   "output": {
+    "error": "found unsupported RFC 9557 annotation with the critical flag (`!`) set",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-3.2-003",
+   "section": "RFC9557 §3.2",
+   "input": "2022-07-08T00:14:07Z[_foo=bar]",
+   "profile": "ixdtf",
+   "expect": "valid",
+   "notes": "configured experiment",
+   "status": "skip",
+   "skip_kind": "options",
+   "detail": "non-default options {\"experimental_keys\": [\"_foo\"]} (--target-options fixed)"
+  },
+  {
+   "id": "9557-3.3-001",
+   "section": "RFC9557 §3.3",
+   "input": "2022-07-08T00:14:07+01:00[knort=blargel]",
+   "profile": "ixdtf",
+   "expect": "either",
+   "notes": "§3.3 example: unknown elective key 'may be entirely ignored'",
+   "interpretation": "§3.3: elective tags may be ignored, but apps 'MAY also perform additional processing on inconsistent or unrecognized elective suffix tags'",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 60,
+     "offset_unknown": false,
+     "second": 7,
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-07T23:14:07Z"
+   },
+   "choice": "accepted",
+   "status": "interpretation",
+   "detail": "target accepted"
+  },
+  {
+   "id": "9557-3.3-002",
+   "section": "RFC9557 §3.3",
+   "input": "2022-07-08T00:14:07Z[!knort=blargel]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "§3.3 example: critical unknown key MUST be treated as erroneous",
+   "output": {
+    "error": "found unsupported RFC 9557 annotation with the critical flag (`!`) set",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-3.3-003",
+   "section": "RFC9557 §3.3",
+   "input": "2022-07-08T00:14:07Z[!u-ca=chinese][u-ca=japanese]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "§3.3 example",
+   "interpretation": "§3.3/§3.4: critical -> MUST act: 'reject the data or perform some other error handling' / 'resolving the inconsistency via ... programmed behavior'. An adapter that resolves it may report {\"ok\": true, \"resolved\": true}",
+   "output": {
+    "error": "found unsupported RFC 9557 annotation with the critical flag (`!`) set",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-3.3-004",
+   "section": "RFC9557 §3.3",
+   "input": "2022-07-08T00:14:07Z[u-ca=chinese][!u-ca=japanese]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "§3.3 example (critical on second)",
+   "interpretation": "§3.3/§3.4: critical -> MUST act: 'reject the data or perform some other error handling' / 'resolving the inconsistency via ... programmed behavior'. An adapter that resolves it may report {\"ok\": true, \"resolved\": true}",
+   "output": {
+    "error": "found unsupported RFC 9557 annotation with the critical flag (`!`) set",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-3.3-005",
+   "section": "RFC9557 §3.3",
+   "input": "2022-07-08T00:14:07Z[u-ca=chinese][u-ca=japanese]",
+   "profile": "ixdtf",
+   "expect": "either",
+   "notes": "§3.3 example: repeated elective key",
+   "interpretation": "§3.3: duplicate elective key -- the first value MUST be used only by an app that 'does not want to perform additional processing'; additional processing may reject",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 7,
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-08T00:14:07Z"
+   },
+   "choice": "accepted",
+   "status": "interpretation",
+   "detail": "target accepted"
+  },
+  {
+   "id": "9557-3.3-006",
+   "section": "RFC9557 §3.3",
+   "input": "2022-07-08T00:14:07Z[!u-ca=hebrew][!u-ca=hebrew]",
+   "profile": "ixdtf",
+   "expect": "valid",
+   "notes": "identical critical duplicates are not inconsistent",
+   "output": {
+    "error": "found unsupported RFC 9557 annotation with the critical flag (`!`) set",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "too-strict",
+   "detail": "expected valid (ok)"
+  },
+  {
+   "id": "9557-3.3-007",
+   "section": "RFC9557 §3.3",
+   "input": "2022-07-08T00:14:07Z[!u-ca=gregory]",
+   "profile": "ixdtf",
+   "expect": "valid",
+   "notes": "critical known key/value",
+   "output": {
+    "error": "found unsupported RFC 9557 annotation with the critical flag (`!`) set",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "too-strict",
+   "detail": "expected valid (ok)"
+  },
+  {
+   "id": "9557-3.3-008",
+   "section": "RFC9557 §3.3",
+   "input": "2022-07-08T00:14:07Z[u-ca=islamic-umalqura]",
+   "profile": "ixdtf",
+   "expect": "valid",
+   "notes": "multi-item suffix-values",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 7,
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-08T00:14:07Z"
+   },
+   "choice": "accepted",
+   "fields_compared": false,
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-3.3-009",
+   "section": "RFC9557 §3.3",
+   "input": "2022-07-08T00:14:07Z[!u-ca=klingon]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "critical tag whose value cannot be processed",
+   "output": {
+    "error": "found unsupported RFC 9557 annotation with the critical flag (`!`) set",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-3.3-010",
+   "section": "RFC9557 §3.3",
+   "input": "2022-07-08T00:14:07Z[u-ca=klingon]",
+   "profile": "ixdtf",
+   "expect": "either",
+   "notes": "elective unknown value is ignorable",
+   "interpretation": "§3.3: elective tags may be ignored, but apps 'MAY also perform additional processing on inconsistent or unrecognized elective suffix tags'",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 7,
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-08T00:14:07Z"
+   },
+   "choice": "accepted",
+   "status": "interpretation",
+   "detail": "target accepted"
+  },
+  {
+   "id": "9557-3.3-011",
+   "section": "RFC9557 §3.3",
+   "input": "2022-07-08T00:14:07Z[u-ca=Hebrew]",
+   "profile": "ixdtf",
+   "expect": "either",
+   "notes": "values case-sensitive (§3.1): 'Hebrew' is not 'hebrew'",
+   "interpretation": "§3.3: elective tags may be ignored, but apps 'MAY also perform additional processing on inconsistent or unrecognized elective suffix tags'",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 7,
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-08T00:14:07Z"
+   },
+   "choice": "accepted",
+   "status": "interpretation",
+   "detail": "target accepted"
+  },
+  {
+   "id": "9557-3.3-012",
+   "section": "RFC9557 §3.3",
+   "input": "2022-07-08T00:14:07Z[a-b_c9=x][u-ca=hebrew]",
+   "profile": "ixdtf",
+   "expect": "either",
+   "notes": "key-char mix of lcalpha, '_', DIGIT, '-' (syntax valid; unknown elective key)",
+   "interpretation": "§3.3: elective tags may be ignored, but apps 'MAY also perform additional processing on inconsistent or unrecognized elective suffix tags'",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 7,
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-08T00:14:07Z"
+   },
+   "choice": "accepted",
+   "status": "interpretation",
+   "detail": "target accepted"
+  },
+  {
+   "id": "9557-3.4-001",
+   "section": "RFC9557 §3.4",
+   "input": "2022-07-08T00:14:07+01:00[Europe/Paris]",
+   "profile": "ixdtf",
+   "expect": "either",
+   "notes": "§3.3 example: inconsistent but elective -> may treat as plain RFC 3339",
+   "interpretation": "§3.4: elective inconsistency -- the app 'MAY act on the inconsistency' (reject or resolve) or ignore the suffix (§3.3)",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 60,
+     "offset_unknown": false,
+     "second": 7,
+     "time_zone": {
+      "critical": false,
+      "kind": "name",
+      "name": "Europe/Paris"
+     },
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-07T23:14:07Z"
+   },
+   "choice": "accepted",
+   "status": "interpretation",
+   "detail": "target accepted"
+  },
+  {
+   "id": "9557-3.4-002",
+   "section": "RFC9557 §3.4",
+   "input": "2022-07-08T00:14:07+01:00[!Europe/Paris]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "§3.3 example: critical inconsistency MUST be acted on",
+   "interpretation": "§3.3/§3.4: critical -> MUST act: 'reject the data or perform some other error handling' / 'resolving the inconsistency via ... programmed behavior'. An adapter that resolves it may report {\"ok\": true, \"resolved\": true}",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 60,
+     "offset_unknown": false,
+     "second": 7,
+     "time_zone": {
+      "critical": true,
+      "kind": "name",
+      "name": "Europe/Paris"
+     },
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-07T23:14:07Z"
+   },
+   "choice": "accepted",
+   "status": "too-lenient",
+   "detail": "expected invalid (R9557-3.4/critical-inconsistency)"
+  },
+  {
+   "id": "9557-3.4-003",
+   "section": "RFC9557 §3.4",
+   "input": "2022-07-08T00:14:07Z[Europe/Paris]",
+   "profile": "ixdtf",
+   "expect": "valid",
+   "notes": "§3.3 note: Z asserts no local offset, so no inconsistency",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 7,
+     "time_zone": {
+      "critical": false,
+      "kind": "name",
+      "name": "Europe/Paris"
+     },
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-08T00:14:07Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-3.4-004",
+   "section": "RFC9557 §3.4",
+   "input": "2022-07-08T02:14:07+02:00[Europe/Paris]",
+   "profile": "ixdtf",
+   "expect": "valid",
+   "notes": "§3.3 note equivalent",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 2,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 120,
+     "offset_unknown": false,
+     "second": 7,
+     "time_zone": {
+      "critical": false,
+      "kind": "name",
+      "name": "Europe/Paris"
+     },
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-08T00:14:07Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-3.4-005",
+   "section": "RFC9557 §3.4",
+   "input": "2022-07-08T00:14:07+00:00[!Europe/London]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "Figure 1 (critical)",
+   "interpretation": "§3.3/§3.4: critical -> MUST act: 'reject the data or perform some other error handling' / 'resolving the inconsistency via ... programmed behavior'. An adapter that resolves it may report {\"ok\": true, \"resolved\": true}",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 0,
+     "offset_unknown": false,
+     "second": 7,
+     "time_zone": {
+      "critical": true,
+      "kind": "name",
+      "name": "Europe/London"
+     },
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-08T00:14:07Z"
+   },
+   "choice": "accepted",
+   "status": "too-lenient",
+   "detail": "expected invalid (R9557-3.4/critical-inconsistency)"
+  },
+  {
+   "id": "9557-3.4-006",
+   "section": "RFC9557 §3.4",
+   "input": "2022-07-08T00:14:07+00:00[Europe/London]",
+   "profile": "ixdtf",
+   "expect": "either",
+   "notes": "Figure 1 (elective)",
+   "interpretation": "§3.4: elective inconsistency -- the app 'MAY act on the inconsistency' (reject or resolve) or ignore the suffix (§3.3)",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 0,
+     "offset_unknown": false,
+     "second": 7,
+     "time_zone": {
+      "critical": false,
+      "kind": "name",
+      "name": "Europe/London"
+     },
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-08T00:14:07Z"
+   },
+   "choice": "accepted",
+   "status": "interpretation",
+   "detail": "target accepted"
+  },
+  {
+   "id": "9557-3.4-007",
+   "section": "RFC9557 §3.4",
+   "input": "2022-07-08T00:14:07Z[!Europe/London]",
+   "profile": "ixdtf",
+   "expect": "valid",
+   "notes": "Figure 2 (critical)",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 7,
+     "time_zone": {
+      "critical": true,
+      "kind": "name",
+      "name": "Europe/London"
+     },
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-08T00:14:07Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-3.4-008",
+   "section": "RFC9557 §3.4",
+   "input": "2022-07-08T00:14:07Z[Europe/London]",
+   "profile": "ixdtf",
+   "expect": "valid",
+   "notes": "Figure 2 (elective)",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 7,
+     "time_zone": {
+      "critical": false,
+      "kind": "name",
+      "name": "Europe/London"
+     },
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-08T00:14:07Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-3.4-009",
+   "section": "RFC9557 §3.4",
+   "input": "2022-07-08T00:14:07-00:00[!Europe/London]",
+   "profile": "ixdtf",
+   "expect": "valid",
+   "notes": "§3.4: -00:00 may be used instead of Z",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 7,
+     "time_zone": {
+      "critical": true,
+      "kind": "name",
+      "name": "Europe/London"
+     },
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-08T00:14:07Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-3.4-010",
+   "section": "RFC9557 §3.4",
+   "input": "2022-07-08T00:14:07+08:45[!+08:45]",
+   "profile": "ixdtf",
+   "expect": "valid",
+   "notes": "consistent critical offset time zone",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 525,
+     "offset_unknown": false,
+     "second": 7,
+     "time_zone": {
+      "critical": true,
+      "kind": "offset",
+      "offset_minutes": 525
+     },
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-07T15:29:07Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-3.4-011",
+   "section": "RFC9557 §3.4",
+   "input": "2022-07-08T00:14:07+08:45[+08:00]",
+   "profile": "ixdtf",
+   "expect": "either",
+   "notes": "§1.2: offset not repeated -> inconsistent (elective)",
+   "interpretation": "§3.4: elective inconsistency -- the app 'MAY act on the inconsistency' (reject or resolve) or ignore the suffix (§3.3)",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 525,
+     "offset_unknown": false,
+     "second": 7,
+     "time_zone": {
+      "critical": false,
+      "kind": "offset",
+      "offset_minutes": 480
+     },
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-07T15:29:07Z"
+   },
+   "choice": "accepted",
+   "status": "interpretation",
+   "detail": "target accepted"
+  },
+  {
+   "id": "9557-3.4-012",
+   "section": "RFC9557 §3.4",
+   "input": "2022-07-08T00:14:07+08:45[!+08:00]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "critical offset time zone mismatch",
+   "interpretation": "§3.3/§3.4: critical -> MUST act: 'reject the data or perform some other error handling' / 'resolving the inconsistency via ... programmed behavior'. An adapter that resolves it may report {\"ok\": true, \"resolved\": true}",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 525,
+     "offset_unknown": false,
+     "second": 7,
+     "time_zone": {
+      "critical": true,
+      "kind": "offset",
+      "offset_minutes": 480
+     },
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-07T15:29:07Z"
+   },
+   "choice": "accepted",
+   "status": "too-lenient",
+   "detail": "expected invalid (R9557-3.4/critical-inconsistency)"
+  },
+  {
+   "id": "9557-3.4-013",
+   "section": "RFC9557 §3.4",
+   "input": "2022-07-08T00:14:07Z[!+08:45]",
+   "profile": "ixdtf",
+   "expect": "either",
+   "notes": "Z with a critical offset time zone",
+   "interpretation": "§2/§3.4: Z (= -00:00) asserts no local offset, so by the letter there is no inconsistency; but an offset time zone asserts one, and an app MAY treat the pair as inconsistent (and, if critical, MUST then act)",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 7,
+     "time_zone": {
+      "critical": true,
+      "kind": "offset",
+      "offset_minutes": 525
+     },
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-08T00:14:07Z"
+   },
+   "choice": "accepted",
+   "status": "interpretation",
+   "detail": "target accepted"
+  },
+  {
+   "id": "9557-3.4-014",
+   "section": "RFC9557 §3.4",
+   "input": "2022-07-08T00:14:07-05:00[!Etc/GMT+5]",
+   "profile": "ixdtf",
+   "expect": "valid",
+   "notes": "POSIX-style Etc/GMT+5 is UTC-5: consistent",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": -300,
+     "offset_unknown": false,
+     "second": 7,
+     "time_zone": {
+      "critical": true,
+      "kind": "name",
+      "name": "Etc/GMT+5"
+     },
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-08T05:14:07Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-3.4-015",
+   "section": "RFC9557 §3.4",
+   "input": "2022-07-08T00:14:07+05:00[!Etc/GMT+5]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "sign trap: Etc/GMT+5 is -05:00",
+   "interpretation": "§3.3/§3.4: critical -> MUST act: 'reject the data or perform some other error handling' / 'resolving the inconsistency via ... programmed behavior'. An adapter that resolves it may report {\"ok\": true, \"resolved\": true}",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 300,
+     "offset_unknown": false,
+     "second": 7,
+     "time_zone": {
+      "critical": true,
+      "kind": "name",
+      "name": "Etc/GMT+5"
+     },
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-07T19:14:07Z"
+   },
+   "choice": "accepted",
+   "status": "too-lenient",
+   "detail": "expected invalid (R9557-3.4/critical-inconsistency)"
+  },
+  {
+   "id": "9557-3.4-016",
+   "section": "RFC9557 §3.4",
+   "input": "2022-11-06T01:30:00-04:00[!America/New_York]",
+   "profile": "ixdtf",
+   "expect": "valid",
+   "notes": "repeated hour, first occurrence (EDT)",
+   "output": {
+    "fields": {
+     "day": 6,
+     "hour": 1,
+     "leap_second": false,
+     "minute": 30,
+     "month": 11,
+     "offset_minutes": -240,
+     "offset_unknown": false,
+     "second": 0,
+     "time_zone": {
+      "critical": true,
+      "kind": "name",
+      "name": "America/New_York"
+     },
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-11-06T05:30:00Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-3.4-017",
+   "section": "RFC9557 §3.4",
+   "input": "2022-11-06T01:30:00-05:00[!America/New_York]",
+   "profile": "ixdtf",
+   "expect": "valid",
+   "notes": "repeated hour, second occurrence (EST)",
+   "output": {
+    "fields": {
+     "day": 6,
+     "hour": 1,
+     "leap_second": false,
+     "minute": 30,
+     "month": 11,
+     "offset_minutes": -300,
+     "offset_unknown": false,
+     "second": 0,
+     "time_zone": {
+      "critical": true,
+      "kind": "name",
+      "name": "America/New_York"
+     },
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-11-06T06:30:00Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-3.4-018",
+   "section": "RFC9557 §3.4",
+   "input": "2022-03-13T02:30:00-05:00[!America/New_York]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "instant 07:30Z is after the gap: NY is -04:00",
+   "interpretation": "§3.3/§3.4: critical -> MUST act: 'reject the data or perform some other error handling' / 'resolving the inconsistency via ... programmed behavior'. An adapter that resolves it may report {\"ok\": true, \"resolved\": true}",
+   "output": {
+    "fields": {
+     "day": 13,
+     "hour": 2,
+     "leap_second": false,
+     "minute": 30,
+     "month": 3,
+     "offset_minutes": -300,
+     "offset_unknown": false,
+     "second": 0,
+     "time_zone": {
+      "critical": true,
+      "kind": "name",
+      "name": "America/New_York"
+     },
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-03-13T07:30:00Z"
+   },
+   "choice": "accepted",
+   "status": "too-lenient",
+   "detail": "expected invalid (R9557-3.4/critical-inconsistency)"
+  },
+  {
+   "id": "9557-3.4-019",
+   "section": "RFC9557 §3.4",
+   "input": "2022-07-08T00:14:07+05:30[!Asia/Kolkata]",
+   "profile": "ixdtf",
+   "expect": "valid",
+   "notes": "consistent half-hour zone",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 330,
+     "offset_unknown": false,
+     "second": 7,
+     "time_zone": {
+      "critical": true,
+      "kind": "name",
+      "name": "Asia/Kolkata"
+     },
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-07T18:44:07Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-3.4-020",
+   "section": "RFC9557 §3.4",
+   "input": "2022-07-08T00:14:07Z[!Mars/Olympus_Mons]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "§4.1: unknown tz name treated like any other inconsistency",
+   "interpretation": "§3.3/§3.4: critical -> MUST act: 'reject the data or perform some other error handling' / 'resolving the inconsistency via ... programmed behavior'. An adapter that resolves it may report {\"ok\": true, \"resolved\": true}",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 7,
+     "time_zone": {
+      "critical": true,
+      "kind": "name",
+      "name": "Mars/Olympus_Mons"
+     },
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-08T00:14:07Z"
+   },
+   "choice": "accepted",
+   "status": "too-lenient",
+   "detail": "expected invalid (R9557-4.1/critical-unknown-time-zone)"
+  },
+  {
+   "id": "9557-3.4-021",
+   "section": "RFC9557 §3.4",
+   "input": "2022-07-08T00:14:07Z[Mars/Olympus_Mons]",
+   "profile": "ixdtf",
+   "expect": "either",
+   "notes": "elective unknown tz name",
+   "interpretation": "§4.1: an unknown time-zone-name is treated 'as any other inconsistency'; elective -> MAY act (§3.4)",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 7,
+     "time_zone": {
+      "critical": false,
+      "kind": "name",
+      "name": "Mars/Olympus_Mons"
+     },
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-08T00:14:07Z"
+   },
+   "choice": "accepted",
+   "status": "interpretation",
+   "detail": "target accepted"
+  },
+  {
+   "id": "9557-3.4-022",
+   "section": "RFC9557 §3.4",
+   "input": "2022-07-08T00:14:07Z[!europe/paris]",
+   "profile": "ixdtf",
+   "expect": "either",
+   "notes": "rfcdt: case-insensitive tz lookup accepted with warning",
+   "interpretation": "§4.1: time-zone-name is 'intended to be the name of an IANA Time Zone'; the RFC does not say whether lookup is case-sensitive (IANA names are case-sensitive identifiers, most platforms look up case-insensitively)",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 7,
+     "time_zone": {
+      "critical": true,
+      "kind": "name",
+      "name": "europe/paris"
+     },
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-08T00:14:07Z"
+   },
+   "choice": "accepted",
+   "status": "interpretation",
+   "detail": "target accepted"
+  },
+  {
+   "id": "9557-3.4-023",
+   "section": "RFC9557 §3.4",
+   "input": "2016-12-31T23:59:60Z[!Europe/London]",
+   "profile": "ixdtf",
+   "expect": "valid",
+   "notes": "leap second with tz suffix",
+   "output": {
+    "fields": {
+     "day": 31,
+     "hour": 23,
+     "leap_second": false,
+     "minute": 59,
+     "month": 12,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 59,
+     "time_zone": {
+      "critical": true,
+      "kind": "name",
+      "name": "Europe/London"
+     },
+     "year": 2016
+    },
+    "ok": true,
+    "utc": "2016-12-31T23:59:59Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-3.4-024",
+   "section": "RFC9557 §3.4",
+   "input": "2017-01-01T00:59:60+01:00[!Europe/Paris]",
+   "profile": "ixdtf",
+   "expect": "valid",
+   "notes": "shifted leap second, consistent zone",
+   "output": {
+    "fields": {
+     "day": 1,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 59,
+     "month": 1,
+     "offset_minutes": 60,
+     "offset_unknown": false,
+     "second": 59,
+     "time_zone": {
+      "critical": true,
+      "kind": "name",
+      "name": "Europe/Paris"
+     },
+     "year": 2017
+    },
+    "ok": true,
+    "utc": "2016-12-31T23:59:59Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-3.4-025",
+   "section": "RFC9557 §3.4",
+   "input": "2016-12-31T23:59:60+01:00[Europe/Paris]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "§5.7 still applies inside IXDTF",
+   "output": {
+    "fields": {
+     "day": 31,
+     "hour": 23,
+     "leap_second": false,
+     "minute": 59,
+     "month": 12,
+     "offset_minutes": 60,
+     "offset_unknown": false,
+     "second": 59,
+     "time_zone": {
+      "critical": false,
+      "kind": "name",
+      "name": "Europe/Paris"
+     },
+     "year": 2016
+    },
+    "ok": true,
+    "utc": "2016-12-31T22:59:59Z"
+   },
+   "choice": "accepted",
+   "status": "too-lenient",
+   "detail": "expected invalid (R3339-5.7/leap-second-offset)"
+  },
+  {
+   "id": "9557-4.1-001",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08t00:14:07z[Europe/Paris]",
+   "profile": "ixdtf",
+   "expect": "valid",
+   "notes": "lowercase t/z in imported date-time",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 7,
+     "time_zone": {
+      "critical": false,
+      "kind": "name",
+      "name": "Europe/Paris"
+     },
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-08T00:14:07Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-4.1-002",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08T00:14:07Z[America/Argentina/Buenos_Aires]",
+   "profile": "ixdtf",
+   "expect": "valid",
+   "notes": "three time-zone-parts",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 7,
+     "time_zone": {
+      "critical": false,
+      "kind": "name",
+      "name": "America/Argentina/Buenos_Aires"
+     },
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-08T00:14:07Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-4.1-003",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08T00:14:07Z[Etc/GMT+5]",
+   "profile": "ixdtf",
+   "expect": "valid",
+   "notes": "'+' and DIGIT in time-zone-char",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 7,
+     "time_zone": {
+      "critical": false,
+      "kind": "name",
+      "name": "Etc/GMT+5"
+     },
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-08T00:14:07Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-4.1-004",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08T00:14:07Z[_Custom/Zone-1.x]",
+   "profile": "ixdtf",
+   "expect": "either",
+   "notes": "'_' initial, '-' and '.' chars (syntax valid); unknown elective name",
+   "interpretation": "§4.1: an unknown time-zone-name is treated 'as any other inconsistency'; elective -> MAY act (§3.4)",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 7,
+     "time_zone": {
+      "critical": false,
+      "kind": "name",
+      "name": "_Custom/Zone-1.x"
+     },
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-08T00:14:07Z"
+   },
+   "choice": "accepted",
+   "status": "interpretation",
+   "detail": "target accepted"
+  },
+  {
+   "id": "9557-4.1-005",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08T00:14:07Z[.hidden]",
+   "profile": "ixdtf",
+   "expect": "either",
+   "notes": "'.' is a time-zone-initial; only exact '.'/'..' parts are excluded (syntax valid); unknown elective name",
+   "interpretation": "§4.1: an unknown time-zone-name is treated 'as any other inconsistency'; elective -> MAY act (§3.4)",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 7,
+     "time_zone": {
+      "critical": false,
+      "kind": "name",
+      "name": ".hidden"
+     },
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-08T00:14:07Z"
+   },
+   "choice": "accepted",
+   "status": "interpretation",
+   "detail": "target accepted"
+  },
+  {
+   "id": "9557-4.1-006",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08T00:14:07Z[+05:00]",
+   "profile": "ixdtf",
+   "expect": "either",
+   "notes": "offset time zone with Z",
+   "interpretation": "§2/§3.4: Z (= -00:00) asserts no local offset, so by the letter there is no inconsistency; but an offset time zone asserts one, and an app MAY treat the pair as inconsistent (and, if critical, MUST then act)",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 7,
+     "time_zone": {
+      "critical": false,
+      "kind": "offset",
+      "offset_minutes": 300
+     },
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-08T00:14:07Z"
+   },
+   "choice": "accepted",
+   "status": "interpretation",
+   "detail": "target accepted"
+  },
+  {
+   "id": "9557-4.1-007",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08T00:14:07Z[-00:00]",
+   "profile": "ixdtf",
+   "expect": "either",
+   "notes": "time-numoffset admits -00:00 in brackets",
+   "interpretation": "§2/§3.4: Z (= -00:00) asserts no local offset, so by the letter there is no inconsistency; but an offset time zone asserts one, and an app MAY treat the pair as inconsistent (and, if critical, MUST then act)",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 7,
+     "time_zone": {
+      "critical": false,
+      "kind": "offset",
+      "offset_minutes": 0
+     },
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-08T00:14:07Z"
+   },
+   "choice": "accepted",
+   "status": "interpretation",
+   "detail": "target accepted"
+  },
+  {
+   "id": "9557-4.1-008",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08T00:14:07Z[+5:00]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "1-digit offset hour in brackets",
+   "output": {
+    "error": "failed to parse hours in UTC numeric offset: failed to parse hours (requires a two digit integer): invalid digit, expected 0-9 but got :",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-4.1-009",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08T00:14:07Z[+24:00]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "offset hour 24 in brackets",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 7,
+     "time_zone": {
+      "critical": false,
+      "kind": "offset",
+      "offset_minutes": 1440
+     },
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-08T00:14:07Z"
+   },
+   "choice": "accepted",
+   "status": "too-lenient",
+   "detail": "expected invalid (R9557-4.1/time-zone-offset)"
+  },
+  {
+   "id": "9557-4.1-010",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08T00:14:07Z[+0500]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "no colon in bracketed offset",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 7,
+     "time_zone": {
+      "critical": false,
+      "kind": "offset",
+      "offset_minutes": 300
+     },
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-08T00:14:07Z"
+   },
+   "choice": "accepted",
+   "status": "too-lenient",
+   "detail": "expected invalid (R9557-4.1/time-zone-offset)"
+  },
+  {
+   "id": "9557-4.1-011",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08T00:14:07Z[]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "empty brackets",
+   "output": {
+    "error": "expected ASCII alphabetic byte (or underscore or period) at the start of an RFC 9557 annotation or time zone component name, but found `]` instead",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-4.1-012",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08T00:14:07Z[!]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "flag only",
+   "output": {
+    "error": "expected ASCII alphabetic byte (or underscore or period) at the start of an RFC 9557 annotation or time zone component name, but found `]` instead",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-4.1-013",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08T00:14:07Z[!!Europe/Paris]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "double critical flag",
+   "output": {
+    "error": "expected ASCII alphabetic byte (or underscore or period) at the start of an RFC 9557 annotation or time zone component name, but found `!` instead",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-4.1-014",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08T00:14:07Z[ Europe/Paris]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "space inside brackets",
+   "output": {
+    "error": "expected ASCII alphabetic byte (or underscore or period) at the start of an RFC 9557 annotation or time zone component name, but found ` ` instead",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-4.1-015",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08T00:14:07Z[Europe//Paris]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "empty part",
+   "output": {
+    "error": "expected ASCII alphabetic byte (or underscore or period) at the start of an RFC 9557 annotation or time zone component name, but found `/` instead",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-4.1-016",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08T00:14:07Z[/Europe]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "leading slash",
+   "output": {
+    "error": "expected ASCII alphabetic byte (or underscore or period) at the start of an RFC 9557 annotation or time zone component name, but found `/` instead",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-4.1-017",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08T00:14:07Z[Europe/]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "trailing slash",
+   "output": {
+    "error": "expected ASCII alphabetic byte (or underscore or period) at the start of an RFC 9557 annotation or time zone component name, but found `]` instead",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-4.1-018",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08T00:14:07Z[.]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "'.' part excluded",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 7,
+     "time_zone": {
+      "critical": false,
+      "kind": "name",
+      "name": "."
+     },
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-08T00:14:07Z"
+   },
+   "choice": "accepted",
+   "status": "too-lenient",
+   "detail": "expected invalid (R9557-4.1/time-zone-name)"
+  },
+  {
+   "id": "9557-4.1-019",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08T00:14:07Z[..]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "'..' part excluded",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 7,
+     "time_zone": {
+      "critical": false,
+      "kind": "name",
+      "name": ".."
+     },
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-08T00:14:07Z"
+   },
+   "choice": "accepted",
+   "status": "too-lenient",
+   "detail": "expected invalid (R9557-4.1/time-zone-name)"
+  },
+  {
+   "id": "9557-4.1-020",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08T00:14:07Z[Europe/../Paris]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "path traversal part",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 7,
+     "time_zone": {
+      "critical": false,
+      "kind": "name",
+      "name": "Europe/../Paris"
+     },
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-08T00:14:07Z"
+   },
+   "choice": "accepted",
+   "status": "too-lenient",
+   "detail": "expected invalid (R9557-4.1/time-zone-name)"
+  },
+  {
+   "id": "9557-4.1-021",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08T00:14:07Z[1Europe/Paris]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "DIGIT cannot start a part",
+   "output": {
+    "error": "expected ASCII alphabetic byte (or underscore or period) at the start of an RFC 9557 annotation or time zone component name, but found `1` instead",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-4.1-022",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08T00:14:07Z[Europe/París]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "non-ASCII letter",
+   "output": {
+    "error": "expected an `]` after parsing an RFC 9557 time zone annotation, but found `\\xC3` instead",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-4.1-023",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08T00:14:07Z[U-CA=hebrew]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "keys are lowercase only (§3.1)",
+   "output": {
+    "error": "expected lowercase alphabetic byte (or underscore) at the start of an RFC 9557 annotation key, but found `U` instead",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-4.1-024",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08T00:14:07Z[1a=b]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "DIGIT key-initial",
+   "output": {
+    "error": "expected ASCII alphabetic byte (or underscore or period) at the start of an RFC 9557 annotation or time zone component name, but found `1` instead",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-4.1-025",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08T00:14:07Z[-a=b]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "'-' key-initial",
+   "output": {
+    "error": "failed to parse hours in UTC numeric offset: failed to parse hours (requires a two digit integer): invalid digit, expected 0-9 but got a",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-4.1-026",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08T00:14:07Z[=b]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "empty key",
+   "output": {
+    "error": "expected ASCII alphabetic byte (or underscore or period) at the start of an RFC 9557 annotation or time zone component name, but found `=` instead",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-4.1-027",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08T00:14:07Z[u-ca=]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "empty value",
+   "output": {
+    "error": "expected alphanumeric ASCII byte at the start of an RFC 9557 annotation value, but found `]` instead",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-4.1-028",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08T00:14:07Z[u-ca=hebrew-]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "trailing '-'",
+   "output": {
+    "error": "expected alphanumeric ASCII byte at the start of an RFC 9557 annotation value, but found `]` instead",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-4.1-029",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08T00:14:07Z[u-ca=-hebrew]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "leading '-'",
+   "output": {
+    "error": "expected alphanumeric ASCII byte at the start of an RFC 9557 annotation value, but found `-` instead",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-4.1-030",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08T00:14:07Z[u-ca=a--b]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "empty item",
+   "output": {
+    "error": "expected alphanumeric ASCII byte at the start of an RFC 9557 annotation value, but found `-` instead",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-4.1-031",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08T00:14:07Z[u-ca=a_b]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "'_' is not alphanum",
+   "output": {
+    "error": "expected an `]` after parsing an RFC 9557 annotation key and value, but found `_` instead",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-4.1-032",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08T00:14:07Z[u-ca=héb]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "non-ASCII value",
+   "output": {
+    "error": "expected an `]` after parsing an RFC 9557 annotation key and value, but found `\\xC3` instead",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-4.1-033",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08T00:14:07Z[a=b=c]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "second '=' inside value",
+   "output": {
+    "error": "expected an `]` after parsing an RFC 9557 annotation key and value, but found `=` instead",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-4.1-034",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08T00:14:07Z[u-ca=hebrew][Europe/Paris]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "suffix = [time-zone] *suffix-tag: tz must be first",
+   "output": {
+    "error": "expected lowercase alphabetic byte (or underscore) at the start of an RFC 9557 annotation key, but found `E` instead",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-4.1-035",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08T00:14:07Z[Europe/Paris][America/New_York]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "at most one time-zone",
+   "output": {
+    "error": "expected lowercase alphabetic byte (or underscore) at the start of an RFC 9557 annotation key, but found `A` instead",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-4.1-036",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08T00:14:07Z[Europe/Paris]x",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "junk after suffix",
+   "output": {
+    "error": "parsed value '2022-07-08T00:14:07Z[Europe/Paris]', but unparsed input \"x\" remains (expected no unparsed input)",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-4.1-037",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08T00:14:07Z[Europe/Paris",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "unterminated bracket",
+   "output": {
+    "error": "expected an `]` after parsing an RFC 9557 time zone annotation, but found end of input instead",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-4.1-038",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08T00:14:07Z [u-ca=hebrew]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "space before suffix",
+   "output": {
+    "error": "parsed value '2022-07-08T00:14:07Z', but unparsed input \" [u-ca=hebrew]\" remains (expected no unparsed input)",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-4.1-039",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08T00:14:07Z[u-ca=hebrew]\n",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "trailing newline",
+   "output": {
+    "error": "parsed value '2022-07-08T00:14:07Z', but unparsed input \"\\n\" remains (expected no unparsed input)",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-4.1-040",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08T00:14:07[Europe/Paris]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "IXDTF still requires the RFC 3339 offset",
+   "output": {
+    "error": "failed to find offset component, which is required for parsing a timestamp",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-4.1-041",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08T00:14:07Z[Z]",
+   "profile": "ixdtf",
+   "expect": "either",
+   "notes": "'Z' is syntactically a time-zone-name (syntax valid); unknown elective name",
+   "interpretation": "§4.1: an unknown time-zone-name is treated 'as any other inconsistency'; elective -> MAY act (§3.4)",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 7,
+     "time_zone": {
+      "critical": false,
+      "kind": "name",
+      "name": "Z"
+     },
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-08T00:14:07Z"
+   },
+   "choice": "accepted",
+   "status": "interpretation",
+   "detail": "target accepted"
+  },
+  {
+   "id": "3339-5.7-042",
+   "section": "RFC3339 §5.7",
+   "input": "2016-01-31T23:59:60Z",
+   "profile": "rfc3339",
+   "expect": "either",
+   "notes": "month end outside Mar/Jun/Sep/Dec: no App. D opportunity, no real leap second",
+   "interpretation": "§5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference",
+   "output": {
+    "fields": {
+     "day": 31,
+     "hour": 23,
+     "leap_second": false,
+     "minute": 59,
+     "month": 1,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 59,
+     "year": 2016
+    },
+    "ok": true,
+    "utc": "2016-01-31T23:59:59Z"
+   },
+   "choice": "accepted",
+   "status": "interpretation",
+   "detail": "target accepted"
+  },
+  {
+   "id": "3339-5.7-043",
+   "section": "RFC3339 §5.7",
+   "input": "2016-01-31T23:59:60Z",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "any-month-end mode: positional rule only",
+   "status": "skip",
+   "skip_kind": "options",
+   "detail": "non-default options {\"leap_seconds\": \"any-month-end\"} (--target-options fixed)"
+  },
+  {
+   "id": "3339-5.7-044",
+   "section": "RFC3339 §5.7",
+   "input": "2016-01-31T23:59:60Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "table mode: no leap second in January 2016",
+   "status": "skip",
+   "skip_kind": "options",
+   "detail": "non-default options {\"leap_seconds\": \"table\"} (--target-options fixed)"
+  },
+  {
+   "id": "3339-5.7-045",
+   "section": "RFC3339 §5.7",
+   "input": "1971-12-31T23:59:60Z",
+   "profile": "rfc3339",
+   "expect": "either",
+   "notes": "pre-1972: UTC leap seconds began 1972-06-30 (App. D table)",
+   "interpretation": "§5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference; UTC leap seconds began in 1972",
+   "output": {
+    "fields": {
+     "day": 31,
+     "hour": 23,
+     "leap_second": false,
+     "minute": 59,
+     "month": 12,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 59,
+     "year": 1971
+    },
+    "ok": true,
+    "utc": "1971-12-31T23:59:59Z"
+   },
+   "choice": "accepted",
+   "status": "interpretation",
+   "detail": "target accepted"
+  },
+  {
+   "id": "3339-5.7-046",
+   "section": "RFC3339 §5.7",
+   "input": "1971-12-31T23:59:60Z",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "any-month-end mode ignores the year",
+   "status": "skip",
+   "skip_kind": "options",
+   "detail": "non-default options {\"leap_seconds\": \"any-month-end\"} (--target-options fixed)"
+  },
+  {
+   "id": "3339-5.7-047",
+   "section": "RFC3339 §5.7",
+   "input": "2024-12-31T23:59:60Z",
+   "profile": "rfc3339",
+   "expect": "either",
+   "notes": "December month end after the table cutoff; no insertion announced",
+   "interpretation": "§5.7: 60 only 'at the end of months in which a leap second occurs'; no leap second occurred here, but a validator without a leap-second table cannot know. App. D: Jun/Dec first, Mar/Sep second preference",
+   "output": {
+    "fields": {
+     "day": 31,
+     "hour": 23,
+     "leap_second": false,
+     "minute": 59,
+     "month": 12,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 59,
+     "year": 2024
+    },
+    "ok": true,
+    "utc": "2024-12-31T23:59:59Z"
+   },
+   "choice": "accepted",
+   "status": "interpretation",
+   "detail": "target accepted"
+  },
+  {
+   "id": "3339-5.7-048",
+   "section": "RFC3339 §5.7",
+   "input": "2016-12-30T23:59:60Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "any-month-end mode still applies the positional rule",
+   "status": "skip",
+   "skip_kind": "options",
+   "detail": "non-default options {\"leap_seconds\": \"any-month-end\"} (--target-options fixed)"
+  },
+  {
+   "id": "3339-5.7-049",
+   "section": "RFC3339 §5.7",
+   "input": "2016-12-30T23:59:60Z",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "grammar mode: ABNF 00-60 only",
+   "status": "skip",
+   "skip_kind": "options",
+   "detail": "non-default options {\"leap_seconds\": \"grammar\"} (--target-options fixed)"
+  },
+  {
+   "id": "3339-5.7-050",
+   "section": "RFC3339 §5.7",
+   "input": "2023-02-30Tgarbage",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "syntax error is reported before the semantic date-mday error",
+   "output": {
+    "error": "parsed date is not valid: parameter 'day' for `2023-02` is invalid, must be in range `1..=28`",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.7-051",
+   "section": "RFC3339 §5.7",
+   "input": "2023-02-30T00:00:00Zjunk",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "syntax error is reported before the semantic date-mday error",
+   "output": {
+    "error": "parsed date is not valid: parameter 'day' for `2023-02` is invalid, must be in range `1..=28`",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-064",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01T00:00:00Z\u0000",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "trailing NUL (C-string truncation pitfall); cannot be passed via argv",
+   "output": {
+    "error": "parsed value '2024-01-01T00:00:00Z', but unparsed input \"\\0\" remains (expected no unparsed input)",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-065",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01T00:00\u0000:00Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "embedded NUL",
+   "output": {
+    "error": "parsed value '2024-01-01T00:00:00', but unparsed input \"\\0:00Z\" remains (expected no unparsed input)",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-066",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01T00:00:00Z\r",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "trailing CR",
+   "output": {
+    "error": "parsed value '2024-01-01T00:00:00Z', but unparsed input \"\\r\" remains (expected no unparsed input)",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-067",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01T00:00:00Z\r\n",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "trailing CRLF",
+   "output": {
+    "error": "parsed value '2024-01-01T00:00:00Z', but unparsed input \"\\r\\n\" remains (expected no unparsed input)",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-068",
+   "section": "RFC3339 §5.6",
+   "input": "﻿2024-01-01T00:00:00Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "leading BOM U+FEFF",
+   "output": {
+    "error": "failed to parse four digit integer as year: invalid digit, expected 0-9 but got \\xEF",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-069",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01Ｔ00:00:00Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "fullwidth T U+FF34 (NFKC folds it to 'T')",
+   "output": {
+    "error": "parsed value '2024-01-01', but unparsed input \"Ｔ00:00:00Z\" remains (expected no unparsed input)",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-070",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01T00：00:00Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "fullwidth colon U+FF1A",
+   "output": {
+    "error": "parsed value '2024-01-01T00:00:00', but unparsed input \"：00:00Z\" remains (expected no unparsed input)",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-071",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01 00:00:00Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "NBSP U+00A0 is not SP",
+   "output": {
+    "error": "parsed value '2024-01-01', but unparsed input \"\\u{a0}00:00:00Z\" remains (expected no unparsed input)",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-072",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01 00:00:00Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "NBSP is not SP even with the space-separator option",
+   "status": "skip",
+   "skip_kind": "options",
+   "detail": "non-default options {\"allow_space_separator\": true} (--target-options fixed)"
+  },
+  {
+   "id": "3339-5.6-073",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01T00:00:00.123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890Z",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "1050-digit fraction: time-secfrac = '.' 1*DIGIT has no upper bound",
+   "output": {
+    "error": "parsed value '2024-01-01T00:00:00.123456789', but unparsed input \"012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890Z\" remains (expected no unparsed input)",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "too-strict",
+   "detail": "expected valid (ok)"
+  },
+  {
+   "id": "3339-5.6-074",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01T00:00:00.000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000+01:00",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "1050-digit all-zero fraction with numeric offset",
+   "output": {
+    "error": "parsed value '2024-01-01T00:00:00', but unparsed input \"000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000+01:00\" remains (expected no unparsed input)",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "too-strict",
+   "detail": "expected valid (ok)"
+  },
+  {
+   "id": "9557-3.4-026",
+   "section": "RFC9557 §3.4",
+   "input": "0000-01-01T00:00:00+01:00[!Europe/Paris]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "year 0000 is outside most tz implementations' range: a critical zone that cannot be processed MUST NOT be acted on (§3.3)",
+   "output": {
+    "fields": {
+     "day": 1,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 0,
+     "month": 1,
+     "offset_minutes": 60,
+     "offset_unknown": false,
+     "second": 0,
+     "time_zone": {
+      "critical": true,
+      "kind": "name",
+      "name": "Europe/Paris"
+     },
+     "year": 0
+    },
+    "ok": true,
+    "utc": "-000001-12-31T23:00:00Z"
+   },
+   "choice": "accepted",
+   "status": "too-lenient",
+   "detail": "expected invalid (R9557-3.3/critical-unprocessable)"
+  },
+  {
+   "id": "9557-3.4-027",
+   "section": "RFC9557 §3.4",
+   "input": "2022-07-08T00:14:07+01:00[!+01:00]",
+   "profile": "ixdtf",
+   "expect": "valid",
+   "notes": "critical offset time zone repeating the offset: consistent",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 60,
+     "offset_unknown": false,
+     "second": 7,
+     "time_zone": {
+      "critical": true,
+      "kind": "offset",
+      "offset_minutes": 60
+     },
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-07T23:14:07Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-3.4-028",
+   "section": "RFC9557 §3.4",
+   "input": "2022-07-08T00:14:07-00:00[+01:00]",
+   "profile": "ixdtf",
+   "expect": "either",
+   "notes": "-00:00 (= Z) with an offset time zone",
+   "interpretation": "§2/§3.4: Z (= -00:00) asserts no local offset, so by the letter there is no inconsistency; but an offset time zone asserts one, and an app MAY treat the pair as inconsistent (and, if critical, MUST then act)",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 7,
+     "time_zone": {
+      "critical": false,
+      "kind": "offset",
+      "offset_minutes": 60
+     },
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-08T00:14:07Z"
+   },
+   "choice": "accepted",
+   "status": "interpretation",
+   "detail": "target accepted"
+  },
+  {
+   "id": "9557-3.4-029",
+   "section": "RFC9557 §3.4",
+   "input": "2022-07-08T00:14:07+00:00[!UTC]",
+   "profile": "ixdtf",
+   "expect": "valid",
+   "notes": "+00:00 consistent with UTC zone",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 0,
+     "offset_unknown": false,
+     "second": 7,
+     "time_zone": {
+      "critical": true,
+      "kind": "name",
+      "name": "UTC"
+     },
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-08T00:14:07Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-3.4-030",
+   "section": "RFC9557 §3.4",
+   "input": "2022-07-08T00:14:07+01:00[!UTC]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "+01:00 inconsistent with UTC zone",
+   "interpretation": "§3.3/§3.4: critical -> MUST act: 'reject the data or perform some other error handling' / 'resolving the inconsistency via ... programmed behavior'. An adapter that resolves it may report {\"ok\": true, \"resolved\": true}",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 60,
+     "offset_unknown": false,
+     "second": 7,
+     "time_zone": {
+      "critical": true,
+      "kind": "name",
+      "name": "UTC"
+     },
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-07T23:14:07Z"
+   },
+   "choice": "accepted",
+   "status": "too-lenient",
+   "detail": "expected invalid (R9557-3.4/critical-inconsistency)"
+  },
+  {
+   "id": "9557-3.4-031",
+   "section": "RFC9557 §3.4",
+   "input": "2022-07-08T00:14:07Z[!Europe/Paris]",
+   "profile": "ixdtf",
+   "expect": "valid",
+   "notes": "critical zone known to tzdata: processable",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 7,
+     "time_zone": {
+      "critical": true,
+      "kind": "name",
+      "name": "Europe/Paris"
+     },
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-08T00:14:07Z"
+   },
+   "choice": "accepted",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-4.1-042",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08T00:14:07Z[u-ca]",
+   "profile": "ixdtf",
+   "expect": "either",
+   "notes": "'u-ca' without '=' is a time-zone-name (§4.1 note), not a suffix-tag",
+   "interpretation": "§4.1: an unknown time-zone-name is treated 'as any other inconsistency'; elective -> MAY act (§3.4)",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 7,
+     "time_zone": {
+      "critical": false,
+      "kind": "name",
+      "name": "u-ca"
+     },
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-08T00:14:07Z"
+   },
+   "choice": "accepted",
+   "fields_compared": true,
+   "status": "interpretation",
+   "detail": "target accepted"
+  },
+  {
+   "id": "9557-4.1-043",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08T00:14:07Z[!u-ca]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "critical time-zone-name 'u-ca' is not a known zone",
+   "interpretation": "§3.3/§3.4: critical -> MUST act: 'reject the data or perform some other error handling' / 'resolving the inconsistency via ... programmed behavior'. An adapter that resolves it may report {\"ok\": true, \"resolved\": true}",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 7,
+     "time_zone": {
+      "critical": true,
+      "kind": "name",
+      "name": "u-ca"
+     },
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-08T00:14:07Z"
+   },
+   "choice": "accepted",
+   "status": "too-lenient",
+   "detail": "expected invalid (R9557-4.1/critical-unknown-time-zone)"
+  },
+  {
+   "id": "9557-4.1-044",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08T00:14:07Z[Abcdefghijklmnopqrst/Uvwxyzabcdefghij]",
+   "profile": "ixdtf",
+   "expect": "either",
+   "notes": "time-zone-parts of 20 and 16 chars: valid syntax; §4.1 note: TZDB naming limits a part to 14 chars but the production is 'deliberately permissive' (lookup decides)",
+   "interpretation": "§4.1: an unknown time-zone-name is treated 'as any other inconsistency'; elective -> MAY act (§3.4)",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 7,
+     "time_zone": {
+      "critical": false,
+      "kind": "name",
+      "name": "Abcdefghijklmnopqrst/Uvwxyzabcdefghij"
+     },
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-08T00:14:07Z"
+   },
+   "choice": "accepted",
+   "status": "interpretation",
+   "detail": "target accepted"
+  },
+  {
+   "id": "9557-3.3-013",
+   "section": "RFC9557 §3.3",
+   "input": "2022-07-08T00:14:07Z[a=b][a=b]",
+   "profile": "ixdtf",
+   "expect": "either",
+   "notes": "identical repeated elective unknown key",
+   "interpretation": "§3.3: duplicate elective key -- the first value MUST be used only by an app that 'does not want to perform additional processing'; additional processing may reject",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 7,
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-08T00:14:07Z"
+   },
+   "choice": "accepted",
+   "status": "interpretation",
+   "detail": "target accepted"
+  },
+  {
+   "id": "9557-3.3-014",
+   "section": "RFC9557 §3.3",
+   "input": "2022-07-08T00:14:07Z[!a=b][a=b]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "critical unknown key (duplicate values identical, so not an inconsistent duplicate)",
+   "output": {
+    "error": "found unsupported RFC 9557 annotation with the critical flag (`!`) set",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-3.3-015",
+   "section": "RFC9557 §3.3",
+   "input": "2022-07-08T00:14:07Z[u-ca=chinese][u-ca=japanese]",
+   "profile": "ixdtf",
+   "expect": "either",
+   "notes": "IF accepted without additional processing, the first value MUST be used (§3.3): fields checked only when accepted",
+   "interpretation": "§3.3: duplicate elective key -- the first value MUST be used only by an app that 'does not want to perform additional processing'; additional processing may reject",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 7,
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-08T00:14:07Z"
+   },
+   "choice": "accepted",
+   "fields_compared": false,
+   "status": "interpretation",
+   "detail": "target accepted"
+  },
+  {
+   "id": "9557-3.2-004",
+   "section": "RFC9557 §3.2",
+   "input": "2022-07-08T00:14:07Z[!_foo=bar]",
+   "profile": "ixdtf",
+   "expect": "valid",
+   "notes": "critical experimental key inside a configured experiment",
+   "status": "skip",
+   "skip_kind": "options",
+   "detail": "non-default options {\"experimental_keys\": [\"_foo\"]} (--target-options fixed)"
+  },
+  {
+   "id": "9557-4.1-045",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08[Europe/Paris]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "date-time-ext = date-time suffix: a suffix on a bare full-date is not IXDTF",
+   "output": {
+    "error": "failed to find time component, which is required for parsing a timestamp",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-4.1-046",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08T00:14:07Z[Europe/Paris\u0000]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "NUL inside brackets",
+   "output": {
+    "error": "expected an `]` after parsing an RFC 9557 time zone annotation, but found `\\x00` instead",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-4.1-047",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08T00:14:07Z[Europe/Paris]\r\n",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "trailing CRLF after suffix",
+   "output": {
+    "error": "parsed value '2022-07-08T00:14:07Z[Europe/Paris]', but unparsed input \"\\r\\n\" remains (expected no unparsed input)",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-075",
+   "section": "RFC3339 §5.6",
+   "input": "0050-06-01T00:00:00Z",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "year 50 must stay year 50 (Date.UTC / two-digit-year remap gives 1950)",
+   "output": {
+    "fields": {
+     "day": 1,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 0,
+     "month": 6,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 0,
+     "year": 50
+    },
+    "ok": true,
+    "utc": "0050-06-01T00:00:00Z"
+   },
+   "choice": "accepted",
+   "fields_compared": true,
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-076",
+   "section": "RFC3339 §5.6",
+   "input": "0099-12-31T23:59:59Z",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "year 99 (two-digit-year remap gives 1999)",
+   "output": {
+    "fields": {
+     "day": 31,
+     "hour": 23,
+     "leap_second": false,
+     "minute": 59,
+     "month": 12,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 59,
+     "year": 99
+    },
+    "ok": true,
+    "utc": "0099-12-31T23:59:59Z"
+   },
+   "choice": "accepted",
+   "fields_compared": true,
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-077",
+   "section": "RFC3339 §5.6",
+   "input": "0001-01-01T00:00:00Z",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "year 1: first day of the proleptic calendar",
+   "output": {
+    "fields": {
+     "day": 1,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 0,
+     "month": 1,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 0,
+     "year": 1
+    },
+    "ok": true,
+    "utc": "0001-01-01T00:00:00Z"
+   },
+   "choice": "accepted",
+   "fields_compared": true,
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-078",
+   "section": "RFC3339 §5.6",
+   "input": "0050-06-01T00:30:00+01:00",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "year 50 with an offset; the UTC instant is 0050-05-31T23:30Z",
+   "output": {
+    "fields": {
+     "day": 1,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 30,
+     "month": 6,
+     "offset_minutes": 60,
+     "offset_unknown": false,
+     "second": 0,
+     "year": 50
+    },
+    "ok": true,
+    "utc": "0050-05-31T23:30:00Z"
+   },
+   "choice": "accepted",
+   "fields_compared": true,
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-079",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01T12:00:00-00:30",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "negative sub-hour offset: sign applies to the minutes too (-00:30 = -30, not +30)",
+   "output": {
+    "fields": {
+     "day": 1,
+     "hour": 12,
+     "leap_second": false,
+     "minute": 0,
+     "month": 1,
+     "offset_minutes": -30,
+     "offset_unknown": false,
+     "second": 0,
+     "year": 2024
+    },
+    "ok": true,
+    "utc": "2024-01-01T12:30:00Z"
+   },
+   "choice": "accepted",
+   "fields_compared": true,
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-080",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01T12:00:00.5+05:45",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "fraction and +05:45 offset",
+   "output": {
+    "fields": {
+     "day": 1,
+     "hour": 12,
+     "leap_second": false,
+     "minute": 0,
+     "month": 1,
+     "offset_minutes": 345,
+     "offset_unknown": false,
+     "secfrac": "500000000",
+     "second": 0,
+     "year": 2024
+    },
+    "ok": true,
+    "utc": "2024-01-01T06:15:00.5Z"
+   },
+   "choice": "accepted",
+   "fields_compared": true,
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-081",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01T12:00:00.123-03:30",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "millisecond fraction, -03:30 offset",
+   "output": {
+    "fields": {
+     "day": 1,
+     "hour": 12,
+     "leap_second": false,
+     "minute": 0,
+     "month": 1,
+     "offset_minutes": -210,
+     "offset_unknown": false,
+     "secfrac": "123000000",
+     "second": 0,
+     "year": 2024
+    },
+    "ok": true,
+    "utc": "2024-01-01T15:30:00.123Z"
+   },
+   "choice": "accepted",
+   "fields_compared": true,
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-082",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01T12:00:00.052Z",
+   "profile": "rfc3339",
+   "expect": "valid",
+   "notes": "leading zero in fraction must be kept (.052 is not .52)",
+   "output": {
+    "fields": {
+     "day": 1,
+     "hour": 12,
+     "leap_second": false,
+     "minute": 0,
+     "month": 1,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "secfrac": "052000000",
+     "second": 0,
+     "year": 2024
+    },
+    "ok": true,
+    "utc": "2024-01-01T12:00:00.052Z"
+   },
+   "choice": "accepted",
+   "fields_compared": true,
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-083",
+   "section": "RFC3339 §5.6",
+   "input": "junk2024-01-01T00:00:00Z",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "alphabetic junk prefix (unanchored regex / exec without '^')",
+   "output": {
+    "error": "failed to parse four digit integer as year: invalid digit, expected 0-9 but got j",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "3339-5.6-084",
+   "section": "RFC3339 §5.6",
+   "input": "2024-01-01T00:00:00-00:44:30",
+   "profile": "rfc3339",
+   "expect": "invalid",
+   "notes": "offset with seconds (LMT-style -00:44:30); sub-minute offsets must be rounded (§4.2, §5.8)",
+   "output": {
+    "fields": {
+     "day": 1,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 0,
+     "month": 1,
+     "offset_minutes": -44,
+     "offset_unknown": false,
+     "second": 0,
+     "year": 2024
+    },
+    "ok": true,
+    "utc": "2024-01-01T00:44:30Z"
+   },
+   "choice": "accepted",
+   "status": "too-lenient",
+   "detail": "expected invalid (R3339-5.6/time-numoffset)"
+  },
+  {
+   "id": "9557-4.1-048",
+   "section": "RFC9557 §4.1",
+   "input": "junk2022-07-08T00:14:07Z[Europe/Paris]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "alphabetic junk prefix before an IXDTF string",
+   "output": {
+    "error": "failed to parse four digit integer as year: invalid digit, expected 0-9 but got j",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-4.1-049",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08T00:14:07-00:44:30[Europe/Dublin]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "offset with seconds is not time-numoffset in IXDTF either",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": -44,
+     "offset_unknown": false,
+     "second": 7,
+     "time_zone": {
+      "critical": false,
+      "kind": "name",
+      "name": "Europe/Dublin"
+     },
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-08T00:58:37Z"
+   },
+   "choice": "accepted",
+   "status": "too-lenient",
+   "detail": "expected invalid (R3339-5.6/time-numoffset)"
+  },
+  {
+   "id": "9557-4.1-050",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08T00:14:07+01:00[!+01:00junk]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "junk after a bracketed offset time zone",
+   "output": {
+    "error": "expected an `]` after parsing an RFC 9557 time zone annotation, but found `j` instead",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-4.1-051",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08T00:14:07Z[+01:00:00]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "bracketed offset with seconds (time-numoffset is +hh:mm)",
+   "output": {
+    "error": "subminute precision for UTC numeric offset is not enabled in this context (must provide only integral minutes)",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-4.1-052",
+   "section": "RFC9557 §4.1",
+   "input": "2022-07-08T00:14:07Z[!+01:00:00]",
+   "profile": "ixdtf",
+   "expect": "invalid",
+   "notes": "critical bracketed offset with seconds",
+   "output": {
+    "error": "subminute precision for UTC numeric offset is not enabled in this context (must provide only integral minutes)",
+    "ok": false
+   },
+   "choice": "rejected",
+   "status": "pass",
+   "detail": ""
+  },
+  {
+   "id": "9557-3.3-016",
+   "section": "RFC9557 §3.3",
+   "input": "2022-07-08T00:14:07Z[u-ca=hebrew][u-ca=hebrew]",
+   "profile": "ixdtf",
+   "expect": "either",
+   "notes": "identical repeated u-ca: effective calendar hebrew",
+   "interpretation": "§3.3: duplicate elective key -- the first value MUST be used only by an app that 'does not want to perform additional processing'; additional processing may reject",
+   "output": {
+    "fields": {
+     "day": 8,
+     "hour": 0,
+     "leap_second": false,
+     "minute": 14,
+     "month": 7,
+     "offset_minutes": 0,
+     "offset_unknown": true,
+     "second": 7,
+     "year": 2022
+    },
+    "ok": true,
+    "utc": "2022-07-08T00:14:07Z"
+   },
+   "choice": "accepted",
+   "fields_compared": false,
+   "status": "interpretation",
+   "detail": "target accepted"
+  }
+ ]
+}

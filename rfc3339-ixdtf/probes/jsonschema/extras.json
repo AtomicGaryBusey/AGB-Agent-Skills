@@ -1,0 +1,53 @@
+{
+ "date-time": [
+  {"id":"js-plus-hour",  "s":"2026-09-24T+1:00:00Z",        "cat":"invalid", "note":"'+1' as the hour (strconv.Atoi accepts a sign)"},
+  {"id":"js-minus0-hour","s":"2026-09-24T-0:00:00Z",        "cat":"invalid", "note":"'-0' as the hour"},
+  {"id":"js-plus-min",   "s":"2026-09-24T12:+0:00Z",        "cat":"invalid", "note":"'+0' as the minute"},
+  {"id":"js-off-plus2",  "s":"2026-09-24T12:00:00++2:00",   "cat":"invalid", "note":"'+2' as the offset hour"},
+  {"id":"js-off-minus0", "s":"2026-09-24T12:00:00+-0:00",   "cat":"invalid", "note":"'-0' as the offset hour"},
+  {"id":"js-leap-off",   "s":"2016-12-31T23:59:60+01:00",   "cat":"invalid", "note":"23:59:60 local at +01:00 = 22:59:60Z (never legal)"},
+  {"id":"js-leap-june",  "s":"2015-06-30T23:59:60Z",        "cat":"leap-real","note":"real leap second 2015-06"},
+  {"id":"js-leap-1971",  "s":"1971-12-31T23:59:60Z",        "cat":"leap-fake","note":"before UTC leap seconds began (1972)"},
+  {"id":"js-crlf",       "s":"2026-09-24T12:00:00Z\r\n",    "cat":"invalid", "note":"trailing CRLF"},
+  {"id":"js-nul",        "s":"2026-09-24T12:00:00Z\u0000",  "cat":"invalid", "note":"trailing NUL"},
+  {"id":"js-utc",        "s":"2026-09-24T12:00:00UTC",      "cat":"invalid", "note":"'UTC' designator"},
+  {"id":"js-yr2",        "s":"26-09-24T12:00:00Z",          "cat":"invalid", "note":"2-digit year"},
+  {"id":"js-fullwidth",  "s":"２０２６-09-24T12:00:00Z",     "cat":"invalid", "note":"full-width digits"}
+ ],
+ "date": [
+  {"id":"d-ok",       "s":"2026-09-24",            "cat":"valid"},
+  {"id":"d-feb29-24", "s":"2024-02-29",            "cat":"valid"},
+  {"id":"d-y0000",    "s":"0000-01-01",            "cat":"range"},
+  {"id":"d-feb29-26", "s":"2026-02-29",            "cat":"invalid"},
+  {"id":"d-feb30-24", "s":"2024-02-30",            "cat":"invalid"},
+  {"id":"d-apr31",    "s":"2026-04-31",            "cat":"invalid"},
+  {"id":"d-onedigit", "s":"2026-9-24",             "cat":"invalid"},
+  {"id":"d-basic",    "s":"20260924",              "cat":"invalid"},
+  {"id":"d-week",     "s":"2026-W39-4",            "cat":"invalid"},
+  {"id":"d-datetime", "s":"2026-09-24T12:00:00Z",  "cat":"invalid"},
+  {"id":"d-trail-nl", "s":"2026-09-24\n",          "cat":"invalid"},
+  {"id":"d-arabic",   "s":"٢٠٢٦-09-24",            "cat":"invalid"},
+  {"id":"d-y+6",      "s":"+002026-09-24",         "cat":"invalid"}
+ ],
+ "time": [
+  {"id":"t-z",        "s":"12:00:00Z",             "cat":"valid"},
+  {"id":"t-lcz",      "s":"12:00:00z",             "cat":"valid"},
+  {"id":"t-off",      "s":"12:00:00+02:00",        "cat":"valid"},
+  {"id":"t-minus0",   "s":"12:00:00-00:00",        "cat":"valid"},
+  {"id":"t-frac12",   "s":"12:00:00.123456789012Z","cat":"valid"},
+  {"id":"t-leap",     "s":"23:59:60Z",             "cat":"leap-real", "note":"leap second position in UTC"},
+  {"id":"t-leap-off", "s":"18:59:60-05:00",        "cat":"leap-real", "note":"= 23:59:60Z"},
+  {"id":"t-no-off",   "s":"12:00:00",              "cat":"invalid",   "note":"partial-time: JSON Schema time = full-time"},
+  {"id":"t-nocolon",  "s":"12:00:00+0200",         "cat":"invalid"},
+  {"id":"t-h24",      "s":"24:00:00Z",             "cat":"invalid"},
+  {"id":"t-leap-mid", "s":"12:00:60Z",             "cat":"leap-fake"},
+  {"id":"t-leap-bad", "s":"23:59:60+01:00",        "cat":"leap-fake",  "note":"= 22:59:60Z"},
+  {"id":"t-no-sec",   "s":"12:00Z",                "cat":"invalid"},
+  {"id":"t-frac-empty","s":"12:00:00.Z",           "cat":"invalid"},
+  {"id":"t-comma",    "s":"12:00:00,5Z",           "cat":"invalid"},
+  {"id":"t-onedigit", "s":"1:00:00Z",              "cat":"invalid"},
+  {"id":"t-plus-hour","s":"+1:00:00Z",             "cat":"invalid"},
+  {"id":"t-trail-nl", "s":"12:00:00Z\n",           "cat":"invalid"},
+  {"id":"t-off2400",  "s":"12:00:00+24:00",        "cat":"invalid"}
+ ]
+}

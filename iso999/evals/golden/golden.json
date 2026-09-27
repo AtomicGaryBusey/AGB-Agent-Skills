@@ -1,0 +1,394 @@
+{
+ "_comment": "iso999 golden corpus. Each case lints one real-world or self-built index with fixed flags. 'expect' pins the finding count per rule and severity ('RULE/sev'); scripts/test_iso999_lint.py (TestGolden) fails when a count changes. Regenerate expectations with: python3 scripts/test_iso999_lint.py --update-golden (then review the diff).",
+ "cases": [
+  {
+   "name": "darwin-txt",
+   "path": "evals/golden/darwin-2009-index.txt",
+   "args": [
+    "--skip-until",
+    "^INDEX\\.$"
+   ],
+   "source": "Project Gutenberg eBook #2009 (public domain in the USA), back-of-book index only; licence header lines kept",
+   "expect": {
+    "ISO999-7.1.3-NOTE/info": 1,
+    "ISO999-7.3.1-HONORIFIC/info": 1,
+    "ISO999-7.3.6-ABBREV/warn": 2,
+    "ISO999-7.4.3-DUPLICATE/warn": 1,
+    "ISO999-8-DISPLACED/info": 1,
+    "ISO999-8.1-CASE-ORDER/warn": 2,
+    "ISO999-8.2-MIXED/warn": 1,
+    "ISO999-8.2-MODE/info": 1,
+    "ISO999-8.2-ORDER/warn": 8,
+    "ISO999-8.3-ORDER/warn": 1,
+    "ISO999-8.5-ORDER/warn": 9,
+    "ISO999-8.6-ORDER/warn": 35,
+    "ISO999-8.6-PAGEORDER/warn": 19,
+    "ISO999-8.6-RUNS/warn": 15,
+    "ISO999-9.4.1.4-TURNOVER/warn": 1,
+    "entries": 1173
+   }
+  },
+  {
+   "name": "darwin-html",
+   "path": "evals/golden/darwin-2009-index.html",
+   "args": [],
+   "source": "Project Gutenberg eBook #2009 HTML, <p>/<br> index only; licence header kept",
+   "expect": {
+    "ISO999-7.3.1-HONORIFIC/info": 1,
+    "ISO999-7.3.6-ABBREV/warn": 2,
+    "ISO999-7.4.3-DUPLICATE/warn": 1,
+    "ISO999-8-DISPLACED/info": 1,
+    "ISO999-8.1-CASE-ORDER/warn": 2,
+    "ISO999-8.2-MIXED/warn": 1,
+    "ISO999-8.2-MODE/info": 1,
+    "ISO999-8.2-ORDER/warn": 8,
+    "ISO999-8.3-ORDER/warn": 1,
+    "ISO999-8.5-ORDER/warn": 9,
+    "ISO999-8.6-ORDER/warn": 35,
+    "ISO999-8.6-PAGEORDER/warn": 19,
+    "ISO999-8.6-RUNS/warn": 15,
+    "entries": 1173
+   }
+  },
+  {
+   "name": "sphinx-genindex",
+   "path": "evals/golden/sphinx/genindex.html",
+   "args": [],
+   "source": "self-built Sphinx 9.1 project (evals/golden/sphinx/src, invented content)",
+   "expect": {
+    "ISO999-7.2.2.2-NUMBER/info": 1,
+    "ISO999-7.3.4.2-ARTICLE/warn": 1,
+    "ISO999-7.3.6-VARIANT/info": 1,
+    "ISO999-7.5.2.1-NOREFS/info": 1,
+    "ISO999-8-DISPLACED/info": 2,
+    "ISO999-8-ROOTCAUSE/warn": 1,
+    "ISO999-8.1-DUPLICATE/warn": 1,
+    "ISO999-8.2-MODE/info": 1,
+    "entries": 93
+   }
+  },
+  {
+   "name": "xindy-hyperref",
+   "path": "evals/golden/xindy-hyperref.ind",
+   "args": [],
+   "source": "hand-made xindy/hyperref .ind (invented content, seeded defects)",
+   "expect": {
+    "ISO999-7.4.3-DUPLICATE/warn": 1,
+    "ISO999-7.4.3.1-ELISION/warn": 1,
+    "ISO999-7.5.1-CHAIN/warn": 1,
+    "ISO999-7.5.2.1-PLACEMENT/info": 1,
+    "ISO999-8-DISPLACED/info": 1,
+    "ISO999-8.1-CASE-ORDER/warn": 1,
+    "ISO999-8.2-MODE/info": 1,
+    "ISO999-8.6-ORDER/warn": 1,
+    "entries": 33
+   }
+  },
+  {
+   "name": "rust-std",
+   "path": "evals/baselines/api-audits/rust/std-all.html",
+   "args": [
+    "--locators",
+    "anchor",
+    "--filing",
+    "identifier"
+   ],
+   "expect": {
+    "ISO999-7.2.2.2-NUMBER/info": 2,
+    "ISO999-8-DISPLACED/info": 8,
+    "ISO999-8-ROOTCAUSE/warn": 1,
+    "ISO999-8.2-MODE/info": 3,
+    "entries": 1942
+   }
+  },
+  {
+   "name": "rust-chrono",
+   "path": "evals/baselines/api-audits/rust/chrono-all.html",
+   "args": [
+    "--locators",
+    "anchor",
+    "--filing",
+    "identifier"
+   ],
+   "expect": {
+    "ISO999-8-DISPLACED/info": 3,
+    "ISO999-8.1-CASEBLOCK/warn": 3,
+    "ISO999-8.2-MODE/info": 2,
+    "entries": 62
+   }
+  },
+  {
+   "name": "rust-jiff",
+   "path": "evals/baselines/api-audits/rust/jiff-all.html",
+   "args": [
+    "--locators",
+    "anchor",
+    "--filing",
+    "identifier"
+   ],
+   "expect": {
+    "ISO999-8-DISPLACED/info": 3,
+    "ISO999-8.1-CASE-ORDER/warn": 2,
+    "ISO999-8.1-CASEBLOCK/warn": 2,
+    "entries": 102
+   }
+  },
+  {
+   "name": "rust-time",
+   "path": "evals/baselines/api-audits/rust/time-all.html",
+   "args": [
+    "--locators",
+    "anchor",
+    "--filing",
+    "identifier"
+   ],
+   "expect": {
+    "ISO999-8-DISPLACED/info": 3,
+    "ISO999-8.1-CASE-ORDER/warn": 2,
+    "ISO999-8.1-CASEBLOCK/warn": 3,
+    "ISO999-8.2-MODE/info": 2,
+    "entries": 136
+   }
+  },
+  {
+   "name": "rust-tricky",
+   "path": "evals/baselines/api-audits/rust/tricky-all.html",
+   "args": [
+    "--locators",
+    "anchor",
+    "--filing",
+    "identifier"
+   ],
+   "expect": {
+    "ISO999-3.10-HOMOGRAPH/info": 3,
+    "ISO999-8-DISPLACED/info": 5,
+    "ISO999-8-ROOTCAUSE/warn": 1,
+    "ISO999-8.1-CASEBLOCK/warn": 1,
+    "ISO999-8.2-MODE/info": 2,
+    "entries": 75
+   }
+  },
+  {
+   "name": "go-net-http",
+   "path": "evals/baselines/api-audits/go/net_http.html",
+   "args": [
+    "--locators",
+    "anchor",
+    "--filing",
+    "identifier",
+    "--only-section",
+    "^Index$",
+    "--heading-regex",
+    "^(?:func\\s+(?:\\([^)]*\\)\\s*)?|type\\s+)?(\\w+)"
+   ],
+   "expect": {
+    "ISO999-8-DISPLACED/info": 1,
+    "ISO999-8.1-CASE-ORDER/warn": 1,
+    "ISO999-8.2-MODE/info": 1,
+    "ISO999-8.2-ORDER/warn": 2,
+    "ISO999-8.6-RUNS/warn": 5,
+    "entries": 168
+   }
+  },
+  {
+   "name": "go-reflect",
+   "path": "evals/baselines/api-audits/go/reflect.html",
+   "args": [
+    "--locators",
+    "anchor",
+    "--filing",
+    "identifier",
+    "--only-section",
+    "^Index$",
+    "--heading-regex",
+    "^(?:func\\s+(?:\\([^)]*\\)\\s*)?|type\\s+)?(\\w+)"
+   ],
+   "expect": {
+    "ISO999-8-DISPLACED/info": 1,
+    "ISO999-8.2-ORDER/warn": 2,
+    "ISO999-8.6-ORDER/warn": 1,
+    "ISO999-8.6-RUNS/warn": 1,
+    "entries": 134
+   }
+  },
+  {
+   "name": "go-time",
+   "path": "evals/baselines/api-audits/go/time.html",
+   "args": [
+    "--locators",
+    "anchor",
+    "--filing",
+    "identifier",
+    "--only-section",
+    "^Index$",
+    "--heading-regex",
+    "^(?:func\\s+(?:\\([^)]*\\)\\s*)?|type\\s+)?(\\w+)"
+   ],
+   "expect": {
+    "ISO999-3.10-HOMOGRAPH/info": 4,
+    "ISO999-8-DISPLACED/info": 1,
+    "ISO999-8.1-CASE-ORDER/warn": 2,
+    "ISO999-8.2-MODE/info": 1,
+    "ISO999-8.2-ORDER/warn": 2,
+    "ISO999-8.6-RUNS/warn": 2,
+    "entries": 93
+   }
+  },
+  {
+   "name": "go-strings",
+   "path": "evals/baselines/api-audits/go/strings.html",
+   "args": [
+    "--locators",
+    "anchor",
+    "--filing",
+    "identifier",
+    "--only-section",
+    "^Index$",
+    "--heading-regex",
+    "^(?:func\\s+(?:\\([^)]*\\)\\s*)?|type\\s+)?(\\w+)"
+   ],
+   "expect": {
+    "ISO999-8-DISPLACED/info": 1,
+    "ISO999-8.2-ORDER/warn": 1,
+    "ISO999-8.6-RUNS/warn": 1,
+    "entries": 83
+   }
+  },
+  {
+   "name": "go-math-big",
+   "path": "evals/baselines/api-audits/go/math_big.html",
+   "args": [
+    "--locators",
+    "anchor",
+    "--filing",
+    "identifier",
+    "--only-section",
+    "^Index$",
+    "--heading-regex",
+    "^(?:func\\s+(?:\\([^)]*\\)\\s*)?|type\\s+)?(\\w+)"
+   ],
+   "expect": {
+    "ISO999-8-DISPLACED/info": 1,
+    "ISO999-8.2-MODE/info": 1,
+    "ISO999-8.2-ORDER/warn": 1,
+    "ISO999-8.6-RUNS/warn": 3,
+    "entries": 155
+   }
+  },
+  {
+   "name": "go-math-bits",
+   "path": "evals/baselines/api-audits/go/math_bits.html",
+   "args": [
+    "--locators",
+    "anchor",
+    "--filing",
+    "identifier",
+    "--only-section",
+    "^Index$",
+    "--heading-regex",
+    "^(?:func\\s+(?:\\([^)]*\\)\\s*)?|type\\s+)?(\\w+)"
+   ],
+   "expect": {
+    "ISO999-8-DISPLACED/info": 1,
+    "ISO999-8.2-ORDER/warn": 1,
+    "entries": 50
+   }
+  },
+  {
+   "name": "go-sync-atomic",
+   "path": "evals/baselines/api-audits/go/sync_atomic.html",
+   "args": [
+    "--locators",
+    "anchor",
+    "--filing",
+    "identifier",
+    "--only-section",
+    "^Index$",
+    "--heading-regex",
+    "^(?:func\\s+(?:\\([^)]*\\)\\s*)?|type\\s+)?(\\w+)"
+   ],
+   "expect": {
+    "ISO999-8-DISPLACED/info": 1,
+    "ISO999-8.2-ORDER/warn": 2,
+    "entries": 95
+   }
+  },
+  {
+   "name": "go-ast",
+   "path": "evals/baselines/api-audits/go/go_ast.html",
+   "args": [
+    "--locators",
+    "anchor",
+    "--filing",
+    "identifier",
+    "--only-section",
+    "^Index$",
+    "--heading-regex",
+    "^(?:func\\s+(?:\\([^)]*\\)\\s*)?|type\\s+)?(\\w+)"
+   ],
+   "expect": {
+    "ISO999-8-DISPLACED/info": 1,
+    "ISO999-8.2-MODE/info": 1,
+    "ISO999-8.2-ORDER/warn": 1,
+    "ISO999-8.6-PAGEORDER/warn": 2,
+    "ISO999-8.6-RUNS/warn": 4,
+    "entries": 224
+   }
+  },
+  {
+   "name": "go-probe",
+   "path": "evals/baselines/api-audits/go/probe.html",
+   "args": [
+    "--locators",
+    "anchor",
+    "--filing",
+    "identifier",
+    "--only-section",
+    "^Index$",
+    "--heading-regex",
+    "^(?:func\\s+(?:\\([^)]*\\)\\s*)?|type\\s+)?(\\w+)"
+   ],
+   "expect": {
+    "ISO999-3.10-HOMOGRAPH/info": 2,
+    "ISO999-8-DISPLACED/info": 1,
+    "ISO999-8.1-CASE-ORDER/warn": 1,
+    "ISO999-8.2-ORDER/warn": 3,
+    "ISO999-8.6-RUNS/warn": 1,
+    "entries": 24
+   }
+  },
+  {
+   "name": "go-std-table",
+   "path": "evals/baselines/api-audits/go/std.html",
+   "args": [
+    "--locators",
+    "anchor",
+    "--filing",
+    "identifier"
+   ],
+   "expect": {
+    "ISO999-7.2.2.2-NUMBER/info": 1,
+    "ISO999-8-DISPLACED/info": 1,
+    "ISO999-8.2-MODE/info": 1,
+    "ISO999-8.3-ORDER/warn": 1,
+    "ISO999-8.6-RUNS/warn": 2,
+    "entries": 420
+   }
+  },
+  {
+   "name": "servicenow-explain",
+   "path": "evals/baselines/api-audits/servicenow/explain_list_raw.txt",
+   "args": [
+    "--locators",
+    "none",
+    "--qualifier-suffix=-api,-guide,-reference"
+   ],
+   "expect": {
+    "ISO999-8-DISPLACED/info": 1,
+    "ISO999-8.2-MODE/info": 1,
+    "ISO999-8.5-ORDER/warn": 12,
+    "entries": 260
+   }
+  }
+ ]
+}

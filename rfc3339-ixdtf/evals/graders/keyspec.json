@@ -1,0 +1,469 @@
+{
+  "skill": "rfc3339-ixdtf",
+  "plugin": "rfc3339-ixdtf-eval",
+  "fixture": "fixtures/tempo/project",
+  "answer_key": "fixtures/tempo/answer-key.md",
+  "tolerance": 1,
+  "cases": {
+    "rfc-producer": {
+      "prompt": "This is Tempo, an event scheduling service (api.py, timeutil.py, client/, schema/, docs/). Audit the timestamp producers - the formatting helpers in timeutil.py and the JSON fields that api.py emits - for adherence to RFC 3339 and RFC 9557. Cite each finding as file:line. No shell is available in this environment, so review the files statically; do not delegate to subagents and do not ask me questions. Give the complete audit report as your final reply.",
+      "decoys": [
+        "D1"
+      ]
+    },
+    "rfc-consumer": {
+      "prompt": "This is Tempo, an event scheduling service (api.py, timeutil.py, client/, schema/, docs/). Audit the timestamp consumers - timeutil.parse_timestamp / parse_ixdtf in Python and the web client's client/parse.mjs - for adherence to RFC 3339 and RFC 9557. Cite each finding as file:line. No shell is available in this environment, so review the files statically; do not delegate to subagents and do not ask me questions. Give the complete audit report as your final reply.",
+      "decoys": [
+        "D2",
+        "D3"
+      ]
+    },
+    "rfc-schema": {
+      "prompt": "This is Tempo, an event scheduling service (api.py, timeutil.py, client/, schema/, docs/). Audit the timestamp contract - schema/event.schema.json and docs/API.md - for adherence to RFC 3339 and RFC 9557. Cite each finding as file:line. No shell is available in this environment, so review the files statically; do not delegate to subagents and do not ask me questions. Give the complete audit report as your final reply.",
+      "decoys": [
+        "D1"
+      ]
+    },
+    "rfc-decoys": {
+      "prompt": "A reviewer flagged three things in Tempo's timestamp handling (api.py, timeutil.py, client/parse.mjs). For each one, tell me whether it is an RFC 3339 / RFC 9557 violation and, if it is, how severe; then give me your report. (1) format_instant in timeutil.py always emits exactly three fractional-second digits with Z (used for received_at). (2) timeutil's parser accepts lower-case 't' and 'z'. (3) Both parsers skip the critical time-zone vs. offset consistency check when the offset is Z or -00:00. No shell is available in this environment, so review the files statically; do not delegate to subagents and do not ask me questions.",
+      "decoys": [
+        "D1",
+        "D2",
+        "D3"
+      ],
+      "decoy_judge_strict": true
+    }
+  },
+  "refusals": {
+    "rfc-refusal-duration": "Parse ISO 8601 durations like P3DT4H into a Python timedelta. What's the cleanest way?",
+    "rfc-refusal-httpdate": "Format an HTTP-date header value for Last-Modified in Go. Which layout constant should I use?"
+  },
+  "defects": [
+    {
+      "id": "P1",
+      "case": "rfc-producer",
+      "locs": [
+        [
+          "timeutil.py",
+          [
+            51
+          ]
+        ],
+        [
+          "api.py",
+          [
+            33
+          ]
+        ]
+      ],
+      "kw": "format_utc|start_utc|wall|astimezone|wrong instant|mislabel|13:30|local",
+      "sev": [
+        "Nonconformity"
+      ]
+    },
+    {
+      "id": "P2",
+      "case": "rfc-producer",
+      "locs": [
+        [
+          "timeutil.py",
+          [
+            13,
+            56
+          ]
+        ],
+        [
+          "api.py",
+          [
+            34
+          ]
+        ]
+      ],
+      "kw": "%z|colon|-0400|numoffset|basic|format_offset",
+      "sev": [
+        "Nonconformity"
+      ]
+    },
+    {
+      "id": "P3",
+      "case": "rfc-producer",
+      "locs": [
+        [
+          "api.py",
+          [
+            36,
+            25
+          ]
+        ]
+      ],
+      "kw": "naive|created_at|datetime\\.now|no offset|missing offset|without (an )?offset|4\\.4",
+      "sev": [
+        "Nonconformity"
+      ]
+    },
+    {
+      "id": "P4",
+      "case": "rfc-producer",
+      "locs": [
+        [
+          "timeutil.py",
+          [
+            14,
+            61
+          ]
+        ],
+        [
+          "api.py",
+          [
+            35
+          ]
+        ]
+      ],
+      "kw": "second|%S|09:15|REMINDER|partial-time|reminder",
+      "sev": [
+        "Nonconformity"
+      ]
+    },
+    {
+      "id": "P5",
+      "case": "rfc-producer",
+      "locs": [
+        [
+          "timeutil.py",
+          [
+            66
+          ]
+        ],
+        [
+          "api.py",
+          [
+            42
+          ]
+        ]
+      ],
+      "kw": "\\+00:00|format_epoch|unknown|epoch|source_seen",
+      "sev": [
+        "Deviation",
+        "Advisory"
+      ]
+    },
+    {
+      "id": "P6",
+      "case": "rfc-producer",
+      "locs": [
+        [
+          "timeutil.py",
+          [
+            70,
+            77
+          ]
+        ],
+        [
+          "api.py",
+          [
+            32
+          ]
+        ]
+      ],
+      "kw": "zone_label|UTC\\+05:30|str\\(tz\\)|time-zone-name|bracket|suffix|zone",
+      "sev": [
+        "Nonconformity"
+      ]
+    },
+    {
+      "id": "C1",
+      "case": "rfc-consumer",
+      "locs": [
+        [
+          "timeutil.py",
+          [
+            25,
+            99
+          ]
+        ]
+      ],
+      "kw": "fullmatch|newline|\\\\n|trailing|re\\.match|\\$|\\\\Z",
+      "sev": [
+        "Nonconformity"
+      ]
+    },
+    {
+      "id": "C2",
+      "case": "rfc-consumer",
+      "locs": [
+        [
+          "timeutil.py",
+          [
+            [
+              103,
+              106
+            ]
+          ]
+        ]
+      ],
+      "kw": "leap|:60|second=60|23:59:60",
+      "sev": [
+        "Nonconformity"
+      ]
+    },
+    {
+      "id": "C3",
+      "case": "rfc-consumer",
+      "locs": [
+        [
+          "timeutil.py",
+          [
+            25,
+            107,
+            108
+          ]
+        ]
+      ],
+      "kw": "offset.{0,40}(optional|missing|absent|omitted)|(no|missing|without (an )?) offset|LOCAL_TZ|host|local (time )?zone|4\\.4",
+      "sev": [
+        "Nonconformity"
+      ]
+    },
+    {
+      "id": "C4",
+      "case": "rfc-consumer",
+      "locs": [
+        [
+          "timeutil.py",
+          [
+            133,
+            134
+          ]
+        ]
+      ],
+      "kw": "elective|unknown|knort|suffix key|KNOWN_SUFFIX",
+      "sev": [
+        "Deviation",
+        "Advisory"
+      ]
+    },
+    {
+      "id": "C5",
+      "case": "rfc-consumer",
+      "locs": [
+        [
+          "parse.mjs",
+          [
+            13
+          ]
+        ]
+      ],
+      "kw": "\\^|anchor|prefix|junk|leading|start",
+      "sev": [
+        "Nonconformity"
+      ]
+    },
+    {
+      "id": "C6",
+      "case": "rfc-consumer",
+      "locs": [
+        [
+          "parse.mjs",
+          [
+            10,
+            11
+          ]
+        ]
+      ],
+      "kw": "lower|case.?insens|/i|i flag|'t'|'z'",
+      "sev": [
+        "Nonconformity"
+      ]
+    },
+    {
+      "id": "C7",
+      "case": "rfc-consumer",
+      "locs": [
+        [
+          "parse.mjs",
+          [
+            17,
+            68,
+            77
+          ]
+        ]
+      ],
+      "kw": "MAX_MDAY|02-30|Feb|day.{0,30}month|roll|5\\.7|mday",
+      "sev": [
+        "Nonconformity"
+      ]
+    },
+    {
+      "id": "C8",
+      "case": "rfc-consumer",
+      "locs": [
+        [
+          "parse.mjs",
+          [
+            50
+          ]
+        ]
+      ],
+      "kw": "critical|\\[!|!knort",
+      "sev": [
+        "Nonconformity"
+      ]
+    },
+    {
+      "id": "C9",
+      "case": "rfc-consumer",
+      "locs": [
+        [
+          "parse.mjs",
+          [
+            51
+          ]
+        ]
+      ],
+      "kw": "duplicate|first|overwrit|last|chinese",
+      "sev": [
+        "Nonconformity"
+      ]
+    },
+    {
+      "id": "S1",
+      "case": "rfc-schema",
+      "locs": [
+        [
+          "event.schema.json",
+          [
+            2,
+            26,
+            31,
+            36,
+            40,
+            45,
+            55
+          ]
+        ],
+        [
+          "API.md",
+          [
+            [
+              12,
+              15
+            ]
+          ]
+        ]
+      ],
+      "kw": "annotation|assert|vocab|guarantee|CI|validator|2020-12",
+      "sev": [
+        "Deviation",
+        "Nonconformity"
+      ]
+    },
+    {
+      "id": "S2",
+      "case": "rfc-schema",
+      "locs": [
+        [
+          "API.md",
+          [
+            [
+              19,
+              21
+            ]
+          ]
+        ]
+      ],
+      "kw": "ISO 8601|basic|20260314T133000Z|compact|profile",
+      "sev": [
+        "Deviation"
+      ]
+    },
+    {
+      "id": "S3",
+      "case": "rfc-schema",
+      "locs": [
+        [
+          "event.schema.json",
+          [
+            [
+              47,
+              50
+            ]
+          ]
+        ],
+        [
+          "api.py",
+          [
+            40
+          ]
+        ]
+      ],
+      "kw": "all_day|full-date|\"date\"",
+      "sev": [
+        "Nonconformity",
+        "Deviation"
+      ]
+    }
+  ],
+  "decoy_defs": {
+    "D1": {
+      "desc": "format_instant (timeutil.py:46) emitting exactly three fractional digits with Z for received_at (api.py:37), documented in docs/API.md:35-39. time-secfrac allows any precision, the profile is documented, and Z suits a receipt instant with no local-time meaning (RFC 9557 2.2). Calling the fixed millisecond precision or the Z a violation is a false positive.",
+      "row": {
+        "locs": [
+          [
+            "timeutil.py",
+            [
+              46
+            ]
+          ]
+        ],
+        "anchors": [
+          "format_instant"
+        ],
+        "kw": "millisecond|three|3 (fractional )?digits|fraction|secfrac|precision"
+      }
+    },
+    "D2": {
+      "desc": "timeutil's Python parser accepting lower-case 't' and 'z' (timeutil.py:22, :25, :88). RFC 3339 5.6 NOTE allows lower case; accepting it is correct. (The JS client REJECTING lower case is seeded defect C6 and is not this decoy.) Flagging the Python parser's acceptance of lower case is a false positive.",
+      "row": {
+        "locs": [
+          [
+            "timeutil.py",
+            [
+              22,
+              88
+            ]
+          ]
+        ],
+        "anchors": [
+          "\\[Tt\\]",
+          "\\[Zz\\]"
+        ],
+        "kw": "lower|\\[Tt\\]|\\[Zz\\]"
+      },
+      "regex": false
+    },
+    "D3": {
+      "desc": "Both parsers skipping the critical-zone vs. offset consistency check when the offset is Z or -00:00 (timeutil.py:145-146, client/parse.mjs:89-90). RFC 9557 3.4 Figure 2: Z / -00:00 asserts no local offset, so 2022-07-08T00:14:07Z[!Europe/London] is not inconsistent. Flagging the skip as a defect is a false positive.",
+      "row": {
+        "locs": [
+          [
+            "timeutil.py",
+            [
+              145,
+              146
+            ]
+          ],
+          [
+            "parse.mjs",
+            [
+              89,
+              90
+            ]
+          ]
+        ],
+        "anchors": [],
+        "kw": "consisten|critical|-00:00|Europe/London|mismatch"
+      },
+      "regex": false
+    }
+  }
+}

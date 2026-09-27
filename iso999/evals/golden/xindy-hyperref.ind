@@ -1,0 +1,83 @@
+% Hand-made xindy + hyperref style .ind for the iso999 golden corpus.
+% Invented content. Deliberate defects: one misfiled heading (Quarry
+% before Pumps), one repeated locator (tides, 41), one elided range
+% (130--4) among full ranges, one 'see' chain (wrack -> seaweed -> kelp).
+\begin{theindex}
+  \providecommand*\lettergroupDefault[1]{}
+  \providecommand*\lettergroup[1]{%
+      \par\textbf{#1}\par
+      \nopagebreak
+  }
+
+  \lettergroup{A}
+  \item abalone, \hyperpage{12}, \hyperpage{40--42}
+  \item algae, \hyperpage{3}, \textbf{\hyperpage{9}}
+    \subitem brown, \hyperpage{10}
+    \subitem green, \hyperpage{11}
+    \subitem red, \hyperpage{14}
+  \item \"{A}lvsborg, \hyperpage{77}
+  \item ash, \hyperindexformat{\seealso{kelp ash}}{5}, \hyperpage{21}
+
+  \indexspace
+
+  \lettergroup{B}
+  \item barilla, \hyperpage{22}
+  \item beaches
+    \subitem shingle, \hyperpage{30}
+    \subitem stony, \hyperpage{31--33}
+  \item bladderwrack, \hyperpage{15}
+
+  \indexspace
+
+  \lettergroup{D}
+  \item drying, \hyperpage{50}
+    \subitem on stones, \hyperpage{51}
+    \subitem in sheds, \hyperpage{52}
+
+  \indexspace
+
+  \lettergroup{H}
+  \item harbour dues, \hyperpage{61}
+  \item harbours, \hyperpage{60}, \hyperpage{64}
+  \item harvesting, \hyperpage{70--75}, \hyperpage{130--4}
+
+  \indexspace
+
+  \lettergroup{I}
+  \item iodine, \hyperpage{80}, \textit{\hyperpage{82}}
+
+  \indexspace
+
+  \lettergroup{K}
+  \item kelp, \hyperpage{1}, \hyperpage{7--9}
+    \subitem burning, \hyperpage{25}
+    \subitem prices, \hyperpage{90}
+  \item kelp ash, \hyperpage{26}
+  \item Kelp Road, \hyperpage{95}
+
+  \indexspace
+
+  \lettergroup{P}
+  \item potash, \hyperpage{100}
+  \item Quarry Point, \hyperpage{112}
+  \item pumps, \hyperpage{110}
+
+  \indexspace
+
+  \lettergroup{S}
+  \item seaweed, \hyperindexformat{\see{kelp}}{3}
+  \item soda, \hyperpage{120}
+  \item St Kilda, \hyperpage{125}
+
+  \indexspace
+
+  \lettergroup{T}
+  \item tides, \hyperpage{41}, \hyperpage{41}
+  \item trade, \hyperpage{140--145}
+
+  \indexspace
+
+  \lettergroup{W}
+  \item wrack, \hyperindexformat{\see{seaweed}}{15}
+
+\end{theindex}

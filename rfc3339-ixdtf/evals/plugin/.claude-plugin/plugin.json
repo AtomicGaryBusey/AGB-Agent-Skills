@@ -1,0 +1,8 @@
+{
+  "name": "rfc3339-ixdtf-eval",
+  "version": "0.0.1",
+  "description": "Eval-only wrapper that loads the rfc3339-ixdtf skill without its evals/ folder.",
+  "experimental": {
+    "evals": "cases"
+  }
+}

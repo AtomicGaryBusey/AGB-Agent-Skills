@@ -1,0 +1,82 @@
+[
+  {
+    "query": "Does our API emit valid RFC 3339 timestamps?",
+    "should_trigger": true
+  },
+  {
+    "query": "Review this JSON Schema's `format: date-time` fields",
+    "should_trigger": true
+  },
+  {
+    "query": "Should we send `Z` or `+00:00` when the offset is unknown?",
+    "should_trigger": true
+  },
+  {
+    "query": "Parse `2026-09-24T12:00:00+02:00[Europe/Paris]` in Go",
+    "should_trigger": true
+  },
+  {
+    "query": "Our parser accepts `2023-02-30`; audit it",
+    "should_trigger": true
+  },
+  {
+    "query": "Test chrono vs jiff against RFC 3339 vectors",
+    "should_trigger": true
+  },
+  {
+    "query": "Handle `[u-ca=hebrew]` suffix tags in our deserializer",
+    "should_trigger": true
+  },
+  {
+    "query": "Is a leap second `23:59:60` legal in our log format?",
+    "should_trigger": true
+  },
+  {
+    "query": "Scan this repo for risky strftime/`%z` timestamp formatting",
+    "should_trigger": true
+  },
+  {
+    "query": "Check GlideDateTime serialization in our ServiceNow app",
+    "should_trigger": true
+  },
+  {
+    "query": "Parse ISO 8601 durations like `P3DT4H`",
+    "should_trigger": false
+  },
+  {
+    "query": "Format an HTTP-date header",
+    "should_trigger": false
+  },
+  {
+    "query": "Parse RFC 5322 email Date headers",
+    "should_trigger": false
+  },
+  {
+    "query": "Why is my DST arithmetic off by an hour?",
+    "should_trigger": false
+  },
+  {
+    "query": "Convert an ISO week date `2026-W39-5`",
+    "should_trigger": false
+  },
+  {
+    "query": "Pick a time zone for our cron job",
+    "should_trigger": false
+  },
+  {
+    "query": "Build a calendar UI date picker",
+    "should_trigger": false
+  },
+  {
+    "query": "Sort my list alphabetically",
+    "should_trigger": false
+  },
+  {
+    "query": "Store timestamps in Postgres as `timestamptz` or `bigint`?",
+    "should_trigger": false
+  },
+  {
+    "query": "Explain Unix epoch overflow in 2038",
+    "should_trigger": false
+  }
+]

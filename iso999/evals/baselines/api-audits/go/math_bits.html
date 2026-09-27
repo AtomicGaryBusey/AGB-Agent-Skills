@@ -1,0 +1,4042 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-layout="responsive" data-local="true">
+  <head>
+    
+    <script>
+      window.addEventListener('error', window.__err=function f(e){f.p=f.p||[];f.p.push(e)});
+    </script>
+    <script>
+      (function() {
+        const theme = document.cookie.match(/prefers-color-scheme=(light|dark|auto)/)?.[1]
+        if (theme) {
+          document.querySelector('html').setAttribute('data-theme', theme);
+        }
+      }())
+    </script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="Description" content="Package bits implements bit counting and manipulation functions for the predeclared unsigned integer types.">
+    
+    <meta class="js-gtmID" data-gtmid="">
+    <link rel="shortcut icon" href="/static/shared/icon/favicon.ico">
+    
+  
+    <meta name="robots" content="noindex">
+  
+
+    <link href="/static/frontend/frontend.min.css?version=" rel="stylesheet">
+    
+    
+  <title>bits package - math/bits - Go Packages</title>
+
+    
+  <link href="/static/frontend/unit/unit.min.css?version=" rel="stylesheet">
+  
+  <link href="/static/frontend/unit/main/main.min.css?version=" rel="stylesheet">
+
+
+  </head>
+  <body>
+    
+    <script>
+      function loadScript(src, mod = true) {
+        let s = document.createElement('script');
+        s.src = src;
+        if (mod) {
+          s.type = 'module';
+          s.async = true;
+          s.defer = true
+        }
+        document.head.appendChild(s);
+      }
+      loadScript("/third_party/dialog-polyfill/dialog-polyfill.js", false)
+      loadScript("/static/frontend/frontend.js");
+    </script>
+    
+  <header class="go-Header go-Header--full js-siteHeader">
+    <div class="go-Header-inner go-Header-inner--dark">
+      <nav class="go-Header-nav">
+        <a href="/" class="js-headerLogo" data-gtmc="nav link"
+            data-test-id="go-header-logo-link" role="heading" aria-level="1">
+          <img class="go-Header-logo" src="/static/shared/logo/go-white.svg" alt="Go">
+        </a>
+         <div class="skip-navigation-wrapper">
+            <a class="skip-to-content-link" aria-label="Skip to main content" href="#main-content"> Skip to Main Content </a>
+          </div>
+        <div class="go-Header-rightContent">
+          
+<div class="go-SearchForm js-searchForm">
+  <form
+    class="go-InputGroup go-ShortcutKey go-SearchForm-form"
+    action="/search"
+    data-shortcut="/"
+    data-shortcut-alt="search"
+    data-gtmc="search form"
+    aria-label="Search for a package"
+    role="search"
+  >
+    <input name="q" class="go-Input js-searchFocus" aria-label="Search for a package" type="search"
+        autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false"
+        placeholder="Search packages"
+        value="" />
+    <input name="m" value="" hidden>
+    <button class="go-Button go-Button--inverted" aria-label="Submit search">
+      <img
+        class="go-Icon"
+        height="24"
+        width="24"
+        src="/static/shared/icon/search_gm_grey_24dp.svg"
+        alt=""
+      />
+    </button>
+  </form>
+  <button class="go-SearchForm-expandSearch js-expandSearch" data-gtmc="nav button"
+      aria-label="Open search" data-test-id="expand-search">
+    <img class="go-Icon go-Icon--inverted" height="24" width="24"
+        src="/static/shared/icon/search_gm_grey_24dp.svg" alt="">
+
+  </button>
+</div>
+
+          <ul class="go-Header-menu">
+            <li class="go-Header-menuItem">
+              <a class="js-desktop-menu-hover" href="#" data-gtmc="nav link">
+                Why Go
+                <img class="go-Icon" height="24" width="24" src="/static/shared/icon/arrow_drop_down_gm_grey_24dp.svg" alt="submenu dropdown icon">
+              </a>
+              <ul class="go-Header-submenu go-Header-submenu--why js-desktop-submenu-hover" aria-label="submenu">
+                  <li class="go-Header-submenuItem">
+                    <div>
+                      <a href="https://go.dev/solutions/case-studies">
+                        <span>Case Studies</span>
+                      </a>
+                    </div>
+                    <p>Common problems companies solve with Go</p>
+                  </li>
+                  <li class="go-Header-submenuItem">
+                    <div>
+                      <a href="https://go.dev/solutions/use-cases">
+                        <span>Use Cases</span>
+                      </a>
+                    </div>
+                    <p>Stories about how and why companies use Go</p>
+                  </li>
+                  <li class="go-Header-submenuItem">
+                    <div>
+                      <a href="https://go.dev/security/">
+                        <span>Security</span>
+                      </a>
+                    </div>
+                    <p>How Go can help keep you secure by default</p>
+                  </li>
+              </ul>
+            </li>
+            <li class="go-Header-menuItem">
+              <a href="https://go.dev/learn/" data-gtmc="nav link">Learn</a>
+            </li>
+            <li class="go-Header-menuItem">
+              <a class="js-desktop-menu-hover" href="#" data-gtmc="nav link">
+                Docs
+                <img class="go-Icon" height="24" width="24" src="/static/shared/icon/arrow_drop_down_gm_grey_24dp.svg" alt="submenu dropdown icon">
+              </a>
+              <ul class="go-Header-submenu go-Header-submenu--docs js-desktop-submenu-hover" aria-label="submenu">
+                <li class="go-Header-submenuItem">
+                  <div>
+                    <a href="https://go.dev/doc/effective_go">
+                      <span>Effective Go</span>
+                    </a>
+                  </div>
+                  <p>Tips for writing clear, performant, and idiomatic Go code</p>
+                </li>
+                <li class="go-Header-submenuItem">
+                  <div>
+                    <a href="https://go.dev/doc/">
+                      <span>Go User Manual</span>
+                    </a>
+                  </div>
+                  <p>A complete introduction to building software with Go</p>
+                </li>
+                <li class="go-Header-submenuItem">
+                  <div>
+                    <a href="https://pkg.go.dev/std">
+                      <span>Standard library</span>
+                    </a>
+                  </div>
+                  <p>Reference documentation for Go's standard library</p>
+                </li>
+                <li class="go-Header-submenuItem">
+                  <div>
+                    <a href="https://go.dev/doc/devel/release">
+                      <span>Release Notes</span>
+                    </a>
+                  </div>
+                  <p>Learn what's new in each Go release</p>
+                </li>
+                <li class="go-Header-submenuItem">
+                  <div>
+                    <a href="/api">
+                      <span>API</span>
+                    </a>
+                  </div>
+                  <p>Reference documentation for the pkg.go.dev API</p>
+                </li>
+              </ul>
+            </li>
+            <li class="go-Header-menuItem go-Header-menuItem--active">
+              <a href="/" data-gtmc="nav link">Packages</a>
+            </li>
+            <li class="go-Header-menuItem">
+              <a class="js-desktop-menu-hover" href="#" data-gtmc="nav link">
+                Community
+                <img class="go-Icon" height="24" width="24" src="/static/shared/icon/arrow_drop_down_gm_grey_24dp.svg" alt="submenu dropdown icon">
+              </a>
+              <ul class="go-Header-submenu go-Header-submenu--community js-desktop-submenu-hover" aria-label="submenu">
+                <li class="go-Header-submenuItem">
+                  <div>
+                    <a href="https://go.dev/talks/">
+                      <span>Recorded Talks</span>
+                    </a>
+                  </div>
+                  <p>Videos from prior events</p>
+                </li>
+                <li class="go-Header-submenuItem">
+                  <div>
+                    <a href="https://www.meetup.com/pro/go">
+                      <span>Meetups</span>
+                      <i class="material-icons">
+                        <img class="go-Icon" height="24" width="24"
+                            src="/static/shared/icon/launch_gm_grey_24dp.svg" alt="">
+                      </i>
+                    </a>
+                  </div>
+                  <p>Meet other local Go developers</p>
+                </li>
+                <li class="go-Header-submenuItem">
+                  <div>
+                    <a href="https://github.com/golang/go/wiki/Conferences">
+                      <span>Conferences</span>
+                      <i class="material-icons">
+                        <img class="go-Icon" height="24" width="24"
+                            src="/static/shared/icon/launch_gm_grey_24dp.svg" alt="">
+                      </i>
+                    </a>
+                  </div>
+                  <p>Learn and network with Go developers from around the world</p>
+                </li>
+                <li class="go-Header-submenuItem">
+                  <div>
+                    <a href="https://go.dev/blog">
+                      <span>Go blog</span>
+                    </a>
+                  </div>
+                  <p>The Go project's official blog.</p>
+                </li>
+                <li class="go-Header-submenuItem">
+                  <div>
+                    <a href="https://go.dev/help">
+                      <span>Go project</span>
+                    </a>
+                  </div>
+                  <p>Get help and stay informed from Go</p>
+                </li>
+                <li class="go-Header-submenuItem">
+                  <div>
+                    Get connected
+                  </div>
+                  <p></p>
+                  <div class="go-Header-socialIcons">
+                      <a
+                        class="go-Header-socialIcon"
+                        aria-label="Get connected with google-groups (Opens in new window)"
+                        title="Get connected with google-groups (Opens in new window)"
+                        href="https://groups.google.com/g/golang-nuts">
+                        <img src="/static/shared/logo/social/google-groups.svg" />
+                      </a>
+                      <a
+                        class="go-Header-socialIcon"
+                        aria-label="Get connected with github (Opens in new window)"
+                        title="Get connected with github (Opens in new window)"
+                        href="https://github.com/golang">
+                        <img src="/static/shared/logo/social/github.svg" />
+                      </a>
+                      <a
+                        class="go-Header-socialIcon"
+                        aria-label="Get connected with twitter (Opens in new window)"
+                        title="Get connected with twitter (Opens in new window)"
+                        href="https://twitter.com/golang">
+                        <img src="/static/shared/logo/social/twitter.svg" />
+                      </a>
+                      <a
+                        class="go-Header-socialIcon"
+                        aria-label="Get connected with reddit (Opens in new window)"
+                        title="Get connected with reddit (Opens in new window)"
+                        href="https://www.reddit.com/r/golang/">
+                        <img src="/static/shared/logo/social/reddit.svg" />
+                      </a>
+                      <a
+                        class="go-Header-socialIcon"
+                        aria-label="Get connected with slack (Opens in new window)"
+                        title="Get connected with slack (Opens in new window)"
+                        href="https://invite.slack.golangbridge.org/">
+                        <img src="/static/shared/logo/social/slack.svg" />
+                      </a>
+                      <a
+                        class="go-Header-socialIcon"
+                        aria-label="Get connected with stack-overflow (Opens in new window)"
+                        title=""
+                        href="https://stackoverflow.com/collectives/go">
+                        <img src="/static/shared/logo/social/stack-overflow.svg" />
+                      </a>
+                  </div>
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <button class="go-Header-navOpen js-headerMenuButton go-Header-navOpen--white" data-gtmc="nav button" aria-label="Open navigation">
+          </button>
+        </div>
+      </nav>
+    </div>
+  </header>
+  <aside class="go-NavigationDrawer js-header">
+    <nav class="go-NavigationDrawer-nav">
+      <div class="go-NavigationDrawer-header">
+        <a href="https://go.dev/">
+          <img class="go-NavigationDrawer-logo" src="/static/shared/logo/go-blue.svg" alt="Go.">
+        </a>
+      </div>
+      <ul class="go-NavigationDrawer-list">
+          <li class="go-NavigationDrawer-listItem js-mobile-subnav-trigger go-NavigationDrawer-hasSubnav">
+            <a href="#">
+              <span>Why Go</span>
+              <i class="material-icons">
+                <img class="go-Icon" height="24" width="24"
+                  src="/static/shared/icon/navigate_next_gm_grey_24dp.svg" alt="">
+              </i>
+            </a>
+
+            <div class="go-NavigationDrawer go-NavigationDrawer-submenuItem">
+              <div class="go-NavigationDrawer-nav">
+                <div class="go-NavigationDrawer-header">
+                  <a href="#">
+                    <i class="material-icons">
+                      <img class="go-Icon" height="24" width="24"
+                        src="/static/shared/icon/navigate_before_gm_grey_24dp.svg" alt="">
+                      </i>
+                      Why Go
+                  </a>
+                </div>
+                <ul class="go-NavigationDrawer-list">
+                  <li class="go-NavigationDrawer-listItem">
+                    <a href="https://go.dev/solutions/case-studies">
+                      Case Studies
+                    </a>
+                  </li>
+                  <li class="go-NavigationDrawer-listItem">
+                    <a href="https://go.dev/solutions/use-cases">
+                      Use Cases
+                    </a>
+                  </li>
+                  <li class="go-NavigationDrawer-listItem">
+                    <a href="https://go.dev/security/">
+                      Security
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li class="go-NavigationDrawer-listItem">
+            <a href="https://go.dev/learn/">Learn</a>
+          </li>
+          <li class="go-NavigationDrawer-listItem js-mobile-subnav-trigger go-NavigationDrawer-hasSubnav">
+            <a href="#">
+              <span>Docs</span>
+              <i class="material-icons">
+                <img class="go-Icon" height="24" width="24"
+                  src="/static/shared/icon/navigate_next_gm_grey_24dp.svg" alt="">
+              </i>
+            </a>
+
+            <div class="go-NavigationDrawer go-NavigationDrawer-submenuItem">
+              <div class="go-NavigationDrawer-nav">
+                <div class="go-NavigationDrawer-header">
+                  <a href="#"><i class="material-icons">
+                    <img class="go-Icon" height="24" width="24"
+                      src="/static/shared/icon/navigate_before_gm_grey_24dp.svg" alt="">
+                    </i>
+                    Docs
+                  </a>
+                </div>
+                <ul class="go-NavigationDrawer-list">
+                  <li class="go-NavigationDrawer-listItem">
+                    <a href="https://go.dev/doc/effective_go">
+                      Effective Go
+                    </a>
+                  </li>
+                  <li class="go-NavigationDrawer-listItem">
+                    <a href="https://go.dev/doc/">
+                      Go User Manual
+                    </a>
+                  </li>
+                  <li class="go-NavigationDrawer-listItem">
+                    <a href="https://pkg.go.dev/std">
+                      Standard library
+                    </a>
+                  </li>
+                  <li class="go-NavigationDrawer-listItem">
+                    <a href="https://go.dev/doc/devel/release">
+                      Release Notes
+                    </a>
+                  </li>
+                  <li class="go-NavigationDrawer-listItem">
+                    <a href="/api">
+                      API
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li class="go-NavigationDrawer-listItem go-NavigationDrawer-listItem--active">
+            <a href="/">Packages</a>
+          </li>
+          <li class="go-NavigationDrawer-listItem js-mobile-subnav-trigger go-NavigationDrawer-hasSubnav">
+            <a href="#">
+              <span>Community</span>
+              <i class="material-icons">
+                <img class="go-Icon" height="24" width="24"
+                  src="/static/shared/icon/navigate_next_gm_grey_24dp.svg" alt="">
+              </i>
+            </a>
+            <div class="go-NavigationDrawer go-NavigationDrawer-submenuItem">
+              <div class="go-NavigationDrawer-nav">
+                <div class="go-NavigationDrawer-header">
+                  <a href="#">
+                    <i class="material-icons">
+                      <img class="go-Icon" height="24" width="24"
+                        src="/static/shared/icon/navigate_before_gm_grey_24dp.svg" alt="">
+                    </i>
+                    Community
+                  </a>
+                </div>
+                <ul class="go-NavigationDrawer-list">
+                  <li class="go-NavigationDrawer-listItem">
+                    <a href="https://go.dev/talks/">
+                      Recorded Talks
+                    </a>
+                  </li>
+                  <li class="go-NavigationDrawer-listItem">
+                    <a href="https://www.meetup.com/pro/go">
+                      Meetups
+                      <i class="material-icons">
+                      <img class="go-Icon" height="24" width="24"
+                          src="/static/shared/icon/launch_gm_grey_24dp.svg" alt="">
+                      </i>
+                    </a>
+                  </li>
+                  <li class="go-NavigationDrawer-listItem">
+                    <a href="https://github.com/golang/go/wiki/Conferences">
+                      Conferences
+                      <i class="material-icons">
+                        <img class="go-Icon" height="24" width="24" src="/static/shared/icon/launch_gm_grey_24dp.svg" alt="">
+                      </i>
+                    </a>
+                  </li>
+                  <li class="go-NavigationDrawer-listItem">
+                    <a href="https://go.dev/blog">
+                      Go blog
+                    </a>
+                  </li>
+                  <li class="go-NavigationDrawer-listItem">
+                    <a href="https://go.dev/help">
+                      Go project
+                    </a>
+                  </li>
+                  <li class="go-NavigationDrawer-listItem">
+                    <div>Get connected</div>
+                    <div class="go-Header-socialIcons">
+                        <a class="go-Header-socialIcon" href="https://groups.google.com/g/golang-nuts"><img src="/static/shared/logo/social/google-groups.svg" /></a>
+                        <a class="go-Header-socialIcon" href="https://github.com/golang"><img src="/static/shared/logo/social/github.svg" /></a>
+                        <a class="go-Header-socialIcon" href="https://twitter.com/golang"><img src="/static/shared/logo/social/twitter.svg" /></a>
+                        <a class="go-Header-socialIcon" href="https://www.reddit.com/r/golang/"><img src="/static/shared/logo/social/reddit.svg" /></a>
+                        <a class="go-Header-socialIcon" href="https://invite.slack.golangbridge.org/"><img src="/static/shared/logo/social/slack.svg" /></a>
+                        <a class="go-Header-socialIcon" href="https://stackoverflow.com/collectives/go"><img src="/static/shared/logo/social/stack-overflow.svg" /></a>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </li>
+      </ul>
+    </nav>
+  </aside>
+  <div class="go-NavigationDrawer-scrim js-scrim" role="presentation"></div>
+
+    
+  <main class="go-Main" id="main-content">
+    <div class="go-Main-banner" role="alert"></div>
+    <header class="go-Main-header js-mainHeader">
+  
+  
+  <nav class="go-Main-headerBreadcrumb go-Breadcrumb" aria-label="Breadcrumb" data-test-id="UnitHeader-breadcrumb">
+    <ol>
+      
+        
+          <li data-test-id="UnitHeader-breadcrumbItem">
+            <a href="/" data-gtmc="breadcrumb link">Discover Packages</a>
+          </li>
+        
+          <li data-test-id="UnitHeader-breadcrumbItem">
+            <a href="/std" data-gtmc="breadcrumb link">Standard library</a>
+          </li>
+        
+          <li data-test-id="UnitHeader-breadcrumbItem">
+            <a href="/math" data-gtmc="breadcrumb link">math</a>
+          </li>
+        
+        <li>
+          <a href="/math/bits@go1.27.1" data-gtmc="breadcrumb link" aria-current="location"
+              data-test-id="UnitHeader-breadcrumbCurrent">
+            bits
+          </a>
+          
+            <button
+              class="go-Button go-Button--inline go-Clipboard js-clipboard"
+              title="Copy path to clipboard.&#10;&#10;math/bits"
+              aria-label="Copy Path to Clipboard"
+              data-to-copy="math/bits"
+              data-gtmc="breadcrumbs button"
+            >
+              <img
+                class="go-Icon go-Icon--accented"
+                height="24"
+                width="24"
+                src="/static/shared/icon/content_copy_gm_grey_24dp.svg"
+                alt=""
+              >
+            </button>
+          
+        
+      </li>
+    </ol>
+  </nav>
+
+  <div class="go-Main-headerContent">
+    
+  <div class="go-Main-headerTitle js-stickyHeader">
+    <a class="go-Main-headerLogo" href="/" aria-hidden="true" tabindex="-1" data-gtmc="header link" aria-label="Link to Go Homepage">
+      <img height="78" width="207" src="/static/shared/logo/go-blue.svg" alt="Go">
+    </a>
+    <h1 class="UnitHeader-titleHeading" data-test-id="UnitHeader-title">bits</h1>
+    
+      <span class="go-Chip go-Chip--inverted">package</span>
+    
+      <span class="go-Chip go-Chip--inverted">standard library</span>
+    
+    
+      
+        <button
+          class="go-Button go-Button--inline go-Clipboard js-clipboard"
+          title="Copy path to clipboard.&#10;&#10;math/bits"
+          aria-label="Copy Path to Clipboard"
+          data-to-copy="math/bits"
+          data-gtmc="title button"
+          tabindex="-1"
+        >
+          <img
+            class="go-Icon go-Icon--accented"
+            height="24"
+            width="24"
+            src="/static/shared/icon/content_copy_gm_grey_24dp.svg"
+            alt=""
+          />
+        </button>
+      
+    
+  </div>
+
+    
+      
+  <div class="go-Main-headerDetails">
+    
+      
+  <span class="go-Main-headerDetailItem" data-test-id="UnitHeader-version">
+    <a href="?tab=versions" aria-label="Version: go1.27.1" 
+    data-gtmc="header link" aria-describedby="version-description">
+      <span class="go-textSubtle" aria-hidden="true">Version: </span>
+        go1.27.1
+    </a>
+    <div class="screen-reader-only" id="version-description" hidden>
+      Opens a new window with list of versions in this module.
+    </div>
+    
+    <span class="DetailsHeader-badge--unknown" data-test-id="UnitHeader-minorVersionBanner">
+      <span class="go-Chip DetailsHeader-span--latest">Latest</span>
+      <span class="go-Chip DetailsHeader-span--notAtLatest">
+        Latest
+        
+  <details class="go-Tooltip js-tooltip" data-gtmc="tooltip">
+    <summary>
+      <img class="go-Icon go-Icon--inverted" height="24" width="24" src="/static/shared/icon/alert_gm_grey_24dp.svg" alt="Warning">
+    </summary>
+    <p>This package is not in the latest version of its module.</p>
+  </details>
+
+      </span>
+      <a href="/math/bits" aria-label="Go to Latest Version" data-gtmc="header link">
+        <span class="go-Chip go-Chip--alert DetailsHeader-span--goToLatest">Go to latest</span>
+      </a>
+    </span>
+  </span>
+
+      
+  <span class="go-Main-headerDetailItem" data-test-id="UnitHeader-commitTime">
+    Published: Sep 25, 2026
+  </span>
+
+      
+  <span class="go-Main-headerDetailItem" data-test-id="UnitHeader-licenses">
+    License: 
+      <span>None detected</span>
+      <a href="/license-policy" class="Disclaimer-link" data-gtmc="info link" 
+      aria-describedby="license-description">
+        <em>not legal advice</em>
+      </a>
+    
+  </span>
+  <div class="screen-reader-only" id="license-description" hidden>
+    Opens a new window with license information.
+  </div>
+
+      
+        
+  <span class="go-Main-headerDetailItem" data-test-id="UnitHeader-imports">
+    <a href="/math/bits?tab=imports" aria-label="Imports: 0"
+        data-gtmc="header link" aria-describedby="imports-description">
+      <span class="go-textSubtle">Imports: </span>0
+    </a>
+  </span>
+  <div class="screen-reader-only" id="imports-description" hidden>
+    Opens a new window with list of imports.
+  </div>
+
+        
+  <span class="go-Main-headerDetailItem" data-test-id="UnitHeader-importedby">
+    <a href="/math/bits?tab=importedby" aria-label="Imported By: 0"
+        data-gtmc="header link" aria-describedby="importedby-description">
+       <span class="go-textSubtle">Imported by: </span>0
+    </a>
+  </span>
+  <div class="screen-reader-only" id="importedby-description" hidden>
+    Opens a new window with list of known importers.
+  </div>
+
+      
+    
+  </div>
+  
+  <div class="UnitHeader-overflowContainer">
+    <svg class="UnitHeader-overflowImage" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+      <path d="M0 0h24v24H0z" fill="none"/>
+      <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+    </svg>
+    <select class="UnitHeader-overflowSelect js-selectNav" tabindex="-1">
+      <option value="/">Main</option>
+      <option value="/math/bits?tab=versions">
+        Versions
+      </option>
+      <option value="/math/bits?tab=licenses">
+        Licenses
+      </option>
+      
+        <option value="/math/bits?tab=imports">
+          Imports
+        </option>
+        <option value="/math/bits?tab=importedby">
+          Imported By
+        </option>
+      
+    </select>
+  </div>
+
+
+    
+  </div>
+
+</header>
+    
+      <aside class="go-Main-aside  js-mainAside">
+  
+  <div class="UnitMeta">
+    <h2 class="go-textLabel">Details</h2>
+    
+  <ul class="UnitMeta-details">
+    <li>
+      <details class="go-Tooltip js-tooltip" data-gtmc="tooltip">
+        <summary class="go-textSubtle">
+          
+  <img class="go-Icon go-Icon--accented"
+    tabindex="0"
+    role="button"src="/static/shared/icon/check_circle_gm_grey_24dp.svg" alt="checked" aria-label="Valid file, toggle tooltip"height="24" width="24">
+
+          Valid <a href="/files$GOROOT/std//go.mod" target="_blank" rel="noopener">go.mod</a> file
+          <img class="go-Icon" role="button" tabindex="0" src="/static/shared/icon/help_gm_grey_24dp.svg" alt="" aria-label="Toggle go.mod validity tooltip" height="24" width="24">
+        </summary>
+        <p aria-live="polite" role="tooltip">
+          The Go module system was introduced in Go 1.11 and is the official dependency management
+          solution for Go.
+        </p>
+      </details>
+    </li>
+    <li>
+      <details class="go-Tooltip js-tooltip" data-gtmc="tooltip">
+        <summary class="go-textSubtle">
+          
+  <img class="go-Icon"
+    tabindex="0"
+    role="button"src="/static/shared/icon/cancel_gm_grey_24dp.svg" alt="unchecked" aria-label="Missing or invalid file, toggle tooltip"height="24" width="24">
+
+          Redistributable license
+          <img class="go-Icon" role="button" tabindex="0" src="/static/shared/icon/help_gm_grey_24dp.svg" alt="" aria-label="Toggle redistributable help tooltip" height="24" width="24">
+        </summary>
+        <p aria-live="polite" role="tooltip">
+          Redistributable licenses place minimal restrictions on how software can be used,
+          modified, and redistributed.
+        </p>
+      </details>
+    </li>
+    <li>
+      <details class="go-Tooltip js-tooltip" data-gtmc="tooltip">
+        <summary class="go-textSubtle">
+          
+  <img class="go-Icon go-Icon--accented"
+    tabindex="0"
+    role="button"src="/static/shared/icon/check_circle_gm_grey_24dp.svg" alt="checked" aria-label="Valid file, toggle tooltip"height="24" width="24">
+
+          Tagged version
+          <img class="go-Icon" role="button" tabindex="0" src="/static/shared/icon/help_gm_grey_24dp.svg" alt="" aria-label="Toggle tagged version tooltip" height="24" width="24">
+        </summary>
+        <p aria-live="polite" role="tooltip">Modules with tagged versions give importers more predictable builds.</p>
+      </details>
+    </li>
+    <li>
+      <details class="go-Tooltip js-tooltip" data-gtmc="tooltip">
+        <summary class="go-textSubtle">
+          
+  <img class="go-Icon go-Icon--accented"
+    tabindex="0"
+    role="button"src="/static/shared/icon/check_circle_gm_grey_24dp.svg" alt="checked" aria-label="Valid file, toggle tooltip"height="24" width="24">
+
+          Stable version
+          <img class="go-Icon" role="button" tabindex="0" aria-label="Toggle stable version tooltip" src="/static/shared/icon/help_gm_grey_24dp.svg" alt="" height="24" width="24">
+        </summary>
+        <p aria-live="polite" role="tooltip">When a project reaches major version v1 it is considered stable.</p>
+      </details>
+    </li>
+    <li class="UnitMeta-detailsLearn">
+      <a href="/about#best-practices" data-gtmc="meta link">Learn more about best practices</a>
+    </li>
+  </ul>
+
+    <h2 class="go-textLabel">Repository</h2>
+    <div class="UnitMeta-repo">
+      
+        <a href="/files$GOROOT/std/" title="/files$GOROOT/std/" target="_blank" rel="noopener">
+          /files$GOROOT/std/
+        </a>
+      
+    </div>
+    
+      <h2 class="go-textLabel" data-test-id="links-heading">Links</h2>
+      <ul class="UnitMeta-links">
+        
+          <li>
+            <a href="https://go.dev/security/policy"
+                title="Report security issues in the Go standard library and sub-repositories">
+              <img class="go-Icon" height="24" width="24" src="/static/shared/icon/security_grey_24dp.svg" alt="">
+              Report a Vulnerability
+            </a>
+          </li>
+        
+        
+        
+        
+  
+
+        
+  
+
+        
+  
+
+      </ul>
+    
+  </div>
+
+</aside>
+    
+    <nav class="go-Main-nav go-Main-nav--sticky js-mainNav" aria-label="Outline">
+  <div class="go-Main-navDesktop">
+    
+  <div class="UnitOutline-jumpTo">
+    <button class="UnitOutline-jumpToInput go-ShortcutKey js-jumpToInput"
+        aria-controls="jump-to-modal"
+        aria-label="Open Jump to Identifier"
+        data-shortcut="f"
+        data-shortcut-alt="find"
+        data-test-id="jump-to-button" data-gtmc="outline button">
+      Jump to ...
+    </button>
+  </div>
+  <ul class="go-Tree js-tree" role="tree" aria-label="Outline">
+    
+    
+      <li>
+        <a href="#section-documentation" data-gtmc="outline link">
+          Documentation
+        </a>
+        
+<ul>
+  
+    <li>
+      <a href="#pkg-overview" data-gtmc="doc outline link">Overview</a>
+    </li>
+  <li class="DocNav-overview">
+      <a href="#pkg-index" data-gtmc="doc outline link">
+        Index
+      </a>
+    </li>
+      <li>
+        <a href="#pkg-examples" data-gtmc="doc outline link">
+          Examples
+        </a>
+        <ul>
+            <li>
+              <a href="#example-Add32" title="Add32" data-gtmc="doc outline link">
+                Add32
+              </a>
+            </li>
+            <li>
+              <a href="#example-Add64" title="Add64" data-gtmc="doc outline link">
+                Add64
+              </a>
+            </li>
+            <li>
+              <a href="#example-Div32" title="Div32" data-gtmc="doc outline link">
+                Div32
+              </a>
+            </li>
+            <li>
+              <a href="#example-Div64" title="Div64" data-gtmc="doc outline link">
+                Div64
+              </a>
+            </li>
+            <li>
+              <a href="#example-LeadingZeros8" title="LeadingZeros8" data-gtmc="doc outline link">
+                LeadingZeros8
+              </a>
+            </li>
+            <li>
+              <a href="#example-LeadingZeros16" title="LeadingZeros16" data-gtmc="doc outline link">
+                LeadingZeros16
+              </a>
+            </li>
+            <li>
+              <a href="#example-LeadingZeros32" title="LeadingZeros32" data-gtmc="doc outline link">
+                LeadingZeros32
+              </a>
+            </li>
+            <li>
+              <a href="#example-LeadingZeros64" title="LeadingZeros64" data-gtmc="doc outline link">
+                LeadingZeros64
+              </a>
+            </li>
+            <li>
+              <a href="#example-Len8" title="Len8" data-gtmc="doc outline link">
+                Len8
+              </a>
+            </li>
+            <li>
+              <a href="#example-Len16" title="Len16" data-gtmc="doc outline link">
+                Len16
+              </a>
+            </li>
+            <li>
+              <a href="#example-Len32" title="Len32" data-gtmc="doc outline link">
+                Len32
+              </a>
+            </li>
+            <li>
+              <a href="#example-Len64" title="Len64" data-gtmc="doc outline link">
+                Len64
+              </a>
+            </li>
+            <li>
+              <a href="#example-Mul32" title="Mul32" data-gtmc="doc outline link">
+                Mul32
+              </a>
+            </li>
+            <li>
+              <a href="#example-Mul64" title="Mul64" data-gtmc="doc outline link">
+                Mul64
+              </a>
+            </li>
+            <li>
+              <a href="#example-OnesCount" title="OnesCount" data-gtmc="doc outline link">
+                OnesCount
+              </a>
+            </li>
+            <li>
+              <a href="#example-OnesCount8" title="OnesCount8" data-gtmc="doc outline link">
+                OnesCount8
+              </a>
+            </li>
+            <li>
+              <a href="#example-OnesCount16" title="OnesCount16" data-gtmc="doc outline link">
+                OnesCount16
+              </a>
+            </li>
+            <li>
+              <a href="#example-OnesCount32" title="OnesCount32" data-gtmc="doc outline link">
+                OnesCount32
+              </a>
+            </li>
+            <li>
+              <a href="#example-OnesCount64" title="OnesCount64" data-gtmc="doc outline link">
+                OnesCount64
+              </a>
+            </li>
+            <li>
+              <a href="#example-Reverse8" title="Reverse8" data-gtmc="doc outline link">
+                Reverse8
+              </a>
+            </li>
+            <li>
+              <a href="#example-Reverse16" title="Reverse16" data-gtmc="doc outline link">
+                Reverse16
+              </a>
+            </li>
+            <li>
+              <a href="#example-Reverse32" title="Reverse32" data-gtmc="doc outline link">
+                Reverse32
+              </a>
+            </li>
+            <li>
+              <a href="#example-Reverse64" title="Reverse64" data-gtmc="doc outline link">
+                Reverse64
+              </a>
+            </li>
+            <li>
+              <a href="#example-ReverseBytes16" title="ReverseBytes16" data-gtmc="doc outline link">
+                ReverseBytes16
+              </a>
+            </li>
+            <li>
+              <a href="#example-ReverseBytes32" title="ReverseBytes32" data-gtmc="doc outline link">
+                ReverseBytes32
+              </a>
+            </li>
+            <li>
+              <a href="#example-ReverseBytes64" title="ReverseBytes64" data-gtmc="doc outline link">
+                ReverseBytes64
+              </a>
+            </li>
+            <li>
+              <a href="#example-RotateLeft8" title="RotateLeft8" data-gtmc="doc outline link">
+                RotateLeft8
+              </a>
+            </li>
+            <li>
+              <a href="#example-RotateLeft16" title="RotateLeft16" data-gtmc="doc outline link">
+                RotateLeft16
+              </a>
+            </li>
+            <li>
+              <a href="#example-RotateLeft32" title="RotateLeft32" data-gtmc="doc outline link">
+                RotateLeft32
+              </a>
+            </li>
+            <li>
+              <a href="#example-RotateLeft64" title="RotateLeft64" data-gtmc="doc outline link">
+                RotateLeft64
+              </a>
+            </li>
+            <li>
+              <a href="#example-Sub32" title="Sub32" data-gtmc="doc outline link">
+                Sub32
+              </a>
+            </li>
+            <li>
+              <a href="#example-Sub64" title="Sub64" data-gtmc="doc outline link">
+                Sub64
+              </a>
+            </li>
+            <li>
+              <a href="#example-TrailingZeros8" title="TrailingZeros8" data-gtmc="doc outline link">
+                TrailingZeros8
+              </a>
+            </li>
+            <li>
+              <a href="#example-TrailingZeros16" title="TrailingZeros16" data-gtmc="doc outline link">
+                TrailingZeros16
+              </a>
+            </li>
+            <li>
+              <a href="#example-TrailingZeros32" title="TrailingZeros32" data-gtmc="doc outline link">
+                TrailingZeros32
+              </a>
+            </li>
+            <li>
+              <a href="#example-TrailingZeros64" title="TrailingZeros64" data-gtmc="doc outline link">
+                TrailingZeros64
+              </a>
+            </li>
+        </ul>
+      </li>
+    <li class="DocNav-constants">
+      <a href="#pkg-constants" data-gtmc="doc outline link">
+        Constants
+      </a>
+    </li>
+    <li class="DocNav-variables">
+      <a href="#pkg-variables" data-gtmc="doc outline link">
+        Variables
+      </a>
+    </li>
+    <li class="DocNav-functions">
+      <a href="#pkg-functions" data-gtmc="doc outline link">
+        Functions
+      </a>
+      
+        <ul>
+          
+            <li>
+              <a href="#Add" title="Add(x, y, carry)" data-gtmc="doc outline link">
+                Add(x, y, carry)
+              </a>
+            </li>
+          
+            <li>
+              <a href="#Add32" title="Add32(x, y, carry)" data-gtmc="doc outline link">
+                Add32(x, y, carry)
+              </a>
+            </li>
+          
+            <li>
+              <a href="#Add64" title="Add64(x, y, carry)" data-gtmc="doc outline link">
+                Add64(x, y, carry)
+              </a>
+            </li>
+          
+            <li>
+              <a href="#Div" title="Div(hi, lo, y)" data-gtmc="doc outline link">
+                Div(hi, lo, y)
+              </a>
+            </li>
+          
+            <li>
+              <a href="#Div32" title="Div32(hi, lo, y)" data-gtmc="doc outline link">
+                Div32(hi, lo, y)
+              </a>
+            </li>
+          
+            <li>
+              <a href="#Div64" title="Div64(hi, lo, y)" data-gtmc="doc outline link">
+                Div64(hi, lo, y)
+              </a>
+            </li>
+          
+            <li>
+              <a href="#LeadingZeros" title="LeadingZeros(x)" data-gtmc="doc outline link">
+                LeadingZeros(x)
+              </a>
+            </li>
+          
+            <li>
+              <a href="#LeadingZeros8" title="LeadingZeros8(x)" data-gtmc="doc outline link">
+                LeadingZeros8(x)
+              </a>
+            </li>
+          
+            <li>
+              <a href="#LeadingZeros16" title="LeadingZeros16(x)" data-gtmc="doc outline link">
+                LeadingZeros16(x)
+              </a>
+            </li>
+          
+            <li>
+              <a href="#LeadingZeros32" title="LeadingZeros32(x)" data-gtmc="doc outline link">
+                LeadingZeros32(x)
+              </a>
+            </li>
+          
+            <li>
+              <a href="#LeadingZeros64" title="LeadingZeros64(x)" data-gtmc="doc outline link">
+                LeadingZeros64(x)
+              </a>
+            </li>
+          
+            <li>
+              <a href="#Len" title="Len(x)" data-gtmc="doc outline link">
+                Len(x)
+              </a>
+            </li>
+          
+            <li>
+              <a href="#Len8" title="Len8(x)" data-gtmc="doc outline link">
+                Len8(x)
+              </a>
+            </li>
+          
+            <li>
+              <a href="#Len16" title="Len16(x)" data-gtmc="doc outline link">
+                Len16(x)
+              </a>
+            </li>
+          
+            <li>
+              <a href="#Len32" title="Len32(x)" data-gtmc="doc outline link">
+                Len32(x)
+              </a>
+            </li>
+          
+            <li>
+              <a href="#Len64" title="Len64(x)" data-gtmc="doc outline link">
+                Len64(x)
+              </a>
+            </li>
+          
+            <li>
+              <a href="#Mul" title="Mul(x, y)" data-gtmc="doc outline link">
+                Mul(x, y)
+              </a>
+            </li>
+          
+            <li>
+              <a href="#Mul32" title="Mul32(x, y)" data-gtmc="doc outline link">
+                Mul32(x, y)
+              </a>
+            </li>
+          
+            <li>
+              <a href="#Mul64" title="Mul64(x, y)" data-gtmc="doc outline link">
+                Mul64(x, y)
+              </a>
+            </li>
+          
+            <li>
+              <a href="#OnesCount" title="OnesCount(x)" data-gtmc="doc outline link">
+                OnesCount(x)
+              </a>
+            </li>
+          
+            <li>
+              <a href="#OnesCount8" title="OnesCount8(x)" data-gtmc="doc outline link">
+                OnesCount8(x)
+              </a>
+            </li>
+          
+            <li>
+              <a href="#OnesCount16" title="OnesCount16(x)" data-gtmc="doc outline link">
+                OnesCount16(x)
+              </a>
+            </li>
+          
+            <li>
+              <a href="#OnesCount32" title="OnesCount32(x)" data-gtmc="doc outline link">
+                OnesCount32(x)
+              </a>
+            </li>
+          
+            <li>
+              <a href="#OnesCount64" title="OnesCount64(x)" data-gtmc="doc outline link">
+                OnesCount64(x)
+              </a>
+            </li>
+          
+            <li>
+              <a href="#Rem" title="Rem(hi, lo, y)" data-gtmc="doc outline link">
+                Rem(hi, lo, y)
+              </a>
+            </li>
+          
+            <li>
+              <a href="#Rem32" title="Rem32(hi, lo, y)" data-gtmc="doc outline link">
+                Rem32(hi, lo, y)
+              </a>
+            </li>
+          
+            <li>
+              <a href="#Rem64" title="Rem64(hi, lo, y)" data-gtmc="doc outline link">
+                Rem64(hi, lo, y)
+              </a>
+            </li>
+          
+            <li>
+              <a href="#Reverse" title="Reverse(x)" data-gtmc="doc outline link">
+                Reverse(x)
+              </a>
+            </li>
+          
+            <li>
+              <a href="#Reverse8" title="Reverse8(x)" data-gtmc="doc outline link">
+                Reverse8(x)
+              </a>
+            </li>
+          
+            <li>
+              <a href="#Reverse16" title="Reverse16(x)" data-gtmc="doc outline link">
+                Reverse16(x)
+              </a>
+            </li>
+          
+            <li>
+              <a href="#Reverse32" title="Reverse32(x)" data-gtmc="doc outline link">
+                Reverse32(x)
+              </a>
+            </li>
+          
+            <li>
+              <a href="#Reverse64" title="Reverse64(x)" data-gtmc="doc outline link">
+                Reverse64(x)
+              </a>
+            </li>
+          
+            <li>
+              <a href="#ReverseBytes" title="ReverseBytes(x)" data-gtmc="doc outline link">
+                ReverseBytes(x)
+              </a>
+            </li>
+          
+            <li>
+              <a href="#ReverseBytes16" title="ReverseBytes16(x)" data-gtmc="doc outline link">
+                ReverseBytes16(x)
+              </a>
+            </li>
+          
+            <li>
+              <a href="#ReverseBytes32" title="ReverseBytes32(x)" data-gtmc="doc outline link">
+                ReverseBytes32(x)
+              </a>
+            </li>
+          
+            <li>
+              <a href="#ReverseBytes64" title="ReverseBytes64(x)" data-gtmc="doc outline link">
+                ReverseBytes64(x)
+              </a>
+            </li>
+          
+            <li>
+              <a href="#RotateLeft" title="RotateLeft(x, k)" data-gtmc="doc outline link">
+                RotateLeft(x, k)
+              </a>
+            </li>
+          
+            <li>
+              <a href="#RotateLeft8" title="RotateLeft8(x, k)" data-gtmc="doc outline link">
+                RotateLeft8(x, k)
+              </a>
+            </li>
+          
+            <li>
+              <a href="#RotateLeft16" title="RotateLeft16(x, k)" data-gtmc="doc outline link">
+                RotateLeft16(x, k)
+              </a>
+            </li>
+          
+            <li>
+              <a href="#RotateLeft32" title="RotateLeft32(x, k)" data-gtmc="doc outline link">
+                RotateLeft32(x, k)
+              </a>
+            </li>
+          
+            <li>
+              <a href="#RotateLeft64" title="RotateLeft64(x, k)" data-gtmc="doc outline link">
+                RotateLeft64(x, k)
+              </a>
+            </li>
+          
+            <li>
+              <a href="#Sub" title="Sub(x, y, borrow)" data-gtmc="doc outline link">
+                Sub(x, y, borrow)
+              </a>
+            </li>
+          
+            <li>
+              <a href="#Sub32" title="Sub32(x, y, borrow)" data-gtmc="doc outline link">
+                Sub32(x, y, borrow)
+              </a>
+            </li>
+          
+            <li>
+              <a href="#Sub64" title="Sub64(x, y, borrow)" data-gtmc="doc outline link">
+                Sub64(x, y, borrow)
+              </a>
+            </li>
+          
+            <li>
+              <a href="#TrailingZeros" title="TrailingZeros(x)" data-gtmc="doc outline link">
+                TrailingZeros(x)
+              </a>
+            </li>
+          
+            <li>
+              <a href="#TrailingZeros8" title="TrailingZeros8(x)" data-gtmc="doc outline link">
+                TrailingZeros8(x)
+              </a>
+            </li>
+          
+            <li>
+              <a href="#TrailingZeros16" title="TrailingZeros16(x)" data-gtmc="doc outline link">
+                TrailingZeros16(x)
+              </a>
+            </li>
+          
+            <li>
+              <a href="#TrailingZeros32" title="TrailingZeros32(x)" data-gtmc="doc outline link">
+                TrailingZeros32(x)
+              </a>
+            </li>
+          
+            <li>
+              <a href="#TrailingZeros64" title="TrailingZeros64(x)" data-gtmc="doc outline link">
+                TrailingZeros64(x)
+              </a>
+            </li>
+          
+        </ul>
+      
+    </li>
+    <li class="DocNav-types">
+      <a href="#pkg-types" data-gtmc="doc outline link">
+        Types
+      </a>
+      <ul>
+         
+      </ul>
+    </li>
+  
+  
+</ul>
+
+      </li>
+    
+    
+      <li>
+        <a href="#section-sourcefiles" data-gtmc="outline link">
+          Source Files
+        </a>
+      </li>
+    
+    
+  </ul>
+
+  </div>
+  <div class="go-Main-navMobile js-mainNavMobile">
+    <label class="go-Label">
+      <select class="go-Select">
+        
+          <option selected disabled>Documentation</option>
+        
+      </select>
+    </label>
+  </div>
+</nav>
+    <article class="go-Main-article js-mainContent">
+  <div class="UnitDetails" data-test-id="UnitDetails" style="display: block;">
+    <div class="UnitDetails-content js-unitDetailsContent" data-test-id="UnitDetails-content">
+      
+      
+        
+          
+  <div class="UnitDoc">
+    <h2 class="UnitDoc-title" id="section-documentation">
+      <img class="go-Icon" height="24" width="24" src="/static/shared/icon/code_gm_grey_24dp.svg" alt="">
+      Documentation
+      <a class="UnitDoc-idLink" href="#section-documentation" title="Go to Documentation" aria-label="Go to Documentation">¶</a>
+    </h2>
+    
+  
+    
+  
+
+    <div class="Documentation js-documentation">
+      
+        
+
+<div class="Documentation-content js-docContent"> <section class="Documentation-overview">
+    <h3 tabindex="-1" id="pkg-overview" class="Documentation-overviewHeader">Overview <a href="#pkg-overview" title="Go to Overview" aria-label="Go to Overview">¶</a></h3>
+
+<p>Package bits implements bit counting and manipulation
+functions for the predeclared unsigned integer types.
+</p><p>Functions in this package may be implemented directly by
+the compiler, for better performance. For those functions
+the code in this package will not be used. Which
+functions are implemented by the compiler depends on the
+architecture and the Go release.
+</p>
+</section><section class="Documentation-index">
+    <h3 id="pkg-index" class="Documentation-indexHeader">Index <a href="#pkg-index" title="Go to Index" aria-label="Go to Index">¶</a></h3>
+
+<ul class="Documentation-indexList">
+<li class="Documentation-indexConstants"><a href="#pkg-constants">Constants</a></li>
+<li class="Documentation-indexFunction">
+        <a href="#Add">func Add(x, y, carry uint) (sum, carryOut uint)</a></li>
+<li class="Documentation-indexFunction">
+        <a href="#Add32">func Add32(x, y, carry uint32) (sum, carryOut uint32)</a></li>
+<li class="Documentation-indexFunction">
+        <a href="#Add64">func Add64(x, y, carry uint64) (sum, carryOut uint64)</a></li>
+<li class="Documentation-indexFunction">
+        <a href="#Div">func Div(hi, lo, y uint) (quo, rem uint)</a></li>
+<li class="Documentation-indexFunction">
+        <a href="#Div32">func Div32(hi, lo, y uint32) (quo, rem uint32)</a></li>
+<li class="Documentation-indexFunction">
+        <a href="#Div64">func Div64(hi, lo, y uint64) (quo, rem uint64)</a></li>
+<li class="Documentation-indexFunction">
+        <a href="#LeadingZeros">func LeadingZeros(x uint) int</a></li>
+<li class="Documentation-indexFunction">
+        <a href="#LeadingZeros8">func LeadingZeros8(x uint8) int</a></li>
+<li class="Documentation-indexFunction">
+        <a href="#LeadingZeros16">func LeadingZeros16(x uint16) int</a></li>
+<li class="Documentation-indexFunction">
+        <a href="#LeadingZeros32">func LeadingZeros32(x uint32) int</a></li>
+<li class="Documentation-indexFunction">
+        <a href="#LeadingZeros64">func LeadingZeros64(x uint64) int</a></li>
+<li class="Documentation-indexFunction">
+        <a href="#Len">func Len(x uint) int</a></li>
+<li class="Documentation-indexFunction">
+        <a href="#Len8">func Len8(x uint8) int</a></li>
+<li class="Documentation-indexFunction">
+        <a href="#Len16">func Len16(x uint16) (n int)</a></li>
+<li class="Documentation-indexFunction">
+        <a href="#Len32">func Len32(x uint32) (n int)</a></li>
+<li class="Documentation-indexFunction">
+        <a href="#Len64">func Len64(x uint64) (n int)</a></li>
+<li class="Documentation-indexFunction">
+        <a href="#Mul">func Mul(x, y uint) (hi, lo uint)</a></li>
+<li class="Documentation-indexFunction">
+        <a href="#Mul32">func Mul32(x, y uint32) (hi, lo uint32)</a></li>
+<li class="Documentation-indexFunction">
+        <a href="#Mul64">func Mul64(x, y uint64) (hi, lo uint64)</a></li>
+<li class="Documentation-indexFunction">
+        <a href="#OnesCount">func OnesCount(x uint) int</a></li>
+<li class="Documentation-indexFunction">
+        <a href="#OnesCount8">func OnesCount8(x uint8) int</a></li>
+<li class="Documentation-indexFunction">
+        <a href="#OnesCount16">func OnesCount16(x uint16) int</a></li>
+<li class="Documentation-indexFunction">
+        <a href="#OnesCount32">func OnesCount32(x uint32) int</a></li>
+<li class="Documentation-indexFunction">
+        <a href="#OnesCount64">func OnesCount64(x uint64) int</a></li>
+<li class="Documentation-indexFunction">
+        <a href="#Rem">func Rem(hi, lo, y uint) uint</a></li>
+<li class="Documentation-indexFunction">
+        <a href="#Rem32">func Rem32(hi, lo, y uint32) uint32</a></li>
+<li class="Documentation-indexFunction">
+        <a href="#Rem64">func Rem64(hi, lo, y uint64) uint64</a></li>
+<li class="Documentation-indexFunction">
+        <a href="#Reverse">func Reverse(x uint) uint</a></li>
+<li class="Documentation-indexFunction">
+        <a href="#Reverse8">func Reverse8(x uint8) uint8</a></li>
+<li class="Documentation-indexFunction">
+        <a href="#Reverse16">func Reverse16(x uint16) uint16</a></li>
+<li class="Documentation-indexFunction">
+        <a href="#Reverse32">func Reverse32(x uint32) uint32</a></li>
+<li class="Documentation-indexFunction">
+        <a href="#Reverse64">func Reverse64(x uint64) uint64</a></li>
+<li class="Documentation-indexFunction">
+        <a href="#ReverseBytes">func ReverseBytes(x uint) uint</a></li>
+<li class="Documentation-indexFunction">
+        <a href="#ReverseBytes16">func ReverseBytes16(x uint16) uint16</a></li>
+<li class="Documentation-indexFunction">
+        <a href="#ReverseBytes32">func ReverseBytes32(x uint32) uint32</a></li>
+<li class="Documentation-indexFunction">
+        <a href="#ReverseBytes64">func ReverseBytes64(x uint64) uint64</a></li>
+<li class="Documentation-indexFunction">
+        <a href="#RotateLeft">func RotateLeft(x uint, k int) uint</a></li>
+<li class="Documentation-indexFunction">
+        <a href="#RotateLeft8">func RotateLeft8(x uint8, k int) uint8</a></li>
+<li class="Documentation-indexFunction">
+        <a href="#RotateLeft16">func RotateLeft16(x uint16, k int) uint16</a></li>
+<li class="Documentation-indexFunction">
+        <a href="#RotateLeft32">func RotateLeft32(x uint32, k int) uint32</a></li>
+<li class="Documentation-indexFunction">
+        <a href="#RotateLeft64">func RotateLeft64(x uint64, k int) uint64</a></li>
+<li class="Documentation-indexFunction">
+        <a href="#Sub">func Sub(x, y, borrow uint) (diff, borrowOut uint)</a></li>
+<li class="Documentation-indexFunction">
+        <a href="#Sub32">func Sub32(x, y, borrow uint32) (diff, borrowOut uint32)</a></li>
+<li class="Documentation-indexFunction">
+        <a href="#Sub64">func Sub64(x, y, borrow uint64) (diff, borrowOut uint64)</a></li>
+<li class="Documentation-indexFunction">
+        <a href="#TrailingZeros">func TrailingZeros(x uint) int</a></li>
+<li class="Documentation-indexFunction">
+        <a href="#TrailingZeros8">func TrailingZeros8(x uint8) int</a></li>
+<li class="Documentation-indexFunction">
+        <a href="#TrailingZeros16">func TrailingZeros16(x uint16) int</a></li>
+<li class="Documentation-indexFunction">
+        <a href="#TrailingZeros32">func TrailingZeros32(x uint32) int</a></li>
+<li class="Documentation-indexFunction">
+        <a href="#TrailingZeros64">func TrailingZeros64(x uint64) int</a></li>
+</ul>
+</section><section class="Documentation-examples">
+    <h3 tabindex="-1" id="pkg-examples" class="Documentation-examplesHeader">Examples <a class="Documentation-idLink" href="#pkg-examples" title="Go to Examples" aria-label="Go to Examples">¶</a></h3>
+<ul class="Documentation-examplesList">
+<li><a href="#example-Add32" class="js-exampleHref">Add32</a></li>
+<li><a href="#example-Add64" class="js-exampleHref">Add64</a></li>
+<li><a href="#example-Div32" class="js-exampleHref">Div32</a></li>
+<li><a href="#example-Div64" class="js-exampleHref">Div64</a></li>
+<li><a href="#example-LeadingZeros8" class="js-exampleHref">LeadingZeros8</a></li>
+<li><a href="#example-LeadingZeros16" class="js-exampleHref">LeadingZeros16</a></li>
+<li><a href="#example-LeadingZeros32" class="js-exampleHref">LeadingZeros32</a></li>
+<li><a href="#example-LeadingZeros64" class="js-exampleHref">LeadingZeros64</a></li>
+<li><a href="#example-Len8" class="js-exampleHref">Len8</a></li>
+<li><a href="#example-Len16" class="js-exampleHref">Len16</a></li>
+<li><a href="#example-Len32" class="js-exampleHref">Len32</a></li>
+<li><a href="#example-Len64" class="js-exampleHref">Len64</a></li>
+<li><a href="#example-Mul32" class="js-exampleHref">Mul32</a></li>
+<li><a href="#example-Mul64" class="js-exampleHref">Mul64</a></li>
+<li><a href="#example-OnesCount" class="js-exampleHref">OnesCount</a></li>
+<li><a href="#example-OnesCount8" class="js-exampleHref">OnesCount8</a></li>
+<li><a href="#example-OnesCount16" class="js-exampleHref">OnesCount16</a></li>
+<li><a href="#example-OnesCount32" class="js-exampleHref">OnesCount32</a></li>
+<li><a href="#example-OnesCount64" class="js-exampleHref">OnesCount64</a></li>
+<li><a href="#example-Reverse8" class="js-exampleHref">Reverse8</a></li>
+<li><a href="#example-Reverse16" class="js-exampleHref">Reverse16</a></li>
+<li><a href="#example-Reverse32" class="js-exampleHref">Reverse32</a></li>
+<li><a href="#example-Reverse64" class="js-exampleHref">Reverse64</a></li>
+<li><a href="#example-ReverseBytes16" class="js-exampleHref">ReverseBytes16</a></li>
+<li><a href="#example-ReverseBytes32" class="js-exampleHref">ReverseBytes32</a></li>
+<li><a href="#example-ReverseBytes64" class="js-exampleHref">ReverseBytes64</a></li>
+<li><a href="#example-RotateLeft8" class="js-exampleHref">RotateLeft8</a></li>
+<li><a href="#example-RotateLeft16" class="js-exampleHref">RotateLeft16</a></li>
+<li><a href="#example-RotateLeft32" class="js-exampleHref">RotateLeft32</a></li>
+<li><a href="#example-RotateLeft64" class="js-exampleHref">RotateLeft64</a></li>
+<li><a href="#example-Sub32" class="js-exampleHref">Sub32</a></li>
+<li><a href="#example-Sub64" class="js-exampleHref">Sub64</a></li>
+<li><a href="#example-TrailingZeros8" class="js-exampleHref">TrailingZeros8</a></li>
+<li><a href="#example-TrailingZeros16" class="js-exampleHref">TrailingZeros16</a></li>
+<li><a href="#example-TrailingZeros32" class="js-exampleHref">TrailingZeros32</a></li>
+<li><a href="#example-TrailingZeros64" class="js-exampleHref">TrailingZeros64</a></li>
+</ul>
+</section><h3 tabindex="-1" id="pkg-constants" class="Documentation-constantsHeader">Constants <a href="#pkg-constants" title="Go to Constants" aria-label="Go to Constants">¶</a></h3>
+
+  <section class="Documentation-constants">
+    <div class="Documentation-declaration">
+      <span class="Documentation-declarationLink"><a class="Documentation-source" href="/files$GOROOT/std/math/bits/bits.go#L20">View Source</a></span>
+      <pre><span id="UintSize" data-kind="constant">const UintSize = uintSize</span></pre>
+    </div>
+  <p>UintSize is the size of a uint in bits.
+</p>
+</section>
+
+  <h3 tabindex="-1" id="pkg-variables" class="Documentation-variablesHeader">Variables <a href="#pkg-variables" title="Go to Variables" aria-label="Go to Variables">¶</a></h3>
+
+  <section class="Documentation-variables"><p class="Documentation-empty">This section is empty.</p></section>
+
+  <h3 tabindex="-1" id="pkg-functions" class="Documentation-functionsHeader">Functions <a href="#pkg-functions" title="Go to Functions" aria-label="Go to Functions">¶</a></h3>
+
+  <section class="Documentation-functions"><div class="Documentation-function">
+	  
+  
+  
+    <h4 tabindex="-1" id="Add" data-kind="function" class="Documentation-functionHeader">
+      <span>func <a class="Documentation-source" href="/files$GOROOT/std/math/bits/bits.go#L360">Add</a> <a class="Documentation-idLink" href="#Add" title="Go to Add" aria-label="Go to Add">¶</a></span>
+  <span class="Documentation-sinceVersion">
+    
+  </span>
+</h4>
+
+    
+    <div class="Documentation-declaration">
+      <pre>func Add(x, y, carry <a href="/builtin#uint">uint</a>) (sum, carryOut <a href="/builtin#uint">uint</a>)</pre>
+    </div>
+  <p>Add returns the sum with carry of x, y and carry: sum = x + y + carry.
+The carry input must be 0 or 1; otherwise the behavior is undefined.
+The carryOut output is guaranteed to be 0 or 1.
+</p><p>This function&#39;s execution time does not depend on the inputs.
+</p>
+
+  
+
+        </div><div class="Documentation-function">
+	  
+  
+  
+    <h4 tabindex="-1" id="Add32" data-kind="function" class="Documentation-functionHeader">
+      <span>func <a class="Documentation-source" href="/files$GOROOT/std/math/bits/bits.go#L374">Add32</a> <a class="Documentation-idLink" href="#Add32" title="Go to Add32" aria-label="Go to Add32">¶</a></span>
+  <span class="Documentation-sinceVersion">
+    
+  </span>
+</h4>
+
+    
+    <div class="Documentation-declaration">
+      <pre>func Add32(x, y, carry <a href="/builtin#uint32">uint32</a>) (sum, carryOut <a href="/builtin#uint32">uint32</a>)</pre>
+    </div>
+  <p>Add32 returns the sum with carry of x, y and carry: sum = x + y + carry.
+The carry input must be 0 or 1; otherwise the behavior is undefined.
+The carryOut output is guaranteed to be 0 or 1.
+</p><p>This function&#39;s execution time does not depend on the inputs.
+</p>
+<details tabindex="-1" id="example-Add32" class="Documentation-exampleDetails js-exampleContainer">
+<summary class="Documentation-exampleDetailsHeader">Example <a href="#example-Add32" title="Go to Example" aria-label="Go to Example">¶</a></summary>
+<div class="Documentation-exampleDetailsBody">
+
+<pre class="Documentation-exampleCode">
+package main
+
+import (
+	&#34;fmt&#34;
+	&#34;math/bits&#34;
+)
+
+func main() {
+	// First number is 33&lt;&lt;32 + 12
+	n1 := []uint32{33, 12}
+	// Second number is 21&lt;&lt;32 + 23
+	n2 := []uint32{21, 23}
+	// Add them together without producing carry.
+	d1, carry := bits.Add32(n1[1], n2[1], 0)
+	d0, _ := bits.Add32(n1[0], n2[0], carry)
+	nsum := []uint32{d0, d1}
+	fmt.Printf(&#34;%v + %v = %v (carry bit was %v)\n&#34;, n1, n2, nsum, carry)
+
+	// First number is 1&lt;&lt;32 + 2147483648
+	n1 = []uint32{1, 0x80000000}
+	// Second number is 1&lt;&lt;32 + 2147483648
+	n2 = []uint32{1, 0x80000000}
+	// Add them together producing carry.
+	d1, carry = bits.Add32(n1[1], n2[1], 0)
+	d0, _ = bits.Add32(n1[0], n2[0], carry)
+	nsum = []uint32{d0, d1}
+	fmt.Printf(&#34;%v + %v = %v (carry bit was %v)\n&#34;, n1, n2, nsum, carry)
+}
+</pre>
+
+<pre class="Documentation-exampleOutputContainer js-exampleOutputContainer"><span class="Documentation-exampleOutputLabel">Output:</span>
+<span class="Documentation-exampleOutput">[33 12] + [21 23] = [54 35] (carry bit was 0)
+[1 2147483648] + [1 2147483648] = [3 0] (carry bit was 1)
+</span></pre>
+</div>
+<div class="Documentation-exampleButtonsContainer">
+        <p class="Documentation-exampleError" role="alert" aria-atomic="true"></p>
+        <button class="Documentation-exampleShareButton" aria-label="Share Code">Share</button>
+        <button class="Documentation-exampleFormatButton" aria-label="Format Code">Format</button>
+        <button class="Documentation-exampleRunButton" aria-label="Run Code">Run</button>
+      </div></details>
+
+
+  
+
+        </div><div class="Documentation-function">
+	  
+  
+  
+    <h4 tabindex="-1" id="Add64" data-kind="function" class="Documentation-functionHeader">
+      <span>func <a class="Documentation-source" href="/files$GOROOT/std/math/bits/bits.go#L386">Add64</a> <a class="Documentation-idLink" href="#Add64" title="Go to Add64" aria-label="Go to Add64">¶</a></span>
+  <span class="Documentation-sinceVersion">
+    
+  </span>
+</h4>
+
+    
+    <div class="Documentation-declaration">
+      <pre>func Add64(x, y, carry <a href="/builtin#uint64">uint64</a>) (sum, carryOut <a href="/builtin#uint64">uint64</a>)</pre>
+    </div>
+  <p>Add64 returns the sum with carry of x, y and carry: sum = x + y + carry.
+The carry input must be 0 or 1; otherwise the behavior is undefined.
+The carryOut output is guaranteed to be 0 or 1.
+</p><p>This function&#39;s execution time does not depend on the inputs.
+</p>
+<details tabindex="-1" id="example-Add64" class="Documentation-exampleDetails js-exampleContainer">
+<summary class="Documentation-exampleDetailsHeader">Example <a href="#example-Add64" title="Go to Example" aria-label="Go to Example">¶</a></summary>
+<div class="Documentation-exampleDetailsBody">
+
+<pre class="Documentation-exampleCode">
+package main
+
+import (
+	&#34;fmt&#34;
+	&#34;math/bits&#34;
+)
+
+func main() {
+	// First number is 33&lt;&lt;64 + 12
+	n1 := []uint64{33, 12}
+	// Second number is 21&lt;&lt;64 + 23
+	n2 := []uint64{21, 23}
+	// Add them together without producing carry.
+	d1, carry := bits.Add64(n1[1], n2[1], 0)
+	d0, _ := bits.Add64(n1[0], n2[0], carry)
+	nsum := []uint64{d0, d1}
+	fmt.Printf(&#34;%v + %v = %v (carry bit was %v)\n&#34;, n1, n2, nsum, carry)
+
+	// First number is 1&lt;&lt;64 + 9223372036854775808
+	n1 = []uint64{1, 0x8000000000000000}
+	// Second number is 1&lt;&lt;64 + 9223372036854775808
+	n2 = []uint64{1, 0x8000000000000000}
+	// Add them together producing carry.
+	d1, carry = bits.Add64(n1[1], n2[1], 0)
+	d0, _ = bits.Add64(n1[0], n2[0], carry)
+	nsum = []uint64{d0, d1}
+	fmt.Printf(&#34;%v + %v = %v (carry bit was %v)\n&#34;, n1, n2, nsum, carry)
+}
+</pre>
+
+<pre class="Documentation-exampleOutputContainer js-exampleOutputContainer"><span class="Documentation-exampleOutputLabel">Output:</span>
+<span class="Documentation-exampleOutput">[33 12] + [21 23] = [54 35] (carry bit was 0)
+[1 9223372036854775808] + [1 9223372036854775808] = [3 0] (carry bit was 1)
+</span></pre>
+</div>
+<div class="Documentation-exampleButtonsContainer">
+        <p class="Documentation-exampleError" role="alert" aria-atomic="true"></p>
+        <button class="Documentation-exampleShareButton" aria-label="Share Code">Share</button>
+        <button class="Documentation-exampleFormatButton" aria-label="Format Code">Format</button>
+        <button class="Documentation-exampleRunButton" aria-label="Run Code">Run</button>
+      </div></details>
+
+
+  
+
+        </div><div class="Documentation-function">
+	  
+  
+  
+    <h4 tabindex="-1" id="Div" data-kind="function" class="Documentation-functionHeader">
+      <span>func <a class="Documentation-source" href="/files$GOROOT/std/math/bits/bits.go#L492">Div</a> <a class="Documentation-idLink" href="#Div" title="Go to Div" aria-label="Go to Div">¶</a></span>
+  <span class="Documentation-sinceVersion">
+    
+  </span>
+</h4>
+
+    
+    <div class="Documentation-declaration">
+      <pre>func Div(hi, lo, y <a href="/builtin#uint">uint</a>) (quo, rem <a href="/builtin#uint">uint</a>)</pre>
+    </div>
+  <p>Div returns the quotient and remainder of (hi, lo) divided by y:
+quo = (hi, lo)/y, rem = (hi, lo)%y with the dividend bits&#39; upper
+half in parameter hi and the lower half in parameter lo.
+Div panics for y == 0 (division by zero) or y &lt;= hi (quotient overflow).
+</p>
+
+  
+
+        </div><div class="Documentation-function">
+	  
+  
+  
+    <h4 tabindex="-1" id="Div32" data-kind="function" class="Documentation-functionHeader">
+      <span>func <a class="Documentation-source" href="/files$GOROOT/std/math/bits/bits.go#L505">Div32</a> <a class="Documentation-idLink" href="#Div32" title="Go to Div32" aria-label="Go to Div32">¶</a></span>
+  <span class="Documentation-sinceVersion">
+    
+  </span>
+</h4>
+
+    
+    <div class="Documentation-declaration">
+      <pre>func Div32(hi, lo, y <a href="/builtin#uint32">uint32</a>) (quo, rem <a href="/builtin#uint32">uint32</a>)</pre>
+    </div>
+  <p>Div32 returns the quotient and remainder of (hi, lo) divided by y:
+quo = (hi, lo)/y, rem = (hi, lo)%y with the dividend bits&#39; upper
+half in parameter hi and the lower half in parameter lo.
+Div32 panics for y == 0 (division by zero) or y &lt;= hi (quotient overflow).
+</p>
+<details tabindex="-1" id="example-Div32" class="Documentation-exampleDetails js-exampleContainer">
+<summary class="Documentation-exampleDetailsHeader">Example <a href="#example-Div32" title="Go to Example" aria-label="Go to Example">¶</a></summary>
+<div class="Documentation-exampleDetailsBody">
+
+<pre class="Documentation-exampleCode">
+package main
+
+import (
+	&#34;fmt&#34;
+	&#34;math/bits&#34;
+)
+
+func main() {
+	// First number is 0&lt;&lt;32 + 6
+	n1 := []uint32{0, 6}
+	// Second number is 0&lt;&lt;32 + 3
+	n2 := []uint32{0, 3}
+	// Divide them together.
+	quo, rem := bits.Div32(n1[0], n1[1], n2[1])
+	nsum := []uint32{quo, rem}
+	fmt.Printf(&#34;[%v %v] / %v = %v\n&#34;, n1[0], n1[1], n2[1], nsum)
+
+	// First number is 2&lt;&lt;32 + 2147483648
+	n1 = []uint32{2, 0x80000000}
+	// Second number is 0&lt;&lt;32 + 2147483648
+	n2 = []uint32{0, 0x80000000}
+	// Divide them together.
+	quo, rem = bits.Div32(n1[0], n1[1], n2[1])
+	nsum = []uint32{quo, rem}
+	fmt.Printf(&#34;[%v %v] / %v = %v\n&#34;, n1[0], n1[1], n2[1], nsum)
+}
+</pre>
+
+<pre class="Documentation-exampleOutputContainer js-exampleOutputContainer"><span class="Documentation-exampleOutputLabel">Output:</span>
+<span class="Documentation-exampleOutput">[0 6] / 3 = [2 0]
+[2 2147483648] / 2147483648 = [5 0]
+</span></pre>
+</div>
+<div class="Documentation-exampleButtonsContainer">
+        <p class="Documentation-exampleError" role="alert" aria-atomic="true"></p>
+        <button class="Documentation-exampleShareButton" aria-label="Share Code">Share</button>
+        <button class="Documentation-exampleFormatButton" aria-label="Format Code">Format</button>
+        <button class="Documentation-exampleRunButton" aria-label="Run Code">Run</button>
+      </div></details>
+
+
+  
+
+        </div><div class="Documentation-function">
+	  
+  
+  
+    <h4 tabindex="-1" id="Div64" data-kind="function" class="Documentation-functionHeader">
+      <span>func <a class="Documentation-source" href="/files$GOROOT/std/math/bits/bits.go#L518">Div64</a> <a class="Documentation-idLink" href="#Div64" title="Go to Div64" aria-label="Go to Div64">¶</a></span>
+  <span class="Documentation-sinceVersion">
+    
+  </span>
+</h4>
+
+    
+    <div class="Documentation-declaration">
+      <pre>func Div64(hi, lo, y <a href="/builtin#uint64">uint64</a>) (quo, rem <a href="/builtin#uint64">uint64</a>)</pre>
+    </div>
+  <p>Div64 returns the quotient and remainder of (hi, lo) divided by y:
+quo = (hi, lo)/y, rem = (hi, lo)%y with the dividend bits&#39; upper
+half in parameter hi and the lower half in parameter lo.
+Div64 panics for y == 0 (division by zero) or y &lt;= hi (quotient overflow).
+</p>
+<details tabindex="-1" id="example-Div64" class="Documentation-exampleDetails js-exampleContainer">
+<summary class="Documentation-exampleDetailsHeader">Example <a href="#example-Div64" title="Go to Example" aria-label="Go to Example">¶</a></summary>
+<div class="Documentation-exampleDetailsBody">
+
+<pre class="Documentation-exampleCode">
+package main
+
+import (
+	&#34;fmt&#34;
+	&#34;math/bits&#34;
+)
+
+func main() {
+	// First number is 0&lt;&lt;64 + 6
+	n1 := []uint64{0, 6}
+	// Second number is 0&lt;&lt;64 + 3
+	n2 := []uint64{0, 3}
+	// Divide them together.
+	quo, rem := bits.Div64(n1[0], n1[1], n2[1])
+	nsum := []uint64{quo, rem}
+	fmt.Printf(&#34;[%v %v] / %v = %v\n&#34;, n1[0], n1[1], n2[1], nsum)
+
+	// First number is 2&lt;&lt;64 + 9223372036854775808
+	n1 = []uint64{2, 0x8000000000000000}
+	// Second number is 0&lt;&lt;64 + 9223372036854775808
+	n2 = []uint64{0, 0x8000000000000000}
+	// Divide them together.
+	quo, rem = bits.Div64(n1[0], n1[1], n2[1])
+	nsum = []uint64{quo, rem}
+	fmt.Printf(&#34;[%v %v] / %v = %v\n&#34;, n1[0], n1[1], n2[1], nsum)
+}
+</pre>
+
+<pre class="Documentation-exampleOutputContainer js-exampleOutputContainer"><span class="Documentation-exampleOutputLabel">Output:</span>
+<span class="Documentation-exampleOutput">[0 6] / 3 = [2 0]
+[2 9223372036854775808] / 9223372036854775808 = [5 0]
+</span></pre>
+</div>
+<div class="Documentation-exampleButtonsContainer">
+        <p class="Documentation-exampleError" role="alert" aria-atomic="true"></p>
+        <button class="Documentation-exampleShareButton" aria-label="Share Code">Share</button>
+        <button class="Documentation-exampleFormatButton" aria-label="Format Code">Format</button>
+        <button class="Documentation-exampleRunButton" aria-label="Run Code">Run</button>
+      </div></details>
+
+
+  
+
+        </div><div class="Documentation-function">
+	  
+  
+  
+    <h4 tabindex="-1" id="LeadingZeros" data-kind="function" class="Documentation-functionHeader">
+      <span>func <a class="Documentation-source" href="/files$GOROOT/std/math/bits/bits.go#L25">LeadingZeros</a> <a class="Documentation-idLink" href="#LeadingZeros" title="Go to LeadingZeros" aria-label="Go to LeadingZeros">¶</a></span>
+  <span class="Documentation-sinceVersion">
+    
+  </span>
+</h4>
+
+    
+    <div class="Documentation-declaration">
+      <pre>func LeadingZeros(x <a href="/builtin#uint">uint</a>) <a href="/builtin#int">int</a></pre>
+    </div>
+  <p>LeadingZeros returns the number of leading zero bits in x; the result is <a href="#UintSize">UintSize</a> for x == 0.
+</p>
+
+  
+
+        </div><div class="Documentation-function">
+	  
+  
+  
+    <h4 tabindex="-1" id="LeadingZeros8" data-kind="function" class="Documentation-functionHeader">
+      <span>func <a class="Documentation-source" href="/files$GOROOT/std/math/bits/bits.go#L28">LeadingZeros8</a> <a class="Documentation-idLink" href="#LeadingZeros8" title="Go to LeadingZeros8" aria-label="Go to LeadingZeros8">¶</a></span>
+  <span class="Documentation-sinceVersion">
+    
+  </span>
+</h4>
+
+    
+    <div class="Documentation-declaration">
+      <pre>func LeadingZeros8(x <a href="/builtin#uint8">uint8</a>) <a href="/builtin#int">int</a></pre>
+    </div>
+  <p>LeadingZeros8 returns the number of leading zero bits in x; the result is 8 for x == 0.
+</p>
+<details tabindex="-1" id="example-LeadingZeros8" class="Documentation-exampleDetails js-exampleContainer">
+<summary class="Documentation-exampleDetailsHeader">Example <a href="#example-LeadingZeros8" title="Go to Example" aria-label="Go to Example">¶</a></summary>
+<div class="Documentation-exampleDetailsBody">
+
+<pre class="Documentation-exampleCode">
+package main
+
+import (
+	&#34;fmt&#34;
+	&#34;math/bits&#34;
+)
+
+func main() {
+	fmt.Printf(&#34;LeadingZeros8(%08b) = %d\n&#34;, 1, bits.LeadingZeros8(1))
+}
+</pre>
+
+<pre class="Documentation-exampleOutputContainer js-exampleOutputContainer"><span class="Documentation-exampleOutputLabel">Output:</span>
+<span class="Documentation-exampleOutput">LeadingZeros8(00000001) = 7
+</span></pre>
+</div>
+<div class="Documentation-exampleButtonsContainer">
+        <p class="Documentation-exampleError" role="alert" aria-atomic="true"></p>
+        <button class="Documentation-exampleShareButton" aria-label="Share Code">Share</button>
+        <button class="Documentation-exampleFormatButton" aria-label="Format Code">Format</button>
+        <button class="Documentation-exampleRunButton" aria-label="Run Code">Run</button>
+      </div></details>
+
+
+  
+
+        </div><div class="Documentation-function">
+	  
+  
+  
+    <h4 tabindex="-1" id="LeadingZeros16" data-kind="function" class="Documentation-functionHeader">
+      <span>func <a class="Documentation-source" href="/files$GOROOT/std/math/bits/bits.go#L31">LeadingZeros16</a> <a class="Documentation-idLink" href="#LeadingZeros16" title="Go to LeadingZeros16" aria-label="Go to LeadingZeros16">¶</a></span>
+  <span class="Documentation-sinceVersion">
+    
+  </span>
+</h4>
+
+    
+    <div class="Documentation-declaration">
+      <pre>func LeadingZeros16(x <a href="/builtin#uint16">uint16</a>) <a href="/builtin#int">int</a></pre>
+    </div>
+  <p>LeadingZeros16 returns the number of leading zero bits in x; the result is 16 for x == 0.
+</p>
+<details tabindex="-1" id="example-LeadingZeros16" class="Documentation-exampleDetails js-exampleContainer">
+<summary class="Documentation-exampleDetailsHeader">Example <a href="#example-LeadingZeros16" title="Go to Example" aria-label="Go to Example">¶</a></summary>
+<div class="Documentation-exampleDetailsBody">
+
+<pre class="Documentation-exampleCode">
+package main
+
+import (
+	&#34;fmt&#34;
+	&#34;math/bits&#34;
+)
+
+func main() {
+	fmt.Printf(&#34;LeadingZeros16(%016b) = %d\n&#34;, 1, bits.LeadingZeros16(1))
+}
+</pre>
+
+<pre class="Documentation-exampleOutputContainer js-exampleOutputContainer"><span class="Documentation-exampleOutputLabel">Output:</span>
+<span class="Documentation-exampleOutput">LeadingZeros16(0000000000000001) = 15
+</span></pre>
+</div>
+<div class="Documentation-exampleButtonsContainer">
+        <p class="Documentation-exampleError" role="alert" aria-atomic="true"></p>
+        <button class="Documentation-exampleShareButton" aria-label="Share Code">Share</button>
+        <button class="Documentation-exampleFormatButton" aria-label="Format Code">Format</button>
+        <button class="Documentation-exampleRunButton" aria-label="Run Code">Run</button>
+      </div></details>
+
+
+  
+
+        </div><div class="Documentation-function">
+	  
+  
+  
+    <h4 tabindex="-1" id="LeadingZeros32" data-kind="function" class="Documentation-functionHeader">
+      <span>func <a class="Documentation-source" href="/files$GOROOT/std/math/bits/bits.go#L34">LeadingZeros32</a> <a class="Documentation-idLink" href="#LeadingZeros32" title="Go to LeadingZeros32" aria-label="Go to LeadingZeros32">¶</a></span>
+  <span class="Documentation-sinceVersion">
+    
+  </span>
+</h4>
+
+    
+    <div class="Documentation-declaration">
+      <pre>func LeadingZeros32(x <a href="/builtin#uint32">uint32</a>) <a href="/builtin#int">int</a></pre>
+    </div>
+  <p>LeadingZeros32 returns the number of leading zero bits in x; the result is 32 for x == 0.
+</p>
+<details tabindex="-1" id="example-LeadingZeros32" class="Documentation-exampleDetails js-exampleContainer">
+<summary class="Documentation-exampleDetailsHeader">Example <a href="#example-LeadingZeros32" title="Go to Example" aria-label="Go to Example">¶</a></summary>
+<div class="Documentation-exampleDetailsBody">
+
+<pre class="Documentation-exampleCode">
+package main
+
+import (
+	&#34;fmt&#34;
+	&#34;math/bits&#34;
+)
+
+func main() {
+	fmt.Printf(&#34;LeadingZeros32(%032b) = %d\n&#34;, 1, bits.LeadingZeros32(1))
+}
+</pre>
+
+<pre class="Documentation-exampleOutputContainer js-exampleOutputContainer"><span class="Documentation-exampleOutputLabel">Output:</span>
+<span class="Documentation-exampleOutput">LeadingZeros32(00000000000000000000000000000001) = 31
+</span></pre>
+</div>
+<div class="Documentation-exampleButtonsContainer">
+        <p class="Documentation-exampleError" role="alert" aria-atomic="true"></p>
+        <button class="Documentation-exampleShareButton" aria-label="Share Code">Share</button>
+        <button class="Documentation-exampleFormatButton" aria-label="Format Code">Format</button>
+        <button class="Documentation-exampleRunButton" aria-label="Run Code">Run</button>
+      </div></details>
+
+
+  
+
+        </div><div class="Documentation-function">
+	  
+  
+  
+    <h4 tabindex="-1" id="LeadingZeros64" data-kind="function" class="Documentation-functionHeader">
+      <span>func <a class="Documentation-source" href="/files$GOROOT/std/math/bits/bits.go#L37">LeadingZeros64</a> <a class="Documentation-idLink" href="#LeadingZeros64" title="Go to LeadingZeros64" aria-label="Go to LeadingZeros64">¶</a></span>
+  <span class="Documentation-sinceVersion">
+    
+  </span>
+</h4>
+
+    
+    <div class="Documentation-declaration">
+      <pre>func LeadingZeros64(x <a href="/builtin#uint64">uint64</a>) <a href="/builtin#int">int</a></pre>
+    </div>
+  <p>LeadingZeros64 returns the number of leading zero bits in x; the result is 64 for x == 0.
+</p>
+<details tabindex="-1" id="example-LeadingZeros64" class="Documentation-exampleDetails js-exampleContainer">
+<summary class="Documentation-exampleDetailsHeader">Example <a href="#example-LeadingZeros64" title="Go to Example" aria-label="Go to Example">¶</a></summary>
+<div class="Documentation-exampleDetailsBody">
+
+<pre class="Documentation-exampleCode">
+package main
+
+import (
+	&#34;fmt&#34;
+	&#34;math/bits&#34;
+)
+
+func main() {
+	fmt.Printf(&#34;LeadingZeros64(%064b) = %d\n&#34;, 1, bits.LeadingZeros64(1))
+}
+</pre>
+
+<pre class="Documentation-exampleOutputContainer js-exampleOutputContainer"><span class="Documentation-exampleOutputLabel">Output:</span>
+<span class="Documentation-exampleOutput">LeadingZeros64(0000000000000000000000000000000000000000000000000000000000000001) = 63
+</span></pre>
+</div>
+<div class="Documentation-exampleButtonsContainer">
+        <p class="Documentation-exampleError" role="alert" aria-atomic="true"></p>
+        <button class="Documentation-exampleShareButton" aria-label="Share Code">Share</button>
+        <button class="Documentation-exampleFormatButton" aria-label="Format Code">Format</button>
+        <button class="Documentation-exampleRunButton" aria-label="Run Code">Run</button>
+      </div></details>
+
+
+  
+
+        </div><div class="Documentation-function">
+	  
+  
+  
+    <h4 tabindex="-1" id="Len" data-kind="function" class="Documentation-functionHeader">
+      <span>func <a class="Documentation-source" href="/files$GOROOT/std/math/bits/bits.go#L302">Len</a> <a class="Documentation-idLink" href="#Len" title="Go to Len" aria-label="Go to Len">¶</a></span>
+  <span class="Documentation-sinceVersion">
+    
+  </span>
+</h4>
+
+    
+    <div class="Documentation-declaration">
+      <pre>func Len(x <a href="/builtin#uint">uint</a>) <a href="/builtin#int">int</a></pre>
+    </div>
+  <p>Len returns the minimum number of bits required to represent x; the result is 0 for x == 0.
+</p>
+
+  
+
+        </div><div class="Documentation-function">
+	  
+  
+  
+    <h4 tabindex="-1" id="Len8" data-kind="function" class="Documentation-functionHeader">
+      <span>func <a class="Documentation-source" href="/files$GOROOT/std/math/bits/bits.go#L310">Len8</a> <a class="Documentation-idLink" href="#Len8" title="Go to Len8" aria-label="Go to Len8">¶</a></span>
+  <span class="Documentation-sinceVersion">
+    
+  </span>
+</h4>
+
+    
+    <div class="Documentation-declaration">
+      <pre>func Len8(x <a href="/builtin#uint8">uint8</a>) <a href="/builtin#int">int</a></pre>
+    </div>
+  <p>Len8 returns the minimum number of bits required to represent x; the result is 0 for x == 0.
+</p>
+<details tabindex="-1" id="example-Len8" class="Documentation-exampleDetails js-exampleContainer">
+<summary class="Documentation-exampleDetailsHeader">Example <a href="#example-Len8" title="Go to Example" aria-label="Go to Example">¶</a></summary>
+<div class="Documentation-exampleDetailsBody">
+
+<pre class="Documentation-exampleCode">
+package main
+
+import (
+	&#34;fmt&#34;
+	&#34;math/bits&#34;
+)
+
+func main() {
+	fmt.Printf(&#34;Len8(%08b) = %d\n&#34;, 8, bits.Len8(8))
+}
+</pre>
+
+<pre class="Documentation-exampleOutputContainer js-exampleOutputContainer"><span class="Documentation-exampleOutputLabel">Output:</span>
+<span class="Documentation-exampleOutput">Len8(00001000) = 4
+</span></pre>
+</div>
+<div class="Documentation-exampleButtonsContainer">
+        <p class="Documentation-exampleError" role="alert" aria-atomic="true"></p>
+        <button class="Documentation-exampleShareButton" aria-label="Share Code">Share</button>
+        <button class="Documentation-exampleFormatButton" aria-label="Format Code">Format</button>
+        <button class="Documentation-exampleRunButton" aria-label="Run Code">Run</button>
+      </div></details>
+
+
+  
+
+        </div><div class="Documentation-function">
+	  
+  
+  
+    <h4 tabindex="-1" id="Len16" data-kind="function" class="Documentation-functionHeader">
+      <span>func <a class="Documentation-source" href="/files$GOROOT/std/math/bits/bits.go#L315">Len16</a> <a class="Documentation-idLink" href="#Len16" title="Go to Len16" aria-label="Go to Len16">¶</a></span>
+  <span class="Documentation-sinceVersion">
+    
+  </span>
+</h4>
+
+    
+    <div class="Documentation-declaration">
+      <pre>func Len16(x <a href="/builtin#uint16">uint16</a>) (n <a href="/builtin#int">int</a>)</pre>
+    </div>
+  <p>Len16 returns the minimum number of bits required to represent x; the result is 0 for x == 0.
+</p>
+<details tabindex="-1" id="example-Len16" class="Documentation-exampleDetails js-exampleContainer">
+<summary class="Documentation-exampleDetailsHeader">Example <a href="#example-Len16" title="Go to Example" aria-label="Go to Example">¶</a></summary>
+<div class="Documentation-exampleDetailsBody">
+
+<pre class="Documentation-exampleCode">
+package main
+
+import (
+	&#34;fmt&#34;
+	&#34;math/bits&#34;
+)
+
+func main() {
+	fmt.Printf(&#34;Len16(%016b) = %d\n&#34;, 8, bits.Len16(8))
+}
+</pre>
+
+<pre class="Documentation-exampleOutputContainer js-exampleOutputContainer"><span class="Documentation-exampleOutputLabel">Output:</span>
+<span class="Documentation-exampleOutput">Len16(0000000000001000) = 4
+</span></pre>
+</div>
+<div class="Documentation-exampleButtonsContainer">
+        <p class="Documentation-exampleError" role="alert" aria-atomic="true"></p>
+        <button class="Documentation-exampleShareButton" aria-label="Share Code">Share</button>
+        <button class="Documentation-exampleFormatButton" aria-label="Format Code">Format</button>
+        <button class="Documentation-exampleRunButton" aria-label="Run Code">Run</button>
+      </div></details>
+
+
+  
+
+        </div><div class="Documentation-function">
+	  
+  
+  
+    <h4 tabindex="-1" id="Len32" data-kind="function" class="Documentation-functionHeader">
+      <span>func <a class="Documentation-source" href="/files$GOROOT/std/math/bits/bits.go#L324">Len32</a> <a class="Documentation-idLink" href="#Len32" title="Go to Len32" aria-label="Go to Len32">¶</a></span>
+  <span class="Documentation-sinceVersion">
+    
+  </span>
+</h4>
+
+    
+    <div class="Documentation-declaration">
+      <pre>func Len32(x <a href="/builtin#uint32">uint32</a>) (n <a href="/builtin#int">int</a>)</pre>
+    </div>
+  <p>Len32 returns the minimum number of bits required to represent x; the result is 0 for x == 0.
+</p>
+<details tabindex="-1" id="example-Len32" class="Documentation-exampleDetails js-exampleContainer">
+<summary class="Documentation-exampleDetailsHeader">Example <a href="#example-Len32" title="Go to Example" aria-label="Go to Example">¶</a></summary>
+<div class="Documentation-exampleDetailsBody">
+
+<pre class="Documentation-exampleCode">
+package main
+
+import (
+	&#34;fmt&#34;
+	&#34;math/bits&#34;
+)
+
+func main() {
+	fmt.Printf(&#34;Len32(%032b) = %d\n&#34;, 8, bits.Len32(8))
+}
+</pre>
+
+<pre class="Documentation-exampleOutputContainer js-exampleOutputContainer"><span class="Documentation-exampleOutputLabel">Output:</span>
+<span class="Documentation-exampleOutput">Len32(00000000000000000000000000001000) = 4
+</span></pre>
+</div>
+<div class="Documentation-exampleButtonsContainer">
+        <p class="Documentation-exampleError" role="alert" aria-atomic="true"></p>
+        <button class="Documentation-exampleShareButton" aria-label="Share Code">Share</button>
+        <button class="Documentation-exampleFormatButton" aria-label="Format Code">Format</button>
+        <button class="Documentation-exampleRunButton" aria-label="Run Code">Run</button>
+      </div></details>
+
+
+  
+
+        </div><div class="Documentation-function">
+	  
+  
+  
+    <h4 tabindex="-1" id="Len64" data-kind="function" class="Documentation-functionHeader">
+      <span>func <a class="Documentation-source" href="/files$GOROOT/std/math/bits/bits.go#L337">Len64</a> <a class="Documentation-idLink" href="#Len64" title="Go to Len64" aria-label="Go to Len64">¶</a></span>
+  <span class="Documentation-sinceVersion">
+    
+  </span>
+</h4>
+
+    
+    <div class="Documentation-declaration">
+      <pre>func Len64(x <a href="/builtin#uint64">uint64</a>) (n <a href="/builtin#int">int</a>)</pre>
+    </div>
+  <p>Len64 returns the minimum number of bits required to represent x; the result is 0 for x == 0.
+</p>
+<details tabindex="-1" id="example-Len64" class="Documentation-exampleDetails js-exampleContainer">
+<summary class="Documentation-exampleDetailsHeader">Example <a href="#example-Len64" title="Go to Example" aria-label="Go to Example">¶</a></summary>
+<div class="Documentation-exampleDetailsBody">
+
+<pre class="Documentation-exampleCode">
+package main
+
+import (
+	&#34;fmt&#34;
+	&#34;math/bits&#34;
+)
+
+func main() {
+	fmt.Printf(&#34;Len64(%064b) = %d\n&#34;, 8, bits.Len64(8))
+}
+</pre>
+
+<pre class="Documentation-exampleOutputContainer js-exampleOutputContainer"><span class="Documentation-exampleOutputLabel">Output:</span>
+<span class="Documentation-exampleOutput">Len64(0000000000000000000000000000000000000000000000000000000000001000) = 4
+</span></pre>
+</div>
+<div class="Documentation-exampleButtonsContainer">
+        <p class="Documentation-exampleError" role="alert" aria-atomic="true"></p>
+        <button class="Documentation-exampleShareButton" aria-label="Share Code">Share</button>
+        <button class="Documentation-exampleFormatButton" aria-label="Format Code">Format</button>
+        <button class="Documentation-exampleRunButton" aria-label="Run Code">Run</button>
+      </div></details>
+
+
+  
+
+        </div><div class="Documentation-function">
+	  
+  
+  
+    <h4 tabindex="-1" id="Mul" data-kind="function" class="Documentation-functionHeader">
+      <span>func <a class="Documentation-source" href="/files$GOROOT/std/math/bits/bits.go#L445">Mul</a> <a class="Documentation-idLink" href="#Mul" title="Go to Mul" aria-label="Go to Mul">¶</a></span>
+  <span class="Documentation-sinceVersion">
+    
+  </span>
+</h4>
+
+    
+    <div class="Documentation-declaration">
+      <pre>func Mul(x, y <a href="/builtin#uint">uint</a>) (hi, lo <a href="/builtin#uint">uint</a>)</pre>
+    </div>
+  <p>Mul returns the full-width product of x and y: (hi, lo) = x * y
+with the product bits&#39; upper half returned in hi and the lower
+half returned in lo.
+</p><p>This function&#39;s execution time does not depend on the inputs.
+</p>
+
+  
+
+        </div><div class="Documentation-function">
+	  
+  
+  
+    <h4 tabindex="-1" id="Mul32" data-kind="function" class="Documentation-functionHeader">
+      <span>func <a class="Documentation-source" href="/files$GOROOT/std/math/bits/bits.go#L459">Mul32</a> <a class="Documentation-idLink" href="#Mul32" title="Go to Mul32" aria-label="Go to Mul32">¶</a></span>
+  <span class="Documentation-sinceVersion">
+    
+  </span>
+</h4>
+
+    
+    <div class="Documentation-declaration">
+      <pre>func Mul32(x, y <a href="/builtin#uint32">uint32</a>) (hi, lo <a href="/builtin#uint32">uint32</a>)</pre>
+    </div>
+  <p>Mul32 returns the 64-bit product of x and y: (hi, lo) = x * y
+with the product bits&#39; upper half returned in hi and the lower
+half returned in lo.
+</p><p>This function&#39;s execution time does not depend on the inputs.
+</p>
+<details tabindex="-1" id="example-Mul32" class="Documentation-exampleDetails js-exampleContainer">
+<summary class="Documentation-exampleDetailsHeader">Example <a href="#example-Mul32" title="Go to Example" aria-label="Go to Example">¶</a></summary>
+<div class="Documentation-exampleDetailsBody">
+
+<pre class="Documentation-exampleCode">
+package main
+
+import (
+	&#34;fmt&#34;
+	&#34;math/bits&#34;
+)
+
+func main() {
+	// First number is 0&lt;&lt;32 + 12
+	n1 := []uint32{0, 12}
+	// Second number is 0&lt;&lt;32 + 12
+	n2 := []uint32{0, 12}
+	// Multiply them together without producing overflow.
+	hi, lo := bits.Mul32(n1[1], n2[1])
+	nsum := []uint32{hi, lo}
+	fmt.Printf(&#34;%v * %v = %v\n&#34;, n1[1], n2[1], nsum)
+
+	// First number is 0&lt;&lt;32 + 2147483648
+	n1 = []uint32{0, 0x80000000}
+	// Second number is 0&lt;&lt;32 + 2
+	n2 = []uint32{0, 2}
+	// Multiply them together producing overflow.
+	hi, lo = bits.Mul32(n1[1], n2[1])
+	nsum = []uint32{hi, lo}
+	fmt.Printf(&#34;%v * %v = %v\n&#34;, n1[1], n2[1], nsum)
+}
+</pre>
+
+<pre class="Documentation-exampleOutputContainer js-exampleOutputContainer"><span class="Documentation-exampleOutputLabel">Output:</span>
+<span class="Documentation-exampleOutput">12 * 12 = [0 144]
+2147483648 * 2 = [1 0]
+</span></pre>
+</div>
+<div class="Documentation-exampleButtonsContainer">
+        <p class="Documentation-exampleError" role="alert" aria-atomic="true"></p>
+        <button class="Documentation-exampleShareButton" aria-label="Share Code">Share</button>
+        <button class="Documentation-exampleFormatButton" aria-label="Format Code">Format</button>
+        <button class="Documentation-exampleRunButton" aria-label="Run Code">Run</button>
+      </div></details>
+
+
+  
+
+        </div><div class="Documentation-function">
+	  
+  
+  
+    <h4 tabindex="-1" id="Mul64" data-kind="function" class="Documentation-functionHeader">
+      <span>func <a class="Documentation-source" href="/files$GOROOT/std/math/bits/bits.go#L470">Mul64</a> <a class="Documentation-idLink" href="#Mul64" title="Go to Mul64" aria-label="Go to Mul64">¶</a></span>
+  <span class="Documentation-sinceVersion">
+    
+  </span>
+</h4>
+
+    
+    <div class="Documentation-declaration">
+      <pre>func Mul64(x, y <a href="/builtin#uint64">uint64</a>) (hi, lo <a href="/builtin#uint64">uint64</a>)</pre>
+    </div>
+  <p>Mul64 returns the 128-bit product of x and y: (hi, lo) = x * y
+with the product bits&#39; upper half returned in hi and the lower
+half returned in lo.
+</p><p>This function&#39;s execution time does not depend on the inputs.
+</p>
+<details tabindex="-1" id="example-Mul64" class="Documentation-exampleDetails js-exampleContainer">
+<summary class="Documentation-exampleDetailsHeader">Example <a href="#example-Mul64" title="Go to Example" aria-label="Go to Example">¶</a></summary>
+<div class="Documentation-exampleDetailsBody">
+
+<pre class="Documentation-exampleCode">
+package main
+
+import (
+	&#34;fmt&#34;
+	&#34;math/bits&#34;
+)
+
+func main() {
+	// First number is 0&lt;&lt;64 + 12
+	n1 := []uint64{0, 12}
+	// Second number is 0&lt;&lt;64 + 12
+	n2 := []uint64{0, 12}
+	// Multiply them together without producing overflow.
+	hi, lo := bits.Mul64(n1[1], n2[1])
+	nsum := []uint64{hi, lo}
+	fmt.Printf(&#34;%v * %v = %v\n&#34;, n1[1], n2[1], nsum)
+
+	// First number is 0&lt;&lt;64 + 9223372036854775808
+	n1 = []uint64{0, 0x8000000000000000}
+	// Second number is 0&lt;&lt;64 + 2
+	n2 = []uint64{0, 2}
+	// Multiply them together producing overflow.
+	hi, lo = bits.Mul64(n1[1], n2[1])
+	nsum = []uint64{hi, lo}
+	fmt.Printf(&#34;%v * %v = %v\n&#34;, n1[1], n2[1], nsum)
+}
+</pre>
+
+<pre class="Documentation-exampleOutputContainer js-exampleOutputContainer"><span class="Documentation-exampleOutputLabel">Output:</span>
+<span class="Documentation-exampleOutput">12 * 12 = [0 144]
+9223372036854775808 * 2 = [1 0]
+</span></pre>
+</div>
+<div class="Documentation-exampleButtonsContainer">
+        <p class="Documentation-exampleError" role="alert" aria-atomic="true"></p>
+        <button class="Documentation-exampleShareButton" aria-label="Share Code">Share</button>
+        <button class="Documentation-exampleFormatButton" aria-label="Format Code">Format</button>
+        <button class="Documentation-exampleRunButton" aria-label="Run Code">Run</button>
+      </div></details>
+
+
+  
+
+        </div><div class="Documentation-function">
+	  
+  
+  
+    <h4 tabindex="-1" id="OnesCount" data-kind="function" class="Documentation-functionHeader">
+      <span>func <a class="Documentation-source" href="/files$GOROOT/std/math/bits/bits.go#L117">OnesCount</a> <a class="Documentation-idLink" href="#OnesCount" title="Go to OnesCount" aria-label="Go to OnesCount">¶</a></span>
+  <span class="Documentation-sinceVersion">
+    
+  </span>
+</h4>
+
+    
+    <div class="Documentation-declaration">
+      <pre>func OnesCount(x <a href="/builtin#uint">uint</a>) <a href="/builtin#int">int</a></pre>
+    </div>
+  <p>OnesCount returns the number of one bits (&#34;population count&#34;) in x.
+</p>
+<details tabindex="-1" id="example-OnesCount" class="Documentation-exampleDetails js-exampleContainer">
+<summary class="Documentation-exampleDetailsHeader">Example <a href="#example-OnesCount" title="Go to Example" aria-label="Go to Example">¶</a></summary>
+<div class="Documentation-exampleDetailsBody">
+
+<pre class="Documentation-exampleCode">
+package main
+
+import (
+	&#34;fmt&#34;
+	&#34;math/bits&#34;
+)
+
+func main() {
+	fmt.Printf(&#34;OnesCount(%b) = %d\n&#34;, 14, bits.OnesCount(14))
+}
+</pre>
+
+<pre class="Documentation-exampleOutputContainer js-exampleOutputContainer"><span class="Documentation-exampleOutputLabel">Output:</span>
+<span class="Documentation-exampleOutput">OnesCount(1110) = 3
+</span></pre>
+</div>
+<div class="Documentation-exampleButtonsContainer">
+        <p class="Documentation-exampleError" role="alert" aria-atomic="true"></p>
+        <button class="Documentation-exampleShareButton" aria-label="Share Code">Share</button>
+        <button class="Documentation-exampleFormatButton" aria-label="Format Code">Format</button>
+        <button class="Documentation-exampleRunButton" aria-label="Run Code">Run</button>
+      </div></details>
+
+
+  
+
+        </div><div class="Documentation-function">
+	  
+  
+  
+    <h4 tabindex="-1" id="OnesCount8" data-kind="function" class="Documentation-functionHeader">
+      <span>func <a class="Documentation-source" href="/files$GOROOT/std/math/bits/bits.go#L125">OnesCount8</a> <a class="Documentation-idLink" href="#OnesCount8" title="Go to OnesCount8" aria-label="Go to OnesCount8">¶</a></span>
+  <span class="Documentation-sinceVersion">
+    
+  </span>
+</h4>
+
+    
+    <div class="Documentation-declaration">
+      <pre>func OnesCount8(x <a href="/builtin#uint8">uint8</a>) <a href="/builtin#int">int</a></pre>
+    </div>
+  <p>OnesCount8 returns the number of one bits (&#34;population count&#34;) in x.
+</p>
+<details tabindex="-1" id="example-OnesCount8" class="Documentation-exampleDetails js-exampleContainer">
+<summary class="Documentation-exampleDetailsHeader">Example <a href="#example-OnesCount8" title="Go to Example" aria-label="Go to Example">¶</a></summary>
+<div class="Documentation-exampleDetailsBody">
+
+<pre class="Documentation-exampleCode">
+package main
+
+import (
+	&#34;fmt&#34;
+	&#34;math/bits&#34;
+)
+
+func main() {
+	fmt.Printf(&#34;OnesCount8(%08b) = %d\n&#34;, 14, bits.OnesCount8(14))
+}
+</pre>
+
+<pre class="Documentation-exampleOutputContainer js-exampleOutputContainer"><span class="Documentation-exampleOutputLabel">Output:</span>
+<span class="Documentation-exampleOutput">OnesCount8(00001110) = 3
+</span></pre>
+</div>
+<div class="Documentation-exampleButtonsContainer">
+        <p class="Documentation-exampleError" role="alert" aria-atomic="true"></p>
+        <button class="Documentation-exampleShareButton" aria-label="Share Code">Share</button>
+        <button class="Documentation-exampleFormatButton" aria-label="Format Code">Format</button>
+        <button class="Documentation-exampleRunButton" aria-label="Run Code">Run</button>
+      </div></details>
+
+
+  
+
+        </div><div class="Documentation-function">
+	  
+  
+  
+    <h4 tabindex="-1" id="OnesCount16" data-kind="function" class="Documentation-functionHeader">
+      <span>func <a class="Documentation-source" href="/files$GOROOT/std/math/bits/bits.go#L130">OnesCount16</a> <a class="Documentation-idLink" href="#OnesCount16" title="Go to OnesCount16" aria-label="Go to OnesCount16">¶</a></span>
+  <span class="Documentation-sinceVersion">
+    
+  </span>
+</h4>
+
+    
+    <div class="Documentation-declaration">
+      <pre>func OnesCount16(x <a href="/builtin#uint16">uint16</a>) <a href="/builtin#int">int</a></pre>
+    </div>
+  <p>OnesCount16 returns the number of one bits (&#34;population count&#34;) in x.
+</p>
+<details tabindex="-1" id="example-OnesCount16" class="Documentation-exampleDetails js-exampleContainer">
+<summary class="Documentation-exampleDetailsHeader">Example <a href="#example-OnesCount16" title="Go to Example" aria-label="Go to Example">¶</a></summary>
+<div class="Documentation-exampleDetailsBody">
+
+<pre class="Documentation-exampleCode">
+package main
+
+import (
+	&#34;fmt&#34;
+	&#34;math/bits&#34;
+)
+
+func main() {
+	fmt.Printf(&#34;OnesCount16(%016b) = %d\n&#34;, 14, bits.OnesCount16(14))
+}
+</pre>
+
+<pre class="Documentation-exampleOutputContainer js-exampleOutputContainer"><span class="Documentation-exampleOutputLabel">Output:</span>
+<span class="Documentation-exampleOutput">OnesCount16(0000000000001110) = 3
+</span></pre>
+</div>
+<div class="Documentation-exampleButtonsContainer">
+        <p class="Documentation-exampleError" role="alert" aria-atomic="true"></p>
+        <button class="Documentation-exampleShareButton" aria-label="Share Code">Share</button>
+        <button class="Documentation-exampleFormatButton" aria-label="Format Code">Format</button>
+        <button class="Documentation-exampleRunButton" aria-label="Run Code">Run</button>
+      </div></details>
+
+
+  
+
+        </div><div class="Documentation-function">
+	  
+  
+  
+    <h4 tabindex="-1" id="OnesCount32" data-kind="function" class="Documentation-functionHeader">
+      <span>func <a class="Documentation-source" href="/files$GOROOT/std/math/bits/bits.go#L135">OnesCount32</a> <a class="Documentation-idLink" href="#OnesCount32" title="Go to OnesCount32" aria-label="Go to OnesCount32">¶</a></span>
+  <span class="Documentation-sinceVersion">
+    
+  </span>
+</h4>
+
+    
+    <div class="Documentation-declaration">
+      <pre>func OnesCount32(x <a href="/builtin#uint32">uint32</a>) <a href="/builtin#int">int</a></pre>
+    </div>
+  <p>OnesCount32 returns the number of one bits (&#34;population count&#34;) in x.
+</p>
+<details tabindex="-1" id="example-OnesCount32" class="Documentation-exampleDetails js-exampleContainer">
+<summary class="Documentation-exampleDetailsHeader">Example <a href="#example-OnesCount32" title="Go to Example" aria-label="Go to Example">¶</a></summary>
+<div class="Documentation-exampleDetailsBody">
+
+<pre class="Documentation-exampleCode">
+package main
+
+import (
+	&#34;fmt&#34;
+	&#34;math/bits&#34;
+)
+
+func main() {
+	fmt.Printf(&#34;OnesCount32(%032b) = %d\n&#34;, 14, bits.OnesCount32(14))
+}
+</pre>
+
+<pre class="Documentation-exampleOutputContainer js-exampleOutputContainer"><span class="Documentation-exampleOutputLabel">Output:</span>
+<span class="Documentation-exampleOutput">OnesCount32(00000000000000000000000000001110) = 3
+</span></pre>
+</div>
+<div class="Documentation-exampleButtonsContainer">
+        <p class="Documentation-exampleError" role="alert" aria-atomic="true"></p>
+        <button class="Documentation-exampleShareButton" aria-label="Share Code">Share</button>
+        <button class="Documentation-exampleFormatButton" aria-label="Format Code">Format</button>
+        <button class="Documentation-exampleRunButton" aria-label="Run Code">Run</button>
+      </div></details>
+
+
+  
+
+        </div><div class="Documentation-function">
+	  
+  
+  
+    <h4 tabindex="-1" id="OnesCount64" data-kind="function" class="Documentation-functionHeader">
+      <span>func <a class="Documentation-source" href="/files$GOROOT/std/math/bits/bits.go#L140">OnesCount64</a> <a class="Documentation-idLink" href="#OnesCount64" title="Go to OnesCount64" aria-label="Go to OnesCount64">¶</a></span>
+  <span class="Documentation-sinceVersion">
+    
+  </span>
+</h4>
+
+    
+    <div class="Documentation-declaration">
+      <pre>func OnesCount64(x <a href="/builtin#uint64">uint64</a>) <a href="/builtin#int">int</a></pre>
+    </div>
+  <p>OnesCount64 returns the number of one bits (&#34;population count&#34;) in x.
+</p>
+<details tabindex="-1" id="example-OnesCount64" class="Documentation-exampleDetails js-exampleContainer">
+<summary class="Documentation-exampleDetailsHeader">Example <a href="#example-OnesCount64" title="Go to Example" aria-label="Go to Example">¶</a></summary>
+<div class="Documentation-exampleDetailsBody">
+
+<pre class="Documentation-exampleCode">
+package main
+
+import (
+	&#34;fmt&#34;
+	&#34;math/bits&#34;
+)
+
+func main() {
+	fmt.Printf(&#34;OnesCount64(%064b) = %d\n&#34;, 14, bits.OnesCount64(14))
+}
+</pre>
+
+<pre class="Documentation-exampleOutputContainer js-exampleOutputContainer"><span class="Documentation-exampleOutputLabel">Output:</span>
+<span class="Documentation-exampleOutput">OnesCount64(0000000000000000000000000000000000000000000000000000000000001110) = 3
+</span></pre>
+</div>
+<div class="Documentation-exampleButtonsContainer">
+        <p class="Documentation-exampleError" role="alert" aria-atomic="true"></p>
+        <button class="Documentation-exampleShareButton" aria-label="Share Code">Share</button>
+        <button class="Documentation-exampleFormatButton" aria-label="Format Code">Format</button>
+        <button class="Documentation-exampleRunButton" aria-label="Run Code">Run</button>
+      </div></details>
+
+
+  
+
+        </div><div class="Documentation-function">
+	  
+  
+  
+    <h4 tabindex="-1" id="Rem" data-kind="function" class="Documentation-functionHeader">
+      <span>func <a class="Documentation-source" href="/files$GOROOT/std/math/bits/bits.go#L573">Rem</a> <a class="Documentation-idLink" href="#Rem" title="Go to Rem" aria-label="Go to Rem">¶</a></span>
+  <span class="Documentation-sinceVersion">
+    
+  </span>
+</h4>
+
+    
+    <div class="Documentation-declaration">
+      <pre>func Rem(hi, lo, y <a href="/builtin#uint">uint</a>) <a href="/builtin#uint">uint</a></pre>
+    </div>
+  <p>Rem returns the remainder of (hi, lo) divided by y. Rem panics for
+y == 0 (division by zero) but, unlike Div, it doesn&#39;t panic on a
+quotient overflow.
+</p>
+
+  
+
+        </div><div class="Documentation-function">
+	  
+  
+  
+    <h4 tabindex="-1" id="Rem32" data-kind="function" class="Documentation-functionHeader">
+      <span>func <a class="Documentation-source" href="/files$GOROOT/std/math/bits/bits.go#L583">Rem32</a> <a class="Documentation-idLink" href="#Rem32" title="Go to Rem32" aria-label="Go to Rem32">¶</a></span>
+  <span class="Documentation-sinceVersion">
+    
+  </span>
+</h4>
+
+    
+    <div class="Documentation-declaration">
+      <pre>func Rem32(hi, lo, y <a href="/builtin#uint32">uint32</a>) <a href="/builtin#uint32">uint32</a></pre>
+    </div>
+  <p>Rem32 returns the remainder of (hi, lo) divided by y. Rem32 panics
+for y == 0 (division by zero) but, unlike <a href="#Div32">Div32</a>, it doesn&#39;t panic
+on a quotient overflow.
+</p>
+
+  
+
+        </div><div class="Documentation-function">
+	  
+  
+  
+    <h4 tabindex="-1" id="Rem64" data-kind="function" class="Documentation-functionHeader">
+      <span>func <a class="Documentation-source" href="/files$GOROOT/std/math/bits/bits.go#L590">Rem64</a> <a class="Documentation-idLink" href="#Rem64" title="Go to Rem64" aria-label="Go to Rem64">¶</a></span>
+  <span class="Documentation-sinceVersion">
+    
+  </span>
+</h4>
+
+    
+    <div class="Documentation-declaration">
+      <pre>func Rem64(hi, lo, y <a href="/builtin#uint64">uint64</a>) <a href="/builtin#uint64">uint64</a></pre>
+    </div>
+  <p>Rem64 returns the remainder of (hi, lo) divided by y. Rem64 panics
+for y == 0 (division by zero) but, unlike <a href="#Div64">Div64</a>, it doesn&#39;t panic
+on a quotient overflow.
+</p>
+
+  
+
+        </div><div class="Documentation-function">
+	  
+  
+  
+    <h4 tabindex="-1" id="Reverse" data-kind="function" class="Documentation-functionHeader">
+      <span>func <a class="Documentation-source" href="/files$GOROOT/std/math/bits/bits.go#L226">Reverse</a> <a class="Documentation-idLink" href="#Reverse" title="Go to Reverse" aria-label="Go to Reverse">¶</a></span>
+  <span class="Documentation-sinceVersion">
+    
+  </span>
+</h4>
+
+    
+    <div class="Documentation-declaration">
+      <pre>func Reverse(x <a href="/builtin#uint">uint</a>) <a href="/builtin#uint">uint</a></pre>
+    </div>
+  <p>Reverse returns the value of x with its bits in reversed order.
+</p>
+
+  
+
+        </div><div class="Documentation-function">
+	  
+  
+  
+    <h4 tabindex="-1" id="Reverse8" data-kind="function" class="Documentation-functionHeader">
+      <span>func <a class="Documentation-source" href="/files$GOROOT/std/math/bits/bits.go#L234">Reverse8</a> <a class="Documentation-idLink" href="#Reverse8" title="Go to Reverse8" aria-label="Go to Reverse8">¶</a></span>
+  <span class="Documentation-sinceVersion">
+    
+  </span>
+</h4>
+
+    
+    <div class="Documentation-declaration">
+      <pre>func Reverse8(x <a href="/builtin#uint8">uint8</a>) <a href="/builtin#uint8">uint8</a></pre>
+    </div>
+  <p>Reverse8 returns the value of x with its bits in reversed order.
+</p>
+<details tabindex="-1" id="example-Reverse8" class="Documentation-exampleDetails js-exampleContainer">
+<summary class="Documentation-exampleDetailsHeader">Example <a href="#example-Reverse8" title="Go to Example" aria-label="Go to Example">¶</a></summary>
+<div class="Documentation-exampleDetailsBody">
+
+<pre class="Documentation-exampleCode">
+package main
+
+import (
+	&#34;fmt&#34;
+	&#34;math/bits&#34;
+)
+
+func main() {
+	fmt.Printf(&#34;%08b\n&#34;, 19)
+	fmt.Printf(&#34;%08b\n&#34;, bits.Reverse8(19))
+}
+</pre>
+
+<pre class="Documentation-exampleOutputContainer js-exampleOutputContainer"><span class="Documentation-exampleOutputLabel">Output:</span>
+<span class="Documentation-exampleOutput">00010011
+11001000
+</span></pre>
+</div>
+<div class="Documentation-exampleButtonsContainer">
+        <p class="Documentation-exampleError" role="alert" aria-atomic="true"></p>
+        <button class="Documentation-exampleShareButton" aria-label="Share Code">Share</button>
+        <button class="Documentation-exampleFormatButton" aria-label="Format Code">Format</button>
+        <button class="Documentation-exampleRunButton" aria-label="Run Code">Run</button>
+      </div></details>
+
+
+  
+
+        </div><div class="Documentation-function">
+	  
+  
+  
+    <h4 tabindex="-1" id="Reverse16" data-kind="function" class="Documentation-functionHeader">
+      <span>func <a class="Documentation-source" href="/files$GOROOT/std/math/bits/bits.go#L239">Reverse16</a> <a class="Documentation-idLink" href="#Reverse16" title="Go to Reverse16" aria-label="Go to Reverse16">¶</a></span>
+  <span class="Documentation-sinceVersion">
+    
+  </span>
+</h4>
+
+    
+    <div class="Documentation-declaration">
+      <pre>func Reverse16(x <a href="/builtin#uint16">uint16</a>) <a href="/builtin#uint16">uint16</a></pre>
+    </div>
+  <p>Reverse16 returns the value of x with its bits in reversed order.
+</p>
+<details tabindex="-1" id="example-Reverse16" class="Documentation-exampleDetails js-exampleContainer">
+<summary class="Documentation-exampleDetailsHeader">Example <a href="#example-Reverse16" title="Go to Example" aria-label="Go to Example">¶</a></summary>
+<div class="Documentation-exampleDetailsBody">
+
+<pre class="Documentation-exampleCode">
+package main
+
+import (
+	&#34;fmt&#34;
+	&#34;math/bits&#34;
+)
+
+func main() {
+	fmt.Printf(&#34;%016b\n&#34;, 19)
+	fmt.Printf(&#34;%016b\n&#34;, bits.Reverse16(19))
+}
+</pre>
+
+<pre class="Documentation-exampleOutputContainer js-exampleOutputContainer"><span class="Documentation-exampleOutputLabel">Output:</span>
+<span class="Documentation-exampleOutput">0000000000010011
+1100100000000000
+</span></pre>
+</div>
+<div class="Documentation-exampleButtonsContainer">
+        <p class="Documentation-exampleError" role="alert" aria-atomic="true"></p>
+        <button class="Documentation-exampleShareButton" aria-label="Share Code">Share</button>
+        <button class="Documentation-exampleFormatButton" aria-label="Format Code">Format</button>
+        <button class="Documentation-exampleRunButton" aria-label="Run Code">Run</button>
+      </div></details>
+
+
+  
+
+        </div><div class="Documentation-function">
+	  
+  
+  
+    <h4 tabindex="-1" id="Reverse32" data-kind="function" class="Documentation-functionHeader">
+      <span>func <a class="Documentation-source" href="/files$GOROOT/std/math/bits/bits.go#L244">Reverse32</a> <a class="Documentation-idLink" href="#Reverse32" title="Go to Reverse32" aria-label="Go to Reverse32">¶</a></span>
+  <span class="Documentation-sinceVersion">
+    
+  </span>
+</h4>
+
+    
+    <div class="Documentation-declaration">
+      <pre>func Reverse32(x <a href="/builtin#uint32">uint32</a>) <a href="/builtin#uint32">uint32</a></pre>
+    </div>
+  <p>Reverse32 returns the value of x with its bits in reversed order.
+</p>
+<details tabindex="-1" id="example-Reverse32" class="Documentation-exampleDetails js-exampleContainer">
+<summary class="Documentation-exampleDetailsHeader">Example <a href="#example-Reverse32" title="Go to Example" aria-label="Go to Example">¶</a></summary>
+<div class="Documentation-exampleDetailsBody">
+
+<pre class="Documentation-exampleCode">
+package main
+
+import (
+	&#34;fmt&#34;
+	&#34;math/bits&#34;
+)
+
+func main() {
+	fmt.Printf(&#34;%032b\n&#34;, 19)
+	fmt.Printf(&#34;%032b\n&#34;, bits.Reverse32(19))
+}
+</pre>
+
+<pre class="Documentation-exampleOutputContainer js-exampleOutputContainer"><span class="Documentation-exampleOutputLabel">Output:</span>
+<span class="Documentation-exampleOutput">00000000000000000000000000010011
+11001000000000000000000000000000
+</span></pre>
+</div>
+<div class="Documentation-exampleButtonsContainer">
+        <p class="Documentation-exampleError" role="alert" aria-atomic="true"></p>
+        <button class="Documentation-exampleShareButton" aria-label="Share Code">Share</button>
+        <button class="Documentation-exampleFormatButton" aria-label="Format Code">Format</button>
+        <button class="Documentation-exampleRunButton" aria-label="Run Code">Run</button>
+      </div></details>
+
+
+  
+
+        </div><div class="Documentation-function">
+	  
+  
+  
+    <h4 tabindex="-1" id="Reverse64" data-kind="function" class="Documentation-functionHeader">
+      <span>func <a class="Documentation-source" href="/files$GOROOT/std/math/bits/bits.go#L253">Reverse64</a> <a class="Documentation-idLink" href="#Reverse64" title="Go to Reverse64" aria-label="Go to Reverse64">¶</a></span>
+  <span class="Documentation-sinceVersion">
+    
+  </span>
+</h4>
+
+    
+    <div class="Documentation-declaration">
+      <pre>func Reverse64(x <a href="/builtin#uint64">uint64</a>) <a href="/builtin#uint64">uint64</a></pre>
+    </div>
+  <p>Reverse64 returns the value of x with its bits in reversed order.
+</p>
+<details tabindex="-1" id="example-Reverse64" class="Documentation-exampleDetails js-exampleContainer">
+<summary class="Documentation-exampleDetailsHeader">Example <a href="#example-Reverse64" title="Go to Example" aria-label="Go to Example">¶</a></summary>
+<div class="Documentation-exampleDetailsBody">
+
+<pre class="Documentation-exampleCode">
+package main
+
+import (
+	&#34;fmt&#34;
+	&#34;math/bits&#34;
+)
+
+func main() {
+	fmt.Printf(&#34;%064b\n&#34;, 19)
+	fmt.Printf(&#34;%064b\n&#34;, bits.Reverse64(19))
+}
+</pre>
+
+<pre class="Documentation-exampleOutputContainer js-exampleOutputContainer"><span class="Documentation-exampleOutputLabel">Output:</span>
+<span class="Documentation-exampleOutput">0000000000000000000000000000000000000000000000000000000000010011
+1100100000000000000000000000000000000000000000000000000000000000
+</span></pre>
+</div>
+<div class="Documentation-exampleButtonsContainer">
+        <p class="Documentation-exampleError" role="alert" aria-atomic="true"></p>
+        <button class="Documentation-exampleShareButton" aria-label="Share Code">Share</button>
+        <button class="Documentation-exampleFormatButton" aria-label="Format Code">Format</button>
+        <button class="Documentation-exampleRunButton" aria-label="Run Code">Run</button>
+      </div></details>
+
+
+  
+
+        </div><div class="Documentation-function">
+	  
+  
+  
+    <h4 tabindex="-1" id="ReverseBytes" data-kind="function" class="Documentation-functionHeader">
+      <span>func <a class="Documentation-source" href="/files$GOROOT/std/math/bits/bits.go#L266">ReverseBytes</a> <a class="Documentation-idLink" href="#ReverseBytes" title="Go to ReverseBytes" aria-label="Go to ReverseBytes">¶</a></span>
+  <span class="Documentation-sinceVersion">
+    
+  </span>
+</h4>
+
+    
+    <div class="Documentation-declaration">
+      <pre>func ReverseBytes(x <a href="/builtin#uint">uint</a>) <a href="/builtin#uint">uint</a></pre>
+    </div>
+  <p>ReverseBytes returns the value of x with its bytes in reversed order.
+</p><p>This function&#39;s execution time does not depend on the inputs.
+</p>
+
+  
+
+        </div><div class="Documentation-function">
+	  
+  
+  
+    <h4 tabindex="-1" id="ReverseBytes16" data-kind="function" class="Documentation-functionHeader">
+      <span>func <a class="Documentation-source" href="/files$GOROOT/std/math/bits/bits.go#L276">ReverseBytes16</a> <a class="Documentation-idLink" href="#ReverseBytes16" title="Go to ReverseBytes16" aria-label="Go to ReverseBytes16">¶</a></span>
+  <span class="Documentation-sinceVersion">
+    
+  </span>
+</h4>
+
+    
+    <div class="Documentation-declaration">
+      <pre>func ReverseBytes16(x <a href="/builtin#uint16">uint16</a>) <a href="/builtin#uint16">uint16</a></pre>
+    </div>
+  <p>ReverseBytes16 returns the value of x with its bytes in reversed order.
+</p><p>This function&#39;s execution time does not depend on the inputs.
+</p>
+<details tabindex="-1" id="example-ReverseBytes16" class="Documentation-exampleDetails js-exampleContainer">
+<summary class="Documentation-exampleDetailsHeader">Example <a href="#example-ReverseBytes16" title="Go to Example" aria-label="Go to Example">¶</a></summary>
+<div class="Documentation-exampleDetailsBody">
+
+<pre class="Documentation-exampleCode">
+package main
+
+import (
+	&#34;fmt&#34;
+	&#34;math/bits&#34;
+)
+
+func main() {
+	fmt.Printf(&#34;%016b\n&#34;, 15)
+	fmt.Printf(&#34;%016b\n&#34;, bits.ReverseBytes16(15))
+}
+</pre>
+
+<pre class="Documentation-exampleOutputContainer js-exampleOutputContainer"><span class="Documentation-exampleOutputLabel">Output:</span>
+<span class="Documentation-exampleOutput">0000000000001111
+0000111100000000
+</span></pre>
+</div>
+<div class="Documentation-exampleButtonsContainer">
+        <p class="Documentation-exampleError" role="alert" aria-atomic="true"></p>
+        <button class="Documentation-exampleShareButton" aria-label="Share Code">Share</button>
+        <button class="Documentation-exampleFormatButton" aria-label="Format Code">Format</button>
+        <button class="Documentation-exampleRunButton" aria-label="Run Code">Run</button>
+      </div></details>
+
+
+  
+
+        </div><div class="Documentation-function">
+	  
+  
+  
+    <h4 tabindex="-1" id="ReverseBytes32" data-kind="function" class="Documentation-functionHeader">
+      <span>func <a class="Documentation-source" href="/files$GOROOT/std/math/bits/bits.go#L283">ReverseBytes32</a> <a class="Documentation-idLink" href="#ReverseBytes32" title="Go to ReverseBytes32" aria-label="Go to ReverseBytes32">¶</a></span>
+  <span class="Documentation-sinceVersion">
+    
+  </span>
+</h4>
+
+    
+    <div class="Documentation-declaration">
+      <pre>func ReverseBytes32(x <a href="/builtin#uint32">uint32</a>) <a href="/builtin#uint32">uint32</a></pre>
+    </div>
+  <p>ReverseBytes32 returns the value of x with its bytes in reversed order.
+</p><p>This function&#39;s execution time does not depend on the inputs.
+</p>
+<details tabindex="-1" id="example-ReverseBytes32" class="Documentation-exampleDetails js-exampleContainer">
+<summary class="Documentation-exampleDetailsHeader">Example <a href="#example-ReverseBytes32" title="Go to Example" aria-label="Go to Example">¶</a></summary>
+<div class="Documentation-exampleDetailsBody">
+
+<pre class="Documentation-exampleCode">
+package main
+
+import (
+	&#34;fmt&#34;
+	&#34;math/bits&#34;
+)
+
+func main() {
+	fmt.Printf(&#34;%032b\n&#34;, 15)
+	fmt.Printf(&#34;%032b\n&#34;, bits.ReverseBytes32(15))
+}
+</pre>
+
+<pre class="Documentation-exampleOutputContainer js-exampleOutputContainer"><span class="Documentation-exampleOutputLabel">Output:</span>
+<span class="Documentation-exampleOutput">00000000000000000000000000001111
+00001111000000000000000000000000
+</span></pre>
+</div>
+<div class="Documentation-exampleButtonsContainer">
+        <p class="Documentation-exampleError" role="alert" aria-atomic="true"></p>
+        <button class="Documentation-exampleShareButton" aria-label="Share Code">Share</button>
+        <button class="Documentation-exampleFormatButton" aria-label="Format Code">Format</button>
+        <button class="Documentation-exampleRunButton" aria-label="Run Code">Run</button>
+      </div></details>
+
+
+  
+
+        </div><div class="Documentation-function">
+	  
+  
+  
+    <h4 tabindex="-1" id="ReverseBytes64" data-kind="function" class="Documentation-functionHeader">
+      <span>func <a class="Documentation-source" href="/files$GOROOT/std/math/bits/bits.go#L292">ReverseBytes64</a> <a class="Documentation-idLink" href="#ReverseBytes64" title="Go to ReverseBytes64" aria-label="Go to ReverseBytes64">¶</a></span>
+  <span class="Documentation-sinceVersion">
+    
+  </span>
+</h4>
+
+    
+    <div class="Documentation-declaration">
+      <pre>func ReverseBytes64(x <a href="/builtin#uint64">uint64</a>) <a href="/builtin#uint64">uint64</a></pre>
+    </div>
+  <p>ReverseBytes64 returns the value of x with its bytes in reversed order.
+</p><p>This function&#39;s execution time does not depend on the inputs.
+</p>
+<details tabindex="-1" id="example-ReverseBytes64" class="Documentation-exampleDetails js-exampleContainer">
+<summary class="Documentation-exampleDetailsHeader">Example <a href="#example-ReverseBytes64" title="Go to Example" aria-label="Go to Example">¶</a></summary>
+<div class="Documentation-exampleDetailsBody">
+
+<pre class="Documentation-exampleCode">
+package main
+
+import (
+	&#34;fmt&#34;
+	&#34;math/bits&#34;
+)
+
+func main() {
+	fmt.Printf(&#34;%064b\n&#34;, 15)
+	fmt.Printf(&#34;%064b\n&#34;, bits.ReverseBytes64(15))
+}
+</pre>
+
+<pre class="Documentation-exampleOutputContainer js-exampleOutputContainer"><span class="Documentation-exampleOutputLabel">Output:</span>
+<span class="Documentation-exampleOutput">0000000000000000000000000000000000000000000000000000000000001111
+0000111100000000000000000000000000000000000000000000000000000000
+</span></pre>
+</div>
+<div class="Documentation-exampleButtonsContainer">
+        <p class="Documentation-exampleError" role="alert" aria-atomic="true"></p>
+        <button class="Documentation-exampleShareButton" aria-label="Share Code">Share</button>
+        <button class="Documentation-exampleFormatButton" aria-label="Format Code">Format</button>
+        <button class="Documentation-exampleRunButton" aria-label="Run Code">Run</button>
+      </div></details>
+
+
+  
+
+        </div><div class="Documentation-function">
+	  
+  
+  
+    <h4 tabindex="-1" id="RotateLeft" data-kind="function" class="Documentation-functionHeader">
+      <span>func <a class="Documentation-source" href="/files$GOROOT/std/math/bits/bits.go#L176">RotateLeft</a> <a class="Documentation-idLink" href="#RotateLeft" title="Go to RotateLeft" aria-label="Go to RotateLeft">¶</a></span>
+  <span class="Documentation-sinceVersion">
+    
+  </span>
+</h4>
+
+    
+    <div class="Documentation-declaration">
+      <pre>func RotateLeft(x <a href="/builtin#uint">uint</a>, k <a href="/builtin#int">int</a>) <a href="/builtin#uint">uint</a></pre>
+    </div>
+  <p>RotateLeft returns the value of x rotated left by (k mod <a href="#UintSize">UintSize</a>) bits.
+To rotate x right by k bits, call RotateLeft(x, -k).
+</p><p>This function&#39;s execution time does not depend on the inputs.
+</p>
+
+  
+
+        </div><div class="Documentation-function">
+	  
+  
+  
+    <h4 tabindex="-1" id="RotateLeft8" data-kind="function" class="Documentation-functionHeader">
+      <span>func <a class="Documentation-source" href="/files$GOROOT/std/math/bits/bits.go#L187">RotateLeft8</a> <a class="Documentation-idLink" href="#RotateLeft8" title="Go to RotateLeft8" aria-label="Go to RotateLeft8">¶</a></span>
+  <span class="Documentation-sinceVersion">
+    
+  </span>
+</h4>
+
+    
+    <div class="Documentation-declaration">
+      <pre>func RotateLeft8(x <a href="/builtin#uint8">uint8</a>, k <a href="/builtin#int">int</a>) <a href="/builtin#uint8">uint8</a></pre>
+    </div>
+  <p>RotateLeft8 returns the value of x rotated left by (k mod 8) bits.
+To rotate x right by k bits, call RotateLeft8(x, -k).
+</p><p>This function&#39;s execution time does not depend on the inputs.
+</p>
+<details tabindex="-1" id="example-RotateLeft8" class="Documentation-exampleDetails js-exampleContainer">
+<summary class="Documentation-exampleDetailsHeader">Example <a href="#example-RotateLeft8" title="Go to Example" aria-label="Go to Example">¶</a></summary>
+<div class="Documentation-exampleDetailsBody">
+
+<pre class="Documentation-exampleCode">
+package main
+
+import (
+	&#34;fmt&#34;
+	&#34;math/bits&#34;
+)
+
+func main() {
+	fmt.Printf(&#34;%08b\n&#34;, 15)
+	fmt.Printf(&#34;%08b\n&#34;, bits.RotateLeft8(15, 2))
+	fmt.Printf(&#34;%08b\n&#34;, bits.RotateLeft8(15, -2))
+}
+</pre>
+
+<pre class="Documentation-exampleOutputContainer js-exampleOutputContainer"><span class="Documentation-exampleOutputLabel">Output:</span>
+<span class="Documentation-exampleOutput">00001111
+00111100
+11000011
+</span></pre>
+</div>
+<div class="Documentation-exampleButtonsContainer">
+        <p class="Documentation-exampleError" role="alert" aria-atomic="true"></p>
+        <button class="Documentation-exampleShareButton" aria-label="Share Code">Share</button>
+        <button class="Documentation-exampleFormatButton" aria-label="Format Code">Format</button>
+        <button class="Documentation-exampleRunButton" aria-label="Run Code">Run</button>
+      </div></details>
+
+
+  
+
+        </div><div class="Documentation-function">
+	  
+  
+  
+    <h4 tabindex="-1" id="RotateLeft16" data-kind="function" class="Documentation-functionHeader">
+      <span>func <a class="Documentation-source" href="/files$GOROOT/std/math/bits/bits.go#L197">RotateLeft16</a> <a class="Documentation-idLink" href="#RotateLeft16" title="Go to RotateLeft16" aria-label="Go to RotateLeft16">¶</a></span>
+  <span class="Documentation-sinceVersion">
+    
+  </span>
+</h4>
+
+    
+    <div class="Documentation-declaration">
+      <pre>func RotateLeft16(x <a href="/builtin#uint16">uint16</a>, k <a href="/builtin#int">int</a>) <a href="/builtin#uint16">uint16</a></pre>
+    </div>
+  <p>RotateLeft16 returns the value of x rotated left by (k mod 16) bits.
+To rotate x right by k bits, call RotateLeft16(x, -k).
+</p><p>This function&#39;s execution time does not depend on the inputs.
+</p>
+<details tabindex="-1" id="example-RotateLeft16" class="Documentation-exampleDetails js-exampleContainer">
+<summary class="Documentation-exampleDetailsHeader">Example <a href="#example-RotateLeft16" title="Go to Example" aria-label="Go to Example">¶</a></summary>
+<div class="Documentation-exampleDetailsBody">
+
+<pre class="Documentation-exampleCode">
+package main
+
+import (
+	&#34;fmt&#34;
+	&#34;math/bits&#34;
+)
+
+func main() {
+	fmt.Printf(&#34;%016b\n&#34;, 15)
+	fmt.Printf(&#34;%016b\n&#34;, bits.RotateLeft16(15, 2))
+	fmt.Printf(&#34;%016b\n&#34;, bits.RotateLeft16(15, -2))
+}
+</pre>
+
+<pre class="Documentation-exampleOutputContainer js-exampleOutputContainer"><span class="Documentation-exampleOutputLabel">Output:</span>
+<span class="Documentation-exampleOutput">0000000000001111
+0000000000111100
+1100000000000011
+</span></pre>
+</div>
+<div class="Documentation-exampleButtonsContainer">
+        <p class="Documentation-exampleError" role="alert" aria-atomic="true"></p>
+        <button class="Documentation-exampleShareButton" aria-label="Share Code">Share</button>
+        <button class="Documentation-exampleFormatButton" aria-label="Format Code">Format</button>
+        <button class="Documentation-exampleRunButton" aria-label="Run Code">Run</button>
+      </div></details>
+
+
+  
+
+        </div><div class="Documentation-function">
+	  
+  
+  
+    <h4 tabindex="-1" id="RotateLeft32" data-kind="function" class="Documentation-functionHeader">
+      <span>func <a class="Documentation-source" href="/files$GOROOT/std/math/bits/bits.go#L207">RotateLeft32</a> <a class="Documentation-idLink" href="#RotateLeft32" title="Go to RotateLeft32" aria-label="Go to RotateLeft32">¶</a></span>
+  <span class="Documentation-sinceVersion">
+    
+  </span>
+</h4>
+
+    
+    <div class="Documentation-declaration">
+      <pre>func RotateLeft32(x <a href="/builtin#uint32">uint32</a>, k <a href="/builtin#int">int</a>) <a href="/builtin#uint32">uint32</a></pre>
+    </div>
+  <p>RotateLeft32 returns the value of x rotated left by (k mod 32) bits.
+To rotate x right by k bits, call RotateLeft32(x, -k).
+</p><p>This function&#39;s execution time does not depend on the inputs.
+</p>
+<details tabindex="-1" id="example-RotateLeft32" class="Documentation-exampleDetails js-exampleContainer">
+<summary class="Documentation-exampleDetailsHeader">Example <a href="#example-RotateLeft32" title="Go to Example" aria-label="Go to Example">¶</a></summary>
+<div class="Documentation-exampleDetailsBody">
+
+<pre class="Documentation-exampleCode">
+package main
+
+import (
+	&#34;fmt&#34;
+	&#34;math/bits&#34;
+)
+
+func main() {
+	fmt.Printf(&#34;%032b\n&#34;, 15)
+	fmt.Printf(&#34;%032b\n&#34;, bits.RotateLeft32(15, 2))
+	fmt.Printf(&#34;%032b\n&#34;, bits.RotateLeft32(15, -2))
+}
+</pre>
+
+<pre class="Documentation-exampleOutputContainer js-exampleOutputContainer"><span class="Documentation-exampleOutputLabel">Output:</span>
+<span class="Documentation-exampleOutput">00000000000000000000000000001111
+00000000000000000000000000111100
+11000000000000000000000000000011
+</span></pre>
+</div>
+<div class="Documentation-exampleButtonsContainer">
+        <p class="Documentation-exampleError" role="alert" aria-atomic="true"></p>
+        <button class="Documentation-exampleShareButton" aria-label="Share Code">Share</button>
+        <button class="Documentation-exampleFormatButton" aria-label="Format Code">Format</button>
+        <button class="Documentation-exampleRunButton" aria-label="Run Code">Run</button>
+      </div></details>
+
+
+  
+
+        </div><div class="Documentation-function">
+	  
+  
+  
+    <h4 tabindex="-1" id="RotateLeft64" data-kind="function" class="Documentation-functionHeader">
+      <span>func <a class="Documentation-source" href="/files$GOROOT/std/math/bits/bits.go#L217">RotateLeft64</a> <a class="Documentation-idLink" href="#RotateLeft64" title="Go to RotateLeft64" aria-label="Go to RotateLeft64">¶</a></span>
+  <span class="Documentation-sinceVersion">
+    
+  </span>
+</h4>
+
+    
+    <div class="Documentation-declaration">
+      <pre>func RotateLeft64(x <a href="/builtin#uint64">uint64</a>, k <a href="/builtin#int">int</a>) <a href="/builtin#uint64">uint64</a></pre>
+    </div>
+  <p>RotateLeft64 returns the value of x rotated left by (k mod 64) bits.
+To rotate x right by k bits, call RotateLeft64(x, -k).
+</p><p>This function&#39;s execution time does not depend on the inputs.
+</p>
+<details tabindex="-1" id="example-RotateLeft64" class="Documentation-exampleDetails js-exampleContainer">
+<summary class="Documentation-exampleDetailsHeader">Example <a href="#example-RotateLeft64" title="Go to Example" aria-label="Go to Example">¶</a></summary>
+<div class="Documentation-exampleDetailsBody">
+
+<pre class="Documentation-exampleCode">
+package main
+
+import (
+	&#34;fmt&#34;
+	&#34;math/bits&#34;
+)
+
+func main() {
+	fmt.Printf(&#34;%064b\n&#34;, 15)
+	fmt.Printf(&#34;%064b\n&#34;, bits.RotateLeft64(15, 2))
+	fmt.Printf(&#34;%064b\n&#34;, bits.RotateLeft64(15, -2))
+}
+</pre>
+
+<pre class="Documentation-exampleOutputContainer js-exampleOutputContainer"><span class="Documentation-exampleOutputLabel">Output:</span>
+<span class="Documentation-exampleOutput">0000000000000000000000000000000000000000000000000000000000001111
+0000000000000000000000000000000000000000000000000000000000111100
+1100000000000000000000000000000000000000000000000000000000000011
+</span></pre>
+</div>
+<div class="Documentation-exampleButtonsContainer">
+        <p class="Documentation-exampleError" role="alert" aria-atomic="true"></p>
+        <button class="Documentation-exampleShareButton" aria-label="Share Code">Share</button>
+        <button class="Documentation-exampleFormatButton" aria-label="Format Code">Format</button>
+        <button class="Documentation-exampleRunButton" aria-label="Run Code">Run</button>
+      </div></details>
+
+
+  
+
+        </div><div class="Documentation-function">
+	  
+  
+  
+    <h4 tabindex="-1" id="Sub" data-kind="function" class="Documentation-functionHeader">
+      <span>func <a class="Documentation-source" href="/files$GOROOT/std/math/bits/bits.go#L402">Sub</a> <a class="Documentation-idLink" href="#Sub" title="Go to Sub" aria-label="Go to Sub">¶</a></span>
+  <span class="Documentation-sinceVersion">
+    
+  </span>
+</h4>
+
+    
+    <div class="Documentation-declaration">
+      <pre>func Sub(x, y, borrow <a href="/builtin#uint">uint</a>) (diff, borrowOut <a href="/builtin#uint">uint</a>)</pre>
+    </div>
+  <p>Sub returns the difference of x, y and borrow: diff = x - y - borrow.
+The borrow input must be 0 or 1; otherwise the behavior is undefined.
+The borrowOut output is guaranteed to be 0 or 1.
+</p><p>This function&#39;s execution time does not depend on the inputs.
+</p>
+
+  
+
+        </div><div class="Documentation-function">
+	  
+  
+  
+    <h4 tabindex="-1" id="Sub32" data-kind="function" class="Documentation-functionHeader">
+      <span>func <a class="Documentation-source" href="/files$GOROOT/std/math/bits/bits.go#L416">Sub32</a> <a class="Documentation-idLink" href="#Sub32" title="Go to Sub32" aria-label="Go to Sub32">¶</a></span>
+  <span class="Documentation-sinceVersion">
+    
+  </span>
+</h4>
+
+    
+    <div class="Documentation-declaration">
+      <pre>func Sub32(x, y, borrow <a href="/builtin#uint32">uint32</a>) (diff, borrowOut <a href="/builtin#uint32">uint32</a>)</pre>
+    </div>
+  <p>Sub32 returns the difference of x, y and borrow, diff = x - y - borrow.
+The borrow input must be 0 or 1; otherwise the behavior is undefined.
+The borrowOut output is guaranteed to be 0 or 1.
+</p><p>This function&#39;s execution time does not depend on the inputs.
+</p>
+<details tabindex="-1" id="example-Sub32" class="Documentation-exampleDetails js-exampleContainer">
+<summary class="Documentation-exampleDetailsHeader">Example <a href="#example-Sub32" title="Go to Example" aria-label="Go to Example">¶</a></summary>
+<div class="Documentation-exampleDetailsBody">
+
+<pre class="Documentation-exampleCode">
+package main
+
+import (
+	&#34;fmt&#34;
+	&#34;math/bits&#34;
+)
+
+func main() {
+	// First number is 33&lt;&lt;32 + 23
+	n1 := []uint32{33, 23}
+	// Second number is 21&lt;&lt;32 + 12
+	n2 := []uint32{21, 12}
+	// Sub them together without producing carry.
+	d1, carry := bits.Sub32(n1[1], n2[1], 0)
+	d0, _ := bits.Sub32(n1[0], n2[0], carry)
+	nsum := []uint32{d0, d1}
+	fmt.Printf(&#34;%v - %v = %v (carry bit was %v)\n&#34;, n1, n2, nsum, carry)
+
+	// First number is 3&lt;&lt;32 + 2147483647
+	n1 = []uint32{3, 0x7fffffff}
+	// Second number is 1&lt;&lt;32 + 2147483648
+	n2 = []uint32{1, 0x80000000}
+	// Sub them together producing carry.
+	d1, carry = bits.Sub32(n1[1], n2[1], 0)
+	d0, _ = bits.Sub32(n1[0], n2[0], carry)
+	nsum = []uint32{d0, d1}
+	fmt.Printf(&#34;%v - %v = %v (carry bit was %v)\n&#34;, n1, n2, nsum, carry)
+}
+</pre>
+
+<pre class="Documentation-exampleOutputContainer js-exampleOutputContainer"><span class="Documentation-exampleOutputLabel">Output:</span>
+<span class="Documentation-exampleOutput">[33 23] - [21 12] = [12 11] (carry bit was 0)
+[3 2147483647] - [1 2147483648] = [1 4294967295] (carry bit was 1)
+</span></pre>
+</div>
+<div class="Documentation-exampleButtonsContainer">
+        <p class="Documentation-exampleError" role="alert" aria-atomic="true"></p>
+        <button class="Documentation-exampleShareButton" aria-label="Share Code">Share</button>
+        <button class="Documentation-exampleFormatButton" aria-label="Format Code">Format</button>
+        <button class="Documentation-exampleRunButton" aria-label="Run Code">Run</button>
+      </div></details>
+
+
+  
+
+        </div><div class="Documentation-function">
+	  
+  
+  
+    <h4 tabindex="-1" id="Sub64" data-kind="function" class="Documentation-functionHeader">
+      <span>func <a class="Documentation-source" href="/files$GOROOT/std/math/bits/bits.go#L431">Sub64</a> <a class="Documentation-idLink" href="#Sub64" title="Go to Sub64" aria-label="Go to Sub64">¶</a></span>
+  <span class="Documentation-sinceVersion">
+    
+  </span>
+</h4>
+
+    
+    <div class="Documentation-declaration">
+      <pre>func Sub64(x, y, borrow <a href="/builtin#uint64">uint64</a>) (diff, borrowOut <a href="/builtin#uint64">uint64</a>)</pre>
+    </div>
+  <p>Sub64 returns the difference of x, y and borrow: diff = x - y - borrow.
+The borrow input must be 0 or 1; otherwise the behavior is undefined.
+The borrowOut output is guaranteed to be 0 or 1.
+</p><p>This function&#39;s execution time does not depend on the inputs.
+</p>
+<details tabindex="-1" id="example-Sub64" class="Documentation-exampleDetails js-exampleContainer">
+<summary class="Documentation-exampleDetailsHeader">Example <a href="#example-Sub64" title="Go to Example" aria-label="Go to Example">¶</a></summary>
+<div class="Documentation-exampleDetailsBody">
+
+<pre class="Documentation-exampleCode">
+package main
+
+import (
+	&#34;fmt&#34;
+	&#34;math/bits&#34;
+)
+
+func main() {
+	// First number is 33&lt;&lt;64 + 23
+	n1 := []uint64{33, 23}
+	// Second number is 21&lt;&lt;64 + 12
+	n2 := []uint64{21, 12}
+	// Sub them together without producing carry.
+	d1, carry := bits.Sub64(n1[1], n2[1], 0)
+	d0, _ := bits.Sub64(n1[0], n2[0], carry)
+	nsum := []uint64{d0, d1}
+	fmt.Printf(&#34;%v - %v = %v (carry bit was %v)\n&#34;, n1, n2, nsum, carry)
+
+	// First number is 3&lt;&lt;64 + 9223372036854775807
+	n1 = []uint64{3, 0x7fffffffffffffff}
+	// Second number is 1&lt;&lt;64 + 9223372036854775808
+	n2 = []uint64{1, 0x8000000000000000}
+	// Sub them together producing carry.
+	d1, carry = bits.Sub64(n1[1], n2[1], 0)
+	d0, _ = bits.Sub64(n1[0], n2[0], carry)
+	nsum = []uint64{d0, d1}
+	fmt.Printf(&#34;%v - %v = %v (carry bit was %v)\n&#34;, n1, n2, nsum, carry)
+}
+</pre>
+
+<pre class="Documentation-exampleOutputContainer js-exampleOutputContainer"><span class="Documentation-exampleOutputLabel">Output:</span>
+<span class="Documentation-exampleOutput">[33 23] - [21 12] = [12 11] (carry bit was 0)
+[3 9223372036854775807] - [1 9223372036854775808] = [1 18446744073709551615] (carry bit was 1)
+</span></pre>
+</div>
+<div class="Documentation-exampleButtonsContainer">
+        <p class="Documentation-exampleError" role="alert" aria-atomic="true"></p>
+        <button class="Documentation-exampleShareButton" aria-label="Share Code">Share</button>
+        <button class="Documentation-exampleFormatButton" aria-label="Format Code">Format</button>
+        <button class="Documentation-exampleRunButton" aria-label="Run Code">Run</button>
+      </div></details>
+
+
+  
+
+        </div><div class="Documentation-function">
+	  
+  
+  
+    <h4 tabindex="-1" id="TrailingZeros" data-kind="function" class="Documentation-functionHeader">
+      <span>func <a class="Documentation-source" href="/files$GOROOT/std/math/bits/bits.go#L59">TrailingZeros</a> <a class="Documentation-idLink" href="#TrailingZeros" title="Go to TrailingZeros" aria-label="Go to TrailingZeros">¶</a></span>
+  <span class="Documentation-sinceVersion">
+    
+  </span>
+</h4>
+
+    
+    <div class="Documentation-declaration">
+      <pre>func TrailingZeros(x <a href="/builtin#uint">uint</a>) <a href="/builtin#int">int</a></pre>
+    </div>
+  <p>TrailingZeros returns the number of trailing zero bits in x; the result is <a href="#UintSize">UintSize</a> for x == 0.
+</p>
+
+  
+
+        </div><div class="Documentation-function">
+	  
+  
+  
+    <h4 tabindex="-1" id="TrailingZeros8" data-kind="function" class="Documentation-functionHeader">
+      <span>func <a class="Documentation-source" href="/files$GOROOT/std/math/bits/bits.go#L67">TrailingZeros8</a> <a class="Documentation-idLink" href="#TrailingZeros8" title="Go to TrailingZeros8" aria-label="Go to TrailingZeros8">¶</a></span>
+  <span class="Documentation-sinceVersion">
+    
+  </span>
+</h4>
+
+    
+    <div class="Documentation-declaration">
+      <pre>func TrailingZeros8(x <a href="/builtin#uint8">uint8</a>) <a href="/builtin#int">int</a></pre>
+    </div>
+  <p>TrailingZeros8 returns the number of trailing zero bits in x; the result is 8 for x == 0.
+</p>
+<details tabindex="-1" id="example-TrailingZeros8" class="Documentation-exampleDetails js-exampleContainer">
+<summary class="Documentation-exampleDetailsHeader">Example <a href="#example-TrailingZeros8" title="Go to Example" aria-label="Go to Example">¶</a></summary>
+<div class="Documentation-exampleDetailsBody">
+
+<pre class="Documentation-exampleCode">
+package main
+
+import (
+	&#34;fmt&#34;
+	&#34;math/bits&#34;
+)
+
+func main() {
+	fmt.Printf(&#34;TrailingZeros8(%08b) = %d\n&#34;, 14, bits.TrailingZeros8(14))
+}
+</pre>
+
+<pre class="Documentation-exampleOutputContainer js-exampleOutputContainer"><span class="Documentation-exampleOutputLabel">Output:</span>
+<span class="Documentation-exampleOutput">TrailingZeros8(00001110) = 1
+</span></pre>
+</div>
+<div class="Documentation-exampleButtonsContainer">
+        <p class="Documentation-exampleError" role="alert" aria-atomic="true"></p>
+        <button class="Documentation-exampleShareButton" aria-label="Share Code">Share</button>
+        <button class="Documentation-exampleFormatButton" aria-label="Format Code">Format</button>
+        <button class="Documentation-exampleRunButton" aria-label="Run Code">Run</button>
+      </div></details>
+
+
+  
+
+        </div><div class="Documentation-function">
+	  
+  
+  
+    <h4 tabindex="-1" id="TrailingZeros16" data-kind="function" class="Documentation-functionHeader">
+      <span>func <a class="Documentation-source" href="/files$GOROOT/std/math/bits/bits.go#L72">TrailingZeros16</a> <a class="Documentation-idLink" href="#TrailingZeros16" title="Go to TrailingZeros16" aria-label="Go to TrailingZeros16">¶</a></span>
+  <span class="Documentation-sinceVersion">
+    
+  </span>
+</h4>
+
+    
+    <div class="Documentation-declaration">
+      <pre>func TrailingZeros16(x <a href="/builtin#uint16">uint16</a>) <a href="/builtin#int">int</a></pre>
+    </div>
+  <p>TrailingZeros16 returns the number of trailing zero bits in x; the result is 16 for x == 0.
+</p>
+<details tabindex="-1" id="example-TrailingZeros16" class="Documentation-exampleDetails js-exampleContainer">
+<summary class="Documentation-exampleDetailsHeader">Example <a href="#example-TrailingZeros16" title="Go to Example" aria-label="Go to Example">¶</a></summary>
+<div class="Documentation-exampleDetailsBody">
+
+<pre class="Documentation-exampleCode">
+package main
+
+import (
+	&#34;fmt&#34;
+	&#34;math/bits&#34;
+)
+
+func main() {
+	fmt.Printf(&#34;TrailingZeros16(%016b) = %d\n&#34;, 14, bits.TrailingZeros16(14))
+}
+</pre>
+
+<pre class="Documentation-exampleOutputContainer js-exampleOutputContainer"><span class="Documentation-exampleOutputLabel">Output:</span>
+<span class="Documentation-exampleOutput">TrailingZeros16(0000000000001110) = 1
+</span></pre>
+</div>
+<div class="Documentation-exampleButtonsContainer">
+        <p class="Documentation-exampleError" role="alert" aria-atomic="true"></p>
+        <button class="Documentation-exampleShareButton" aria-label="Share Code">Share</button>
+        <button class="Documentation-exampleFormatButton" aria-label="Format Code">Format</button>
+        <button class="Documentation-exampleRunButton" aria-label="Run Code">Run</button>
+      </div></details>
+
+
+  
+
+        </div><div class="Documentation-function">
+	  
+  
+  
+    <h4 tabindex="-1" id="TrailingZeros32" data-kind="function" class="Documentation-functionHeader">
+      <span>func <a class="Documentation-source" href="/files$GOROOT/std/math/bits/bits.go#L81">TrailingZeros32</a> <a class="Documentation-idLink" href="#TrailingZeros32" title="Go to TrailingZeros32" aria-label="Go to TrailingZeros32">¶</a></span>
+  <span class="Documentation-sinceVersion">
+    
+  </span>
+</h4>
+
+    
+    <div class="Documentation-declaration">
+      <pre>func TrailingZeros32(x <a href="/builtin#uint32">uint32</a>) <a href="/builtin#int">int</a></pre>
+    </div>
+  <p>TrailingZeros32 returns the number of trailing zero bits in x; the result is 32 for x == 0.
+</p>
+<details tabindex="-1" id="example-TrailingZeros32" class="Documentation-exampleDetails js-exampleContainer">
+<summary class="Documentation-exampleDetailsHeader">Example <a href="#example-TrailingZeros32" title="Go to Example" aria-label="Go to Example">¶</a></summary>
+<div class="Documentation-exampleDetailsBody">
+
+<pre class="Documentation-exampleCode">
+package main
+
+import (
+	&#34;fmt&#34;
+	&#34;math/bits&#34;
+)
+
+func main() {
+	fmt.Printf(&#34;TrailingZeros32(%032b) = %d\n&#34;, 14, bits.TrailingZeros32(14))
+}
+</pre>
+
+<pre class="Documentation-exampleOutputContainer js-exampleOutputContainer"><span class="Documentation-exampleOutputLabel">Output:</span>
+<span class="Documentation-exampleOutput">TrailingZeros32(00000000000000000000000000001110) = 1
+</span></pre>
+</div>
+<div class="Documentation-exampleButtonsContainer">
+        <p class="Documentation-exampleError" role="alert" aria-atomic="true"></p>
+        <button class="Documentation-exampleShareButton" aria-label="Share Code">Share</button>
+        <button class="Documentation-exampleFormatButton" aria-label="Format Code">Format</button>
+        <button class="Documentation-exampleRunButton" aria-label="Run Code">Run</button>
+      </div></details>
+
+
+  
+
+        </div><div class="Documentation-function">
+	  
+  
+  
+    <h4 tabindex="-1" id="TrailingZeros64" data-kind="function" class="Documentation-functionHeader">
+      <span>func <a class="Documentation-source" href="/files$GOROOT/std/math/bits/bits.go#L90">TrailingZeros64</a> <a class="Documentation-idLink" href="#TrailingZeros64" title="Go to TrailingZeros64" aria-label="Go to TrailingZeros64">¶</a></span>
+  <span class="Documentation-sinceVersion">
+    
+  </span>
+</h4>
+
+    
+    <div class="Documentation-declaration">
+      <pre>func TrailingZeros64(x <a href="/builtin#uint64">uint64</a>) <a href="/builtin#int">int</a></pre>
+    </div>
+  <p>TrailingZeros64 returns the number of trailing zero bits in x; the result is 64 for x == 0.
+</p>
+<details tabindex="-1" id="example-TrailingZeros64" class="Documentation-exampleDetails js-exampleContainer">
+<summary class="Documentation-exampleDetailsHeader">Example <a href="#example-TrailingZeros64" title="Go to Example" aria-label="Go to Example">¶</a></summary>
+<div class="Documentation-exampleDetailsBody">
+
+<pre class="Documentation-exampleCode">
+package main
+
+import (
+	&#34;fmt&#34;
+	&#34;math/bits&#34;
+)
+
+func main() {
+	fmt.Printf(&#34;TrailingZeros64(%064b) = %d\n&#34;, 14, bits.TrailingZeros64(14))
+}
+</pre>
+
+<pre class="Documentation-exampleOutputContainer js-exampleOutputContainer"><span class="Documentation-exampleOutputLabel">Output:</span>
+<span class="Documentation-exampleOutput">TrailingZeros64(0000000000000000000000000000000000000000000000000000000000001110) = 1
+</span></pre>
+</div>
+<div class="Documentation-exampleButtonsContainer">
+        <p class="Documentation-exampleError" role="alert" aria-atomic="true"></p>
+        <button class="Documentation-exampleShareButton" aria-label="Share Code">Share</button>
+        <button class="Documentation-exampleFormatButton" aria-label="Format Code">Format</button>
+        <button class="Documentation-exampleRunButton" aria-label="Run Code">Run</button>
+      </div></details>
+
+
+  
+
+        </div></section>
+
+  <h3 tabindex="-1" id="pkg-types" class="Documentation-typesHeader">Types <a href="#pkg-types" title="Go to Types" aria-label="Go to Types">¶</a></h3>
+
+  <section class="Documentation-types"><p class="Documentation-empty">This section is empty.</p></section></div> 
+
+
+
+
+
+
+
+      
+    </div>
+  </div>
+
+        
+      
+      
+        
+  <div class="UnitFiles js-unitFiles">
+    <h2 class="UnitFiles-title" id="section-sourcefiles">
+      <img class="go-Icon" height="24" width="24" src="/static/shared/icon/insert_drive_file_gm_grey_24dp.svg" alt="">
+      Source Files
+      <a class="UnitFiles-idLink" href="#section-sourcefiles" title="Go to Source Files" aria-label="Go to Source Files">¶</a>
+    </h2><div class="UnitFiles-titleLink">
+      <a href="/files$GOROOT/std/math/bits" target="_blank" rel="noopener">View all Source files</a>
+    </div><div>
+      <ul class="UnitFiles-fileList"><li><a href="/files$GOROOT/std/math/bits/bits.go" target="_blank" rel="noopener" title="bits.go">bits.go</a></li><li><a href="/files$GOROOT/std/math/bits/bits_errors.go" target="_blank" rel="noopener" title="bits_errors.go">bits_errors.go</a></li><li><a href="/files$GOROOT/std/math/bits/bits_tables.go" target="_blank" rel="noopener" title="bits_tables.go">bits_tables.go</a></li></ul>
+    </div>
+  </div>
+
+      
+      
+    </div>
+  </div>
+  <div id="showInternal-description" hidden> Click to show internal directories. </div>
+  <div id="hideInternal-description" hidden> Click to hide internal directories. </div>
+</article>
+    <footer class="go-Main-footer"></footer>
+  </main>
+
+    
+  <footer class="go-Footer">
+    
+    <div class="go-Footer-links">
+      <div class="go-Footer-linkColumn">
+        <a href="https://go.dev/solutions" class="go-Footer-link go-Footer-link--primary"
+            data-gtmc="footer link">
+          Why Go
+        </a>
+        <a href="https://go.dev/solutions/use-cases" class="go-Footer-link"
+            data-gtmc="footer link">
+          Use Cases
+        </a>
+        <a href="https://go.dev/solutions/case-studies" class="go-Footer-link"
+            data-gtmc="footer link">
+          Case Studies
+        </a>
+      </div>
+      <div class="go-Footer-linkColumn">
+        <a href="https://learn.go.dev/" class="go-Footer-link go-Footer-link--primary"
+            data-gtmc="footer link">
+          Get Started
+        </a>
+        <a href="https://play.golang.org" class="go-Footer-link" data-gtmc="footer link">
+          Playground
+        </a>
+        <a href="https://tour.golang.org" class="go-Footer-link" data-gtmc="footer link">
+          Tour
+        </a>
+        <a href="https://stackoverflow.com/questions/tagged/go?tab=Newest" class="go-Footer-link"
+            data-gtmc="footer link">
+          Stack Overflow
+        </a>
+        <a href="https://go.dev/help" class="go-Footer-link"
+            data-gtmc="footer link">
+          Help
+        </a>
+      </div>
+      <div class="go-Footer-linkColumn">
+        <a href="https://pkg.go.dev" class="go-Footer-link go-Footer-link--primary"
+            data-gtmc="footer link">
+          Packages
+        </a>
+        <a href="/std" class="go-Footer-link" data-gtmc="footer link">
+          Standard Library
+        </a>
+        <a href="/golang.org/x" class="go-Footer-link" data-gtmc="footer link">
+          Sub-repositories
+        </a>
+        <a href="https://pkg.go.dev/about" class="go-Footer-link" data-gtmc="footer link">
+          About Go Packages
+        </a>
+         <a href="/api" class="go-Footer-link" data-gtmc="footer link">
+          pkg.go.dev API
+        </a>
+      </div>
+      <div class="go-Footer-linkColumn">
+        <a href="https://go.dev/project" class="go-Footer-link go-Footer-link--primary"
+            data-gtmc="footer link">
+          About
+        </a>
+        <a href="https://go.dev/dl/" class="go-Footer-link" data-gtmc="footer link">Download</a>
+        <a href="https://go.dev/blog" class="go-Footer-link" data-gtmc="footer link">Blog</a>
+        <a href="https://github.com/golang/go/issues" class="go-Footer-link" data-gtmc="footer link">
+          Issue Tracker
+        </a>
+        <a href="https://go.dev/doc/devel/release.html" class="go-Footer-link"
+            data-gtmc="footer link">
+          Release Notes
+        </a>
+        <a href="https://go.dev/brand" class="go-Footer-link" data-gtmc="footer link">
+          Brand Guidelines
+        </a>
+        <a href="https://go.dev/conduct" class="go-Footer-link" data-gtmc="footer link">
+          Code of Conduct
+        </a>
+      </div>
+      <div class="go-Footer-linkColumn">
+        <a href="https://www.twitter.com/golang" class="go-Footer-link go-Footer-link--primary"
+            data-gtmc="footer link">
+          Connect
+        </a>
+        <a href="https://www.twitter.com/golang" class="go-Footer-link" data-gtmc="footer link">
+          Twitter
+        </a>
+        <a href="https://github.com/golang" class="go-Footer-link" data-gtmc="footer link">GitHub</a>
+        <a href="https://invite.slack.golangbridge.org/" class="go-Footer-link"
+            data-gtmc="footer link">
+          Slack
+        </a>
+        <a href="https://reddit.com/r/golang" class="go-Footer-link" data-gtmc="footer link">
+          r/golang
+        </a>
+        <a href="https://www.meetup.com/pro/go" class="go-Footer-link" data-gtmc="footer link">
+          Meetup
+        </a>
+        <a href="https://golangweekly.com/" class="go-Footer-link" data-gtmc="footer link">
+          Golang Weekly
+        </a>
+      </div>
+    </div>
+    <div class="go-Footer-bottom">
+      <img class="go-Footer-gopher"  width="1431" height="901"
+          src="/static/shared/gopher/pilot-bust-1431x901.svg" alt="Gopher in flight goggles">
+      <ul class="go-Footer-listRow">
+        <li class="go-Footer-listItem">
+          <a href="https://go.dev/copyright" data-gtmc="footer link">Copyright</a>
+        </li>
+        <li class="go-Footer-listItem">
+          <a href="https://go.dev/tos" data-gtmc="footer link">Terms of Service</a>
+        </li>
+        <li class="go-Footer-listItem">
+          <a href="http://www.google.com/intl/en/policies/privacy/" data-gtmc="footer link"
+              target="_blank" rel="noopener">
+            Privacy Policy
+          </a>
+        </li>
+        <li class="go-Footer-listItem">
+          <a href="https://go.dev/s/pkgsite-feedback" target="_blank" rel="noopener"
+              data-gtmc="footer link">
+            Report an Issue
+          </a>
+        </li>
+        <li class="go-Footer-listItem">
+          <button class="go-Button go-Button--text go-Footer-toggleTheme js-toggleTheme" aria-label="Theme Toggle">
+            <img data-value="auto" class="go-Icon go-Icon--inverted" height="24" width="24" src="/static/shared/icon/brightness_6_gm_grey_24dp.svg" alt="System theme">
+            <img data-value="dark" class="go-Icon go-Icon--inverted" height="24" width="24" src="/static/shared/icon/brightness_2_gm_grey_24dp.svg" alt="Dark theme">
+            <img data-value="light" class="go-Icon go-Icon--inverted" height="24" width="24" src="/static/shared/icon/light_mode_gm_grey_24dp.svg" alt="Light theme">
+            <p> Theme Toggle </p>
+          </button>
+        </li>
+        <li class="go-Footer-listItem">
+          <button class="go-Button go-Button--text go-Footer-keyboard js-openShortcuts" aria-label="Shorcuts Modal">
+            <img class="go-Icon go-Icon--inverted" height="24" width="24" src="/static/shared/icon/keyboard_grey_24dp.svg" alt="">
+            <p> Shortcuts Modal </p>
+          </button>
+        </li>
+      </ul>
+      <a class="go-Footer-googleLogo" href="https://google.com" target="_blank"rel="noopener"
+          data-gtmc="footer link">
+        <img class="go-Footer-googleLogoImg" height="24" width="72"
+            src="/static/shared/logo/google-white.svg" alt="Google logo">
+      </a>
+    </div>
+  </footer>
+
+    
+  <dialog id="jump-to-modal" class="JumpDialog go-Modal go-Modal--md js-modal">
+    <form method="dialog" data-gmtc="jump to form" aria-label="Jump to Identifier">
+      <div class="Dialog-title go-Modal-header">
+        <h2>Jump to</h2>
+        <button
+          class="go-Button go-Button--inline"
+          type="button"
+          data-modal-close
+          data-gtmc="modal button"
+          aria-label="Close"
+        >
+          <img
+            class="go-Icon"
+            height="24"
+            width="24"
+            src="/static/shared/icon/close_gm_grey_24dp.svg"
+            alt=""
+          />
+        </button>
+      </div>
+      <div class="JumpDialog-filter">
+        <input class="JumpDialog-input go-Input" autocomplete="off" type="text">
+      </div>
+      <div class="JumpDialog-body go-Modal-body">
+        <div class="JumpDialog-list"></div>
+      </div>
+      <div class="go-Modal-actions">
+        <button class="go-Button" data-test-id="close-dialog">Close</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog class="ShortcutsDialog go-Modal go-Modal--sm js-modal">
+    <form method="dialog">
+      <div class="go-Modal-header">
+        <h2>Keyboard shortcuts</h2>
+        <button
+          class="go-Button go-Button--inline"
+          type="button"
+          data-modal-close
+          data-gtmc="modal button"
+          aria-label="Close"
+        >
+          <img
+            class="go-Icon"
+            height="24"
+            width="24"
+            src="/static/shared/icon/close_gm_grey_24dp.svg"
+            alt=""
+          />
+        </button>
+      </div>
+      <div class="go-Modal-body">
+        <table>
+          <tbody>
+            <tr><td class="ShortcutsDialog-key">
+              <strong>?</strong></td><td> : This menu</td>
+            </tr>
+            <tr><td class="ShortcutsDialog-key">
+              <strong>/</strong></td><td> : Search site</td>
+            </tr>
+            <tr><td class="ShortcutsDialog-key">
+              <strong>f</strong> or <strong>F</strong></td><td> : Jump to</td>
+            </tr>
+            <tr>
+              <td class="ShortcutsDialog-key"><strong>y</strong> or <strong>Y</strong></td>
+              <td> : Canonical URL</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="go-Modal-actions">
+        <button class="go-Button" data-test-id="close-dialog">Close</button>
+      </div>
+    </form>
+  </dialog>
+
+    
+    
+    
+  
+  <div class="js-canonicalURLPath" data-canonical-url-path="/math/bits@go1.27.1" hidden></div>
+  <div class="js-playgroundVars" data-modulepath="std" data-version="v1.27.1" hidden></div>
+  <script>
+    loadScript('/static/frontend/unit/main/main.js')
+  </script>
+
+  <script>
+    loadScript('/static/frontend/unit/unit.js')
+  </script>
+
+  </body>
+</html>

@@ -1,0 +1,6 @@
+{
+  "name": "rfct-servicenow-harness",
+  "private": true,
+  "license": "UNLICENSED",
+  "devDependencies": { "@servicenow/sdk": "4.13.0" }
+}

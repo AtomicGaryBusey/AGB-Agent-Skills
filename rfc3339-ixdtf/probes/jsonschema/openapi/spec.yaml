@@ -1,0 +1,20 @@
+openapi: 3.0.3
+info: {title: t, version: "1"}
+paths:
+  /e:
+    get:
+      operationId: getE
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Event'}
+components:
+  schemas:
+    Event:
+      type: object
+      required: [at]
+      properties:
+        at: {type: string, format: date-time}
+        day: {type: string, format: date}

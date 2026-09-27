@@ -1,0 +1,27 @@
+-- risky (each should hit)
+CREATE TABLE ev (id int, at timestamp NOT NULL, seen TIMESTAMP(3) DEFAULT now());
+CREATE TABLE ev2 (at timestamp without time zone);
+INSERT INTO ev SELECT $1::timestamp;
+SELECT $1::timestamptz;
+SELECT CAST(:ts AS timestamptz);
+SELECT created_at::text FROM ev;
+SELECT 'at=' || created_at FROM ev;
+SELECT to_char(created_at, 'YYYY-MM-DD"T"HH24:MI:SS"Z"') FROM ev;
+SELECT to_char(created_at, 'YYYY-MM-DD"T"HH24:MI:SSOF') FROM ev;
+SELECT to_char(created_at, 'YYYY-MM-DD"T"HH:MI:SSTZH:TZM') FROM ev;
+SELECT to_char(created_at, 'IYYY-MM-DD') FROM ev;
+SELECT to_timestamp($1, 'YYYY-MM-DD"T"HH24:MI:SSTZH:TZM');
+SELECT jsonb_path_query(doc, '$.at.datetime()') FROM ev;
+SELECT to_json(created_at AT TIME ZONE 'UTC');
+SET TIME ZONE 'America/New_York';
+SET DateStyle = 'SQL, DMY';
+-- sqlite
+SELECT datetime('now'), CURRENT_TIMESTAMP;
+SELECT strftime('%Y-%m-%dT%H:%M:%SZ', 'now', 'localtime');
+CREATE TABLE t (at TEXT CHECK (datetime(at) IS NOT NULL));
+-- safe (should not hit the Z / OF / cast rows)
+SELECT to_char(created_at AT TIME ZONE 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS.US"Z"') FROM ev;
+SELECT to_char(created_at, 'YYYY-MM-DD"T"HH24:MI:SS.USTZH:TZM') FROM ev;
+SELECT to_json(created_at) FROM ev;
+CREATE TABLE ok (at timestamptz NOT NULL);
+SELECT strftime('%Y-%m-%dT%H:%M:%fZ', at) FROM t;

@@ -1,0 +1,22 @@
+{
+  "name": "rfc3339-ixdtf",
+  "version": "1.0.0",
+  "description": "Audit code, schemas and APIs for RFC 3339 Internet timestamps and RFC 9557 (IXDTF) suffixes: parsing, validating and emitting date-times in Python, JS/Temporal, Java, .NET, Go, Rust, Swift and ServiceNow, with a stdlib checker, conformance vectors and a risky-API scanner.",
+  "author": {
+    "name": "Alex Harmon"
+  },
+  "license": "MIT",
+  "keywords": [
+    "rfc3339",
+    "rfc9557",
+    "ixdtf",
+    "iso8601",
+    "timestamp",
+    "date-time",
+    "temporal",
+    "audit"
+  ],
+  "skills": [
+    "./"
+  ]
+}

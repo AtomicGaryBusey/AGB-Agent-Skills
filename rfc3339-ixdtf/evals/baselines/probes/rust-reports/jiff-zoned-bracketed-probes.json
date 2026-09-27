@@ -1,0 +1,370 @@
+[
+ {
+  "id": "base",
+  "cat": "valid",
+  "input": "2026-09-24T12:00:00Z[Europe/Paris]",
+  "ok": true,
+  "zoned": "2026-09-24T14:00:00+02:00[Europe/Paris]",
+  "err": ""
+ },
+ {
+  "id": "lc-t",
+  "cat": "valid",
+  "input": "2026-09-24t12:00:00Z[Europe/Paris]",
+  "ok": true,
+  "zoned": "2026-09-24T14:00:00+02:00[Europe/Paris]",
+  "err": ""
+ },
+ {
+  "id": "lc-z",
+  "cat": "valid",
+  "input": "2026-09-24T12:00:00z[Europe/Paris]",
+  "ok": true,
+  "zoned": "2026-09-24T14:00:00+02:00[Europe/Paris]",
+  "err": ""
+ },
+ {
+  "id": "space",
+  "cat": "ext",
+  "input": "2026-09-24 12:00:00Z[Europe/Paris]",
+  "ok": true,
+  "zoned": "2026-09-24T14:00:00+02:00[Europe/Paris]",
+  "err": ""
+ },
+ {
+  "id": "off-plus0",
+  "cat": "valid",
+  "input": "2026-09-24T12:00:00+00:00[+00:00]",
+  "ok": true,
+  "zoned": "2026-09-24T12:00:00+00:00[UTC]",
+  "err": ""
+ },
+ {
+  "id": "off-minus0",
+  "cat": "valid",
+  "input": "2026-09-24T12:00:00-00:00[-00:00]",
+  "ok": true,
+  "zoned": "2026-09-24T12:00:00+00:00[UTC]",
+  "err": ""
+ },
+ {
+  "id": "off-2359",
+  "cat": "valid",
+  "input": "2026-09-24T12:00:00+23:59[+23:59]",
+  "ok": true,
+  "zoned": "2026-09-24T12:00:00+23:59[+23:59]",
+  "err": ""
+ },
+ {
+  "id": "off-0530",
+  "cat": "valid",
+  "input": "2026-09-24T12:00:00+05:30[+05:30]",
+  "ok": true,
+  "zoned": "2026-09-24T12:00:00+05:30[+05:30]",
+  "err": ""
+ },
+ {
+  "id": "off-2400",
+  "cat": "invalid",
+  "input": "2026-09-24T12:00:00+24:00[+24:00]",
+  "ok": true,
+  "zoned": "2026-09-24T12:00:00+24:00[+24:00]",
+  "err": ""
+ },
+ {
+  "id": "off-2360",
+  "cat": "invalid",
+  "input": "2026-09-24T12:00:00+23:60[+23:60]",
+  "ok": false,
+  "zoned": null,
+  "err": "failed to parse minutes in UTC numeric offset: failed to parse minutes (requires a two dig"
+ },
+ {
+  "id": "off-nocolon",
+  "cat": "invalid",
+  "input": "2026-09-24T12:00:00+0200[+02:00]",
+  "ok": true,
+  "zoned": "2026-09-24T12:00:00+02:00[+02:00]",
+  "err": ""
+ },
+ {
+  "id": "off-hh",
+  "cat": "invalid",
+  "input": "2026-09-24T12:00:00+02[+02:00]",
+  "ok": true,
+  "zoned": "2026-09-24T12:00:00+02:00[+02:00]",
+  "err": ""
+ },
+ {
+  "id": "h24",
+  "cat": "invalid",
+  "input": "2026-09-24T24:00:00Z[Europe/Paris]",
+  "ok": false,
+  "zoned": null,
+  "err": "failed to parse two digit integer as hour: parameter 'hour' is not in the required range o"
+ },
+ {
+  "id": "leap-real",
+  "cat": "leap-real",
+  "input": "2016-12-31T23:59:60Z[Europe/Paris]",
+  "ok": true,
+  "zoned": "2017-01-01T00:59:59+01:00[Europe/Paris]",
+  "err": ""
+ },
+ {
+  "id": "leap-realoff",
+  "cat": "leap-real",
+  "input": "2016-12-31T18:59:60-05:00[-05:00]",
+  "ok": true,
+  "zoned": "2016-12-31T18:59:59-05:00[-05:00]",
+  "err": ""
+ },
+ {
+  "id": "leap-fake",
+  "cat": "leap-fake",
+  "input": "2026-09-24T23:59:60Z[Europe/Paris]",
+  "ok": true,
+  "zoned": "2026-09-25T01:59:59+02:00[Europe/Paris]",
+  "err": ""
+ },
+ {
+  "id": "leap-mid",
+  "cat": "leap-fake",
+  "input": "2026-09-24T12:00:60Z[Europe/Paris]",
+  "ok": true,
+  "zoned": "2026-09-24T14:00:59+02:00[Europe/Paris]",
+  "err": ""
+ },
+ {
+  "id": "frac1",
+  "cat": "valid",
+  "input": "2026-09-24T12:00:00.1Z[Europe/Paris]",
+  "ok": true,
+  "zoned": "2026-09-24T14:00:00.1+02:00[Europe/Paris]",
+  "err": ""
+ },
+ {
+  "id": "frac3",
+  "cat": "valid",
+  "input": "2026-09-24T12:00:00.123Z[Europe/Paris]",
+  "ok": true,
+  "zoned": "2026-09-24T14:00:00.123+02:00[Europe/Paris]",
+  "err": ""
+ },
+ {
+  "id": "frac6",
+  "cat": "valid",
+  "input": "2026-09-24T12:00:00.123456Z[Europe/Paris]",
+  "ok": true,
+  "zoned": "2026-09-24T14:00:00.123456+02:00[Europe/Paris]",
+  "err": ""
+ },
+ {
+  "id": "frac7",
+  "cat": "valid",
+  "input": "2026-09-24T12:00:00.1234567Z[Europe/Paris]",
+  "ok": true,
+  "zoned": "2026-09-24T14:00:00.1234567+02:00[Europe/Paris]",
+  "err": ""
+ },
+ {
+  "id": "frac9",
+  "cat": "valid",
+  "input": "2026-09-24T12:00:00.123456789Z[Europe/Paris]",
+  "ok": true,
+  "zoned": "2026-09-24T14:00:00.123456789+02:00[Europe/Paris]",
+  "err": ""
+ },
+ {
+  "id": "frac12",
+  "cat": "valid",
+  "input": "2026-09-24T12:00:00.123456789012Z[Europe/Paris]",
+  "ok": false,
+  "zoned": null,
+  "err": "parsed value '2026-09-24T12:00:00.123456789', but unparsed input \"012Z[Europe/Paris]\" rema"
+ },
+ {
+  "id": "frac-empty",
+  "cat": "invalid",
+  "input": "2026-09-24T12:00:00.Z[Europe/Paris]",
+  "ok": false,
+  "zoned": null,
+  "err": "failed to parse fractional seconds in time: found decimal after seconds component, but did"
+ },
+ {
+  "id": "comma",
+  "cat": "invalid",
+  "input": "2026-09-24T12:00:00,5Z[Europe/Paris]",
+  "ok": true,
+  "zoned": "2026-09-24T14:00:00.5+02:00[Europe/Paris]",
+  "err": ""
+ },
+ {
+  "id": "no-sec",
+  "cat": "invalid",
+  "input": "2026-09-24T12:00Z[Europe/Paris]",
+  "ok": true,
+  "zoned": "2026-09-24T14:00:00+02:00[Europe/Paris]",
+  "err": ""
+ },
+ {
+  "id": "no-off",
+  "cat": "invalid",
+  "input": "2026-09-24T12:00:00[:00:00]",
+  "ok": false,
+  "zoned": null,
+  "err": "expected ASCII alphabetic byte (or underscore or period) at the start of an RFC 9557 annot"
+ },
+ {
+  "id": "date-only",
+  "cat": "invalid",
+  "input": "2026-09-24[-24:00]",
+  "ok": true,
+  "zoned": "2026-09-24T00:00:00-24:00[-24:00]",
+  "err": ""
+ },
+ {
+  "id": "basic",
+  "cat": "invalid",
+  "input": "20260924T120000Z[Europe/Paris]",
+  "ok": true,
+  "zoned": "2026-09-24T14:00:00+02:00[Europe/Paris]",
+  "err": ""
+ },
+ {
+  "id": "week",
+  "cat": "invalid",
+  "input": "2026-W39-4T12:00:00Z[Europe/Paris]",
+  "ok": false,
+  "zoned": null,
+  "err": "failed to parse two digit integer as month: invalid digit, expected 0-9 but got W"
+ },
+ {
+  "id": "ordinal",
+  "cat": "invalid",
+  "input": "2026-267T12:00:00Z[Europe/Paris]",
+  "ok": false,
+  "zoned": null,
+  "err": "failed to parse two digit integer as month: parameter 'month' is not in the required range"
+ },
+ {
+  "id": "one-digit",
+  "cat": "invalid",
+  "input": "2026-9-24T12:00:00Z[Europe/Paris]",
+  "ok": false,
+  "zoned": null,
+  "err": "failed to parse two digit integer as month: invalid digit, expected 0-9 but got -"
+ },
+ {
+  "id": "lead-ws",
+  "cat": "invalid",
+  "input": " 2026-09-24T12:00:00Z[Europe/Paris]",
+  "ok": false,
+  "zoned": null,
+  "err": "failed to parse four digit integer as year: invalid digit, expected 0-9 but got  "
+ },
+ {
+  "id": "trail-ws",
+  "cat": "invalid",
+  "input": "2026-09-24T12:00:00Z[Europe/Paris]\n",
+  "ok": false,
+  "zoned": null,
+  "err": "parsed value '2026-09-24T12:00:00Z[Europe/Paris]', but unparsed input \"\\n\" remains (expect"
+ },
+ {
+  "id": "arabic-dig",
+  "cat": "invalid",
+  "input": "\u0662\u0660\u0662\u0666-09-24T12:00:00Z[Europe/Paris]",
+  "ok": false,
+  "zoned": null,
+  "err": "failed to parse four digit integer as year: invalid digit, expected 0-9 but got \\xD9"
+ },
+ {
+  "id": "y0000",
+  "cat": "range",
+  "input": "0000-01-01T00:00:00Z[Europe/Paris]",
+  "ok": true,
+  "zoned": "0000-01-01T00:09:21+00:09[Europe/Paris]",
+  "err": ""
+ },
+ {
+  "id": "y0001",
+  "cat": "valid",
+  "input": "0001-01-01T00:00:00Z[Europe/Paris]",
+  "ok": true,
+  "zoned": "0001-01-01T00:09:21+00:09[Europe/Paris]",
+  "err": ""
+ },
+ {
+  "id": "y9999",
+  "cat": "valid",
+  "input": "9999-12-31T23:59:59Z[Europe/Paris]",
+  "ok": false,
+  "zoned": null,
+  "err": "error converting datetime to instant in time zone Europe/Paris: converting datetime with t"
+ },
+ {
+  "id": "y10000",
+  "cat": "invalid",
+  "input": "10000-01-01T00:00:00Z[Europe/Paris]",
+  "ok": false,
+  "zoned": null,
+  "err": "failed to parse two digit integer as month: invalid digit, expected 0-9 but got -"
+ },
+ {
+  "id": "y+10000",
+  "cat": "invalid",
+  "input": "+10000-01-01T00:00:00Z[Europe/Paris]",
+  "ok": false,
+  "zoned": null,
+  "err": "failed to parse six digit integer as year: invalid digit, expected 0-9 but got -"
+ },
+ {
+  "id": "y+6",
+  "cat": "invalid",
+  "input": "+002026-09-24T12:00:00Z[Europe/Paris]",
+  "ok": true,
+  "zoned": "2026-09-24T14:00:00+02:00[Europe/Paris]",
+  "err": ""
+ },
+ {
+  "id": "y-0001",
+  "cat": "invalid",
+  "input": "-0001-01-01T00:00:00Z[Europe/Paris]",
+  "ok": false,
+  "zoned": null,
+  "err": "failed to parse six digit integer as year: invalid digit, expected 0-9 but got -"
+ },
+ {
+  "id": "feb29-2026",
+  "cat": "invalid",
+  "input": "2026-02-29T12:00:00Z[Europe/Paris]",
+  "ok": false,
+  "zoned": null,
+  "err": "parsed date is not valid: parameter 'day' for `2026-02` is invalid, must be in range `1..="
+ },
+ {
+  "id": "feb30-2024",
+  "cat": "invalid",
+  "input": "2024-02-30T12:00:00Z[Europe/Paris]",
+  "ok": false,
+  "zoned": null,
+  "err": "parsed date is not valid: parameter 'day' for `2024-02` is invalid, must be in range `1..="
+ },
+ {
+  "id": "feb29-2024",
+  "cat": "valid",
+  "input": "2024-02-29T12:00:00Z[Europe/Paris]",
+  "ok": true,
+  "zoned": "2024-02-29T13:00:00+01:00[Europe/Paris]",
+  "err": ""
+ },
+ {
+  "id": "apr31",
+  "cat": "invalid",
+  "input": "2026-04-31T12:00:00Z[Europe/Paris]",
+  "ok": false,
+  "zoned": null,
+  "err": "parsed date is not valid: parameter 'day' for `2026-04` is invalid, must be in range `1..="
+ }
+]

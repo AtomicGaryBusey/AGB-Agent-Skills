@@ -1,0 +1,9 @@
+{
+  "name": "rfct-build-diff",
+  "version": "0.0.1",
+  "private": true,
+  "license": "UNLICENSED",
+  "imports": {
+    "#now:*": "./@types/servicenow/fluent/*/index.js"
+  }
+}

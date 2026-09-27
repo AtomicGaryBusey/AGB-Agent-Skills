@@ -1,0 +1,491 @@
+{
+ "meta": {
+  "source": "INVENTED mini dictionary for tests (not from ASD-STE100)",
+  "issue_date": "2025-01-15",
+  "pdf_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "built_at": "2026-01-01T00:00:00+00:00",
+  "builder_version": "1.0.0",
+  "counts": {
+   "approved": 7,
+   "not_approved": 7,
+   "entries": 14
+  },
+  "expected_counts": {
+   "approved": 7,
+   "not_approved": 7
+  },
+  "notes": [
+   "All words and meanings in this file are invented. Safe to commit."
+  ]
+ },
+ "entries": [
+  {
+   "word": "blent",
+   "display": "BLENT",
+   "pos": "v",
+   "approved": true,
+   "meaning": "To join two zibs into one",
+   "forms": [
+    "blent",
+    "blents",
+    "blented"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "brove",
+   "display": "BROVE",
+   "pos": "v",
+   "approved": true,
+   "meaning": "To move a zib to a new place",
+   "forms": [
+    "brove",
+    "broves",
+    "broven"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "frump",
+   "display": "FRUMP",
+   "pos": "adj",
+   "approved": true,
+   "meaning": "Having a high glim level",
+   "forms": [
+    "frump",
+    "frumper",
+    "frumpest"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "glimmet",
+   "display": "GLIMMET",
+   "pos": "n",
+   "approved": true,
+   "meaning": "A small part of a zib",
+   "forms": [
+    "glimmet",
+    "glimmets"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "glimmet",
+   "display": "glimmet",
+   "pos": "v",
+   "approved": false,
+   "meaning": null,
+   "forms": [
+    "glimmet"
+   ],
+   "alternatives": [
+    {
+     "word": "blent",
+     "pos": "v",
+     "kind": "approved"
+    }
+   ],
+   "variants": [
+    "glimmets",
+    "glimmeted",
+    "glimmeting",
+    "glimmetted",
+    "glimmetting"
+   ]
+  },
+  {
+   "word": "quask",
+   "display": "QUASK",
+   "pos": "adv",
+   "approved": true,
+   "meaning": "In a frump manner",
+   "forms": [
+    "quask"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "tollo",
+   "display": "TOLLO",
+   "pos": "prep",
+   "approved": true,
+   "meaning": "In a position next to",
+   "forms": [
+    "tollo"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "grallow",
+   "display": "grallow",
+   "pos": "v",
+   "approved": false,
+   "meaning": null,
+   "forms": [
+    "grallow"
+   ],
+   "alternatives": [
+    {
+     "word": "wobblate",
+     "pos": null,
+     "kind": "TV"
+    },
+    {
+     "word": "brove",
+     "pos": "v",
+     "kind": "approved"
+    }
+   ],
+   "variants": [
+    "grallows",
+    "grallowed",
+    "grallowing"
+   ]
+  },
+  {
+   "word": "quibbet",
+   "display": "quibbet",
+   "pos": "n",
+   "approved": false,
+   "meaning": null,
+   "forms": [
+    "quibbet"
+   ],
+   "alternatives": [
+    {
+     "word": "glimmet",
+     "pos": "n",
+     "kind": "approved"
+    },
+    {
+     "word": "wobbin",
+     "pos": null,
+     "kind": "TN"
+    }
+   ],
+   "variants": [
+    "quibbets"
+   ]
+  },
+  {
+   "word": "snarfle",
+   "display": "snarfle",
+   "pos": "v",
+   "approved": false,
+   "meaning": null,
+   "forms": [
+    "snarfle"
+   ],
+   "alternatives": [
+    {
+     "word": "blent",
+     "pos": "v",
+     "kind": "approved"
+    }
+   ],
+   "variants": [
+    "snarfles",
+    "snarfled",
+    "snarfling"
+   ]
+  },
+  {
+   "word": "zanty",
+   "display": "zanty",
+   "pos": "adj",
+   "approved": false,
+   "meaning": null,
+   "forms": [
+    "zanty"
+   ],
+   "alternatives": [
+    {
+     "word": "at the same glimmet",
+     "pos": null,
+     "kind": "approved"
+    }
+   ]
+  },
+  {
+   "word": "as vorp as",
+   "display": "vorp (as vorp as)",
+   "pos": "conj",
+   "approved": false,
+   "meaning": null,
+   "forms": [
+    "as vorp as"
+   ],
+   "alternatives": [
+    {
+     "word": "tollo",
+     "pos": "prep",
+     "kind": "approved"
+    }
+   ]
+  },
+  {
+   "word": "plux exempli",
+   "display": "PLUX EXEMPLI",
+   "pos": null,
+   "approved": true,
+   "meaning": "Used to introduce a sample zib",
+   "forms": [
+    "plux exempli"
+   ],
+   "alternatives": []
+  },
+  {
+   "word": "drelled",
+   "display": "drelled",
+   "pos": "adj",
+   "approved": false,
+   "meaning": null,
+   "forms": [
+    "drelled"
+   ],
+   "alternatives": []
+  }
+ ],
+ "forms": {
+  "as vorp as": [
+   {
+    "word": "as vorp as",
+    "pos": "conj",
+    "approved": false
+   }
+  ],
+  "blent": [
+   {
+    "word": "blent",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "blented": [
+   {
+    "word": "blent",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "blents": [
+   {
+    "word": "blent",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "brove": [
+   {
+    "word": "brove",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "broven": [
+   {
+    "word": "brove",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "broves": [
+   {
+    "word": "brove",
+    "pos": "v",
+    "approved": true
+   }
+  ],
+  "drelled": [
+   {
+    "word": "drelled",
+    "pos": "adj",
+    "approved": false
+   }
+  ],
+  "frump": [
+   {
+    "word": "frump",
+    "pos": "adj",
+    "approved": true
+   }
+  ],
+  "frumper": [
+   {
+    "word": "frump",
+    "pos": "adj",
+    "approved": true
+   }
+  ],
+  "frumpest": [
+   {
+    "word": "frump",
+    "pos": "adj",
+    "approved": true
+   }
+  ],
+  "glimmet": [
+   {
+    "word": "glimmet",
+    "pos": "n",
+    "approved": true
+   },
+   {
+    "word": "glimmet",
+    "pos": "v",
+    "approved": false
+   }
+  ],
+  "glimmeted": [
+   {
+    "word": "glimmet",
+    "pos": "v",
+    "approved": false,
+    "variant": true
+   }
+  ],
+  "glimmeting": [
+   {
+    "word": "glimmet",
+    "pos": "v",
+    "approved": false,
+    "variant": true
+   }
+  ],
+  "glimmets": [
+   {
+    "word": "glimmet",
+    "pos": "n",
+    "approved": true
+   },
+   {
+    "word": "glimmet",
+    "pos": "v",
+    "approved": false,
+    "variant": true
+   }
+  ],
+  "glimmetted": [
+   {
+    "word": "glimmet",
+    "pos": "v",
+    "approved": false,
+    "variant": true
+   }
+  ],
+  "glimmetting": [
+   {
+    "word": "glimmet",
+    "pos": "v",
+    "approved": false,
+    "variant": true
+   }
+  ],
+  "grallow": [
+   {
+    "word": "grallow",
+    "pos": "v",
+    "approved": false
+   }
+  ],
+  "grallowed": [
+   {
+    "word": "grallow",
+    "pos": "v",
+    "approved": false,
+    "variant": true
+   }
+  ],
+  "grallowing": [
+   {
+    "word": "grallow",
+    "pos": "v",
+    "approved": false,
+    "variant": true
+   }
+  ],
+  "grallows": [
+   {
+    "word": "grallow",
+    "pos": "v",
+    "approved": false,
+    "variant": true
+   }
+  ],
+  "plux exempli": [
+   {
+    "word": "plux exempli",
+    "pos": null,
+    "approved": true
+   }
+  ],
+  "quask": [
+   {
+    "word": "quask",
+    "pos": "adv",
+    "approved": true
+   }
+  ],
+  "quibbet": [
+   {
+    "word": "quibbet",
+    "pos": "n",
+    "approved": false
+   }
+  ],
+  "quibbets": [
+   {
+    "word": "quibbet",
+    "pos": "n",
+    "approved": false,
+    "variant": true
+   }
+  ],
+  "snarfle": [
+   {
+    "word": "snarfle",
+    "pos": "v",
+    "approved": false
+   }
+  ],
+  "snarfled": [
+   {
+    "word": "snarfle",
+    "pos": "v",
+    "approved": false,
+    "variant": true
+   }
+  ],
+  "snarfles": [
+   {
+    "word": "snarfle",
+    "pos": "v",
+    "approved": false,
+    "variant": true
+   }
+  ],
+  "snarfling": [
+   {
+    "word": "snarfle",
+    "pos": "v",
+    "approved": false,
+    "variant": true
+   }
+  ],
+  "tollo": [
+   {
+    "word": "tollo",
+    "pos": "prep",
+    "approved": true
+   }
+  ],
+  "zanty": [
+   {
+    "word": "zanty",
+    "pos": "adj",
+    "approved": false
+   }
+  ]
+ }
+}

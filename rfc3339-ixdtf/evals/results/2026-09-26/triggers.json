@@ -1,0 +1,182 @@
+{
+  "skill_name": "rfc3339-ixdtf",
+  "description": "Audit code for RFC 3339 (Internet timestamps, the usual 'ISO timestamp format' of APIs and logs) and RFC 9557 (IXDTF: suffixes such as 2026-09-24T12:00:00+02:00[Europe/Paris] and [u-ca=hebrew] tags; Z now means 'local offset unknown'). USE FOR: parsing, validating or emitting these timestamps in any language (Python, JS and Temporal ZonedDateTime, Java, .NET, Go, Rust, Swift); choosing Z or +00:00 when the offset is unknown; leap second 23:59:60 legality; reviewing producers, consumers and schemas (JSON Schema/OpenAPI format date-time, protobuf Timestamp, API contracts); ServiceNow GlideDateTime and Fluent SDK date handling; running conformance vectors against a parser; scanning source for risky date-time APIs (strftime %z, literal 'Z'). DO NOT USE FOR: ISO 8601 durations, week or ordinal dates, intervals; HTTP-date or RFC 5322 email dates; time-zone arithmetic unrelated to serialization.",
+  "results": [
+    {
+      "query": "Does our API emit valid RFC 3339 timestamps?",
+      "should_trigger": true,
+      "trigger_rate": 1.0,
+      "triggers": 1,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "Parse `2026-09-24T12:00:00+02:00[Europe/Paris]` in Go",
+      "should_trigger": true,
+      "trigger_rate": 1.0,
+      "triggers": 1,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "Should we send `Z` or `+00:00` when the offset is unknown?",
+      "should_trigger": true,
+      "trigger_rate": 1.0,
+      "triggers": 1,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "Review this JSON Schema's `format: date-time` fields",
+      "should_trigger": true,
+      "trigger_rate": 1.0,
+      "triggers": 1,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "Our parser accepts `2023-02-30`; audit it",
+      "should_trigger": true,
+      "trigger_rate": 1.0,
+      "triggers": 1,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "Is a leap second `23:59:60` legal in our log format?",
+      "should_trigger": true,
+      "trigger_rate": 1.0,
+      "triggers": 1,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "Handle `[u-ca=hebrew]` suffix tags in our deserializer",
+      "should_trigger": true,
+      "trigger_rate": 1.0,
+      "triggers": 1,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "Check GlideDateTime serialization in our ServiceNow app",
+      "should_trigger": true,
+      "trigger_rate": 1.0,
+      "triggers": 1,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "Test chrono vs jiff against RFC 3339 vectors",
+      "should_trigger": true,
+      "trigger_rate": 1.0,
+      "triggers": 1,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "Scan this repo for risky strftime/`%z` timestamp formatting",
+      "should_trigger": true,
+      "trigger_rate": 1.0,
+      "triggers": 1,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "Parse ISO 8601 durations like `P3DT4H`",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "Parse RFC 5322 email Date headers",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "Convert an ISO week date `2026-W39-5`",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "Pick a time zone for our cron job",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "Format an HTTP-date header",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "Build a calendar UI date picker",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "Why is my DST arithmetic off by an hour?",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "Sort my list alphabetically",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "Store timestamps in Postgres as `timestamptz` or `bigint`?",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "Explain Unix epoch overflow in 2038",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    }
+  ],
+  "summary": {
+    "total": 20,
+    "passed": 20,
+    "failed": 0
+  },
+  "metrics": {
+    "tp": 10,
+    "fn": 0,
+    "fp": 0,
+    "tn": 10,
+    "precision": 1.0,
+    "recall": 1.0,
+    "accuracy": 1.0,
+    "runs_per_query": 1,
+    "model": "default"
+  }
+}

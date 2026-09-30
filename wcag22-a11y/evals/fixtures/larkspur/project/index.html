@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" class="pad-for-header">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Home - Larkspur Library</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="sticky-page" data-page="home">
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="logo"><span class="logo-mark" aria-hidden="true"></span> <span class="logo-word">Larkspur Library</span></div>
+      <nav class="site-nav" aria-label="Main">
+        <ul>
+          <li><a href="index.html" aria-current="page">Home</a></li>
+          <li><a href="catalog.html">Catalog</a></li>
+          <li><a href="events.html">Events</a></li>
+          <li><a href="signup.html">Get a card</a></li>
+          <li><a href="login.html">Sign in</a></li>
+        </ul>
+      </nav>
+      <p class="help-bar">Need help? <a href="mailto:ask@larkspur-library.example">Ask a Librarian</a> or call (555) 010-2040.</p>
+    </div>
+  </header>
+
+  <main id="main">
+    <h1>Welcome to Larkspur Library</h1>
+    <p>Borrow books, films and tools, join a reading group, or just come in out of the rain. Everyone in Larkspur County can get a free card.</p>
+
+    <img class="divider" src="images/flourish.svg" alt="Purple decorative flourish divider">
+
+    <section aria-labelledby="new-heading">
+      <h2 id="new-heading">What's new</h2>
+      <div class="carousel" id="whats-new">
+        <div class="carousel-track">
+          <div class="slide">
+            <h3>Seed library now open</h3>
+            <p>Take home up to five packets of heirloom vegetable seeds each season.</p>
+          </div>
+          <div class="slide">
+            <h3>Extended Thursday hours</h3>
+            <p>The main branch now stays open until 9 p.m. every Thursday.</p>
+          </div>
+          <div class="slide">
+            <h3>Laptop lending</h3>
+            <p>Adults with a card in good standing can borrow a laptop for 14 days.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <img class="divider" src="images/rule-leaves.svg" alt="" role="presentation">
+
+    <section aria-labelledby="featured-heading">
+      <h2 id="featured-heading">Staff picks</h2>
+      <div class="featured-row">
+        <article>
+          <h3><a href="catalog.html?item=the-orchard">The Orchard</a></h3>
+          <p>A quiet novel about three generations and one stubborn apple tree.</p>
+        </article>
+        <article>
+          <h3><a href="catalog.html?item=tides">Tides</a></h3>
+          <p>Poems about the coast, the moon and waiting for the ferry.</p>
+        </article>
+        <article>
+          <h3><a href="catalog.html?item=lantern-street">Lantern Street</a></h3>
+          <p>A cozy mystery set in a lamp-maker's workshop.</p>
+        </article>
+        <article>
+          <h3><a href="catalog.html?item=small-atlas">Small Atlas</a></h3>
+          <p>Hand-drawn maps of places that do not exist, with notes.</p>
+        </article>
+      </div>
+    </section>
+
+    <section aria-labelledby="hours-heading">
+      <h2 id="hours-heading">Visit us</h2>
+      <h4>Opening hours</h4>
+      <p>Monday to Saturday, 10 a.m. to 6 p.m. Thursday until 9 p.m. Closed Sundays.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Larkspur Library, 12 Meadow Lane, Larkspur.</p>
+    <div class="social" aria-hidden="true">
+      <a href="https://social.example/larkspurlib">Mastodon</a>
+      <a href="https://photos.example/larkspurlib">Photos</a>
+    </div>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>

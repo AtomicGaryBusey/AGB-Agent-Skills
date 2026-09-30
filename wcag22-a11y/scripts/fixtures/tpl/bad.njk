@@ -1,0 +1,8 @@
+{% extends "base.njk" %}
+{% block content %}
+<a href="{{ url }}">{{ title }}</a>
+<img src="{{ hero }}" alt="{{ heroAlt }}">
+<img src="{{ logo }}">
+<input {% if required %}required{% endif %} name="email" aria-label="Email">
+<a href="/more">Read more</a>
+{% endblock %}

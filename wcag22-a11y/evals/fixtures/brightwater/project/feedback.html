@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Feedback | Brightwater Transit</title>
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="site-header">
+  <a class="logo" href="index.html">
+    <svg class="logo-mark" width="32" height="32" aria-hidden="true" focusable="false"><use href="img/sprite.svg#logo"></use></svg>
+    <span class="wordmark">Brightwater Transit</span>
+  </a>
+  <nav class="site-nav" aria-label="Main">
+    <ul>
+        <li><a href="planner.html">Trip planner</a></li>
+        <li><a href="fares.html">Fares</a></li>
+        <li><a href="alerts.html">Service alerts</a></li>
+        <li><a href="map.html">Route map</a></li>
+        <li><a href="claim-1.html">Lost &amp; found</a></li>
+        <li><a href="feedback.html" aria-current="page">Feedback</a></li>
+        <li><a href="login.html">Sign in</a></li>
+    </ul>
+  </nav>
+  <a class="help-link" href="help.html"><i class="bwi bwi-help" aria-hidden="true"></i> Help &amp; contact</a>
+</header>
+<main id="main" style="padding-bottom: 12rem">
+  <h1>Send us feedback</h1>
+  <p>Compliments, complaints and suggestions all go to our customer experience team. We reply within five working days.</p>
+  <form id="feedback-form" action="feedback.html" method="post" novalidate>
+    <div class="float-field">
+      <input id="fb-name" name="name" type="text" placeholder=" " autocomplete="name">
+      <label for="fb-name">Your name (optional)</label>
+    </div>
+    <div class="float-field">
+      <input id="fb-email" name="email" type="email" placeholder=" " autocomplete="email" required aria-describedby="fb-email-error">
+      <label for="fb-email">Email address (required)</label>
+      <p class="field-error" id="fb-email-error" hidden></p>
+    </div>
+    <fieldset>
+      <legend>Which services is this about?</legend>
+      <div class="field-check"><input type="checkbox" id="svc-bus" name="svc" value="bus"><label for="svc-bus">Buses</label></div>
+      <div class="field-check"><input type="checkbox" id="svc-rail" name="svc" value="rail"><label for="svc-rail">Harbour Line trains</label></div>
+      <div class="field-check"><input type="checkbox" id="svc-ferry" name="svc" value="ferry"><label for="svc-ferry">Ferries</label></div>
+      <div class="field-check"><input type="checkbox" id="svc-para" name="svc" value="para"><label for="svc-para">Paratransit</label></div>
+      <div class="field-check"><input type="checkbox" id="svc-web" name="svc" value="web"><label for="svc-web">Website or app</label></div>
+    </fieldset>
+    <div class="float-field">
+      <textarea id="fb-message" name="message" rows="6" placeholder=" " required aria-describedby="fb-message-error"></textarea>
+      <label for="fb-message">Your message (required)</label>
+      <p class="field-error" id="fb-message-error" hidden></p>
+    </div>
+    <fieldset>
+      <legend>May we contact you about this feedback?</legend>
+      <div class="field-check"><input type="radio" id="contact-yes" name="contact" value="yes"><label for="contact-yes">Yes</label></div>
+      <div class="field-check"><input type="radio" id="contact-no" name="contact" value="no"><label for="contact-no">No</label></div>
+    </fieldset>
+    <button type="submit" class="btn">Send feedback</button>
+  </form>
+  <p id="fb-thanks" role="status"></p>
+</main>
+<footer class="site-footer dock-footer">
+  <ul class="footer-links">
+    <li><a href="help.html#accessibility">Accessibility</a></li>
+    <li><a href="help.html#privacy">Privacy</a></li>
+    <li><a href="help.html#terms">Terms of use</a></li>
+  </ul>
+  <a class="chat-cta" href="help.html#chat">Chat with an agent (08:00 to 20:00)</a>
+  <p>&copy; 2026 Brightwater Regional Transit Authority. A fictional agency.</p>
+</footer>
+<script src="js/feedback.js"></script>
+</body>
+</html>

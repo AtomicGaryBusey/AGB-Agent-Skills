@@ -15,6 +15,20 @@ citation of the RFC and section.
   RFC 9557: https://www.rfc-editor.org/rfc/rfc9557
   IETF Trust Legal Provisions: https://trustee.ietf.org/documents/trust-legal-provisions/
 
+W3C material (wcag22-a11y)
+--------------------------
+wcag22-a11y quotes and derives from W3C documents: Web Content Accessibility
+Guidelines (WCAG) 2.2, W3C Recommendation, 12 December 2024; Understanding
+WCAG 2.2 and Techniques for WCAG 2.2 (W3C Group Notes); and WAI-ARIA 1.2,
+W3C Recommendation. Success criterion text, notes and glossary definitions in
+wcag22-a11y/references/ are quoted verbatim with a link to each section.
+  Copyright © 2024 World Wide Web Consortium.
+  https://www.w3.org/copyright/document-license-2023/
+  WCAG 2.2: https://www.w3.org/TR/WCAG22/
+See wcag22-a11y/NOTICE. axe-core (MPL-2.0) and Playwright (Apache-2.0) are not
+included; wcag22-a11y/scripts/setup_page_runner.sh installs them into a local,
+gitignored .cache/ folder.
+
 Third-party test baselines (iso999/evals/)
 ------------------------------------------
 These files are unmodified or excerpted third-party output, kept as test

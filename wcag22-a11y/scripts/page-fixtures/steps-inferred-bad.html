@@ -1,0 +1,15 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Hire a hall</title></head><body><main>
+<h1>Hire the village hall</h1>
+<form id="hire" action="#" novalidate>
+<div class="panel" id="p1"><h2>Step 1 of 2: Contact</h2>
+<label for="em">Your email</label> <input id="em" type="email" name="em">
+<label for="mob">Mobile</label> <input id="mob" name="mob">
+<button type="button" id="next">Next</button></div>
+<div class="panel" id="p2" hidden><h2>Step 2 of 2: Booking</h2>
+<label for="when">Date</label> <input id="when" name="when">
+<label for="rcpt">Where should we send the receipt?</label> <input id="rcpt" name="receipt_email">
+<label for="cb">Number to call on the day</label> <input id="cb" name="callback_phone">
+<button>Book</button></div>
+</form>
+<script>document.getElementById('next').addEventListener('click', function () { document.getElementById('p1').hidden = true; document.getElementById('p2').hidden = false; });</script>
+</main></body></html>

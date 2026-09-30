@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="refresh" content="120">
+  <title>Events - Larkspur Library</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="events">
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="logo"><span class="logo-mark" aria-hidden="true"></span> <span class="logo-word">Larkspur Library</span></div>
+      <nav class="site-nav" aria-label="Main">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="catalog.html">Catalog</a></li>
+          <li><a href="events.html" aria-current="page">Events</a></li>
+          <li><a href="signup.html">Get a card</a></li>
+          <li><a href="login.html">Sign in</a></li>
+        </ul>
+      </nav>
+      <p class="help-bar">Need help? <a href="mailto:ask@larkspur-library.example">Ask a Librarian</a> or call (555) 010-2040.</p>
+    </div>
+  </header>
+
+  <main id="main">
+    <h1>Events and classes</h1>
+    <p class="fine-print">All events are free. Rooms are step-free; see our <a href="events.html#access">access guide</a> for which room hosts each event.</p>
+
+    <p>
+      <a href="calendar.ics">Click here</a>
+    </p>
+
+    <div class="event">
+      <p class="event-title">Toddler Rhyme Time</p>
+      <p class="event-meta">Tuesdays, 10:30&ndash;11:00 a.m. &middot; Children's room</p>
+      <p>Songs, rhymes and bubbles for under-threes and their grown-ups.</p>
+      <button type="button" class="btn btn-fixed" data-event="Toddler Rhyme Time">Reserve a seat</button>
+    </div>
+
+    <div class="event">
+      <p class="event-title">Fix-it Cafe</p>
+      <p class="event-meta">Saturday 14 November, 1:00&ndash;4:00 p.m. &middot; Community hall</p>
+      <p>Bring a broken lamp, toaster or jumper and our volunteers will help you mend it.</p>
+      <button type="button" class="btn btn-fixed" data-event="Fix-it Cafe">Reserve a seat</button>
+    </div>
+
+    <div class="event">
+      <p class="event-title">Evening Book Circle</p>
+      <p class="event-meta">Last Thursday of the month, 7:00 p.m. &middot; Reading room</p>
+      <p>This month: <cite>The Orchard</cite> by M. Ellery.</p>
+      <button type="button" class="btn btn-fixed" data-event="Evening Book Circle">Reserve a seat</button>
+    </div>
+
+    <h2 id="access">Access guide and room schedule this week</h2>
+    <div class="table-scroll" role="region" aria-labelledby="access" tabindex="0">
+    <table class="schedule">
+      <caption>Room bookings, week of 9 November</caption>
+      <thead>
+        <tr>
+          <th scope="col">Room</th>
+          <th scope="col">Monday</th>
+          <th scope="col">Wednesday</th>
+          <th scope="col">Saturday</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">Children's room</th>
+          <td>Story time</td>
+          <td>Lego club</td>
+          <td>Free</td>
+        </tr>
+        <tr>
+          <th scope="row">Community hall</th>
+          <td>Free</td>
+          <td>Tai chi</td>
+          <td>Fix-it Cafe</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </main>
+
+  <div class="modal-backdrop" id="register-modal" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <h2 id="modal-title">Reserve a seat</h2>
+      <p id="modal-event"></p>
+      <div class="form-field">
+        <label for="res-name">Your name</label>
+        <input id="res-name" type="text" autocomplete="name">
+      </div>
+      <div class="form-field">
+        <label for="res-email">Email</label>
+        <input id="res-email" type="email" autocomplete="email">
+      </div>
+      <button type="button" class="btn" onclick="closeModal()">Confirm</button>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <p>Larkspur Library, 12 Meadow Lane, Larkspur.</p>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>

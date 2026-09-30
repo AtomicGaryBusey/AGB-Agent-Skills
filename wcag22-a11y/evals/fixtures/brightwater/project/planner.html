@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trip planner | Brightwater Transit</title>
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="site-header">
+  <a class="logo" href="index.html">
+    <svg class="logo-mark" width="32" height="32" aria-hidden="true" focusable="false"><use href="img/sprite.svg#logo"></use></svg>
+    <span class="wordmark">Brightwater Transit</span>
+  </a>
+  <nav class="site-nav" aria-label="Main">
+    <ul>
+        <li><a href="planner.html" aria-current="page">Trip planner</a></li>
+        <li><a href="fares.html">Fares</a></li>
+        <li><a href="alerts.html">Service alerts</a></li>
+        <li><a href="map.html">Route map</a></li>
+        <li><a href="claim-1.html">Lost &amp; found</a></li>
+        <li><a href="feedback.html">Feedback</a></li>
+        <li><a href="login.html">Sign in</a></li>
+    </ul>
+  </nav>
+  <a class="help-link" href="help.html"><i class="bwi bwi-help" aria-hidden="true"></i> Help &amp; contact</a>
+</header>
+<main id="main">
+  <h1>Trip planner</h1>
+  <form class="planner-form" action="planner.html" method="get">
+    <div class="field">
+      <label for="from">From</label>
+      <div class="input-row">
+        <input id="from" name="from" type="text">
+        <button type="button" class="btn-locate" id="locate-me"></button>
+      </div>
+    </div>
+    <button type="button" class="btn-icon" id="swap" aria-label="Swap From and To"><i class="bwi bwi-swap" aria-hidden="true"></i></button>
+    <div class="field">
+      <label for="to">To</label>
+      <input id="to" name="to" type="text">
+    </div>
+    <div class="field">
+      <label for="when">Leave at</label>
+      <input id="when" name="when" type="datetime-local">
+    </div>
+    <div class="field-check">
+      <input type="checkbox" id="stepfree" name="stepfree">
+      <label for="stepfree">Step-free routes only</label>
+    </div>
+    <button type="submit" class="btn">Find trips</button>
+  </form>
+
+  <section aria-labelledby="results-heading">
+    <h2 id="results-heading">Suggested trips: Market Square to Pier 3</h2>
+    <ol class="trip-results">
+      <li class="trip">
+        <h3>08:12 to 08:47 (35 min)</h3>
+        <p>Route 14 bus to Keel Street, then Harbour Line to Pier 3.</p>
+        <svg class="ico" width="20" height="20"><use href="img/sprite.svg#step-free"></use></svg>
+      </li>
+      <li class="trip">
+        <h3>08:20 to 08:51 (31 min)</h3>
+        <p>Harbour Line direct from Market Square. Stairs at Market Square platform 2.</p>
+      </li>
+      <li class="trip">
+        <h3>08:35 to 09:18 (43 min)</h3>
+        <p>Route 9 bus to Ferry Terminal, then walk 6 minutes.</p>
+        <svg class="ico" width="20" height="20"><use href="img/sprite.svg#step-free"></use></svg>
+      </li>
+    </ol>
+  </section>
+
+  <section aria-labelledby="saved-heading">
+    <h2 id="saved-heading">Saved trips</h2>
+    <p id="saved-help">Drag trips to change their order, or use the Move up and Move down buttons.</p>
+    <ul class="saved-list" id="saved-list" aria-describedby="saved-help">
+      <li class="saved" draggable="true" data-name="Home to Work">
+        <a href="planner.html?from=Home&amp;to=Work">Home to Work</a>
+        <span class="saved-actions">
+          <button type="button" class="btn-small" data-move="up">Move up<span class="visually-hidden"> Home to Work</span></button>
+          <button type="button" class="btn-small" data-move="down">Move down<span class="visually-hidden"> Home to Work</span></button>
+        </span>
+      </li>
+      <li class="saved" draggable="true" data-name="Work to Gym">
+        <a href="planner.html?from=Work&amp;to=Gym">Work to Gym</a>
+        <span class="saved-actions">
+          <button type="button" class="btn-small" data-move="up">Move up<span class="visually-hidden"> Work to Gym</span></button>
+          <button type="button" class="btn-small" data-move="down">Move down<span class="visually-hidden"> Work to Gym</span></button>
+        </span>
+      </li>
+      <li class="saved" draggable="true" data-name="Home to Ferry Terminal">
+        <a href="planner.html?from=Home&amp;to=Ferry+Terminal">Home to Ferry Terminal</a>
+        <span class="saved-actions">
+          <button type="button" class="btn-small" data-move="up">Move up<span class="visually-hidden"> Home to Ferry Terminal</span></button>
+          <button type="button" class="btn-small" data-move="down">Move down<span class="visually-hidden"> Home to Ferry Terminal</span></button>
+        </span>
+      </li>
+    </ul>
+    <p id="saved-status" class="visually-hidden" role="status"></p>
+  </section>
+</main>
+<footer class="site-footer">
+  <ul class="footer-links">
+    <li><a href="help.html#accessibility">Accessibility</a></li>
+    <li><a href="help.html#privacy">Privacy</a></li>
+    <li><a href="help.html#terms">Terms of use</a></li>
+  </ul>
+  <p>&copy; 2026 Brightwater Regional Transit Authority. A fictional agency.</p>
+</footer>
+<script src="js/planner.js"></script>
+</body>
+</html>

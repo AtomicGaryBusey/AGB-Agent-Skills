@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Route map | Brightwater Transit</title>
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="site-header">
+  <a class="logo" href="index.html">
+    <svg class="logo-mark" width="32" height="32" aria-hidden="true" focusable="false"><use href="img/sprite.svg#logo"></use></svg>
+    <span class="wordmark">Brightwater Transit</span>
+  </a>
+  <nav class="site-nav" aria-label="Main">
+    <ul>
+        <li><a href="planner.html">Trip planner</a></li>
+        <li><a href="fares.html">Fares</a></li>
+        <li><a href="alerts.html">Service alerts</a></li>
+        <li><a href="map.html" aria-current="page">Route map</a></li>
+        <li><a href="claim-1.html">Lost &amp; found</a></li>
+        <li><a href="feedback.html">Feedback</a></li>
+        <li><a href="login.html">Sign in</a></li>
+    </ul>
+  </nav>
+  <a class="help-link" href="help.html"><i class="bwi bwi-help" aria-hidden="true"></i> Help &amp; contact</a>
+</header>
+<main id="main">
+  <h1>Route map</h1>
+  <p>Select a stop on the map to see departures and station facilities.</p>
+  <div class="map-wrap">
+    <div class="map-toolbar" role="group" aria-label="Map zoom">
+      <button type="button" class="zoom-btn" id="zoom-in" aria-label="Zoom in">+</button>
+      <button type="button" class="zoom-btn" id="zoom-out" aria-label="Zoom out">&minus;</button>
+    </div>
+    <svg id="route-map" class="route-map" viewBox="0 0 600 360" role="group" aria-labelledby="map-title">
+      <title id="map-title">Harbour Line and Route 14</title>
+      <polyline class="line line-harbour" points="60,300 180,220 320,200 460,120 560,60"></polyline>
+      <polyline class="line line-14" points="60,80 180,220 300,320"></polyline>
+      <text class="line-label" x="470" y="160" fill="#0b5cad">Harbour Line</text>
+      <text class="line-label" x="60" y="60" fill="#b3261e">Route 14</text>
+      <g class="stop" data-stop="market"><circle cx="180" cy="220" r="9"></circle><text x="196" y="246">Market Square</text></g>
+      <g class="stop" data-stop="keel"><circle cx="60" cy="300" r="9"></circle><text x="30" y="332">Keel Street</text></g>
+      <g class="stop" data-stop="saltmarsh"><circle cx="320" cy="200" r="9"></circle><text x="300" y="186">Saltmarsh</text></g>
+      <g class="stop" data-stop="ferry"><circle cx="460" cy="120" r="9"></circle><text x="360" y="112">Ferry Terminal</text></g>
+      <g class="stop" data-stop="pier3"><circle cx="560" cy="60" r="9"></circle><text x="500" y="40">Pier 3</text></g>
+      <g class="stop" data-stop="anchor"><circle cx="60" cy="80" r="9"></circle><text x="80" y="100">Anchor Lane</text></g>
+      <g class="stop" data-stop="dock"><circle cx="300" cy="320" r="9"></circle><text x="316" y="336">Dock Road</text></g>
+    </svg>
+    <aside class="stop-panel" aria-labelledby="stop-panel-title">
+      <h2 id="stop-panel-title">Stop details</h2>
+      <div id="stop-panel-body"><p>No stop selected.</p></div>
+    </aside>
+  </div>
+</main>
+<footer class="site-footer">
+  <ul class="footer-links">
+    <li><a href="help.html#accessibility">Accessibility</a></li>
+    <li><a href="help.html#privacy">Privacy</a></li>
+    <li><a href="help.html#terms">Terms of use</a></li>
+  </ul>
+  <p>&copy; 2026 Brightwater Regional Transit Authority. A fictional agency.</p>
+</footer>
+<script src="js/map.js"></script>
+</body>
+</html>

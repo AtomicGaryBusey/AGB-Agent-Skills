@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Get a library card - Larkspur Library</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="signup">
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="logo"><span class="logo-mark" aria-hidden="true"></span> <span class="logo-word">Larkspur Library</span></div>
+      <nav class="site-nav" aria-label="Main">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="catalog.html">Catalog</a></li>
+          <li><a href="events.html">Events</a></li>
+          <li><a href="signup.html" aria-current="page">Get a card</a></li>
+          <li><a href="login.html">Sign in</a></li>
+        </ul>
+      </nav>
+      <p class="help-bar">Need help? <a href="mailto:ask@larkspur-library.example">Ask a Librarian</a> or call (555) 010-2040.</p>
+    </div>
+  </header>
+
+  <main id="main">
+    <h1>Get a library card</h1>
+    <p>It takes about three minutes. Fields marked "required" must be filled in.</p>
+
+    <form class="signup-form" id="signup-form" action="login.html" novalidate>
+      <fieldset id="step-1">
+        <legend class="step-indicator">Step 1 of 2: About you</legend>
+        <div class="form-field">
+          <input id="full-name" name="full-name" type="text" placeholder="Full name (required)" required>
+        </div>
+        <div class="form-field">
+          <label for="email">Email address (required)</label>
+          <input id="email" name="email" type="email" required>
+        </div>
+        <div class="form-field">
+          <label for="phone">Phone number</label>
+          <input id="phone" name="phone" type="tel">
+        </div>
+        <div class="form-field">
+          <label for="street">Street address (required)</label>
+          <input id="street" name="street" type="text" required>
+        </div>
+        <div class="form-field">
+          <label for="postcode">Postal code (required)</label>
+          <input id="postcode" name="postcode" type="text" required>
+        </div>
+        <button type="button" class="btn" id="to-step-2">Next</button>
+      </fieldset>
+
+      <fieldset id="step-2" hidden>
+        <legend class="step-indicator">Step 2 of 2: Your card</legend>
+        <div class="form-field">
+          <label for="card-email">Email address for card notices (required)</label>
+          <input id="card-email" name="card-email" type="email" required>
+        </div>
+        <div class="form-field">
+          <label for="new-pin">Choose a 4-digit PIN (required)</label>
+          <input id="new-pin" name="new-pin" type="password" inputmode="numeric" autocomplete="new-password" required>
+        </div>
+        <div class="form-field">
+          <label for="confirm-pin">Type your PIN again (required)</label>
+          <input id="confirm-pin" name="confirm-pin" type="password" inputmode="numeric" autocomplete="new-password" required>
+        </div>
+        <button type="submit" class="btn">Create my card</button>
+      </fieldset>
+    </form>
+  </main>
+
+  <footer class="site-footer">
+    <p>Larkspur Library, 12 Meadow Lane, Larkspur.</p>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>

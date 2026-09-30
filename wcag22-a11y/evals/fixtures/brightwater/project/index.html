@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Brightwater Transit: home</title>
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="site-header">
+  <a class="logo" href="index.html">
+    <svg class="logo-mark" width="32" height="32" aria-hidden="true" focusable="false"><use href="img/sprite.svg#logo"></use></svg>
+    <span class="wordmark">Brightwater Transit</span>
+  </a>
+  <nav class="site-nav" aria-label="Main">
+    <ul>
+        <li><a href="planner.html">Trip planner</a></li>
+        <li><a href="fares.html">Fares</a></li>
+        <li><a href="alerts.html">Service alerts</a></li>
+        <li><a href="map.html">Route map</a></li>
+        <li><a href="claim-1.html">Lost &amp; found</a></li>
+        <li><a href="feedback.html">Feedback</a></li>
+        <li><a href="login.html">Sign in</a></li>
+    </ul>
+  </nav>
+  <a class="help-link" href="help.html"><i class="bwi bwi-help" aria-hidden="true"></i> Help &amp; contact</a>
+</header>
+<main id="main">
+  <h1>Getting around Brightwater</h1>
+  <section class="promo-carousel" aria-labelledby="promo-heading">
+    <h2 id="promo-heading" class="visually-hidden">What's new</h2>
+    <div class="promo-viewport">
+      <ul class="promo-track">
+        <li class="promo-slide">
+          <h3>Harbour Line extension opens 3 October</h3>
+          <p>Three new stations connect Pier 3, Saltmarsh and the Ferry Terminal.</p>
+        </li>
+        <li class="promo-slide">
+          <h3>Tap to pay on every bus</h3>
+          <p>Use a contactless bank card or phone. Daily fare capping applies automatically.</p>
+        </li>
+        <li class="promo-slide">
+          <h3>Weekend track work on Route 14</h3>
+          <p>Replacement buses run every 10 minutes between Market Square and Keel Street.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section aria-labelledby="quick-heading">
+    <h2 id="quick-heading">Quick links</h2>
+    <ul class="card-grid">
+      <li class="card"><a href="planner.html"><i class="bwi bwi-route" aria-hidden="true"></i> Plan a trip</a></li>
+      <li class="card"><a href="fares.html"><i class="bwi bwi-ticket" aria-hidden="true"></i> Fares and passes</a></li>
+      <li class="card"><a href="alerts.html"><i class="bwi bwi-alert" aria-hidden="true"></i> Service alerts</a></li>
+      <li class="card"><a href="claim-1.html"><i class="bwi bwi-bag" aria-hidden="true"></i> Report a lost item</a></li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="survey-heading">
+    <h2 id="survey-heading">2026 rider survey</h2>
+    <p>Tell us how we are doing. The survey takes about five minutes.</p>
+    <button type="button" class="btn" id="open-survey">About the survey</button>
+    <dialog id="survey-dialog" aria-labelledby="survey-title">
+      <h2 id="survey-title">About the 2026 rider survey</h2>
+      <p>Answers are anonymous. Results are published every spring on the feedback page.</p>
+      <form method="dialog">
+        <button type="submit" class="btn" value="close">Close</button>
+      </form>
+    </dialog>
+  </section>
+</main>
+<footer class="site-footer">
+  <ul class="footer-links">
+    <li><a href="help.html#accessibility">Accessibility</a></li>
+    <li><a href="help.html#privacy">Privacy</a></li>
+    <li><a href="help.html#terms">Terms of use</a></li>
+  </ul>
+  <p>&copy; 2026 Brightwater Regional Transit Authority. A fictional agency.</p>
+</footer>
+<script src="js/site.js"></script>
+</body>
+</html>

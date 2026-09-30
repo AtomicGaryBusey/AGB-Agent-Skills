@@ -1,0 +1,486 @@
+{
+  "schemaVersion": 1,
+  "claudeVersion": "2.1.283",
+  "startedAt": "2026-09-30T05:21:36.018Z",
+  "durationSeconds": 164,
+  "costUsd": 0.7716608,
+  "partial": false,
+  "suite": {
+    "root": "<repo>/evals/plugin",
+    "ablation": "none",
+    "judgeModel": "sonnet",
+    "caseFilter": "bw-operable",
+    "threshold": 0,
+    "concurrency": 1,
+    "plugins": [
+      {
+        "name": "wcag22-a11y-eval",
+        "version": "0.0.1",
+        "path": "<repo>/evals/plugin"
+      }
+    ]
+  },
+  "cases": [
+    {
+      "name": "bw-operable",
+      "dir": "cases/bw-operable",
+      "source": "mixed",
+      "promptMarkdown": "This folder is the static front end of the Brightwater Transit website: eleven HTML pages (index, planner, fares, alerts, map, claim-1, claim-2, claim-3, login, feedback, help), css/site.css, the scripts in js/, images in img/, and Vue single-file components in components/ (source only, not built). Audit it for WCAG 2.2 Level AA conformance, limited to Principle 2, Operable (success criteria 2.x). Cite each finding as file:line with its success criterion. No shell is available in this environment, so review the files statically; do not delegate to subagents and do not ask me questions. Give the complete audit report as your final reply.",
+      "runsPerCase": 1,
+      "timeoutSeconds": 1800,
+      "maxTurns": 50,
+      "graders": [
+        {
+          "name": "no-peek",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "trace",
+            "pattern": "answer-key\\.md|keyspec\\.json|/graders/|evals/fixtures|fixtures/brightwater|holdout-key\\.md|wcag22-holdout",
+            "flags": "",
+            "match": "not_contains"
+          }
+        },
+        {
+          "name": "nodecoy-HK3",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*?(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b)(?:[^|\\n\\\\]|\\\\.)*\\|(?=(?:[^|\\n\\\\]|\\\\.)*?(?:2\\.5\\.7|2\\.1\\.1|drag|reorder|move (?:up|down)|keyboard)(?:[^|\\n\\\\]|\\\\.)*\\||(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*?(?:2\\.5\\.7|2\\.1\\.1|drag|reorder|move (?:up|down)|keyboard)(?:[^|\\n\\\\]|\\\\.)*\\||(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*?(?:2\\.5\\.7|2\\.1\\.1|drag|reorder|move (?:up|down)|keyboard)(?:[^|\\n\\\\]|\\\\.)*\\|)(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*?(?:planner\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:(?:7(?:[6-9])|8\\d{1}|9(?:[0-9]))|10[0-2])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:(?:7(?:[6-9])|8\\d{1}|9(?:[0-9]))|10[0-2])[ \\t]?[-\u2013][ \\t]?(?:(?:7(?:[6-9])|8\\d{1}|9(?:[0-9]))|10[0-2])(?!\\d))|planner\\.js[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:(?:1(?:[8-9])|[2-4]\\d{1}|5(?:[0-9])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:(?:1(?:[8-9])|[2-4]\\d{1}|5(?:[0-9])))[ \\t]?[-\u2013][ \\t]?(?:(?:1(?:[8-9])|[2-4]\\d{1}|5(?:[0-9])))(?!\\d)))(?:[^|\\n\\\\]|\\\\.)*\\|",
+            "flags": "mi",
+            "match": "not_contains"
+          }
+        },
+        {
+          "name": "nodecoy-HK4",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*?(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b)(?:[^|\\n\\\\]|\\\\.)*\\|(?=(?:[^|\\n\\\\]|\\\\.)*?(?:2\\.5\\.8|target|zoom|20\\s?(?:x|\u00d7|by)\\s?20|20\\s?px)(?:[^|\\n\\\\]|\\\\.)*\\||(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*?(?:2\\.5\\.8|target|zoom|20\\s?(?:x|\u00d7|by)\\s?20|20\\s?px)(?:[^|\\n\\\\]|\\\\.)*\\||(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*?(?:2\\.5\\.8|target|zoom|20\\s?(?:x|\u00d7|by)\\s?20|20\\s?px)(?:[^|\\n\\\\]|\\\\.)*\\|)(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*?(?:map\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:3[2-7])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:3[2-7])[ \\t]?[-\u2013][ \\t]?(?:3[2-7])(?!\\d))|site\\.css[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:1(?:5(?:[8-9])|6(?:[0-4])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:1(?:5(?:[8-9])|6(?:[0-4])))[ \\t]?[-\u2013][ \\t]?(?:1(?:5(?:[8-9])|6(?:[0-4])))(?!\\d))|zoom-btn)(?:[^|\\n\\\\]|\\\\.)*\\|",
+            "flags": "mi",
+            "match": "not_contains"
+          }
+        },
+        {
+          "name": "nodecoy-HK5",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*?(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b)(?:[^|\\n\\\\]|\\\\.)*\\|(?=(?:[^|\\n\\\\]|\\\\.)*?(?:2\\.1\\.2|2\\.4\\.3|trap|escape|dialog|focus order|survey)(?:[^|\\n\\\\]|\\\\.)*\\||(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*?(?:2\\.1\\.2|2\\.4\\.3|trap|escape|dialog|focus order|survey)(?:[^|\\n\\\\]|\\\\.)*\\||(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*?(?:2\\.1\\.2|2\\.4\\.3|trap|escape|dialog|focus order|survey)(?:[^|\\n\\\\]|\\\\.)*\\|)(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*?(?:index\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:(?:6(?:[3-9])|7(?:[0-2])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:(?:6(?:[3-9])|7(?:[0-2])))[ \\t]?[-\u2013][ \\t]?(?:(?:6(?:[3-9])|7(?:[0-2])))(?!\\d))|site\\.js[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:[1-9]|1[0-3])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|1[0-3])[ \\t]?[-\u2013][ \\t]?(?:[1-9]|1[0-3])(?!\\d))|survey-dialog|showModal)(?:[^|\\n\\\\]|\\\\.)*\\|",
+            "flags": "mi",
+            "match": "not_contains"
+          }
+        },
+        {
+          "name": "nodecoy-judge",
+          "type": "llm",
+          "weight": 0.001,
+          "graderMarkdown": "PASS if none of the properties listed below is reported as a Level A or AA\nviolation. FAIL if any listed property is itself reported as one: a\nfindings-table row with severity Nonconformity or Deviation whose subject IS\nthat property, or a statement that the property violates a Level A or AA\nsuccess criterion.\n\nThe reply is a WCAG 2.2 Level AA accessibility audit report. Each listed item\nis a specific property of the audited project that is known to be COMPLIANT\n(a decoy or a non-scored note).\n\n- HK3: Drag-to-reorder of the saved trips on planner.html:77-101 (js/planner.js:19-58). Every item also has real 'Move up' and 'Move down' buttons (a single-pointer and keyboard alternative), the instructions name both methods, focus stays on the pressed button, and moves are announced via role=\"status\". Reporting it under 2.5.7 Dragging Movements or 2.1.1 Keyboard is a false positive. (The dashboard component components/SavedTrips.vue, H15, is drag-only and is a real defect; it does not count.)\n- HK4: The 20x20px map zoom buttons at map.html:33-36 (.zoom-btn, css/site.css:159-163). They are under 24x24 but meet the 2.5.8 spacing exception: stacked with an 8px gap (centres 28px apart), so 24px circles centred on them do not intersect each other or any other target. Reporting them as a Target Size failure is a false positive.\n- HK5: The rider survey dialog at index.html:64-71, a native <dialog> opened with showModal() in js/site.js:1-12, with no custom focus-trap or Escape code. showModal() makes the page inert, moves focus in, closes natively on Escape, and the close handler returns focus to the opener, so there is no keyboard trap (2.1.2) and the focus order is logical (2.4.3). Reporting it as a trap or focus-order failure is a false positive. (The custom email-alerts modal on alerts.html, H10, is a real trap and does not count.)\n\nHow to judge each item:\n- Findings about OTHER problems that happen to mention the same file, line or\n  success criterion do not count (for example a real defect on a neighbouring\n  element, or the same technique used wrongly on a different page).\n- Calling the property compliant, passing, excepted or \"no finding\" is fine.\n  So is a best-practice remark, an Advisory or Review note, or a note that it\n  matters only at AAA, when it is clearly not presented as a Level A/AA\n  violation.\n\nIf FAIL, name the decoy.",
+          "config": {
+            "criteria": "PASS if none of the properties listed below is reported as a Level A or AA\nviolation. FAIL if any listed property is itself reported as one: a\nfindings-table row with severity Nonconformity or Deviation whose subject IS\nthat property, or a statement that the property violates a Level A or AA\nsuccess criterion.\n\nThe reply is a WCAG 2.2 Level AA accessibility audit report. Each listed item\nis a specific property of the audited project that is known to be COMPLIANT\n(a decoy or a non-scored note).\n\n- HK3: Drag-to-reorder of the saved trips on planner.html:77-101 (js/planner.js:19-58). Every item also has real 'Move up' and 'Move down' buttons (a single-pointer and keyboard alternative), the instructions name both methods, focus stays on the pressed button, and moves are announced via role=\"status\". Reporting it under 2.5.7 Dragging Movements or 2.1.1 Keyboard is a false positive. (The dashboard component components/SavedTrips.vue, H15, is drag-only and is a real defect; it does not count.)\n- HK4: The 20x20px map zoom buttons at map.html:33-36 (.zoom-btn, css/site.css:159-163). They are under 24x24 but meet the 2.5.8 spacing exception: stacked with an 8px gap (centres 28px apart), so 24px circles centred on them do not intersect each other or any other target. Reporting them as a Target Size failure is a false positive.\n- HK5: The rider survey dialog at index.html:64-71, a native <dialog> opened with showModal() in js/site.js:1-12, with no custom focus-trap or Escape code. showModal() makes the page inert, moves focus in, closes natively on Escape, and the close handler returns focus to the opener, so there is no keyboard trap (2.1.2) and the focus order is logical (2.4.3). Reporting it as a trap or focus-order failure is a false positive. (The custom email-alerts modal on alerts.html, H10, is a real trap and does not count.)\n\nHow to judge each item:\n- Findings about OTHER problems that happen to mention the same file, line or\n  success criterion do not count (for example a real defect on a neighbouring\n  element, or the same technique used wrongly on a different page).\n- Calling the property compliant, passing, excepted or \"no finding\" is fine.\n  So is a best-practice remark, an Advisory or Review note, or a note that it\n  matters only at AAA, when it is clearly not presented as a Level A/AA\n  violation.\n\nIf FAIL, name the decoy.",
+            "focus": "last_message"
+          }
+        },
+        {
+          "name": "recall-H09",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:map\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:(?:4(?:[2-9])|5(?:0)))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-4]\\d{1}|5(?:0)))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:4(?:[2-9])|[5-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))|map\\.js[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:(?:1(?:[4-9])|2(?:0)))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|2(?:0)))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:1(?:[4-9])|[2-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:2\\.1\\.1|keyboard|tabindex|focusab|\\bstops?\\b|click))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-H10",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:alerts\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:(?:6(?:[5-9])|7(?:[0-8])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-6]\\d{1}|7(?:[0-8])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:6(?:[5-9])|[7-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))|alerts\\.js[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:(?:7(?:[2-9])|8(?:[0-7])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-7]\\d{1}|8(?:[0-7])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:7(?:[2-9])|8\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:2\\.1\\.2|2\\.1\\.1|trap|escape|\\bmodal|\\bF10\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-H11",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:site\\.css[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:8[1-6])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-7]\\d{1}|8(?:[0-6])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:8(?:[1-9])|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:(?:8(?:[7-9])|9(?:[0-4])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-8]\\d{1}|9(?:[0-4])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:8(?:[7-9])|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))|index\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:(?:3(?:[3-9])|4(?:[0-8])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\\d{1}|4(?:[0-8])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:3(?:[3-9])|[4-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:2\\.2\\.2|pause|carousel|animation|auto-?(?:advanc|rotat|play|scroll|mat)|promo|infinite|\\bF16\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-H12",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:login\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:4[0-2])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\\d{1}|4(?:[0-2])))[ \\t]?[-\u2013][ \\t]?(?:(?:[4-9]\\d{1})|[1-9]\\d{2,})(?!\\d)|(?:4[1-3])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\\d{1}|4(?:[0-3])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:4(?:[1-9])|[5-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:2\\.4\\.3|tabindex|focus order|\\bF44\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-H13",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:site\\.css[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:5[1-3])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-4]\\d{1}|5(?:[0-3])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:5(?:[1-9])|[6-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))|\\.site-nav a:focus))(?=[^\\n]*(?:2\\.4\\.7|outline|focus visible|focus indicator|\\bF78\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-H14",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:site\\.css[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:1(?:8(?:[8-9])|9(?:0)))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|[1-9]\\d{1}|1(?:0(?:[0-9])|[1-8]\\d{1}|9(?:0)))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:1(?:(?:8(?:[8-9])|9(?:[0-9])))|[2-8]\\d{2}|9(?:[0-9]\\d{1})))|[1-9]\\d{3,})(?!\\d))|feedback\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:(?:6(?:[3-9])|7(?:[0-3])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-6]\\d{1}|7(?:[0-3])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:6(?:[3-9])|[7-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:2\\.4\\.11|obscur|dock|fixed|scroll-padding|hidden behind|covers?\\b|\\bF110\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-H15",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:SavedTrips\\.vue[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:[7-9]|1[0-8])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|1[0-8])[ \\t]?[-\u2013][ \\t]?(?:(?:[7-9])|[1-9]\\d{1,})(?!\\d)|(?:(?:2(?:[8-9])|3\\d{1}|4(?:[0-2])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\\d{1}|4(?:[0-2])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:2(?:[8-9])|[3-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:2\\.5\\.7|2\\.1\\.1|drag|keyboard|single[- ]pointer))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-H16",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:alerts\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:3[1-5])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|2\\d{1}|3(?:[0-5])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:3(?:[1-9])|[4-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))|site\\.css[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:13[1-6])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|[1-9]\\d{1}|1(?:0(?:[0-9])|[1-2]\\d{1}|3(?:[0-6])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:1(?:(?:3(?:[1-9])|[4-8]\\d{1}|9(?:[0-9])))|[2-8]\\d{2}|9(?:[0-9]\\d{1})))|[1-9]\\d{3,})(?!\\d))))(?=[^\\n]*(?:2\\.5\\.8|target|mini-btn|16\\s?(?:x|\u00d7|by)\\s?16|16\\s?px))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-H09",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:map\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:(?:4(?:[2-9])|5(?:0)))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-4]\\d{1}|5(?:0)))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:4(?:[2-9])|[5-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))|map\\.js[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:(?:1(?:[4-9])|2(?:0)))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|2(?:0)))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:1(?:[4-9])|[2-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:2\\.1\\.1|keyboard|tabindex|focusab|\\bstops?\\b|click))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies))\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-H10",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:alerts\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:(?:6(?:[5-9])|7(?:[0-8])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-6]\\d{1}|7(?:[0-8])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:6(?:[5-9])|[7-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))|alerts\\.js[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:(?:7(?:[2-9])|8(?:[0-7])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-7]\\d{1}|8(?:[0-7])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:7(?:[2-9])|8\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:2\\.1\\.2|2\\.1\\.1|trap|escape|\\bmodal|\\bF10\\b))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?|Review(?:[ -]notes?)?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-H11",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:site\\.css[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:8[1-6])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-7]\\d{1}|8(?:[0-6])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:8(?:[1-9])|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:(?:8(?:[7-9])|9(?:[0-4])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-8]\\d{1}|9(?:[0-4])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:8(?:[7-9])|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))|index\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:(?:3(?:[3-9])|4(?:[0-8])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\\d{1}|4(?:[0-8])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:3(?:[3-9])|[4-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:2\\.2\\.2|pause|carousel|animation|auto-?(?:advanc|rotat|play|scroll|mat)|promo|infinite|\\bF16\\b))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies))\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-H12",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:login\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:4[0-2])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\\d{1}|4(?:[0-2])))[ \\t]?[-\u2013][ \\t]?(?:(?:[4-9]\\d{1})|[1-9]\\d{2,})(?!\\d)|(?:4[1-3])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\\d{1}|4(?:[0-3])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:4(?:[1-9])|[5-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:2\\.4\\.3|tabindex|focus order|\\bF44\\b))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-H13",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:site\\.css[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:5[1-3])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-4]\\d{1}|5(?:[0-3])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:5(?:[1-9])|[6-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))|\\.site-nav a:focus))(?=[^\\n]*(?:2\\.4\\.7|outline|focus visible|focus indicator|\\bF78\\b))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-H14",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:site\\.css[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:1(?:8(?:[8-9])|9(?:0)))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|[1-9]\\d{1}|1(?:0(?:[0-9])|[1-8]\\d{1}|9(?:0)))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:1(?:(?:8(?:[8-9])|9(?:[0-9])))|[2-8]\\d{2}|9(?:[0-9]\\d{1})))|[1-9]\\d{3,})(?!\\d))|feedback\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:(?:6(?:[3-9])|7(?:[0-3])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-6]\\d{1}|7(?:[0-3])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:6(?:[3-9])|[7-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:2\\.4\\.11|obscur|dock|fixed|scroll-padding|hidden behind|covers?\\b|\\bF110\\b))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?|Review(?:[ -]notes?)?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-H15",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:SavedTrips\\.vue[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:[7-9]|1[0-8])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|1[0-8])[ \\t]?[-\u2013][ \\t]?(?:(?:[7-9])|[1-9]\\d{1,})(?!\\d)|(?:(?:2(?:[8-9])|3\\d{1}|4(?:[0-2])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\\d{1}|4(?:[0-2])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:2(?:[8-9])|[3-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:2\\.5\\.7|2\\.1\\.1|drag|keyboard|single[- ]pointer))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?|Review(?:[ -]notes?)?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-H16",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:alerts\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:3[1-5])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|2\\d{1}|3(?:[0-5])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:3(?:[1-9])|[4-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))|site\\.css[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:13[1-6])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|[1-9]\\d{1}|1(?:0(?:[0-9])|[1-2]\\d{1}|3(?:[0-6])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:1(?:(?:3(?:[1-9])|[4-8]\\d{1}|9(?:[0-9])))|[2-8]\\d{2}|9(?:[0-9]\\d{1})))|[1-9]\\d{3,})(?!\\d))))(?=[^\\n]*(?:2\\.5\\.8|target|mini-btn|16\\s?(?:x|\u00d7|by)\\s?16|16\\s?px))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "skill-used",
+          "type": "tool_used",
+          "weight": 1,
+          "config": {
+            "tool": "Skill",
+            "input_match": "\"skill\"\\s*:\\s*\"(?:[\\w-]+:)?wcag22\\-a11y\"",
+            "min": 1
+          }
+        }
+      ],
+      "arms": {
+        "with": [
+          {
+            "score": 0.9999523832198466,
+            "passed": false,
+            "turns": 28,
+            "costUsd": 0.7716608,
+            "judgeCostUsd": 0.042983999999999994,
+            "durationSeconds": 164,
+            "startedAt": "2026-09-30T05:21:36.080Z",
+            "error": null,
+            "tracePath": "<run-sandbox>/out/trace.jsonl",
+            "skippedPaidGraders": false,
+            "graders": [
+              {
+                "name": "no-peek",
+                "passed": true,
+                "weight": 1,
+                "explanation": "pattern absent as expected",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "nodecoy-HK3",
+                "passed": true,
+                "weight": 1,
+                "explanation": "pattern absent as expected",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "nodecoy-HK4",
+                "passed": true,
+                "weight": 1,
+                "explanation": "pattern absent as expected",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "nodecoy-HK5",
+                "passed": true,
+                "weight": 1,
+                "explanation": "pattern absent as expected",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "nodecoy-judge",
+                "passed": false,
+                "weight": 0.001,
+                "explanation": "judge votes: FAIL FAIL FAIL",
+                "withOnly": false,
+                "scored": true,
+                "judgeVotes": [
+                  false,
+                  false,
+                  false
+                ],
+                "evidence": "# WCAG 2.2 Level AA audit, Principle 2 (Operable): Brightwater Transit static front end\n\n**Scope:** 11 pages (index, planner, fares, alerts, map, claim-1, claim-2, claim-3, login, feedback, help), `css/site.css`, `js/*.js` (7 files) and `components/*.vue` (4 source-only files). The only multi-step process is the lost-item claim (claim-1 \u2192 claim-2 \u2192 claim-3). The 20 Level A and AA criteria under Principle 2 were checked. No assistive technology or browser was used.\n\n**Summary:** The site does not meet Principle 2 at Level AA. I found 9 nonconformities, 0 deviations, 2 advisories and 6 review notes. Of the 20 criteria, 8 fail, 10 pass, 2 are N/A and none are left unevaluated.\n\n**Evidence:** This was a static review only. There was no shell, so the scanner and the rendered-page runner were not run. I read every file listed above line by line, and traced keyboard, focus and pointer behaviour by hand from the HTML, CSS and JS.\n\n## Findings\n\n| # | Severity | Check ID | Ref | Target | Location | Finding | Evidence | Fix |\n|---|---|---|---|---|---|---|---|---|\n| 1 | Nonconformity | WCAG-2.1.2 | WCAG 2.2 SC 2.1.2 (Level A) | page | `js/alerts.js:74-86`, `alerts.html:66-77` | **Keyboard trap.** Once the \"Email alerts\" modal is open, keyboard users cannot get out of it. Because of the non-interference rule, this fails the whole alerts page. | `alerts.js:75-77` blocks Escape with `preventDefault()` and returns. `alerts.js:79-85` makes Tab and Shift+Tab switch only between `#alert-email` and `#alert-subscribe`. The only exits are the `<span>` close control (finding 2) and a backdrop click (`alerts.js:65-67`), and both need a mouse. | Let Escape call `closeModal()`. Include the close button in the Tab cycle, or use native `<dialog>` with `showModal()` as `index.html:65` does. |\n| 2 | Nonconformity | WCAG-2.1.1 | WCAG 2.2 SC 2.1.1 (Level A) | page | `alerts.html:68`, `js/alerts.js:64` | The modal's close control can't be reached or used from the keyboard. It also breaks 4.1.2 (outside this scope). | `<span class=\"modal__close\" id=\"email-modal-close\">&times;</span>` has no tabindex or role and only a `click` listener. | `<button type=\"button\" class=\"modal__close\" aria-label=\"Close email alerts\">&times;</button>` |\n| 3 | Nonconformity | WCAG-2.1.1 | WCAG 2.2 SC 2.1.1 (Level A) | page | `map.html:43-49`, `js/map.js:15-20` | The map stops only respond to the mouse. The page says \"Select a stop on the map\u2026\" (`map.html:31`), but keyboard users can't open any stop's details, and there's no other way to reach them. | Each `<g class=\"stop\">` is plain SVG, not focusable, with only `addEventListener('click')`. | Make each stop focusable (`tabindex=\"0\" role=\"button\" aria-label=\"Market Square\"`) and handle Enter and Space, or wrap each one in an SVG `<a>`. A better option is a list of stop buttons next to the map that drives the same panel. |\n| 4 | Nonconformity | WCAG-2.5.7 | WCAG 2.2 SC 2.5.7 (Level AA); also SC 2.1.1 (Level A) | component | `components/SavedTrips.vue:7-15` | Saved trips can only be reordered by dragging. There is no single-pointer or keyboard way to do it. | The only reorder handlers are `@dragstart`, `@dragover.prevent` and `@drop`. The grip (`:16`) is `aria-hidden` and there are no buttons. `planner.html:82-97` gets this right with Move up / Move down. | Add Move up / Move down buttons to each item, like the planner, and announce the new position through a `role=\"status\"` region. |\n| 5 | Nonconformity | WCAG-2.2.2 | WCAG 2.2 SC 2.2.2 (Level A), non-interference | page, stylesheet | `index.html:31-49`, `css/site.css:82-93` (`:84`) | The home-page promo carousel starts moving on its own, loops forever, and has no way to pause, stop or hide it. | `animation: promo-slide 18s ease-in-out infinite`: three slides, each shown for about 5 s, alongside other content. The page has no controls and the CSS has no `prefers-reduced-motion` rule. | Add a Pause/Play button that toggles `animation-play-state` on `.promo-track`. Pause on hover and focus. Add `@media (prefers-reduced-motion: reduce) { .promo-track { animation: none; } }`. The simplest fix is not to auto-rotate. |\n| 6 | Nonconformity | WCAG-2.4.3 | WCAG 2.2 SC 2.4.3 (Level A) | page | `login.html:41-42` | Positive `tabindex` values scramble the focus order on the sign-in page. | `<a \u2026 tabindex=\"1\">Create an account</a>` and `<button \u2026 tabindex=\"2\">Sign in</button>`. From the top of the page, the first Tab goes to \"Create an account\" and the second to \"Sign in\". Only then does focus reach the skip link, the navigation, username and password, so the button comes before the fields it submits. | Remove both `tabindex` attributes. |\n| 7 | Nonconformity | WCAG-2.4.7 | WCAG 2.2 SC 2.4.7 (Level AA) | stylesheet | `css/site.css:52` (affects nav on all 11 pages, e.g. `index.html:16-26`) | The main navigation links show no focus indicator. | `.site-nav a:focus { outline: none; }` has higher specificity (0,1,1) than the global `:focus-visible` rule at `site.css:31` (0,1,0), so the outline is removed. No other focus style replaces it. The `aria-current` underline at `:53` marks the current page, not focus. | Delete `site.css:52`, or replace it with `.site-nav a:focus-visible { outline: 3px solid var(--brand); outline-offset: 2px; }`. |\n| 8 | Nonconformity | WCAG-2.4.11 | WCAG 2.2 SC 2.4.11 (Level AA) | page, stylesheet | `css/site.css:189`, `feedback.html:64`, `feedback.html:29` | On the feedback page, a fixed footer at least 12rem tall covers the bottom of the viewport. Fields brought into view by Tab end up completely hidden behind it. | `.dock-footer { position: fixed; bottom: 0; min-height: 12rem; z-index: 50 }`. `padding-bottom: 12rem` on `<main>` only adds room to scroll; it does not change where the browser scrolls a focused element. Browsers scroll just far enough to put a newly focused element at the bottom edge, which is under the ~192 px opaque footer (the checkboxes, message, radios and \"Send feedback\"). No `scroll-padding` is set. The `max-height: 30rem` fallback at `:191` only helps on very short viewports. | Add `html { scroll-padding-bottom: 13rem; }` on this page, or better, don't fix the footer in place (use `position: static`, or a small sticky chat button). |\n| 9 | Nonconformity | WCAG-2.5.8 | WCAG 2.2 SC 2.5.8 (Level AA) | page, stylesheet | `alerts.html:32-34`, `css/site.css:132-135` | The live-banner buttons (Previous, Next, Hide) are 16 \u00d7 16 px and too close together for the spacing exception. | `.mini-btn { width:16px; height:16px; margin-left:4px }`. Their centres are 20 px apart, so their 24 px circles overlap. The same controls don't exist anywhere else on the page, and none of the other exceptions applies. | Set `min-width: 24px; min-height: 24px` (44 px is better) and add at least an 8px gap. |\n| 10 | Advisory | WCAG-BP-target-size-margin | WCAG 2.2 SC 2.5.8 (Level AA), best practice | stylesheet | `css/site.css:160-163`, `map.html:34-35` | The zoom buttons are only 20 \u00d7 20 px. They pass today because of the spacing exception, but only just (see the review notes). | Centres are 28 px apart in the column layout (20 + 8 gap) and 32 px apart in the \u226440rem row layout, which is more than 24 px, so no circles overlap. | Make them 24 px or larger (ideally 44 px) so a future layout change can't make them fail. |\n| 11 | Advisory | WCAG-BP-reduced-motion | WCAG 2.2 SC 2.3.3 (AAA), best practice | stylesheet | `css/site.css:84, 141, 181` | The site has no `prefers-reduced-motion` handling for the carousel, switch knob or floating-label transitions. | No `@media (prefers-reduced-motion)` rule anywhere in the stylesheet. | Add a reduced-motion block that turns off the animations and transitions. |\n\n## SC coverage (Principle 2, Level A and AA)\n\n| SC | Level | Status | Basis |\n|---|---|---|---|\n| 2.1.1 Keyboard | A | **Fail** | #2, #3, #4 |\n| 2.1.2 No Keyboard Trap | A | **Fail** | #1 |\n| 2.1.4 Character Key Shortcuts | A | Pass | The only key handlers are Space/Enter on the focused switch (`alerts.js:30-35`), Backspace in the code inputs (`login.js:27-29`) and Tab/Escape inside the modal. There are no single-character shortcuts. |\n| 2.2.1 Timing Adjustable | A | N/A | No time limits in the code, including the code step. |\n| 2.2.2 Pause, Stop, Hide | A | **Fail** | #5. The alerts banner (`alerts.js:16`, 20 s rotation) passes because the Hide button stops it (`alerts.js:19-22`). |\n| 2.3.1 Three Flashes or Below | A | Pass | Nothing flashes. The carousel slides every ~6 s. |\n| 2.4.1 Bypass Blocks | A | Pass | The skip link to `#main` is on all 11 pages and shows on focus (`site.css:28-29`). |\n| 2.4.2 Page Titled | A | Pass | Each page has a distinct title. The claim steps include \"step N of 3\". |\n| 2.4.3 Focus Order | A | **Fail** | #6. The planner keeps focus after moving a trip (`planner.js:57`); the survey dialog returns focus to its opener (`site.js:9-11`). |\n| 2.4.4 Link Purpose (In Context) | A | Pass | Link text is descriptive. The inline \"route map\" link (`alerts.html:56`) is clear from its sentence. |\n| 2.4.5 Multiple Ways | AA | Pass | Main nav on every page, plus home-page quick links and footer links. Claim steps 2\u20133 are exempt as steps in a process. See the review notes. |\n| 2.4.6 Headings and Labels | AA | Pass | Headings and labels describe their content. |\n| 2.4.7 Focus Visible | AA | **Fail** | #7 |\n| 2.4.11 Focus Not Obscured (Minimum) | AA | **Fail** | #8 |\n| 2.5.1 Pointer Gestures | A | Pass | No multipoint or path-based gestures. |\n| 2.5.2 Pointer Cancellation | A | Pass | All actions fire on `click` or `change`, not on pointer-down. |\n| 2.5.3 Label in Name | A | Pass | \"Move up Home to Work\" starts with its visible text. Switch and fields take their names from their visible labels. Symbol-only buttons (+, \u2212, \u2039, \u203a, \u00d7, swap icon) have no visible text label. |\n| 2.5.4 Motion Actuation | A | N/A | No device-motion input. |\n| 2.5.7 Dragging Movements | AA | **Fail** | #4, in the component. `planner.html` passes because it has Move up / Move down buttons. |\n| 2.5.8 Target Size (Minimum) | AA | **Fail** | #9. `.btn-small` is 32 px; `.btn`, fields and OTP inputs are 44 px or more. |\n\n## Review notes\n\n- **Vue components** are source only and not mounted on any page. Finding #4 applies wherever `SavedTrips.vue` is used. `ToggleSwitch.vue` (native checkbox with a visible `:focus-visible` ring), `StopSearch.vue` and the keyboard side of `ZoneInfoTooltip.vue` raise no Principle 2 issues.\n- **Map stop targets** (`map.html:43-49`, `r=\"9\"`, so 18 px at 600 px width and smaller on narrow screens) pass 2.5.8 through the spacing exception: the stops are at least ~80 px apart even at 343 px width. Check this again after fixing #3. If you add buttons to the map, make them at least 24 px.\n- **2.4.5 is a judgement call.** The main nav and the home-page links to every section count as two ways to find pages, but they overlap a lot. A site map or search on the help page would settle it.\n- **2.4.11 (#8) is based on how browsers normally scroll focused elements into view**, not on a rendered test. Confirm it by tabbing through `feedback.html` at 1280 \u00d7 800.\n- **Fares zone picker** (`js/fares.js:7-9`) loads a new page on `change`. In some browsers, pressing the arrow keys on the closed select navigates at every option. This is mainly SC 3.2.2 (outside this scope), but it makes the control hard to use from the keyboard.\n- **Carousel:** the hidden slides are moved off-screen with `transform`, not hidden, so they stay in the reading order. That is fine for 2.4.3 because they contain no focusable elements.\n\n## Manual checks required\n\nNone are open for Principle 2. Every criterion was decided from the source. Before relying on these statuses, do these in a browser:\n\n- A keyboard-only walk through all 11 pages. In particular, confirm #1, #6, #7 and #8, and that the carousel fix works.\n- A screen-reader check that the alerts modal and the map fixes announce correctly.\n\n## Not run / not applicable\n\n- `wcag_scan.py`, `wcag_page.mjs` and axe-core were not run (no shell). No screenshots or measured rendered sizes; target sizes were worked out from CSS.\n- **Found in passing, outside this scope (Principles 1, 3, 4).** These were not audited systematically:\n  - `planner.html:36` locate button has no accessible name (4.1.2/1.1.1).\n  - `alerts.js:26-28` never updates `aria-checked` on the switch (4.1.2).\n  - `login.js:8-12, 22` blocks pasting into the password and code fields (3.3.8).\n  - `claim-3.html:35-40` asks again for email and phone already given in step 1 (3.3.7).\n  - `claim-2.html:11-27` drops the header Help link (3.2.6).\n  - `fares.html:2` has no `lang` (3.1.1).\n  - `fares.html:42, 122` shows peak fares by colour only (1.4.1).\n  - `fares.html:47-60` uses `td.th` instead of `<th>` (1.3.1).\n  - `ZoneInfoTooltip.vue:8-17` tooltip can't be hovered over or dismissed (1.4.13).\n  - `site.css:136` sets `min-width: 880px` (1.4.10).\n  - `site.css:180` label colour `#a0a0a0` is low contrast (1.4.3).\n  - `feedback.js` never fills in the error messages (3.3.1).\n\n## Assumptions\n\n- WCAG 2.2 (W3C Recommendation, 12 December 2024) is the standard used.\n- The pages run as written, with JavaScript on, in current Chromium, Firefox and Safari.\n- `fonts/bwicons.woff2` and `img/sprite.svg#logo`/`#step-free` are either missing or out of scope. They don't affect Principle 2.\n- No assistive technology was used. A screen-reader check (e.g. NVDA + Firefox, VoiceOver + Safari) should confirm:\n  - the alerts modal can be escaped once fixed;\n  - map stops announce as buttons with their names;\n  - the Move up / Move down announcements come through `#saved-status`.\n\n## Reproduction\n\n1. **#1 and #2:** open `alerts.html` and press Tab to \"Get email alerts\", then Enter. Focus goes to the email field. Tab and Shift+Tab only alternate between email and Subscribe, Escape does nothing, and the \u00d7 can't be focused.\n2. **#6:** open `login.html` and press Tab once. Focus lands on \"Create an account\".\n3. **#7:** on any page, Tab past the logo into the nav. No outline appears.\n4. **#3:** open `map.html` and Tab through the page. No stop ever gets focus.\n5. **#8:** open `feedback.html` at a viewport taller than 480 px and Tab from the name field downward. Focused fields go under the navy footer.\n6. **#5:** open `index.html` and watch the carousel. It rotates with no pause control.\n\n**Conformance:** the site does **not conform** to WCAG 2.2 Level AA. Under Principle 2 it fails SC 2.1.1, 2.1.2, 2.2.2, 2.4.3, 2.4.7, 2.4.11, 2.5.7 and 2.5.8."
+              },
+              {
+                "name": "recall-H09",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:map\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:(?:4(?:[2-9])|5(?:0)))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-4]\\d{1}|5(?:0)))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:4(?:[2-9])|[5-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))|map\\.js[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:(?:1(?:[4-9])|2(?:0)))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|2(?:0)))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:1(?:[4-9])|[2-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:2\\.1\\.1|keyboard|tabindex|focusab|\\bstops?\\b|click))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-H10",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:alerts\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:(?:6(?:[5-9])|7(?:[0-8])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-6]\\d{1}|7(?:[0-8])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:6(?:[5-9])|[7-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))|alerts\\.js[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:(?:7(?:[2-9])|8(?:[0-7])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-7]\\d{1}|8(?:[0-7])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:7(?:[2-9])|8\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:2\\.1\\.2|2\\.1\\.1|trap|escape|\\bmodal|\\bF10\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-H11",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:site\\.css[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:8[1-6])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-7]\\d{1}|8(?:[0-6])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:8(?:[1-9])|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:(?:8(?:[7-9])|9(?:[0-4])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-8]\\d{1}|9(?:[0-4])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:8(?:[7-9])|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))|index\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:(?:3(?:[3-9])|4(?:[0-8])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\\d{1}|4(?:[0-8])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:3(?:[3-9])|[4-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:2\\.2\\.2|pause|carousel|animation|auto-?(?:advanc|rotat|play|scroll|mat)|promo|infinite|\\bF16\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-H12",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:login\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:4[0-2])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\\d{1}|4(?:[0-2])))[ \\t]?[-\u2013][ \\t]?(?:(?:[4-9]\\d{1})|[1-9]\\d{2,})(?!\\d)|(?:4[1-3])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\\d{1}|4(?:[0-3])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:4(?:[1-9])|[5-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:2\\.4\\.3|tabindex|focus order|\\bF44\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-H13",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:site\\.css[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:5[1-3])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-4]\\d{1}|5(?:[0-3])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:5(?:[1-9])|[6-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))|\\.site-nav a:focus))(?=[^\\n]*(?:2\\.4\\.7|outline|focus visible|focus indicator|\\bF78\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-H14",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:site\\.css[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:1(?:8(?:[8-9])|9(?:0)))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|[1-9]\\d{1}|1(?:0(?:[0-9])|[1-8]\\d{1}|9(?:0)))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:1(?:(?:8(?:[8-9])|9(?:[0-9])))|[2-8]\\d{2}|9(?:[0-9]\\d{1})))|[1-9]\\d{3,})(?!\\d))|feedback\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:(?:6(?:[3-9])|7(?:[0-3])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-6]\\d{1}|7(?:[0-3])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:6(?:[3-9])|[7-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:2\\.4\\.11|obscur|dock|fixed|scroll-padding|hidden behind|covers?\\b|\\bF110\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-H15",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:SavedTrips\\.vue[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:[7-9]|1[0-8])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|1[0-8])[ \\t]?[-\u2013][ \\t]?(?:(?:[7-9])|[1-9]\\d{1,})(?!\\d)|(?:(?:2(?:[8-9])|3\\d{1}|4(?:[0-2])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\\d{1}|4(?:[0-2])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:2(?:[8-9])|[3-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:2\\.5\\.7|2\\.1\\.1|drag|keyboard|single[- ]pointer))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-H16",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:alerts\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:3[1-5])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|2\\d{1}|3(?:[0-5])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:3(?:[1-9])|[4-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))|site\\.css[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:13[1-6])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|[1-9]\\d{1}|1(?:0(?:[0-9])|[1-2]\\d{1}|3(?:[0-6])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:1(?:(?:3(?:[1-9])|[4-8]\\d{1}|9(?:[0-9])))|[2-8]\\d{2}|9(?:[0-9]\\d{1})))|[1-9]\\d{3,})(?!\\d))))(?=[^\\n]*(?:2\\.5\\.8|target|mini-btn|16\\s?(?:x|\u00d7|by)\\s?16|16\\s?px))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-H09",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:map\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:(?:4(?:[2-9])|5(?:0)))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-4]\\d{1}|5(?:0)))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:4(?:[2-9])|[5-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))|map\\.js[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:(?:1(?:[4-9])|2(?:0)))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|2(?:0)))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:1(?:[4-9])|[2-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:2\\.1\\.1|keyboard|tabindex|focusab|\\bstops?\\b|click))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies))\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-H10",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:alerts\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:(?:6(?:[5-9])|7(?:[0-8])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-6]\\d{1}|7(?:[0-8])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:6(?:[5-9])|[7-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))|alerts\\.js[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:(?:7(?:[2-9])|8(?:[0-7])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-7]\\d{1}|8(?:[0-7])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:7(?:[2-9])|8\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:2\\.1\\.2|2\\.1\\.1|trap|escape|\\bmodal|\\bF10\\b))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?|Review(?:[ -]notes?)?)\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-H11",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:site\\.css[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:8[1-6])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-7]\\d{1}|8(?:[0-6])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:8(?:[1-9])|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:(?:8(?:[7-9])|9(?:[0-4])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-8]\\d{1}|9(?:[0-4])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:8(?:[7-9])|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))|index\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:(?:3(?:[3-9])|4(?:[0-8])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\\d{1}|4(?:[0-8])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:3(?:[3-9])|[4-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:2\\.2\\.2|pause|carousel|animation|auto-?(?:advanc|rotat|play|scroll|mat)|promo|infinite|\\bF16\\b))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies))\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-H12",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:login\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:4[0-2])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\\d{1}|4(?:[0-2])))[ \\t]?[-\u2013][ \\t]?(?:(?:[4-9]\\d{1})|[1-9]\\d{2,})(?!\\d)|(?:4[1-3])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\\d{1}|4(?:[0-3])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:4(?:[1-9])|[5-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:2\\.4\\.3|tabindex|focus order|\\bF44\\b))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-H13",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:site\\.css[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:5[1-3])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-4]\\d{1}|5(?:[0-3])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:5(?:[1-9])|[6-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))|\\.site-nav a:focus))(?=[^\\n]*(?:2\\.4\\.7|outline|focus visible|focus indicator|\\bF78\\b))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-H14",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:site\\.css[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:1(?:8(?:[8-9])|9(?:0)))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|[1-9]\\d{1}|1(?:0(?:[0-9])|[1-8]\\d{1}|9(?:0)))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:1(?:(?:8(?:[8-9])|9(?:[0-9])))|[2-8]\\d{2}|9(?:[0-9]\\d{1})))|[1-9]\\d{3,})(?!\\d))|feedback\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:(?:6(?:[3-9])|7(?:[0-3])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-6]\\d{1}|7(?:[0-3])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:6(?:[3-9])|[7-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:2\\.4\\.11|obscur|dock|fixed|scroll-padding|hidden behind|covers?\\b|\\bF110\\b))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?|Review(?:[ -]notes?)?)\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-H15",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:SavedTrips\\.vue[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:[7-9]|1[0-8])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|1[0-8])[ \\t]?[-\u2013][ \\t]?(?:(?:[7-9])|[1-9]\\d{1,})(?!\\d)|(?:(?:2(?:[8-9])|3\\d{1}|4(?:[0-2])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\\d{1}|4(?:[0-2])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:2(?:[8-9])|[3-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:2\\.5\\.7|2\\.1\\.1|drag|keyboard|single[- ]pointer))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?|Review(?:[ -]notes?)?)\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-H16",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:alerts\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:3[1-5])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|2\\d{1}|3(?:[0-5])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:3(?:[1-9])|[4-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))|site\\.css[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:13[1-6])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|[1-9]\\d{1}|1(?:0(?:[0-9])|[1-2]\\d{1}|3(?:[0-6])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:1(?:(?:3(?:[1-9])|[4-8]\\d{1}|9(?:[0-9])))|[2-8]\\d{2}|9(?:[0-9]\\d{1})))|[1-9]\\d{3,})(?!\\d))))(?=[^\\n]*(?:2\\.5\\.8|target|mini-btn|16\\s?(?:x|\u00d7|by)\\s?16|16\\s?px))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "skill-used",
+                "passed": true,
+                "weight": 1,
+                "explanation": "Skill called 1x (expected 1..\u221e)",
+                "withOnly": false,
+                "scored": true
+              }
+            ]
+          }
+        ]
+      },
+      "aggregates": {
+        "score": 0.9999523832198466,
+        "passRate": 0
+      }
+    }
+  ],
+  "aggregates": {
+    "casesTotal": 1,
+    "casesPassed": 1,
+    "overallScore": 0.9999523832198466,
+    "overallPassRate": 0
+  }
+}

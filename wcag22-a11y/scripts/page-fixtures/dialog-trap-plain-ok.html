@@ -1,0 +1,24 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Workshop booking</title>
+<style>.sheet-wrap{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center}.sheet-wrap[hidden]{display:none}
+.sheet{background:#fff;padding:20px;max-width:24rem}</style></head><body><main>
+<h1>Pottery workshops</h1>
+<article><h2>Throwing basics</h2><p>Saturday mornings.</p><button type="button" class="book" data-slot="throwing">Book a place</button></article>
+</main>
+<div class="sheet-wrap" id="booking" hidden><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="bt">
+<h2 id="bt">Book a place</h2>
+<label for="who">Name</label> <input id="who"> <label for="mail">Email</label> <input id="mail" type="email">
+<button type="button" id="done">Book</button> <button type="button" id="close">Close</button></div></div>
+<script>
+var wrap = document.getElementById('booking'), opener = null;
+function shut() { wrap.hidden = true; if (opener) opener.focus(); }
+document.querySelectorAll('.book').forEach(function (b) { b.addEventListener('click', function () { opener = b; wrap.hidden = false; document.getElementById('who').focus(); }); });
+document.getElementById('close').addEventListener('click', shut);
+document.getElementById('done').addEventListener('click', shut);
+document.addEventListener('keydown', function (e) {
+  if (wrap.hidden) return;
+  if (e.key === 'Escape') { e.preventDefault(); shut(); return; }
+  if (e.key !== 'Tab') return;
+  var f = Array.prototype.slice.call(wrap.querySelectorAll('input, button')), i = f.indexOf(document.activeElement);
+  e.preventDefault(); f[(i + (e.shiftKey ? f.length - 1 : 1)) % f.length].focus();
+});
+</script></body></html>

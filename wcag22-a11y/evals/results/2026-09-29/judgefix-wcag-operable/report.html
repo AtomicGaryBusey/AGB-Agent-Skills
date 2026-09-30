@@ -1,0 +1,659 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Eval report — wcag22-a11y-eval v0.0.1</title>
+</head>
+<body>
+<style>
+:root{--plane:#f9f9f7;--surface:#fcfcfb;--ink:#0b0b0b;--ink-2:#52514e;--ink-3:#6b6a64;--hairline:rgba(11,11,11,.10);--grid:#e1e0d9;--inset:rgba(11,11,11,.04);--accent:#2a78d6;--base-fill:#6b6a64;--delta-good:#006300;--good:#067d06;--warning:#8a6100;--critical:#d03b3b;
+  color-scheme:light dark;
+}
+@media (prefers-color-scheme:dark){:root{--plane:#0d0d0d;--surface:#1a1a19;--ink:#ffffff;--ink-2:#c3c2b7;--ink-3:#898781;--hairline:rgba(255,255,255,.10);--grid:#2c2c2a;--inset:rgba(255,255,255,.05);--accent:#3987e5;--base-fill:#898781;--delta-good:#0ca30c;--good:#0ca30c;--warning:#fab219;--critical:#e06c6c;color-scheme:dark}}
+:root[data-theme="dark"]{--plane:#0d0d0d;--surface:#1a1a19;--ink:#ffffff;--ink-2:#c3c2b7;--ink-3:#898781;--hairline:rgba(255,255,255,.10);--grid:#2c2c2a;--inset:rgba(255,255,255,.05);--accent:#3987e5;--base-fill:#898781;--delta-good:#0ca30c;--good:#0ca30c;--warning:#fab219;--critical:#e06c6c;color-scheme:dark}
+:root[data-theme="light"]{--plane:#f9f9f7;--surface:#fcfcfb;--ink:#0b0b0b;--ink-2:#52514e;--ink-3:#6b6a64;--hairline:rgba(11,11,11,.10);--grid:#e1e0d9;--inset:rgba(11,11,11,.04);--accent:#2a78d6;--base-fill:#6b6a64;--delta-good:#006300;--good:#067d06;--warning:#8a6100;--critical:#d03b3b;color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:var(--plane);color:var(--ink);
+  font:14px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif;
+  -webkit-text-size-adjust:100%}
+.wrap{max-width:880px;margin:0 auto;padding:40px 24px 64px;display:flex;flex-direction:column;gap:20px}
+.eyebrow{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+header h1{margin:2px 0 0;font-size:24px;font-weight:600;line-height:1.25;text-wrap:balance}
+.meta{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px;color:var(--ink-2);font-size:13px}
+.meta .num{font-variant-numeric:tabular-nums lining-nums}
+.banner{display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:8px;
+  border:1px solid var(--hairline);background:var(--surface);font-size:13px}
+.banner .chip-warn{color:var(--warning);font-weight:600}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.tile{background:var(--surface);border:1px solid var(--hairline);border-radius:10px;padding:14px 16px;
+  display:flex;flex-direction:column;gap:4px}
+.tile .label{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.tile .value{font-size:26px;font-weight:600;font-variant-numeric:tabular-nums lining-nums;line-height:1.1}
+.tile.hero .value{font-family:Georgia,"Times New Roman",serif;font-weight:400;font-size:48px}
+.tile .sub{font-size:12px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.tile .value.delta-pos{color:var(--delta-good)}
+.tile .value.delta-neg{color:var(--critical)}
+.toolbar{display:flex;gap:8px;justify-content:flex-end}
+.toolbar button{font:12px system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink-2);
+  background:var(--surface);border:1px solid var(--hairline);border-radius:6px;padding:4px 10px;cursor:pointer}
+.toolbar button:hover{color:var(--ink)}
+.toolbar button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.case{background:var(--surface);border:1px solid var(--hairline);border-radius:10px;padding:18px 20px;
+  display:flex;flex-direction:column;gap:10px}
+.case-regressed{border-left:3px solid var(--critical)}
+.verdict{margin:6px 0 0;font-size:15px}
+.verdict .delta{font-size:15px}
+.flag{font-size:11px;font-weight:600;color:var(--warning);white-space:nowrap}
+.star{color:var(--warning);font-size:.45em;vertical-align:super;line-height:0;cursor:help}
+.legend summary{cursor:pointer;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-2)}
+.legend-list{margin:8px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:5px;font-size:13px;color:var(--ink-2)}
+.case-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.case-head h2{margin:0;font-size:16px;font-weight:600}
+.case-head .spacer{flex:1}
+.case-score{font-size:15px;font-weight:600}
+.mono{font:12px "SF Mono",ui-monospace,Menlo,Consolas,monospace}
+.num{font-variant-numeric:tabular-nums lining-nums}
+.muted{color:var(--ink-3);font-size:12px}
+.meter{display:inline-block;position:relative;width:120px;height:6px;border-radius:4px;background:var(--grid);
+  vertical-align:middle}
+.meter>span{display:block;height:100%;border-radius:4px;max-width:100%}
+.meter .tick{position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--ink-3);border-radius:1px}
+.m-accent>span{background:var(--accent)}
+.m-base>span{background:var(--base-fill)}
+.delta{font-size:12px;font-weight:600;font-variant-numeric:tabular-nums}
+.delta-pos{color:var(--delta-good)}
+.delta-neg{color:var(--critical)}
+.delta-zero{color:var(--ink-3)}
+details.section{border-top:1px solid var(--grid);padding-top:10px}
+details.section>summary{cursor:pointer;font-size:12px;font-weight:600;letter-spacing:.04em;
+  text-transform:uppercase;color:var(--ink-2);list-style-position:outside;margin-left:2px}
+details.section>summary:hover{color:var(--ink)}
+details.section[open]>summary{margin-bottom:8px}
+.md{display:flex;flex-direction:column;gap:8px;background:var(--inset);border-radius:8px;
+  padding:12px 14px;overflow-wrap:break-word}
+.md>:first-child{margin-top:0}
+.md h1,.md h2,.md h3,.md h4,.md h5,.md h6{margin:4px 0 0;font-size:1em;font-weight:600;line-height:1.3}
+.md p,.md ul,.md ol,.md blockquote,.md table,.md pre,.md hr{margin:0}
+.md ul,.md ol{display:flex;flex-direction:column;gap:4px;padding-left:20px}
+.md blockquote{border-left:2px solid var(--hairline);padding-left:10px;color:var(--ink-2)}
+.md :not(pre)>code{background:var(--inset);padding:1px 4px;border-radius:4px;
+  font:.92em "SF Mono",ui-monospace,Menlo,Consolas,monospace}
+.md pre{background:var(--inset);border:1px solid var(--hairline);padding:10px 12px;border-radius:6px;
+  overflow-x:auto;font:12px/1.5 "SF Mono",ui-monospace,Menlo,Consolas,monospace}
+.md pre code{background:none;padding:0;font:inherit}
+.md table{width:100%;border-collapse:collapse}
+.md th,.md td{padding:5px 8px;text-align:left;vertical-align:top;border-bottom:1px solid var(--grid)}
+.md th{font-weight:600;color:var(--ink-2)}
+.md a{color:var(--accent);text-decoration:none}
+.md a:hover{text-decoration:underline}
+.grader-def{display:flex;flex-direction:column;gap:6px;padding:8px 0}
+.grader-def+.grader-def{border-top:1px solid var(--grid)}
+.grader-def-head{display:flex;align-items:baseline;gap:8px}
+.grader-name{font:13px "SF Mono",ui-monospace,Menlo,Consolas,monospace;font-weight:600}
+.badge{font-size:10px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-2);
+  border:1px solid var(--hairline);border-radius:999px;padding:1px 8px}
+.config{display:flex;flex-direction:column;gap:2px;background:var(--inset);border-radius:8px;padding:10px 14px}
+.config code{font:12px "SF Mono",ui-monospace,Menlo,Consolas,monospace;overflow-wrap:anywhere}
+.arm{display:flex;flex-direction:column;gap:8px;padding:6px 0}
+.arm+.arm{border-top:1px dashed var(--grid);margin-top:4px;padding-top:12px}
+.arm-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.arm-label{font-size:13px;font-weight:600}
+.run{border:1px solid var(--grid);border-radius:8px;padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+.run-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.run-title{font-size:12px;font-weight:600;color:var(--ink-2)}
+.run-error .explanation{color:var(--ink-2)}
+.note{font-size:12px;color:var(--ink-2)}
+.graders{display:flex;flex-direction:column;gap:4px}
+details.grader{border-radius:6px}
+details.grader>summary{cursor:pointer;display:flex;align-items:baseline;gap:8px;padding:3px 4px;
+  border-radius:6px;list-style:none}
+details.grader>summary::-webkit-details-marker{display:none}
+details.grader>summary::before{content:'▸';font-size:10px;color:var(--ink-3);flex:none;
+  transition:transform .12s ease}
+details.grader[open]>summary::before{transform:rotate(90deg)}
+details.grader>summary:hover{background:var(--inset)}
+details.grader>summary:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.grader-body{padding:6px 8px 8px 24px;display:flex;flex-direction:column;gap:6px}
+.chip{font-size:11px;font-weight:600;border-radius:999px;padding:1px 8px;white-space:nowrap}
+.chip-pass{color:var(--good);border:1px solid currentColor}
+.chip-fail{color:var(--critical);border:1px solid currentColor}
+.chip.chip-warn{color:var(--warning);border:1px solid currentColor}
+.explanation{margin:0;font-size:13px;color:var(--ink-2);white-space:pre-wrap;overflow-wrap:break-word}
+.kv{display:flex;gap:8px;font-size:12px;color:var(--ink-3)}
+.votes{font-variant-numeric:tabular-nums;letter-spacing:.1em}
+pre.evidence{margin:0;background:var(--inset);border:1px solid var(--hairline);border-radius:6px;
+  padding:8px 10px;overflow-x:auto;max-height:320px;
+  font:12px/1.5 "SF Mono",ui-monospace,Menlo,Consolas,monospace;white-space:pre-wrap;overflow-wrap:break-word}
+footer{color:var(--ink-3);font-size:12px;text-align:center;padding-top:8px}
+@media (prefers-reduced-motion:no-preference){
+  details.grader>summary,.toolbar button{transition:background .12s ease,color .12s ease}
+}
+@media (prefers-reduced-motion:reduce){
+  details.grader>summary::before{transition:none}
+}
+@media print{
+  :root,:root[data-theme="dark"],:root[data-theme="light"]{--plane:#f9f9f7;--surface:#fcfcfb;--ink:#0b0b0b;--ink-2:#52514e;--ink-3:#6b6a64;--hairline:rgba(11,11,11,.10);--grid:#e1e0d9;--inset:rgba(11,11,11,.04);--accent:#2a78d6;--base-fill:#6b6a64;--delta-good:#006300;--good:#067d06;--warning:#8a6100;--critical:#d03b3b;color-scheme:light}
+  body{background:#fff}
+  .toolbar{display:none}
+  .case,.run,.grader-def{break-inside:avoid}
+  pre.evidence{max-height:none}
+}
+</style>
+<div class="wrap">
+<header>
+<div class="eyebrow">Plugin eval report</div>
+<h1>wcag22-a11y-eval v0.0.1</h1>
+
+<div class="meta">
+<span class="mono">.</span>
+<span>Claude Code v2.1.283</span>
+<span class="num">2026-09-30 05:28 UTC</span>
+<span class="num">2m 28s</span>
+<span class="num">$0.57</span>
+<span class="num">1 runs</span>
+
+
+
+<span>judge sonnet</span>
+<span class="num">threshold 0%</span>
+<span>filtered: --case wcag-operable</span>
+</div>
+</header>
+
+<section class="tiles">
+<div class="tile hero"><span class="label">Suite score</span><span class="value">99.9%</span><span class="sub">mean of per-case scores</span></div>
+
+<div class="tile"><span class="label">Cases</span><span class="value num">1</span><span class="sub">1 of 1 ≥ 0% threshold</span></div>
+<div class="tile"><span class="label">Perfect runs</span><span class="value num">0%</span><span class="sub">runs where every grader passed</span></div>
+</section>
+<details class="section legend">
+<summary>How to read this report</summary>
+<ul class="legend-list">
+<li>A run's score is the weighted fraction of its graders that passed; a "perfect" run passed every grader.</li>
+<li>A case's score is the mean of its runs; a case passes when its score is at or above the 0% threshold (the tick on each case bar).</li>
+<li>The suite score is the mean of the per-case scores.</li>
+<li>Judge votes are independent samples of the LLM judge; the majority decides pass or fail.</li>
+<li><strong>No baseline arm was run</strong> (ablation off) — this report shows absolute scores only and cannot say whether the plugin caused them. Re-run with <code>--ablation with-without</code> to measure the plugin’s effect.</li>
+
+</ul>
+</details>
+<div class="toolbar"><button type="button" data-act="expand">Expand all</button><button type="button" data-act="collapse">Collapse all</button></div>
+<article class="case" id="case-1">
+<div class="case-head">
+<h2>wcag-operable</h2>
+<span class="muted mono">cases/wcag-operable</span>
+<span class="spacer"></span>
+
+
+
+<span class="meter m-accent" aria-hidden="true"><span style="width:100.0%"></span><i class="tick" style="left:0.0%"></i></span>
+<span class="num case-score">99.9%</span>
+</div>
+
+<details class="section" open>
+<summary>Results</summary>
+<section class="arm">
+<div class="arm-head">
+<span class="arm-label">Runs</span>
+<span class="meter m-accent" aria-hidden="true"><span style="width:100.0%"></span></span>
+<span class="num">99.9%</span>
+<span class="muted num">0% of runs perfect</span>
+</div>
+<div class="run">
+<div class="run-head">
+<span class="run-title">Run 1</span>
+<span class="meter m-accent" aria-hidden="true"><span style="width:100.0%"></span></span>
+<span class="num">99.9%</span>
+<span class="muted num">16 turns · $0.57 · 05:28:21 UTC</span>
+</div>
+
+<div class="graders"><details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">no-peek</span>  </summary>
+<div class="grader-body">
+<p class="explanation">pattern absent as expected</p>
+
+</div>
+</details>
+<details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">nodecoy-K3</span>  </summary>
+<div class="grader-body">
+<p class="explanation">pattern absent as expected</p>
+
+</div>
+</details>
+<details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">nodecoy-K6</span>  </summary>
+<div class="grader-body">
+<p class="explanation">pattern absent as expected</p>
+
+</div>
+</details>
+<details class="grader" open>
+<summary><span class="chip chip-fail">✗ fail</span> <span class="grader-name">nodecoy-judge</span> <span class="muted">×0.001</span> </summary>
+<div class="grader-body">
+<p class="explanation">judge votes: FAIL FAIL FAIL</p>
+<div class="kv"><span>Judge votes</span><span class="votes">✗ ✗ ✗</span></div><div class="kv"><span>Evidence (what the judge was shown; for an image, a description of what was sent)</span></div><pre class="evidence"># WCAG 2.2 Level AA audit: Larkspur Library static front end, Principle 2 (Operable) only
+
+**Scope:** index.html, catalog.html, events.html, login.html, signup.html, styles.css, app.js and src/components/*.jsx. The React sources are marked &quot;not built&quot;; I reviewed them as the sources of the matching pages. I covered the 20 Principle 2 success criteria (SC) at Level A and AA. I checked the processes they touch: sign-in (2 steps), sign-up (2 steps), event reservation and adding to the reading list. No automated tools, assistive technology (AT) or browsers were used.
+
+**Summary:** 11 nonconformities, 2 deviations, 3 advisories, 8 review notes. Of the 20 SC: 10 fail, 6 pass, 3 N/A and 1 not evaluated (likely fail).
+
+**Evidence:** I read every in-scope file line by line. I did not run `wcag_scan` or `wcag_page`, because there is no shell. I did not do a rendered keyboard walkthrough; I traced keyboard behaviour from the markup and the handlers in app.js.
+
+## Findings
+
+| # | Severity | Check ID | Ref | Target | Location | Finding | Evidence | Fix |
+|---|---|---|---|---|---|---|---|---|
+| 1 | Nonconformity | WCAG-2.1.1 | WCAG 2.2 SC 2.1.1 (Level A) | page, component | catalog.html:42, :50, :58, :66; src/components/BookCard.jsx:15 | The &quot;Add to reading list&quot; controls are `&lt;div&gt;`s with only an `onclick`. They can&apos;t be reached or used with the keyboard. | `&lt;div class=&quot;btn add-btn&quot; … onclick=&quot;addToList(this)&quot;&gt;` has no tabindex, no role and no key handler. | Use `&lt;button type=&quot;button&quot; class=&quot;btn add-btn&quot; data-title=&quot;…&quot;&gt;`. In JSX, use `&lt;button type=&quot;button&quot; className=&quot;btn add-btn&quot; onClick={…}&gt;`. |
+| 2 | Nonconformity | WCAG-2.1.2 | WCAG 2.2 SC 2.1.2 (Level A); also 2.1.1 | page, component | app.js:83-92; src/components/Modal.jsx:12-20 | **Keyboard trap in the reservation dialog.** Every Tab is cancelled and focus goes back to &quot;Your name&quot;. Escape is also cancelled. The Email field (events.html:97) and the Confirm button (events.html:99) can never get keyboard focus, so a keyboard user can&apos;t finish a reservation or leave the dialog. This criterion applies to all content (non-interference), so it fails the whole page. | Sequence: activate &quot;Reserve a seat&quot; → focus on #res-name → Tab → `e.preventDefault(); res-name.focus()` → the same field again. Escape → `preventDefault()` only. | Cycle focus through the dialog&apos;s own focusable elements: on Tab from the last one go to the first, and on Shift+Tab the reverse. Close the dialog on Escape. Or use a native `&lt;dialog&gt;` with `showModal()`. |
+| 3 | Nonconformity | WCAG-2.1.1 | WCAG 2.2 SC 2.1.1 (Level A) | page, component | events.html:88; src/components/Modal.jsx:30 | The dialog&apos;s close control is a `&lt;span&gt;` with `onclick`. It isn&apos;t focusable and doesn&apos;t respond to keys. | `&lt;span class=&quot;close&quot; onclick=&quot;closeModal()&quot;&gt;&amp;times;&lt;/span&gt;` | `&lt;button type=&quot;button&quot; class=&quot;close&quot; aria-label=&quot;Close&quot; onclick=&quot;closeModal()&quot;&gt;×&lt;/button&gt;` |
+| 4 | Nonconformity | WCAG-2.5.7 | WCAG 2.2 SC 2.5.7 (Level AA); also 2.1.1 | page, component | catalog.html:81-87; app.js:47-65; src/components/ReadingList.jsx:20-26 | The reading list can only be reordered by drag and drop. There is no single-pointer alternative and no keyboard alternative. | `draggable=&quot;true&quot;` with only dragstart, dragover and drop handlers. The instruction text (catalog.html:81) says &quot;Drag titles…&quot;. | On each item, add &quot;Move up&quot; and &quot;Move down&quot; buttons (or a position `&lt;select&gt;`) that call the same reorder logic. Announce the new position in `#list-status`. |
+| 5 | Nonconformity | WCAG-2.2.1 | WCAG 2.2 SC 2.2.1 (Level A) | page | events.html:6 | The page reloads itself every 120 s, and the user can&apos;t turn this off, adjust it or extend it. Any open reservation dialog and anything typed into it are lost (failure technique F41). | `&lt;meta http-equiv=&quot;refresh&quot; content=&quot;120&quot;&gt;` | Remove the meta refresh. If the schedule must update, fetch it in the background without reloading, or give the user a &quot;Pause updates&quot; control. |
+| 6 | Nonconformity | WCAG-2.2.2 | WCAG 2.2 SC 2.2.2 (Level A) | page, component | app.js:14-17; index.html:34-49; src/components/Carousel.jsx:7-12 | The &quot;What&apos;s new&quot; carousel starts on its own, advances every 4 s without end, and appears alongside other content. It has no pause, stop or hide control. This criterion also applies to all content (non-interference). | `setInterval(…, 4000)` with no `clearInterval` path; `transition: transform 0.6s` (styles.css:98). | Add a visible Pause/Play `&lt;button&gt;`, and also pause on hover and focus. Or don&apos;t auto-advance at all: show Previous/Next buttons. Respect `prefers-reduced-motion`. |
+| 7 | Nonconformity | WCAG-2.4.2 | WCAG 2.2 SC 2.4.2 (Level A) | page | catalog.html:3-7 | The catalog page has no `&lt;title&gt;`. | The `&lt;head&gt;` contains only meta, viewport and stylesheet. | Add `&lt;title&gt;Search the catalog - Larkspur Library&lt;/title&gt;`. |
+| 8 | Nonconformity | WCAG-2.4.3 | WCAG 2.2 SC 2.4.3 (Level A) | page | login.html:37, :40 | Positive `tabindex` values change the sign-in focus order. The first Tab goes to &quot;Continue&quot; (tabindex 1), then to PIN (tabindex 2), and only then to the card number, before the Continue button in step 1. The order doesn&apos;t follow the task. | `tabindex=&quot;2&quot;` on #pin and `tabindex=&quot;1&quot;` on the submit button. | Remove both `tabindex` attributes so focus follows the DOM order. |
+| 9 | Nonconformity | WCAG-2.4.4 | WCAG 2.2 SC 2.4.4 (Level A) | page | events.html:32 | A link reading &quot;Click here&quot; sits alone in its paragraph, with no context saying what it does. It downloads a calendar file. | `&lt;p&gt;&lt;a href=&quot;calendar.ics&quot;&gt;Click here&lt;/a&gt;&lt;/p&gt;` | Use `&lt;a href=&quot;calendar.ics&quot;&gt;Add all events to your calendar (.ics)&lt;/a&gt;`. |
+| 10 | Nonconformity | WCAG-2.4.7 | WCAG 2.2 SC 2.4.7 (Level AA) | stylesheet | styles.css:59 | The focus outline is removed from the main navigation links on all 5 pages, with nothing to replace it. The hover underline (:58) doesn&apos;t appear on keyboard focus. | `.site-nav a:focus { outline: none; }` | Replace with `.site-nav a:focus-visible { outline: 3px solid #ffffff; outline-offset: -3px; text-decoration: underline; }`. |
+| 11 | Nonconformity | WCAG-2.5.8 | WCAG 2.2 SC 2.5.8 (Level AA) | stylesheet, page | styles.css:159-169; catalog.html:72-76 | The results pager links are below 24×24 CSS px, and they don&apos;t qualify for the spacing exception. | Each target is 16 px plus a 1 px border on each side, so 18×18 px, with `gap: 4px`. Centres are 22 px apart. Circles 24 px across, centred on each link, overlap the neighbouring link&apos;s circle. | Set `.pager a { min-width: 24px; min-height: 24px; line-height: 24px; }` (44 px is better) and remove the fixed 16 px width and height. |
+| 12 | Deviation | WCAG-2.4.11 | WCAG 2.2 SC 2.4.11 (Level AA) | page, stylesheet | catalog.html:2, :8; styles.css:5, :19-28 | Above 640 px wide, the catalog page has a sticky header at least 8rem (128 px) tall. Unlike index.html, it has no `pad-for-header` class, so it gets no `scroll-padding-top`. When tabbing backwards (Shift+Tab), the browser scrolls focused links and controls to the top edge, where the header can cover them completely. This needs confirming in a rendered browser. | `body.sticky-page` gives `position: sticky` with `min-height: 8rem`. `&lt;html lang=&quot;en&quot;&gt;` lacks `class=&quot;pad-for-header&quot;`. | Add `scroll-padding-top` to every page that has a sticky header, e.g. put it on `html:has(.sticky-page)` or add the class to catalog.html:2. Better still, make the header shorter. |
+| 13 | Deviation | WCAG-2.4.3 | WCAG 2.2 SC 2.4.3 (Level A) | page, component | app.js:75-77; src/components/Modal.jsx:21-22 | When the dialog closes, focus isn&apos;t returned to the &quot;Reserve a seat&quot; button that opened it. Focus ends up on a hidden element or on `&lt;body&gt;`. | `closeModal()` only sets `modal.hidden = true`. The JSX cleanup only removes the listener. | Store `document.activeElement` when the dialog opens and call `.focus()` on it when it closes. |
+| 14 | Advisory | WCAG-BP-skip-link | WCAG 2.2 SC 2.4.1 (Level A), best practice | page | index.html:10 (and the same header on all 5 pages) | There is no &quot;Skip to main content&quot; link. SC 2.4.1 is met through landmarks (`&lt;header&gt;`, `&lt;nav&gt;`, `&lt;main id=&quot;main&quot;&gt;`). But a keyboard user without AT must tab through 5–7 header links on every page. | `#main` exists, but nothing links to it. | Make `&lt;a class=&quot;skip-link&quot; href=&quot;#main&quot;&gt;Skip to main content&lt;/a&gt;` the first child of `&lt;body&gt;` and show it on focus. |
+| 15 | Advisory | WCAG-2.3.3 | WCAG 2.2 SC 2.3.3 (Level AAA) | stylesheet | styles.css:98 | The carousel&apos;s sliding animation ignores the user&apos;s reduced-motion setting. This is AAA, so it is not an AA failure. | `transition: transform 0.6s ease` with no `@media (prefers-reduced-motion: reduce)` rule. | Add `@media (prefers-reduced-motion: reduce) { .carousel-track { transition: none; } }` and stop auto-advancing under that setting. |
+| 16 | Advisory | WCAG-BP-unique-control-names | WCAG 2.2 SC 2.4.6 (Level AA), best practice | page | events.html:39, :46, :53 | Three buttons are all called &quot;Reserve a seat&quot;. The purpose is clear from the surrounding layout, but in a list of controls they can&apos;t be told apart. The fixed 112 px width with `overflow: hidden` (styles.css:191-199) can also cut off the label. | Identical accessible names; `.btn-fixed { width: 112px; overflow: hidden; white-space: nowrap }` | Add `aria-describedby` pointing at each event title, and use `min-width` instead of a fixed width. |
+
+## SC coverage (Principle 2, Level A and AA)
+
+| SC | Level | Status | Basis |
+|---|---|---|---|
+| 2.1.1 Keyboard | A | **Fail** | #1, #2, #3, #4 |
+| 2.1.2 No Keyboard Trap | A | **Fail** | #2 |
+| 2.1.4 Character Key Shortcuts | A | N/A | There are no single-character shortcuts. The key handlers only respond to Enter or Space on the focused sort toggle, and to Tab and Escape inside the dialog. |
+| 2.2.1 Timing Adjustable | A | **Fail** | #5 |
+| 2.2.2 Pause, Stop, Hide | A | **Fail** | #6 |
+| 2.3.1 Three Flashes or Below Threshold | A | Pass (static) | There is no flashing content in the source. The carousel slides once every 4 s. |
+| 2.4.1 Bypass Blocks | A | Pass | Landmarks (ARIA11) on all 5 pages. See advisory #14. |
+| 2.4.2 Page Titled | A | **Fail** | #7. The other 4 pages have descriptive titles. |
+| 2.4.3 Focus Order | A | **Fail** | #8; #13 still needs confirming. |
+| 2.4.4 Link Purpose (In Context) | A | **Fail** | #9 |
+| 2.4.5 Multiple Ways | AA | Pass | Full navigation on every page (G126) plus related links in the content (G125). Login and signup steps are exempt as steps in a process. |
+| 2.4.6 Headings and Labels | AA | Pass | Headings and existing labels describe their topic or purpose. Missing labels fall under 3.3.2 and 4.1.2, which are out of scope. |
+| 2.4.7 Focus Visible | AA | **Fail** | #10 |
+| 2.4.11 Focus Not Obscured (Minimum) | AA | Not evaluated (likely fail) | #12 needs a rendered check. |
+| 2.5.1 Pointer Gestures | A | N/A | No multipoint or path-based gestures. |
+| 2.5.2 Pointer Cancellation | A | Pass | Actions fire on `click` (the up-event). A drag can be abandoned by dropping the item back in place. |
+| 2.5.3 Label in Name | A | Pass | Controls with visible text labels use that text as their name. Icon and image-only controls have no visible text label, so the SC doesn&apos;t apply to them. |
+| 2.5.4 Motion Actuation | A | N/A | No device-motion input. |
+| 2.5.7 Dragging Movements | AA | **Fail** | #4 |
+| 2.5.8 Target Size (Minimum) | AA | **Fail** | #11. Other targets checked: nav links about 40 px tall, `.icon-btn` 40×40, dialog close 32×32, `.btn-fixed` 112×32, CAPTCHA labels about 104 px. Inline links are exempt. |
+
+## Review notes
+
+1. **2.4.11 on index.html:** `scroll-padding-top: 14rem` (styles.css:5) is larger than my estimate of the header height (about 10rem). So the sticky header probably doesn&apos;t hide focused elements on the home page. This is a common false positive. It should still be checked at widths just above 641 px, where the navigation may wrap and make the header taller.
+2. **index.html:85-88:** the `.social` wrapper is `aria-hidden=&quot;true&quot;` but contains focusable links. Keyboard users stop on links that screen readers don&apos;t announce. This is 4.1.2, outside this audit&apos;s scope, but it affects the operable experience. Remove `aria-hidden`.
+3. **catalog.html:32:** `role=&quot;buton&quot;` is misspelled, so there is no valid role (4.1.2, out of scope). Keyboard operation itself works: it has `tabindex=&quot;0&quot;` and Enter/Space handlers (app.js:31-33), so it doesn&apos;t fail 2.1.1.
+4. **catalog.html:28-29 and SearchBar.jsx:14-22:** the search input has no label, and the icon button has no accessible name (`alt=&quot;&quot;`). These fall under 1.1.1, 1.3.1, 3.3.2 and 4.1.2, which are out of scope.
+5. **login.html:37:** `onpaste=&quot;return false;&quot;` stops password managers and pasting into the PIN field. That is likely a 3.3.8 Accessible Authentication (Minimum) failure (Principle 3, out of scope). The picture CAPTCHA at :45-51 uses the object-recognition exception to 3.3.8. Also, the audio alternative (app.js:117-119) only reveals instructions and never plays any audio.
+6. **signup.html:34:** &quot;Full name&quot; has only a placeholder as its label (3.3.2, out of scope). The same email is asked for twice, at :38 and :59, which is likely a 3.3.7 Redundant Entry issue (out of scope).
+7. **Events dialog background:** the page behind the dialog isn&apos;t made `inert`. It isn&apos;t reachable now only because of the trap in #2. When #2 is fixed, add `inert` to `&lt;main&gt;`, `&lt;header&gt;` and `&lt;footer&gt;` while the dialog is open.
+8. **Pager link text** (&quot;1&quot;–&quot;5&quot;, catalog.html:72-76) gets its context from the `&lt;nav aria-label=&quot;Results pages&quot;&gt;` label. That&apos;s acceptable for 2.4.4. Adding a visually hidden &quot;Page&quot; prefix would still help.
+
+## Manual checks required
+
+- **2.4.11:** tab forwards and backwards through catalog.html at 1280 px and at 700 px wide, and confirm whether the header covers focused elements. Repeat on index.html just above the 640 px breakpoint.
+- **General:** after the fixes, do a full keyboard-only walkthrough of all 5 pages and the reservation dialog. Also do a screen-reader smoke test (e.g. NVDA with Firefox, VoiceOver with Safari). Confirm: the dialog is announced and focus stays in it, Escape closes it, the reading-list move buttons announce the new position, and the carousel pause control is announced.
+
+## Not run / not applicable
+
+- `wcag_audit.py`, `wcag_scan.py` and `wcag_page.mjs` were not run, because there is no shell.
+- No rendered-browser measurement: target sizes and header height were calculated from the CSS.
+- No AT testing.
+- Principles 1, 3 and 4 were excluded at your request; the related items above are review notes only.
+
+## Assumptions
+
+- The report uses WCAG 2.2 (W3C Recommendation, 12 December 2024).
+- The HTML pages are what users actually get. The React components are unbuilt sources that reproduce the same patterns, so I cited both.
+- The pages don&apos;t conform to WCAG 2.2 Level AA. Principle 2 criteria that fail: 2.1.1, 2.1.2, 2.2.1, 2.2.2, 2.4.2, 2.4.3, 2.4.4, 2.4.7, 2.5.7 and 2.5.8.
+- Because of conformance requirement 3 (complete processes), #8 fails the whole sign-in process, and #2 fails the whole event-reservation process.
+
+## Reproduction
+
+With a shell, run: `python3 ~/.claude/skills/wcag22-a11y/scripts/wcag_audit.py . --url . --out report.md`.
+
+Manual:
+1. Open events.html, press Tab to reach &quot;Reserve a seat&quot;, and press Enter. Then press Tab repeatedly: focus never leaves &quot;Your name&quot;. Press Escape: nothing happens.
+2. Open login.html and press Tab once: focus lands on &quot;Continue&quot; first.</pre>
+</div>
+</details>
+<details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">recall-D11</span>  </summary>
+<div class="grader-body">
+<p class="explanation">matched ^(?=[^\n]*(?:catalog\.html[`&apos;\&quot;]?(?:[:#]L?[ \t]?|,?[ \t]+\(?(?:lines?|l\.|L)[ \t]*)(?:\d+(?:[ \t]?[-–][ \t]?\d+)?[`&apos;\&quot;]?[ \t]*(?:,|;|\band\b)[ \t]*[`&apos;\&quot;]?:?[ \t]?)*?(?:(?:4[1-3])(?!\d|[ \t]?[-–][ \t]?\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\d{1}|4(?:[0-3])))[ \t]?[-–][ \t]?(?:(?:(?:4(?:[1-9])|[5-8]\d{1}|9(?:[0-9])))|[1-9]\d{2,})(?!\d)|(?:(?:4(?:9)|5(?:[0-1])))(?!\d|[ \t]?[-–][ \t]?\d)|(?:[1-9]|(?:1(?:[0-9])|[2-4]\d{1}|5(?:[0-1])))[ \t]?[-–][ \t]?(?:(?:(?:4(?:9)|[5-8]\d{1}|9(?:[0-9])))|[1-9]\d{2,})(?!\d)|(?:5[7-9])(?!\d|[ \t]?[-–][ \t]?\d)|(?:[1-9]|[1-5]\d{1})[ \t]?[-–][ \t]?(?:(?:(?:5(?:[7-9])|[6-8]\d{1}|9(?:[0-9])))|[1-9]\d{2,})(?!\d)|(?:6[5-7])(?!\d|[ \t]?[-–][ \t]?\d)|(?:[1-9]|(?:1(?:[0-9])|[2-5]\d{1}|6(?:[0-7])))[ \t]?[-–][ \t]?(?:(?:(?:6(?:[5-9])|[7-8]\d{1}|9(?:[0-9])))|[1-9]\d{2,})(?!\d))|BookCard\.jsx[`&apos;\&quot;]?(?:[:#]L?[ \t]?|,?[ \t]+\(?(?:lines?|l\.|L)[ \t]*)(?:\d+(?:[ \t]?[-–][ \t]?\d+)?[`&apos;\&quot;]?[ \t]*(?:,|;|\band\b)[ \t]*[`&apos;\&quot;]?:?[ \t]?)*?(?:(?:1[4-6])(?!\d|[ \t]?[-–][ \t]?\d)|(?:[1-9]|1[0-6])[ \t]?[-–][ \t]?(?:(?:(?:1(?:[4-9])|[2-8]\d{1}|9(?:[0-9])))|[1-9]\d{2,})(?!\d))))(?=[^\n]*(?:2\.1\.1|keyboard|add-btn|\bdiv\b|onclick|tabindex))\|[^\n]*$</p>
+
+</div>
+</details>
+<details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">recall-D12</span>  </summary>
+<div class="grader-body">
+<p class="explanation">matched ^(?=[^\n]*(?:app\.js[`&apos;\&quot;]?(?:[:#]L?[ \t]?|,?[ \t]+\(?(?:lines?|l\.|L)[ \t]*)(?:\d+(?:[ \t]?[-–][ \t]?\d+)?[`&apos;\&quot;]?[ \t]*(?:,|;|\band\b)[ \t]*[`&apos;\&quot;]?:?[ \t]?)*?(?:(?:(?:8(?:[2-9])|9(?:[0-3])))(?!\d|[ \t]?[-–][ \t]?\d)|(?:[1-9]|(?:1(?:[0-9])|[2-8]\d{1}|9(?:[0-3])))[ \t]?[-–][ \t]?(?:(?:(?:8(?:[2-9])|9(?:[0-9])))|[1-9]\d{2,})(?!\d))|events\.html[`&apos;\&quot;]?(?:[:#]L?[ \t]?|,?[ \t]+\(?(?:lines?|l\.|L)[ \t]*)(?:\d+(?:[ \t]?[-–][ \t]?\d+)?[`&apos;\&quot;]?[ \t]*(?:,|;|\band\b)[ \t]*[`&apos;\&quot;]?:?[ \t]?)*?(?:(?:8[7-9])(?!\d|[ \t]?[-–][ \t]?\d)|(?:[1-9]|[1-8]\d{1})[ \t]?[-–][ \t]?(?:(?:(?:8(?:[7-9])|9(?:[0-9])))|[1-9]\d{2,})(?!\d))|Modal\.jsx[`&apos;\&quot;]?(?:[:#]L?[ \t]?|,?[ \t]+\(?(?:lines?|l\.|L)[ \t]*)(?:\d+(?:[ \t]?[-–][ \t]?\d+)?[`&apos;\&quot;]?[ \t]*(?:,|;|\band\b)[ \t]*[`&apos;\&quot;]?:?[ \t]?)*?(?:(?:1[2-4])(?!\d|[ \t]?[-–][ \t]?\d)|(?:[1-9]|1[0-4])[ \t]?[-–][ \t]?(?:(?:(?:1(?:[2-9])|[2-8]\d{1}|9(?:[0-9])))|[1-9]\d{2,})(?!\d)|(?:(?:2(?:9)|3(?:[0-1])))(?!\d|[ \t]?[-–][ \t]?\d)|(?:[1-9]|(?:1(?:[0-9])|2\d{1}|3(?:[0-1])))[ \t]?[-–][ \t]?(?:(?:(?:2(?:9)|[3-8]\d{1}|9(?:[0-9])))|[1-9]\d{2,})(?!\d))))(?=[^\n]*(?:2\.1\.2|trap|escape|\bF10\b|modal))\|[^\n]*$</p>
+
+</div>
+</details>
+<details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">recall-D13</span>  </summary>
+<div class="grader-body">
+<p class="explanation">matched ^(?=[^\n]*(?:events\.html[`&apos;\&quot;]?(?:[:#]L?[ \t]?|,?[ \t]+\(?(?:lines?|l\.|L)[ \t]*)(?:\d+(?:[ \t]?[-–][ \t]?\d+)?[`&apos;\&quot;]?[ \t]*(?:,|;|\band\b)[ \t]*[`&apos;\&quot;]?:?[ \t]?)*?(?:(?:[5-7])(?!\d|[ \t]?[-–][ \t]?\d)|(?:[1-7])[ \t]?[-–][ \t]?(?:(?:[5-9])|[1-9]\d{1,})(?!\d))))(?=[^\n]*(?:2\.2\.1|refresh|timing|\bF41\b))\|[^\n]*$</p>
+
+</div>
+</details>
+<details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">recall-D14</span>  </summary>
+<div class="grader-body">
+<p class="explanation">matched ^(?=[^\n]*(?:index\.html[`&apos;\&quot;]?(?:[:#]L?[ \t]?|,?[ \t]+\(?(?:lines?|l\.|L)[ \t]*)(?:\d+(?:[ \t]?[-–][ \t]?\d+)?[`&apos;\&quot;]?[ \t]*(?:,|;|\band\b)[ \t]*[`&apos;\&quot;]?:?[ \t]?)*?(?:(?:3[3-5])(?!\d|[ \t]?[-–][ \t]?\d)|(?:[1-9]|(?:1(?:[0-9])|2\d{1}|3(?:[0-5])))[ \t]?[-–][ \t]?(?:(?:(?:3(?:[3-9])|[4-8]\d{1}|9(?:[0-9])))|[1-9]\d{2,})(?!\d))|app\.js[`&apos;\&quot;]?(?:[:#]L?[ \t]?|,?[ \t]+\(?(?:lines?|l\.|L)[ \t]*)(?:\d+(?:[ \t]?[-–][ \t]?\d+)?[`&apos;\&quot;]?[ \t]*(?:,|;|\band\b)[ \t]*[`&apos;\&quot;]?:?[ \t]?)*?(?:(?:1[3-8])(?!\d|[ \t]?[-–][ \t]?\d)|(?:[1-9]|1[0-8])[ \t]?[-–][ \t]?(?:(?:(?:1(?:[3-9])|[2-8]\d{1}|9(?:[0-9])))|[1-9]\d{2,})(?!\d))|Carousel\.jsx[`&apos;\&quot;]?(?:[:#]L?[ \t]?|,?[ \t]+\(?(?:lines?|l\.|L)[ \t]*)(?:\d+(?:[ \t]?[-–][ \t]?\d+)?[`&apos;\&quot;]?[ \t]*(?:,|;|\band\b)[ \t]*[`&apos;\&quot;]?:?[ \t]?)*?(?:(?:[7-9])(?!\d|[ \t]?[-–][ \t]?\d)|(?:[1-9])[ \t]?[-–][ \t]?(?:(?:[7-9])|[1-9]\d{1,})(?!\d))))(?=[^\n]*(?:2\.2\.2|pause|carousel|setInterval|auto-?(?:advanc|rotat|play)|\bF16\b))\|[^\n]*$</p>
+
+</div>
+</details>
+<details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">recall-D15</span>  </summary>
+<div class="grader-body">
+<p class="explanation">matched ^(?=[^\n]*(?:catalog\.html[`&apos;\&quot;]?(?:[:#]L?[ \t]?|,?[ \t]+\(?(?:lines?|l\.|L)[ \t]*)(?:\d+(?:[ \t]?[-–][ \t]?\d+)?[`&apos;\&quot;]?[ \t]*(?:,|;|\band\b)[ \t]*[`&apos;\&quot;]?:?[ \t]?)*?(?:(?:[2-8])(?!\d|[ \t]?[-–][ \t]?\d)|(?:[1-8])[ \t]?[-–][ \t]?(?:(?:[2-9])|[1-9]\d{1,})(?!\d))|catalog\.html(?![:#\d])))(?=[^\n]*(?:2\.4\.2|&lt;title&gt;|(?&lt;!-)\btitle\b|page titled))\|[^\n]*$</p>
+
+</div>
+</details>
+<details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">recall-D16</span>  </summary>
+<div class="grader-body">
+<p class="explanation">matched ^(?=[^\n]*(?:login\.html[`&apos;\&quot;]?(?:[:#]L?[ \t]?|,?[ \t]+\(?(?:lines?|l\.|L)[ \t]*)(?:\d+(?:[ \t]?[-–][ \t]?\d+)?[`&apos;\&quot;]?[ \t]*(?:,|;|\band\b)[ \t]*[`&apos;\&quot;]?:?[ \t]?)*?(?:(?:3[6-8])(?!\d|[ \t]?[-–][ \t]?\d)|(?:[1-9]|(?:1(?:[0-9])|2\d{1}|3(?:[0-8])))[ \t]?[-–][ \t]?(?:(?:(?:3(?:[6-9])|[4-8]\d{1}|9(?:[0-9])))|[1-9]\d{2,})(?!\d)|(?:(?:3(?:9)|4(?:[0-1])))(?!\d|[ \t]?[-–][ \t]?\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\d{1}|4(?:[0-1])))[ \t]?[-–][ \t]?(?:(?:(?:3(?:9)|[4-8]\d{1}|9(?:[0-9])))|[1-9]\d{2,})(?!\d))))(?=[^\n]*(?:2\.4\.3|tabindex|focus order|\bF44\b))\|[^\n]*$</p>
+
+</div>
+</details>
+<details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">recall-D17</span>  </summary>
+<div class="grader-body">
+<p class="explanation">matched ^(?=[^\n]*(?:events\.html[`&apos;\&quot;]?(?:[:#]L?[ \t]?|,?[ \t]+\(?(?:lines?|l\.|L)[ \t]*)(?:\d+(?:[ \t]?[-–][ \t]?\d+)?[`&apos;\&quot;]?[ \t]*(?:,|;|\band\b)[ \t]*[`&apos;\&quot;]?:?[ \t]?)*?(?:(?:3[0-4])(?!\d|[ \t]?[-–][ \t]?\d)|(?:[1-9]|(?:1(?:[0-9])|2\d{1}|3(?:[0-4])))[ \t]?[-–][ \t]?(?:(?:[3-9]\d{1})|[1-9]\d{2,})(?!\d))))(?=[^\n]*(?:2\.4\.4|click here|link purpose|\bF63\b|calendar))\|[^\n]*$</p>
+
+</div>
+</details>
+<details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">recall-D18</span>  </summary>
+<div class="grader-body">
+<p class="explanation">matched ^(?=[^\n]*(?:styles\.css[`&apos;\&quot;]?(?:[:#]L?[ \t]?|,?[ \t]+\(?(?:lines?|l\.|L)[ \t]*)(?:\d+(?:[ \t]?[-–][ \t]?\d+)?[`&apos;\&quot;]?[ \t]*(?:,|;|\band\b)[ \t]*[`&apos;\&quot;]?:?[ \t]?)*?(?:(?:(?:5(?:[8-9])|6(?:0)))(?!\d|[ \t]?[-–][ \t]?\d)|(?:[1-9]|(?:1(?:[0-9])|[2-5]\d{1}|6(?:0)))[ \t]?[-–][ \t]?(?:(?:(?:5(?:[8-9])|[6-8]\d{1}|9(?:[0-9])))|[1-9]\d{2,})(?!\d))))(?=[^\n]*(?:2\.4\.7|outline|focus visible|focus indicator|\bF78\b))\|[^\n]*$</p>
+
+</div>
+</details>
+<details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">recall-D19</span>  </summary>
+<div class="grader-body">
+<p class="explanation">matched ^(?=[^\n]*(?:styles\.css[`&apos;\&quot;]?(?:[:#]L?[ \t]?|,?[ \t]+\(?(?:lines?|l\.|L)[ \t]*)(?:\d+(?:[ \t]?[-–][ \t]?\d+)?[`&apos;\&quot;]?[ \t]*(?:,|;|\band\b)[ \t]*[`&apos;\&quot;]?:?[ \t]?)*?(?:(?:2[4-7])(?!\d|[ \t]?[-–][ \t]?\d)|(?:[1-9]|(?:1(?:[0-9])|2(?:[0-7])))[ \t]?[-–][ \t]?(?:(?:(?:2(?:[4-9])|[3-8]\d{1}|9(?:[0-9])))|[1-9]\d{2,})(?!\d))|catalog\.html[`&apos;\&quot;]?(?:[:#]L?[ \t]?|,?[ \t]+\(?(?:lines?|l\.|L)[ \t]*)(?:\d+(?:[ \t]?[-–][ \t]?\d+)?[`&apos;\&quot;]?[ \t]*(?:,|;|\band\b)[ \t]*[`&apos;\&quot;]?:?[ \t]?)*?(?:(?:[7-9])(?!\d|[ \t]?[-–][ \t]?\d)|(?:[1-9])[ \t]?[-–][ \t]?(?:(?:[7-9])|[1-9]\d{1,})(?!\d))))(?=[^\n]*(?:2\.4\.11|obscur|sticky|scroll-padding|\bF110\b))\|[^\n]*$</p>
+
+</div>
+</details>
+<details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">recall-D20</span>  </summary>
+<div class="grader-body">
+<p class="explanation">matched ^(?=[^\n]*(?:catalog\.html[`&apos;\&quot;]?(?:[:#]L?[ \t]?|,?[ \t]+\(?(?:lines?|l\.|L)[ \t]*)(?:\d+(?:[ \t]?[-–][ \t]?\d+)?[`&apos;\&quot;]?[ \t]*(?:,|;|\band\b)[ \t]*[`&apos;\&quot;]?:?[ \t]?)*?(?:(?:8[2-7])(?!\d|[ \t]?[-–][ \t]?\d)|(?:[1-9]|(?:1(?:[0-9])|[2-7]\d{1}|8(?:[0-7])))[ \t]?[-–][ \t]?(?:(?:(?:8(?:[2-9])|9(?:[0-9])))|[1-9]\d{2,})(?!\d))|app\.js[`&apos;\&quot;]?(?:[:#]L?[ \t]?|,?[ \t]+\(?(?:lines?|l\.|L)[ \t]*)(?:\d+(?:[ \t]?[-–][ \t]?\d+)?[`&apos;\&quot;]?[ \t]*(?:,|;|\band\b)[ \t]*[`&apos;\&quot;]?:?[ \t]?)*?(?:(?:(?:4(?:[8-9])|5\d{1}|6(?:[0-1])))(?!\d|[ \t]?[-–][ \t]?\d)|(?:[1-9]|(?:1(?:[0-9])|[2-5]\d{1}|6(?:[0-1])))[ \t]?[-–][ \t]?(?:(?:(?:4(?:[8-9])|[5-8]\d{1}|9(?:[0-9])))|[1-9]\d{2,})(?!\d))|ReadingList\.jsx[`&apos;\&quot;]?(?:[:#]L?[ \t]?|,?[ \t]+\(?(?:lines?|l\.|L)[ \t]*)(?:\d+(?:[ \t]?[-–][ \t]?\d+)?[`&apos;\&quot;]?[ \t]*(?:,|;|\band\b)[ \t]*[`&apos;\&quot;]?:?[ \t]?)*?(?:(?:2[1-3])(?!\d|[ \t]?[-–][ \t]?\d)|(?:[1-9]|(?:1(?:[0-9])|2(?:[0-3])))[ \t]?[-–][ \t]?(?:(?:(?:2(?:[1-9])|[3-8]\d{1}|9(?:[0-9])))|[1-9]\d{2,})(?!\d))))(?=[^\n]*(?:2\.5\.7|drag))\|[^\n]*$</p>
+
+</div>
+</details>
+<details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">recall-D21</span>  </summary>
+<div class="grader-body">
+<p class="explanation">matched ^(?=[^\n]*(?:styles\.css[`&apos;\&quot;]?(?:[:#]L?[ \t]?|,?[ \t]+\(?(?:lines?|l\.|L)[ \t]*)(?:\d+(?:[ \t]?[-–][ \t]?\d+)?[`&apos;\&quot;]?[ \t]*(?:,|;|\band\b)[ \t]*[`&apos;\&quot;]?:?[ \t]?)*?(?:(?:1(?:5(?:9)|6\d{1}|7(?:0)))(?!\d|[ \t]?[-–][ \t]?\d)|(?:[1-9]|[1-9]\d{1}|1(?:0(?:[0-9])|[1-6]\d{1}|7(?:0)))[ \t]?[-–][ \t]?(?:(?:(?:1(?:(?:5(?:9)|[6-8]\d{1}|9(?:[0-9])))|[2-8]\d{2}|9(?:[0-9]\d{1})))|[1-9]\d{3,})(?!\d))|catalog\.html[`&apos;\&quot;]?(?:[:#]L?[ \t]?|,?[ \t]+\(?(?:lines?|l\.|L)[ \t]*)(?:\d+(?:[ \t]?[-–][ \t]?\d+)?[`&apos;\&quot;]?[ \t]*(?:,|;|\band\b)[ \t]*[`&apos;\&quot;]?:?[ \t]?)*?(?:(?:7[1-7])(?!\d|[ \t]?[-–][ \t]?\d)|(?:[1-9]|(?:1(?:[0-9])|[2-6]\d{1}|7(?:[0-7])))[ \t]?[-–][ \t]?(?:(?:(?:7(?:[1-9])|8\d{1}|9(?:[0-9])))|[1-9]\d{2,})(?!\d))))(?=[^\n]*(?:2\.5\.8|target size|pager|pagination|16\s?(?:x|×|by)\s?16|16px))\|[^\n]*$</p>
+
+</div>
+</details>
+<details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">severity-D11</span>  </summary>
+<div class="grader-body">
+<p class="explanation">matched ^(?=[^\n]*(?:catalog\.html[`&apos;\&quot;]?(?:[:#]L?[ \t]?|,?[ \t]+\(?(?:lines?|l\.|L)[ \t]*)(?:\d+(?:[ \t]?[-–][ \t]?\d+)?[`&apos;\&quot;]?[ \t]*(?:,|;|\band\b)[ \t]*[`&apos;\&quot;]?:?[ \t]?)*?(?:(?:4[1-3])(?!\d|[ \t]?[-–][ \t]?\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\d{1}|4(?:[0-3])))[ \t]?[-–][ \t]?(?:(?:(?:4(?:[1-9])|[5-8]\d{1}|9(?:[0-9])))|[1-9]\d{2,})(?!\d)|(?:(?:4(?:9)|5(?:[0-1])))(?!\d|[ \t]?[-–][ \t]?\d)|(?:[1-9]|(?:1(?:[0-9])|[2-4]\d{1}|5(?:[0-1])))[ \t]?[-–][ \t]?(?:(?:(?:4(?:9)|[5-8]\d{1}|9(?:[0-9])))|[1-9]\d{2,})(?!\d)|(?:5[7-9])(?!\d|[ \t]?[-–][ \t]?\d)|(?:[1-9]|[1-5]\d{1})[ \t]?[-–][ \t]?(?:(?:(?:5(?:[7-9])|[6-8]\d{1}|9(?:[0-9])))|[1-9]\d{2,})(?!\d)|(?:6[5-7])(?!\d|[ \t]?[-–][ \t]?\d)|(?:[1-9]|(?:1(?:[0-9])|[2-5]\d{1}|6(?:[0-7])))[ \t]?[-–][ \t]?(?:(?:(?:6(?:[5-9])|[7-8]\d{1}|9(?:[0-9])))|[1-9]\d{2,})(?!\d))|BookCard\.jsx[`&apos;\&quot;]?(?:[:#]L?[ \t]?|,?[ \t]+\(?(?:lines?|l\.|L)[ \t]*)(?:\d+(?:[ \t]?[-–][ \t]?\d+)?[`&apos;\&quot;]?[ \t]*(?:,|;|\band\b)[ \t]*[`&apos;\&quot;]?:?[ \t]?)*?(?:(?:1[4-6])(?!\d|[ \t]?[-–][ \t]?\d)|(?:[1-9]|1[0-6])[ \t]?[-–][ \t]?(?:(?:(?:1(?:[4-9])|[2-8]\d{1}|9(?:[0-9])))|[1-9]\d{2,})(?!\d))))(?=[^\n]*(?:2\.1\.1|keyboard|add-btn|\bdiv\b|onclick|tabindex))(?=[^\n]*(?:\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies))\b))\|[^\n]*$</p>
+
+</div>
+</details>
+<details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">severity-D12</span>  </summary>
+<div class="grader-body">
+<p class="explanation">matched ^(?=[^\n]*(?:app\.js[`&apos;\&quot;]?(?:[:#]L?[ \t]?|,?[ \t]+\(?(?:lines?|l\.|L)[ \t]*)(?:\d+(?:[ \t]?[-–][ \t]?\d+)?[`&apos;\&quot;]?[ \t]*(?:,|;|\band\b)[ \t]*[`&apos;\&quot;]?:?[ \t]?)*?(?:(?:(?:8(?:[2-9])|9(?:[0-3])))(?!\d|[ \t]?[-–][ \t]?\d)|(?:[1-9]|(?:1(?:[0-9])|[2-8]\d{1}|9(?:[0-3])))[ \t]?[-–][ \t]?(?:(?:(?:8(?:[2-9])|9(?:[0-9])))|[1-9]\d{2,})(?!\d))|events\.html[`&apos;\&quot;]?(?:[:#]L?[ \t]?|,?[ \t]+\(?(?:lines?|l\.|L)[ \t]*)(?:\d+(?:[ \t]?[-–][ \t]?\d+)?[`&apos;\&quot;]?[ \t]*(?:,|;|\band\b)[ \t]*[`&apos;\&quot;]?:?[ \t]?)*?(?:(?:8[7-9])(?!\d|[ \t]?[-–][ \t]?\d)|(?:[1-9]|[1-8]\d{1})[ \t]?[-–][ \t]?(?:(?:(?:8(?:[7-9])|9(?:[0-9])))|[1-9]\d{2,})(?!\d))|Modal\.jsx[`&apos;\&quot;]?(?:[:#]L?[ \t]?|,?[ \t]+\(?(?:lines?|l\.|L)[ \t]*)(?:\d+(?:[ \t]?[-–][ \t]?\d+)?[`&apos;\&quot;]?[ \t]*(?:,|;|\band\b)[ \t]*[`&apos;\&quot;]?:?[ \t]?)*?(?:(?:1[2-4])(?!\d|[ \t]?[-–][ \t]?\d)|(?:[1-9]|1[0-4])[ \t]?[-–][ \t]?(?:(?:(?:1(?:[2-9])|[2-8]\d{1}|9(?:[0-9])))|[1-9]\d{2,})(?!\d)|(?:(?:2(?:9)|3(?:[0-1])))(?!\d|[ \t]?[-–][ \t]?\d)|(?:[1-9]|(?:1(?:[0-9])|2\d{1}|3(?:[0-1])))[ \t]?[-–][ \t]?(?:(?:(?:2(?:9)|[3-8]\d{1}|9(?:[0-9])))|[1-9]\d{2,})(?!\d))))(?=[^\n]*(?:2\.1\.2|trap|escape|\bF10\b|modal))(?=[^\n]*(?:\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?|Review(?:[ -]notes?)?)\b))\|[^\n]*$</p>
+
+</div>
+</details>
+<details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">severity-D13</span>  </summary>
+<div class="grader-body">
+<p class="explanation">matched ^(?=[^\n]*(?:events\.html[`&apos;\&quot;]?(?:[:#]L?[ \t]?|,?[ \t]+\(?(?:lines?|l\.|L)[ \t]*)(?:\d+(?:[ \t]?[-–][ \t]?\d+)?[`&apos;\&quot;]?[ \t]*(?:,|;|\band\b)[ \t]*[`&apos;\&quot;]?:?[ \t]?)*?(?:(?:[5-7])(?!\d|[ \t]?[-–][ \t]?\d)|(?:[1-7])[ \t]?[-–][ \t]?(?:(?:[5-9])|[1-9]\d{1,})(?!\d))))(?=[^\n]*(?:2\.2\.1|refresh|timing|\bF41\b))(?=[^\n]*(?:\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies))\b))\|[^\n]*$</p>
+
+</div>
+</details>
+<details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">severity-D14</span>  </summary>
+<div class="grader-body">
+<p class="explanation">matched ^(?=[^\n]*(?:index\.html[`&apos;\&quot;]?(?:[:#]L?[ \t]?|,?[ \t]+\(?(?:lines?|l\.|L)[ \t]*)(?:\d+(?:[ \t]?[-–][ \t]?\d+)?[`&apos;\&quot;]?[ \t]*(?:,|;|\band\b)[ \t]*[`&apos;\&quot;]?:?[ \t]?)*?(?:(?:3[3-5])(?!\d|[ \t]?[-–][ \t]?\d)|(?:[1-9]|(?:1(?:[0-9])|2\d{1}|3(?:[0-5])))[ \t]?[-–][ \t]?(?:(?:(?:3(?:[3-9])|[4-8]\d{1}|9(?:[0-9])))|[1-9]\d{2,})(?!\d))|app\.js[`&apos;\&quot;]?(?:[:#]L?[ \t]?|,?[ \t]+\(?(?:lines?|l\.|L)[ \t]*)(?:\d+(?:[ \t]?[-–][ \t]?\d+)?[`&apos;\&quot;]?[ \t]*(?:,|;|\band\b)[ \t]*[`&apos;\&quot;]?:?[ \t]?)*?(?:(?:1[3-8])(?!\d|[ \t]?[-–][ \t]?\d)|(?:[1-9]|1[0-8])[ \t]?[-–][ \t]?(?:(?:(?:1(?:[3-9])|[2-8]\d{1}|9(?:[0-9])))|[1-9]\d{2,})(?!\d))|Carousel\.jsx[`&apos;\&quot;]?(?:[:#]L?[ \t]?|,?[ \t]+\(?(?:lines?|l\.|L)[ \t]*)(?:\d+(?:[ \t]?[-–][ \t]?\d+)?[`&apos;\&quot;]?[ \t]*(?:,|;|\band\b)[ \t]*[`&apos;\&quot;]?:?[ \t]?)*?(?:(?:[7-9])(?!\d|[ \t]?[-–][ \t]?\d)|(?:[1-9])[ \t]?[-–][ \t]?(?:(?:[7-9])|[1-9]\d{1,})(?!\d))))(?=[^\n]*(?:2\.2\.2|pause|carousel|setInterval|auto-?(?:advanc|rotat|play)|\bF16\b))(?=[^\n]*(?:\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?|Review(?:[ -]notes?)?)\b))\|[^\n]*$</p>
+
+</div>
+</details>
+<details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">severity-D15</span>  </summary>
+<div class="grader-body">
+<p class="explanation">matched ^(?=[^\n]*(?:catalog\.html[`&apos;\&quot;]?(?:[:#]L?[ \t]?|,?[ \t]+\(?(?:lines?|l\.|L)[ \t]*)(?:\d+(?:[ \t]?[-–][ \t]?\d+)?[`&apos;\&quot;]?[ \t]*(?:,|;|\band\b)[ \t]*[`&apos;\&quot;]?:?[ \t]?)*?(?:(?:[2-8])(?!\d|[ \t]?[-–][ \t]?\d)|(?:[1-8])[ \t]?[-–][ \t]?(?:(?:[2-9])|[1-9]\d{1,})(?!\d))|catalog\.html(?![:#\d])))(?=[^\n]*(?:2\.4\.2|&lt;title&gt;|(?&lt;!-)\btitle\b|page titled))(?=[^\n]*(?:\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies))\b))\|[^\n]*$</p>
+
+</div>
+</details>
+<details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">severity-D16</span>  </summary>
+<div class="grader-body">
+<p class="explanation">matched ^(?=[^\n]*(?:login\.html[`&apos;\&quot;]?(?:[:#]L?[ \t]?|,?[ \t]+\(?(?:lines?|l\.|L)[ \t]*)(?:\d+(?:[ \t]?[-–][ \t]?\d+)?[`&apos;\&quot;]?[ \t]*(?:,|;|\band\b)[ \t]*[`&apos;\&quot;]?:?[ \t]?)*?(?:(?:3[6-8])(?!\d|[ \t]?[-–][ \t]?\d)|(?:[1-9]|(?:1(?:[0-9])|2\d{1}|3(?:[0-8])))[ \t]?[-–][ \t]?(?:(?:(?:3(?:[6-9])|[4-8]\d{1}|9(?:[0-9])))|[1-9]\d{2,})(?!\d)|(?:(?:3(?:9)|4(?:[0-1])))(?!\d|[ \t]?[-–][ \t]?\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\d{1}|4(?:[0-1])))[ \t]?[-–][ \t]?(?:(?:(?:3(?:9)|[4-8]\d{1}|9(?:[0-9])))|[1-9]\d{2,})(?!\d))))(?=[^\n]*(?:2\.4\.3|tabindex|focus order|\bF44\b))(?=[^\n]*(?:\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\b))\|[^\n]*$</p>
+
+</div>
+</details>
+<details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">severity-D17</span>  </summary>
+<div class="grader-body">
+<p class="explanation">matched ^(?=[^\n]*(?:events\.html[`&apos;\&quot;]?(?:[:#]L?[ \t]?|,?[ \t]+\(?(?:lines?|l\.|L)[ \t]*)(?:\d+(?:[ \t]?[-–][ \t]?\d+)?[`&apos;\&quot;]?[ \t]*(?:,|;|\band\b)[ \t]*[`&apos;\&quot;]?:?[ \t]?)*?(?:(?:3[0-4])(?!\d|[ \t]?[-–][ \t]?\d)|(?:[1-9]|(?:1(?:[0-9])|2\d{1}|3(?:[0-4])))[ \t]?[-–][ \t]?(?:(?:[3-9]\d{1})|[1-9]\d{2,})(?!\d))))(?=[^\n]*(?:2\.4\.4|click here|link purpose|\bF63\b|calendar))(?=[^\n]*(?:\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?|Review(?:[ -]notes?)?)\b))\|[^\n]*$</p>
+
+</div>
+</details>
+<details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">severity-D18</span>  </summary>
+<div class="grader-body">
+<p class="explanation">matched ^(?=[^\n]*(?:styles\.css[`&apos;\&quot;]?(?:[:#]L?[ \t]?|,?[ \t]+\(?(?:lines?|l\.|L)[ \t]*)(?:\d+(?:[ \t]?[-–][ \t]?\d+)?[`&apos;\&quot;]?[ \t]*(?:,|;|\band\b)[ \t]*[`&apos;\&quot;]?:?[ \t]?)*?(?:(?:(?:5(?:[8-9])|6(?:0)))(?!\d|[ \t]?[-–][ \t]?\d)|(?:[1-9]|(?:1(?:[0-9])|[2-5]\d{1}|6(?:0)))[ \t]?[-–][ \t]?(?:(?:(?:5(?:[8-9])|[6-8]\d{1}|9(?:[0-9])))|[1-9]\d{2,})(?!\d))))(?=[^\n]*(?:2\.4\.7|outline|focus visible|focus indicator|\bF78\b))(?=[^\n]*(?:\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\b))\|[^\n]*$</p>
+
+</div>
+</details>
+<details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">severity-D19</span>  </summary>
+<div class="grader-body">
+<p class="explanation">matched ^(?=[^\n]*(?:styles\.css[`&apos;\&quot;]?(?:[:#]L?[ \t]?|,?[ \t]+\(?(?:lines?|l\.|L)[ \t]*)(?:\d+(?:[ \t]?[-–][ \t]?\d+)?[`&apos;\&quot;]?[ \t]*(?:,|;|\band\b)[ \t]*[`&apos;\&quot;]?:?[ \t]?)*?(?:(?:2[4-7])(?!\d|[ \t]?[-–][ \t]?\d)|(?:[1-9]|(?:1(?:[0-9])|2(?:[0-7])))[ \t]?[-–][ \t]?(?:(?:(?:2(?:[4-9])|[3-8]\d{1}|9(?:[0-9])))|[1-9]\d{2,})(?!\d))|catalog\.html[`&apos;\&quot;]?(?:[:#]L?[ \t]?|,?[ \t]+\(?(?:lines?|l\.|L)[ \t]*)(?:\d+(?:[ \t]?[-–][ \t]?\d+)?[`&apos;\&quot;]?[ \t]*(?:,|;|\band\b)[ \t]*[`&apos;\&quot;]?:?[ \t]?)*?(?:(?:[7-9])(?!\d|[ \t]?[-–][ \t]?\d)|(?:[1-9])[ \t]?[-–][ \t]?(?:(?:[7-9])|[1-9]\d{1,})(?!\d))))(?=[^\n]*(?:2\.4\.11|obscur|sticky|scroll-padding|\bF110\b))(?=[^\n]*(?:\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\b))\|[^\n]*$</p>
+
+</div>
+</details>
+<details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">severity-D20</span>  </summary>
+<div class="grader-body">
+<p class="explanation">matched ^(?=[^\n]*(?:catalog\.html[`&apos;\&quot;]?(?:[:#]L?[ \t]?|,?[ \t]+\(?(?:lines?|l\.|L)[ \t]*)(?:\d+(?:[ \t]?[-–][ \t]?\d+)?[`&apos;\&quot;]?[ \t]*(?:,|;|\band\b)[ \t]*[`&apos;\&quot;]?:?[ \t]?)*?(?:(?:8[2-7])(?!\d|[ \t]?[-–][ \t]?\d)|(?:[1-9]|(?:1(?:[0-9])|[2-7]\d{1}|8(?:[0-7])))[ \t]?[-–][ \t]?(?:(?:(?:8(?:[2-9])|9(?:[0-9])))|[1-9]\d{2,})(?!\d))|app\.js[`&apos;\&quot;]?(?:[:#]L?[ \t]?|,?[ \t]+\(?(?:lines?|l\.|L)[ \t]*)(?:\d+(?:[ \t]?[-–][ \t]?\d+)?[`&apos;\&quot;]?[ \t]*(?:,|;|\band\b)[ \t]*[`&apos;\&quot;]?:?[ \t]?)*?(?:(?:(?:4(?:[8-9])|5\d{1}|6(?:[0-1])))(?!\d|[ \t]?[-–][ \t]?\d)|(?:[1-9]|(?:1(?:[0-9])|[2-5]\d{1}|6(?:[0-1])))[ \t]?[-–][ \t]?(?:(?:(?:4(?:[8-9])|[5-8]\d{1}|9(?:[0-9])))|[1-9]\d{2,})(?!\d))|ReadingList\.jsx[`&apos;\&quot;]?(?:[:#]L?[ \t]?|,?[ \t]+\(?(?:lines?|l\.|L)[ \t]*)(?:\d+(?:[ \t]?[-–][ \t]?\d+)?[`&apos;\&quot;]?[ \t]*(?:,|;|\band\b)[ \t]*[`&apos;\&quot;]?:?[ \t]?)*?(?:(?:2[1-3])(?!\d|[ \t]?[-–][ \t]?\d)|(?:[1-9]|(?:1(?:[0-9])|2(?:[0-3])))[ \t]?[-–][ \t]?(?:(?:(?:2(?:[1-9])|[3-8]\d{1}|9(?:[0-9])))|[1-9]\d{2,})(?!\d))))(?=[^\n]*(?:2\.5\.7|drag))(?=[^\n]*(?:\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?|Review(?:[ -]notes?)?)\b))\|[^\n]*$</p>
+
+</div>
+</details>
+<details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">severity-D21</span>  </summary>
+<div class="grader-body">
+<p class="explanation">matched ^(?=[^\n]*(?:styles\.css[`&apos;\&quot;]?(?:[:#]L?[ \t]?|,?[ \t]+\(?(?:lines?|l\.|L)[ \t]*)(?:\d+(?:[ \t]?[-–][ \t]?\d+)?[`&apos;\&quot;]?[ \t]*(?:,|;|\band\b)[ \t]*[`&apos;\&quot;]?:?[ \t]?)*?(?:(?:1(?:5(?:9)|6\d{1}|7(?:0)))(?!\d|[ \t]?[-–][ \t]?\d)|(?:[1-9]|[1-9]\d{1}|1(?:0(?:[0-9])|[1-6]\d{1}|7(?:0)))[ \t]?[-–][ \t]?(?:(?:(?:1(?:(?:5(?:9)|[6-8]\d{1}|9(?:[0-9])))|[2-8]\d{2}|9(?:[0-9]\d{1})))|[1-9]\d{3,})(?!\d))|catalog\.html[`&apos;\&quot;]?(?:[:#]L?[ \t]?|,?[ \t]+\(?(?:lines?|l\.|L)[ \t]*)(?:\d+(?:[ \t]?[-–][ \t]?\d+)?[`&apos;\&quot;]?[ \t]*(?:,|;|\band\b)[ \t]*[`&apos;\&quot;]?:?[ \t]?)*?(?:(?:7[1-7])(?!\d|[ \t]?[-–][ \t]?\d)|(?:[1-9]|(?:1(?:[0-9])|[2-6]\d{1}|7(?:[0-7])))[ \t]?[-–][ \t]?(?:(?:(?:7(?:[1-9])|8\d{1}|9(?:[0-9])))|[1-9]\d{2,})(?!\d))))(?=[^\n]*(?:2\.5\.8|target size|pager|pagination|16\s?(?:x|×|by)\s?16|16px))(?=[^\n]*(?:\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\b))\|[^\n]*$</p>
+
+</div>
+</details>
+<details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">skill-used</span>  </summary>
+<div class="grader-body">
+<p class="explanation">Skill called 1x (expected 1..∞)</p>
+
+</div>
+</details></div>
+</div>
+</section>
+</details>
+<details class="section" open>
+<summary>Prompt</summary>
+<div class="md"><p>This folder is the static front end of the Larkspur Library website: five HTML pages (index, catalog, events, login, signup), styles.css, app.js, and the React sources in src/components/. Audit it for WCAG 2.2 Level AA conformance, limited to Principle 2, Operable (success criteria 2.x). Cite each finding as file:line with its success criterion. No shell is available in this environment, so review the files statically; do not delegate to subagents and do not ask me questions. Give the complete audit report as your final reply.</p>
+</div>
+</details>
+<details class="section" open>
+<summary>Graders — what "good" means for this case</summary>
+<div class="grader-def">
+<div class="grader-def-head"><span class="grader-name">no-peek</span><span class="badge">regex</span></div>
+<div class="config"><div class="kv"><span>target</span><code>&quot;trace&quot;</code></div><div class="kv"><span>pattern</span><code>&quot;answer-key\\.md|keyspec\\.json|/graders/|evals/fixtures&quot;</code></div><div class="kv"><span>flags</span><code>&quot;&quot;</code></div><div class="kv"><span>match</span><code>&quot;not_contains&quot;</code></div></div>
+</div>
+<div class="grader-def">
+<div class="grader-def-head"><span class="grader-name">nodecoy-K3</span><span class="badge">regex</span></div>
+<div class="config"><div class="kv"><span>target</span><code>&quot;last_message&quot;</code></div><div class="kv"><span>pattern</span><code>&quot;^\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*?(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b)(?:[^|\\n\\\\]|\\\\.)*\\|(?=(?:[^|\\n\\\\]|\\\\.)*?(?:2\\.5\\.8|target size|size of the (?:link|target)|\\b24\\s?(?:css\\s)?(?:px|x|×|by)|\\b16\\s?(?:css\\s)?px|too small|small target)(?:[^|\\n\\\\]|\\\\.)*\\||(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*?(?:2\\.5\\.8|target size|size of the (?:link|target)|\\b24\\s?(?:css\\s)?(?:px|x|×|by)|\\b16\\s?(?:css\\s)?px|too small|small target)(?:[^|\\n\\\\]|\\\\.)*\\||(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*?(?:2\\.5\\.8|target size|size of the (?:link|target)|\\b24\\s?(?:css\\s)?(?:px|x|×|by)|\\b16\\s?(?:css\\s)?px|too small|small target)(?:[^|\\n\\\\]|\\\\.)*\\|)(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*?(?:events\\.html[`&apos;\\\&quot;]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-–][ \\t]?\\d+)?[`&apos;\\\&quot;]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`&apos;\\\&quot;]?:?[ \\t]?)*?(?:(?:(?:2(?:[8-9])|3(?:0)))(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:(?:2(?:[8-9])|3(?:0)))[ \\t]?[-–][ \\t]?(?:(?:2(?:[8-9])|3(?:0)))(?!\\d))|styles\\.css[`&apos;\\\&quot;]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-–][ \\t]?\\d+)?[`&apos;\\\&quot;]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`&apos;\\\&quot;]?:?[ \\t]?)*?(?:(?:(?:1(?:99)|2(?:0[0-1])))(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:(?:1(?:99)|2(?:0[0-1])))[ \\t]?[-–][ \\t]?(?:(?:1(?:99)|2(?:0[0-1])))(?!\\d)))(?:[^|\\n\\\\]|\\\\.)*\\|&quot;</code></div><div class="kv"><span>flags</span><code>&quot;mi&quot;</code></div><div class="kv"><span>match</span><code>&quot;not_contains&quot;</code></div></div>
+</div>
+<div class="grader-def">
+<div class="grader-def-head"><span class="grader-name">nodecoy-K6</span><span class="badge">regex</span></div>
+<div class="config"><div class="kv"><span>target</span><code>&quot;last_message&quot;</code></div><div class="kv"><span>pattern</span><code>&quot;^\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*?(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b)(?:[^|\\n\\\\]|\\\\.)*\\|(?=(?:[^|\\n\\\\]|\\\\.)*?(?:2\\.4\\.11|obscur|sticky|scroll-padding|focus)(?:[^|\\n\\\\]|\\\\.)*\\||(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*?(?:2\\.4\\.11|obscur|sticky|scroll-padding|focus)(?:[^|\\n\\\\]|\\\\.)*\\||(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*?(?:2\\.4\\.11|obscur|sticky|scroll-padding|focus)(?:[^|\\n\\\\]|\\\\.)*\\|)(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*?(?:index\\.html[`&apos;\\\&quot;]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-–][ \\t]?\\d+)?[`&apos;\\\&quot;]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`&apos;\\\&quot;]?:?[ \\t]?)*?(?:(?:[1-3])(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[8-9]|10)(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-9]|10)[ \\t]?[-–][ \\t]?(?:[1-9]|10)(?!\\d)))(?:[^|\\n\\\\]|\\\\.)*\\|&quot;</code></div><div class="kv"><span>flags</span><code>&quot;mi&quot;</code></div><div class="kv"><span>match</span><code>&quot;not_contains&quot;</code></div></div>
+</div>
+<div class="grader-def">
+<div class="grader-def-head"><span class="grader-name">nodecoy-judge</span><span class="badge">llm</span><span class="muted">weight ×0.001</span></div>
+<div class="md"><p>PASS if none of the properties listed below is reported as a Level A or AA
+violation. FAIL if any listed property is itself reported as one: a
+findings-table row with severity Nonconformity or Deviation whose subject IS
+that property, or a statement that the property violates a Level A or AA
+success criterion.</p>
+<p>The reply is a WCAG 2.2 Level AA accessibility audit report. Each listed item
+is a specific property of the audited project that is known to be COMPLIANT
+(a decoy or a non-scored note).</p>
+<ul>
+<li>K3: The small inline 'access guide' link in the fine print at events.html:29 (CSS styles.css:200, 14px text, about 98.5 x 16 CSS px). The 2.5.8 Inline exception applies (target in a sentence, size constrained by line-height), it is underlined, and it has ample contrast. Reporting it as a 2.5.8 target-size failure is a false positive.</li>
+<li>K6: The sticky header on index.html (html.pad-for-header at index.html:2, styles.css:5 scroll-padding-top: 14rem). scroll-padding keeps focused elements clear of the header (technique C43), so 2.4.11 is met on index.html. Reporting the index page's sticky header as obscuring focus is a false positive. The SAME sticky rule on catalog.html (no scroll-padding) is a real defect and does not count.</li>
+</ul>
+<p>How to judge each item:</p>
+<ul>
+<li>Findings about OTHER problems that happen to mention the same file, line or
+success criterion do not count (for example a real defect on a neighbouring
+element, or the same technique used wrongly on a different page).</li>
+<li>Calling the property compliant, passing, excepted or "no finding" is fine.
+So is a best-practice remark, an Advisory or Review note, or a note that it
+matters only at AAA, when it is clearly not presented as a Level A/AA
+violation.</li>
+</ul>
+<p>If FAIL, name the decoy.</p>
+</div>
+</div>
+<div class="grader-def">
+<div class="grader-def-head"><span class="grader-name">recall-D11</span><span class="badge">regex</span></div>
+<div class="config"><div class="kv"><span>target</span><code>&quot;last_message&quot;</code></div><div class="kv"><span>pattern</span><code>&quot;^(?=[^\\n]*(?:catalog\\.html[`&apos;\\\&quot;]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-–][ \\t]?\\d+)?[`&apos;\\\&quot;]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`&apos;\\\&quot;]?:?[ \\t]?)*?(?:(?:4[1-3])(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\\d{1}|4(?:[0-3])))[ \\t]?[-–][ \\t]?(?:(?:(?:4(?:[1-9])|[5-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:(?:4(?:9)|5(?:[0-1])))(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-4]\\d{1}|5(?:[0-1])))[ \\t]?[-–][ \\t]?(?:(?:(?:4(?:9)|[5-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:5[7-9])(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-9]|[1-5]\\d{1})[ \\t]?[-–][ \\t]?(?:(?:(?:5(?:[7-9])|[6-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:6[5-7])(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-5]\\d{1}|6(?:[0-7])))[ \\t]?[-–][ \\t]?(?:(?:(?:6(?:[5-9])|[7-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))|BookCard\\.jsx[`&apos;\\\&quot;]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-–][ \\t]?\\d+)?[`&apos;\\\&quot;]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`&apos;\\\&quot;]?:?[ \\t]?)*?(?:(?:1[4-6])(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-9]|1[0-6])[ \\t]?[-–][ \\t]?(?:(?:(?:1(?:[4-9])|[2-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:2\\.1\\.1|keyboard|add-btn|\\bdiv\\b|onclick|tabindex))\\|[^\\n]*$&quot;</code></div><div class="kv"><span>flags</span><code>&quot;mi&quot;</code></div><div class="kv"><span>match</span><code>&quot;contains&quot;</code></div></div>
+</div>
+<div class="grader-def">
+<div class="grader-def-head"><span class="grader-name">recall-D12</span><span class="badge">regex</span></div>
+<div class="config"><div class="kv"><span>target</span><code>&quot;last_message&quot;</code></div><div class="kv"><span>pattern</span><code>&quot;^(?=[^\\n]*(?:app\\.js[`&apos;\\\&quot;]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-–][ \\t]?\\d+)?[`&apos;\\\&quot;]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`&apos;\\\&quot;]?:?[ \\t]?)*?(?:(?:(?:8(?:[2-9])|9(?:[0-3])))(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-8]\\d{1}|9(?:[0-3])))[ \\t]?[-–][ \\t]?(?:(?:(?:8(?:[2-9])|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))|events\\.html[`&apos;\\\&quot;]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-–][ \\t]?\\d+)?[`&apos;\\\&quot;]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`&apos;\\\&quot;]?:?[ \\t]?)*?(?:(?:8[7-9])(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-9]|[1-8]\\d{1})[ \\t]?[-–][ \\t]?(?:(?:(?:8(?:[7-9])|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))|Modal\\.jsx[`&apos;\\\&quot;]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-–][ \\t]?\\d+)?[`&apos;\\\&quot;]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`&apos;\\\&quot;]?:?[ \\t]?)*?(?:(?:1[2-4])(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-9]|1[0-4])[ \\t]?[-–][ \\t]?(?:(?:(?:1(?:[2-9])|[2-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:(?:2(?:9)|3(?:[0-1])))(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|2\\d{1}|3(?:[0-1])))[ \\t]?[-–][ \\t]?(?:(?:(?:2(?:9)|[3-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:2\\.1\\.2|trap|escape|\\bF10\\b|modal))\\|[^\\n]*$&quot;</code></div><div class="kv"><span>flags</span><code>&quot;mi&quot;</code></div><div class="kv"><span>match</span><code>&quot;contains&quot;</code></div></div>
+</div>
+<div class="grader-def">
+<div class="grader-def-head"><span class="grader-name">recall-D13</span><span class="badge">regex</span></div>
+<div class="config"><div class="kv"><span>target</span><code>&quot;last_message&quot;</code></div><div class="kv"><span>pattern</span><code>&quot;^(?=[^\\n]*(?:events\\.html[`&apos;\\\&quot;]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-–][ \\t]?\\d+)?[`&apos;\\\&quot;]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`&apos;\\\&quot;]?:?[ \\t]?)*?(?:(?:[5-7])(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-7])[ \\t]?[-–][ \\t]?(?:(?:[5-9])|[1-9]\\d{1,})(?!\\d))))(?=[^\\n]*(?:2\\.2\\.1|refresh|timing|\\bF41\\b))\\|[^\\n]*$&quot;</code></div><div class="kv"><span>flags</span><code>&quot;mi&quot;</code></div><div class="kv"><span>match</span><code>&quot;contains&quot;</code></div></div>
+</div>
+<div class="grader-def">
+<div class="grader-def-head"><span class="grader-name">recall-D14</span><span class="badge">regex</span></div>
+<div class="config"><div class="kv"><span>target</span><code>&quot;last_message&quot;</code></div><div class="kv"><span>pattern</span><code>&quot;^(?=[^\\n]*(?:index\\.html[`&apos;\\\&quot;]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-–][ \\t]?\\d+)?[`&apos;\\\&quot;]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`&apos;\\\&quot;]?:?[ \\t]?)*?(?:(?:3[3-5])(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|2\\d{1}|3(?:[0-5])))[ \\t]?[-–][ \\t]?(?:(?:(?:3(?:[3-9])|[4-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))|app\\.js[`&apos;\\\&quot;]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-–][ \\t]?\\d+)?[`&apos;\\\&quot;]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`&apos;\\\&quot;]?:?[ \\t]?)*?(?:(?:1[3-8])(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-9]|1[0-8])[ \\t]?[-–][ \\t]?(?:(?:(?:1(?:[3-9])|[2-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))|Carousel\\.jsx[`&apos;\\\&quot;]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-–][ \\t]?\\d+)?[`&apos;\\\&quot;]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`&apos;\\\&quot;]?:?[ \\t]?)*?(?:(?:[7-9])(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-9])[ \\t]?[-–][ \\t]?(?:(?:[7-9])|[1-9]\\d{1,})(?!\\d))))(?=[^\\n]*(?:2\\.2\\.2|pause|carousel|setInterval|auto-?(?:advanc|rotat|play)|\\bF16\\b))\\|[^\\n]*$&quot;</code></div><div class="kv"><span>flags</span><code>&quot;mi&quot;</code></div><div class="kv"><span>match</span><code>&quot;contains&quot;</code></div></div>
+</div>
+<div class="grader-def">
+<div class="grader-def-head"><span class="grader-name">recall-D15</span><span class="badge">regex</span></div>
+<div class="config"><div class="kv"><span>target</span><code>&quot;last_message&quot;</code></div><div class="kv"><span>pattern</span><code>&quot;^(?=[^\\n]*(?:catalog\\.html[`&apos;\\\&quot;]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-–][ \\t]?\\d+)?[`&apos;\\\&quot;]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`&apos;\\\&quot;]?:?[ \\t]?)*?(?:(?:[2-8])(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-8])[ \\t]?[-–][ \\t]?(?:(?:[2-9])|[1-9]\\d{1,})(?!\\d))|catalog\\.html(?![:#\\d])))(?=[^\\n]*(?:2\\.4\\.2|&lt;title&gt;|(?&lt;!-)\\btitle\\b|page titled))\\|[^\\n]*$&quot;</code></div><div class="kv"><span>flags</span><code>&quot;mi&quot;</code></div><div class="kv"><span>match</span><code>&quot;contains&quot;</code></div></div>
+</div>
+<div class="grader-def">
+<div class="grader-def-head"><span class="grader-name">recall-D16</span><span class="badge">regex</span></div>
+<div class="config"><div class="kv"><span>target</span><code>&quot;last_message&quot;</code></div><div class="kv"><span>pattern</span><code>&quot;^(?=[^\\n]*(?:login\\.html[`&apos;\\\&quot;]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-–][ \\t]?\\d+)?[`&apos;\\\&quot;]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`&apos;\\\&quot;]?:?[ \\t]?)*?(?:(?:3[6-8])(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|2\\d{1}|3(?:[0-8])))[ \\t]?[-–][ \\t]?(?:(?:(?:3(?:[6-9])|[4-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:(?:3(?:9)|4(?:[0-1])))(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\\d{1}|4(?:[0-1])))[ \\t]?[-–][ \\t]?(?:(?:(?:3(?:9)|[4-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:2\\.4\\.3|tabindex|focus order|\\bF44\\b))\\|[^\\n]*$&quot;</code></div><div class="kv"><span>flags</span><code>&quot;mi&quot;</code></div><div class="kv"><span>match</span><code>&quot;contains&quot;</code></div></div>
+</div>
+<div class="grader-def">
+<div class="grader-def-head"><span class="grader-name">recall-D17</span><span class="badge">regex</span></div>
+<div class="config"><div class="kv"><span>target</span><code>&quot;last_message&quot;</code></div><div class="kv"><span>pattern</span><code>&quot;^(?=[^\\n]*(?:events\\.html[`&apos;\\\&quot;]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-–][ \\t]?\\d+)?[`&apos;\\\&quot;]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`&apos;\\\&quot;]?:?[ \\t]?)*?(?:(?:3[0-4])(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|2\\d{1}|3(?:[0-4])))[ \\t]?[-–][ \\t]?(?:(?:[3-9]\\d{1})|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:2\\.4\\.4|click here|link purpose|\\bF63\\b|calendar))\\|[^\\n]*$&quot;</code></div><div class="kv"><span>flags</span><code>&quot;mi&quot;</code></div><div class="kv"><span>match</span><code>&quot;contains&quot;</code></div></div>
+</div>
+<div class="grader-def">
+<div class="grader-def-head"><span class="grader-name">recall-D18</span><span class="badge">regex</span></div>
+<div class="config"><div class="kv"><span>target</span><code>&quot;last_message&quot;</code></div><div class="kv"><span>pattern</span><code>&quot;^(?=[^\\n]*(?:styles\\.css[`&apos;\\\&quot;]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-–][ \\t]?\\d+)?[`&apos;\\\&quot;]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`&apos;\\\&quot;]?:?[ \\t]?)*?(?:(?:(?:5(?:[8-9])|6(?:0)))(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-5]\\d{1}|6(?:0)))[ \\t]?[-–][ \\t]?(?:(?:(?:5(?:[8-9])|[6-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:2\\.4\\.7|outline|focus visible|focus indicator|\\bF78\\b))\\|[^\\n]*$&quot;</code></div><div class="kv"><span>flags</span><code>&quot;mi&quot;</code></div><div class="kv"><span>match</span><code>&quot;contains&quot;</code></div></div>
+</div>
+<div class="grader-def">
+<div class="grader-def-head"><span class="grader-name">recall-D19</span><span class="badge">regex</span></div>
+<div class="config"><div class="kv"><span>target</span><code>&quot;last_message&quot;</code></div><div class="kv"><span>pattern</span><code>&quot;^(?=[^\\n]*(?:styles\\.css[`&apos;\\\&quot;]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-–][ \\t]?\\d+)?[`&apos;\\\&quot;]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`&apos;\\\&quot;]?:?[ \\t]?)*?(?:(?:2[4-7])(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|2(?:[0-7])))[ \\t]?[-–][ \\t]?(?:(?:(?:2(?:[4-9])|[3-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))|catalog\\.html[`&apos;\\\&quot;]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-–][ \\t]?\\d+)?[`&apos;\\\&quot;]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`&apos;\\\&quot;]?:?[ \\t]?)*?(?:(?:[7-9])(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-9])[ \\t]?[-–][ \\t]?(?:(?:[7-9])|[1-9]\\d{1,})(?!\\d))))(?=[^\\n]*(?:2\\.4\\.11|obscur|sticky|scroll-padding|\\bF110\\b))\\|[^\\n]*$&quot;</code></div><div class="kv"><span>flags</span><code>&quot;mi&quot;</code></div><div class="kv"><span>match</span><code>&quot;contains&quot;</code></div></div>
+</div>
+<div class="grader-def">
+<div class="grader-def-head"><span class="grader-name">recall-D20</span><span class="badge">regex</span></div>
+<div class="config"><div class="kv"><span>target</span><code>&quot;last_message&quot;</code></div><div class="kv"><span>pattern</span><code>&quot;^(?=[^\\n]*(?:catalog\\.html[`&apos;\\\&quot;]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-–][ \\t]?\\d+)?[`&apos;\\\&quot;]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`&apos;\\\&quot;]?:?[ \\t]?)*?(?:(?:8[2-7])(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-7]\\d{1}|8(?:[0-7])))[ \\t]?[-–][ \\t]?(?:(?:(?:8(?:[2-9])|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))|app\\.js[`&apos;\\\&quot;]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-–][ \\t]?\\d+)?[`&apos;\\\&quot;]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`&apos;\\\&quot;]?:?[ \\t]?)*?(?:(?:(?:4(?:[8-9])|5\\d{1}|6(?:[0-1])))(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-5]\\d{1}|6(?:[0-1])))[ \\t]?[-–][ \\t]?(?:(?:(?:4(?:[8-9])|[5-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))|ReadingList\\.jsx[`&apos;\\\&quot;]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-–][ \\t]?\\d+)?[`&apos;\\\&quot;]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`&apos;\\\&quot;]?:?[ \\t]?)*?(?:(?:2[1-3])(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|2(?:[0-3])))[ \\t]?[-–][ \\t]?(?:(?:(?:2(?:[1-9])|[3-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:2\\.5\\.7|drag))\\|[^\\n]*$&quot;</code></div><div class="kv"><span>flags</span><code>&quot;mi&quot;</code></div><div class="kv"><span>match</span><code>&quot;contains&quot;</code></div></div>
+</div>
+<div class="grader-def">
+<div class="grader-def-head"><span class="grader-name">recall-D21</span><span class="badge">regex</span></div>
+<div class="config"><div class="kv"><span>target</span><code>&quot;last_message&quot;</code></div><div class="kv"><span>pattern</span><code>&quot;^(?=[^\\n]*(?:styles\\.css[`&apos;\\\&quot;]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-–][ \\t]?\\d+)?[`&apos;\\\&quot;]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`&apos;\\\&quot;]?:?[ \\t]?)*?(?:(?:1(?:5(?:9)|6\\d{1}|7(?:0)))(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-9]|[1-9]\\d{1}|1(?:0(?:[0-9])|[1-6]\\d{1}|7(?:0)))[ \\t]?[-–][ \\t]?(?:(?:(?:1(?:(?:5(?:9)|[6-8]\\d{1}|9(?:[0-9])))|[2-8]\\d{2}|9(?:[0-9]\\d{1})))|[1-9]\\d{3,})(?!\\d))|catalog\\.html[`&apos;\\\&quot;]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-–][ \\t]?\\d+)?[`&apos;\\\&quot;]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`&apos;\\\&quot;]?:?[ \\t]?)*?(?:(?:7[1-7])(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-6]\\d{1}|7(?:[0-7])))[ \\t]?[-–][ \\t]?(?:(?:(?:7(?:[1-9])|8\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:2\\.5\\.8|target size|pager|pagination|16\\s?(?:x|×|by)\\s?16|16px))\\|[^\\n]*$&quot;</code></div><div class="kv"><span>flags</span><code>&quot;mi&quot;</code></div><div class="kv"><span>match</span><code>&quot;contains&quot;</code></div></div>
+</div>
+<div class="grader-def">
+<div class="grader-def-head"><span class="grader-name">severity-D11</span><span class="badge">regex</span></div>
+<div class="config"><div class="kv"><span>target</span><code>&quot;last_message&quot;</code></div><div class="kv"><span>pattern</span><code>&quot;^(?=[^\\n]*(?:catalog\\.html[`&apos;\\\&quot;]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-–][ \\t]?\\d+)?[`&apos;\\\&quot;]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`&apos;\\\&quot;]?:?[ \\t]?)*?(?:(?:4[1-3])(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\\d{1}|4(?:[0-3])))[ \\t]?[-–][ \\t]?(?:(?:(?:4(?:[1-9])|[5-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:(?:4(?:9)|5(?:[0-1])))(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-4]\\d{1}|5(?:[0-1])))[ \\t]?[-–][ \\t]?(?:(?:(?:4(?:9)|[5-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:5[7-9])(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-9]|[1-5]\\d{1})[ \\t]?[-–][ \\t]?(?:(?:(?:5(?:[7-9])|[6-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:6[5-7])(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-5]\\d{1}|6(?:[0-7])))[ \\t]?[-–][ \\t]?(?:(?:(?:6(?:[5-9])|[7-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))|BookCard\\.jsx[`&apos;\\\&quot;]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-–][ \\t]?\\d+)?[`&apos;\\\&quot;]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`&apos;\\\&quot;]?:?[ \\t]?)*?(?:(?:1[4-6])(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-9]|1[0-6])[ \\t]?[-–][ \\t]?(?:(?:(?:1(?:[4-9])|[2-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:2\\.1\\.1|keyboard|add-btn|\\bdiv\\b|onclick|tabindex))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies))\\b))\\|[^\\n]*$&quot;</code></div><div class="kv"><span>flags</span><code>&quot;mi&quot;</code></div><div class="kv"><span>match</span><code>&quot;contains&quot;</code></div></div>
+</div>
+<div class="grader-def">
+<div class="grader-def-head"><span class="grader-name">severity-D12</span><span class="badge">regex</span></div>
+<div class="config"><div class="kv"><span>target</span><code>&quot;last_message&quot;</code></div><div class="kv"><span>pattern</span><code>&quot;^(?=[^\\n]*(?:app\\.js[`&apos;\\\&quot;]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-–][ \\t]?\\d+)?[`&apos;\\\&quot;]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`&apos;\\\&quot;]?:?[ \\t]?)*?(?:(?:(?:8(?:[2-9])|9(?:[0-3])))(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-8]\\d{1}|9(?:[0-3])))[ \\t]?[-–][ \\t]?(?:(?:(?:8(?:[2-9])|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))|events\\.html[`&apos;\\\&quot;]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-–][ \\t]?\\d+)?[`&apos;\\\&quot;]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`&apos;\\\&quot;]?:?[ \\t]?)*?(?:(?:8[7-9])(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-9]|[1-8]\\d{1})[ \\t]?[-–][ \\t]?(?:(?:(?:8(?:[7-9])|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))|Modal\\.jsx[`&apos;\\\&quot;]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-–][ \\t]?\\d+)?[`&apos;\\\&quot;]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`&apos;\\\&quot;]?:?[ \\t]?)*?(?:(?:1[2-4])(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-9]|1[0-4])[ \\t]?[-–][ \\t]?(?:(?:(?:1(?:[2-9])|[2-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:(?:2(?:9)|3(?:[0-1])))(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|2\\d{1}|3(?:[0-1])))[ \\t]?[-–][ \\t]?(?:(?:(?:2(?:9)|[3-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:2\\.1\\.2|trap|escape|\\bF10\\b|modal))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?|Review(?:[ -]notes?)?)\\b))\\|[^\\n]*$&quot;</code></div><div class="kv"><span>flags</span><code>&quot;mi&quot;</code></div><div class="kv"><span>match</span><code>&quot;contains&quot;</code></div></div>
+</div>
+<div class="grader-def">
+<div class="grader-def-head"><span class="grader-name">severity-D13</span><span class="badge">regex</span></div>
+<div class="config"><div class="kv"><span>target</span><code>&quot;last_message&quot;</code></div><div class="kv"><span>pattern</span><code>&quot;^(?=[^\\n]*(?:events\\.html[`&apos;\\\&quot;]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-–][ \\t]?\\d+)?[`&apos;\\\&quot;]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`&apos;\\\&quot;]?:?[ \\t]?)*?(?:(?:[5-7])(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-7])[ \\t]?[-–][ \\t]?(?:(?:[5-9])|[1-9]\\d{1,})(?!\\d))))(?=[^\\n]*(?:2\\.2\\.1|refresh|timing|\\bF41\\b))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies))\\b))\\|[^\\n]*$&quot;</code></div><div class="kv"><span>flags</span><code>&quot;mi&quot;</code></div><div class="kv"><span>match</span><code>&quot;contains&quot;</code></div></div>
+</div>
+<div class="grader-def">
+<div class="grader-def-head"><span class="grader-name">severity-D14</span><span class="badge">regex</span></div>
+<div class="config"><div class="kv"><span>target</span><code>&quot;last_message&quot;</code></div><div class="kv"><span>pattern</span><code>&quot;^(?=[^\\n]*(?:index\\.html[`&apos;\\\&quot;]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-–][ \\t]?\\d+)?[`&apos;\\\&quot;]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`&apos;\\\&quot;]?:?[ \\t]?)*?(?:(?:3[3-5])(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|2\\d{1}|3(?:[0-5])))[ \\t]?[-–][ \\t]?(?:(?:(?:3(?:[3-9])|[4-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))|app\\.js[`&apos;\\\&quot;]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-–][ \\t]?\\d+)?[`&apos;\\\&quot;]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`&apos;\\\&quot;]?:?[ \\t]?)*?(?:(?:1[3-8])(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-9]|1[0-8])[ \\t]?[-–][ \\t]?(?:(?:(?:1(?:[3-9])|[2-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))|Carousel\\.jsx[`&apos;\\\&quot;]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-–][ \\t]?\\d+)?[`&apos;\\\&quot;]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`&apos;\\\&quot;]?:?[ \\t]?)*?(?:(?:[7-9])(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-9])[ \\t]?[-–][ \\t]?(?:(?:[7-9])|[1-9]\\d{1,})(?!\\d))))(?=[^\\n]*(?:2\\.2\\.2|pause|carousel|setInterval|auto-?(?:advanc|rotat|play)|\\bF16\\b))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?|Review(?:[ -]notes?)?)\\b))\\|[^\\n]*$&quot;</code></div><div class="kv"><span>flags</span><code>&quot;mi&quot;</code></div><div class="kv"><span>match</span><code>&quot;contains&quot;</code></div></div>
+</div>
+<div class="grader-def">
+<div class="grader-def-head"><span class="grader-name">severity-D15</span><span class="badge">regex</span></div>
+<div class="config"><div class="kv"><span>target</span><code>&quot;last_message&quot;</code></div><div class="kv"><span>pattern</span><code>&quot;^(?=[^\\n]*(?:catalog\\.html[`&apos;\\\&quot;]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-–][ \\t]?\\d+)?[`&apos;\\\&quot;]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`&apos;\\\&quot;]?:?[ \\t]?)*?(?:(?:[2-8])(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-8])[ \\t]?[-–][ \\t]?(?:(?:[2-9])|[1-9]\\d{1,})(?!\\d))|catalog\\.html(?![:#\\d])))(?=[^\\n]*(?:2\\.4\\.2|&lt;title&gt;|(?&lt;!-)\\btitle\\b|page titled))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies))\\b))\\|[^\\n]*$&quot;</code></div><div class="kv"><span>flags</span><code>&quot;mi&quot;</code></div><div class="kv"><span>match</span><code>&quot;contains&quot;</code></div></div>
+</div>
+<div class="grader-def">
+<div class="grader-def-head"><span class="grader-name">severity-D16</span><span class="badge">regex</span></div>
+<div class="config"><div class="kv"><span>target</span><code>&quot;last_message&quot;</code></div><div class="kv"><span>pattern</span><code>&quot;^(?=[^\\n]*(?:login\\.html[`&apos;\\\&quot;]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-–][ \\t]?\\d+)?[`&apos;\\\&quot;]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`&apos;\\\&quot;]?:?[ \\t]?)*?(?:(?:3[6-8])(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|2\\d{1}|3(?:[0-8])))[ \\t]?[-–][ \\t]?(?:(?:(?:3(?:[6-9])|[4-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:(?:3(?:9)|4(?:[0-1])))(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\\d{1}|4(?:[0-1])))[ \\t]?[-–][ \\t]?(?:(?:(?:3(?:9)|[4-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:2\\.4\\.3|tabindex|focus order|\\bF44\\b))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$&quot;</code></div><div class="kv"><span>flags</span><code>&quot;mi&quot;</code></div><div class="kv"><span>match</span><code>&quot;contains&quot;</code></div></div>
+</div>
+<div class="grader-def">
+<div class="grader-def-head"><span class="grader-name">severity-D17</span><span class="badge">regex</span></div>
+<div class="config"><div class="kv"><span>target</span><code>&quot;last_message&quot;</code></div><div class="kv"><span>pattern</span><code>&quot;^(?=[^\\n]*(?:events\\.html[`&apos;\\\&quot;]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-–][ \\t]?\\d+)?[`&apos;\\\&quot;]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`&apos;\\\&quot;]?:?[ \\t]?)*?(?:(?:3[0-4])(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|2\\d{1}|3(?:[0-4])))[ \\t]?[-–][ \\t]?(?:(?:[3-9]\\d{1})|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:2\\.4\\.4|click here|link purpose|\\bF63\\b|calendar))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?|Review(?:[ -]notes?)?)\\b))\\|[^\\n]*$&quot;</code></div><div class="kv"><span>flags</span><code>&quot;mi&quot;</code></div><div class="kv"><span>match</span><code>&quot;contains&quot;</code></div></div>
+</div>
+<div class="grader-def">
+<div class="grader-def-head"><span class="grader-name">severity-D18</span><span class="badge">regex</span></div>
+<div class="config"><div class="kv"><span>target</span><code>&quot;last_message&quot;</code></div><div class="kv"><span>pattern</span><code>&quot;^(?=[^\\n]*(?:styles\\.css[`&apos;\\\&quot;]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-–][ \\t]?\\d+)?[`&apos;\\\&quot;]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`&apos;\\\&quot;]?:?[ \\t]?)*?(?:(?:(?:5(?:[8-9])|6(?:0)))(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-5]\\d{1}|6(?:0)))[ \\t]?[-–][ \\t]?(?:(?:(?:5(?:[8-9])|[6-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:2\\.4\\.7|outline|focus visible|focus indicator|\\bF78\\b))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$&quot;</code></div><div class="kv"><span>flags</span><code>&quot;mi&quot;</code></div><div class="kv"><span>match</span><code>&quot;contains&quot;</code></div></div>
+</div>
+<div class="grader-def">
+<div class="grader-def-head"><span class="grader-name">severity-D19</span><span class="badge">regex</span></div>
+<div class="config"><div class="kv"><span>target</span><code>&quot;last_message&quot;</code></div><div class="kv"><span>pattern</span><code>&quot;^(?=[^\\n]*(?:styles\\.css[`&apos;\\\&quot;]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-–][ \\t]?\\d+)?[`&apos;\\\&quot;]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`&apos;\\\&quot;]?:?[ \\t]?)*?(?:(?:2[4-7])(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|2(?:[0-7])))[ \\t]?[-–][ \\t]?(?:(?:(?:2(?:[4-9])|[3-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))|catalog\\.html[`&apos;\\\&quot;]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-–][ \\t]?\\d+)?[`&apos;\\\&quot;]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`&apos;\\\&quot;]?:?[ \\t]?)*?(?:(?:[7-9])(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-9])[ \\t]?[-–][ \\t]?(?:(?:[7-9])|[1-9]\\d{1,})(?!\\d))))(?=[^\\n]*(?:2\\.4\\.11|obscur|sticky|scroll-padding|\\bF110\\b))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$&quot;</code></div><div class="kv"><span>flags</span><code>&quot;mi&quot;</code></div><div class="kv"><span>match</span><code>&quot;contains&quot;</code></div></div>
+</div>
+<div class="grader-def">
+<div class="grader-def-head"><span class="grader-name">severity-D20</span><span class="badge">regex</span></div>
+<div class="config"><div class="kv"><span>target</span><code>&quot;last_message&quot;</code></div><div class="kv"><span>pattern</span><code>&quot;^(?=[^\\n]*(?:catalog\\.html[`&apos;\\\&quot;]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-–][ \\t]?\\d+)?[`&apos;\\\&quot;]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`&apos;\\\&quot;]?:?[ \\t]?)*?(?:(?:8[2-7])(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-7]\\d{1}|8(?:[0-7])))[ \\t]?[-–][ \\t]?(?:(?:(?:8(?:[2-9])|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))|app\\.js[`&apos;\\\&quot;]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-–][ \\t]?\\d+)?[`&apos;\\\&quot;]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`&apos;\\\&quot;]?:?[ \\t]?)*?(?:(?:(?:4(?:[8-9])|5\\d{1}|6(?:[0-1])))(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-5]\\d{1}|6(?:[0-1])))[ \\t]?[-–][ \\t]?(?:(?:(?:4(?:[8-9])|[5-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))|ReadingList\\.jsx[`&apos;\\\&quot;]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-–][ \\t]?\\d+)?[`&apos;\\\&quot;]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`&apos;\\\&quot;]?:?[ \\t]?)*?(?:(?:2[1-3])(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|2(?:[0-3])))[ \\t]?[-–][ \\t]?(?:(?:(?:2(?:[1-9])|[3-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:2\\.5\\.7|drag))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?|Review(?:[ -]notes?)?)\\b))\\|[^\\n]*$&quot;</code></div><div class="kv"><span>flags</span><code>&quot;mi&quot;</code></div><div class="kv"><span>match</span><code>&quot;contains&quot;</code></div></div>
+</div>
+<div class="grader-def">
+<div class="grader-def-head"><span class="grader-name">severity-D21</span><span class="badge">regex</span></div>
+<div class="config"><div class="kv"><span>target</span><code>&quot;last_message&quot;</code></div><div class="kv"><span>pattern</span><code>&quot;^(?=[^\\n]*(?:styles\\.css[`&apos;\\\&quot;]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-–][ \\t]?\\d+)?[`&apos;\\\&quot;]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`&apos;\\\&quot;]?:?[ \\t]?)*?(?:(?:1(?:5(?:9)|6\\d{1}|7(?:0)))(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-9]|[1-9]\\d{1}|1(?:0(?:[0-9])|[1-6]\\d{1}|7(?:0)))[ \\t]?[-–][ \\t]?(?:(?:(?:1(?:(?:5(?:9)|[6-8]\\d{1}|9(?:[0-9])))|[2-8]\\d{2}|9(?:[0-9]\\d{1})))|[1-9]\\d{3,})(?!\\d))|catalog\\.html[`&apos;\\\&quot;]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-–][ \\t]?\\d+)?[`&apos;\\\&quot;]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`&apos;\\\&quot;]?:?[ \\t]?)*?(?:(?:7[1-7])(?!\\d|[ \\t]?[-–][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-6]\\d{1}|7(?:[0-7])))[ \\t]?[-–][ \\t]?(?:(?:(?:7(?:[1-9])|8\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:2\\.5\\.8|target size|pager|pagination|16\\s?(?:x|×|by)\\s?16|16px))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$&quot;</code></div><div class="kv"><span>flags</span><code>&quot;mi&quot;</code></div><div class="kv"><span>match</span><code>&quot;contains&quot;</code></div></div>
+</div>
+<div class="grader-def">
+<div class="grader-def-head"><span class="grader-name">skill-used</span><span class="badge">tool_used</span></div>
+<div class="config"><div class="kv"><span>tool</span><code>&quot;Skill&quot;</code></div><div class="kv"><span>input_match</span><code>&quot;\&quot;skill\&quot;\\s*:\\s*\&quot;(?:[\\w-]+:)?wcag22\\-a11y\&quot;&quot;</code></div><div class="kv"><span>min</span><code>1</code></div></div>
+</div>
+</details>
+</article>
+<footer>Generated by <code>claude plugin eval</code> · schema v1 · scores are not comparable across different suites</footer>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var bar=document.querySelector('.toolbar');
+  if(!bar)return;
+  bar.addEventListener('click',function(e){
+    var b=e.target&&e.target.closest('button');
+    if(!b)return;
+    var open=b.dataset.act==='expand';
+    document.querySelectorAll('details.section, details.grader').forEach(function(d){d.open=open});
+  });
+});
+// Collapsed details vanish from print/PDF; these pages are share artifacts.
+window.addEventListener('beforeprint',function(){
+  document.querySelectorAll('details').forEach(function(d){
+    if(!d.open){d.dataset.printOpened='1';d.open=true}
+  });
+});
+window.addEventListener('afterprint',function(){
+  document.querySelectorAll('details[data-print-opened]').forEach(function(d){
+    d.open=false;delete d.dataset.printOpened;
+  });
+});
+</script>
+</body>
+</html>

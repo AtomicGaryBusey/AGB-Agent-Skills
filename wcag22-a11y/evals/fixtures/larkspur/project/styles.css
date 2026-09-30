@@ -1,0 +1,271 @@
+/* Larkspur Library - shared styles */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { font-size: 100%; }
+html.pad-for-header { scroll-padding-top: 14rem; }
+
+body {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #222222;
+  background: #ffffff;
+}
+
+a { color: #4b2a7b; }
+
+/* ---------- header ---------- */
+.site-header {
+  background: #ffffff;
+  border-bottom: 4px solid #4b2a7b;
+  min-height: 8rem;
+  z-index: 10;
+}
+.sticky-page .site-header {
+  position: sticky;
+  top: 0;
+}
+.header-inner {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 0.75rem 1rem 0;
+}
+.logo {
+  font-family: "Trebuchet MS", sans-serif;
+  font-size: 1.75rem;
+  font-weight: bold;
+  letter-spacing: 0.04em;
+}
+.logo-word { color: #c9b6ef; }
+.logo-mark { display: inline-block; width: 1.5rem; height: 1.5rem; background: #c9b6ef; border-radius: 50%; vertical-align: middle; }
+
+.site-nav ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  background: #4b2a7b;
+}
+.site-nav a {
+  display: inline-block;
+  padding: 0.5rem 0.75rem;
+  color: #ffffff;
+  text-decoration: none;
+}
+.site-nav a:hover { text-decoration: underline; }
+.site-nav a:focus { outline: none; }
+
+.help-bar {
+  padding: 0.25rem 0;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 640px) {
+  .sticky-page .site-header { position: static; }
+}
+
+/* ---------- layout ---------- */
+main {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 1rem;
+}
+.divider { display: block; max-width: 100%; height: auto; margin: 1.5rem auto; }
+
+.btn {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: #5b3a9b;
+  color: #ffffff;
+  border: 0;
+  border-radius: 4px;
+  font: inherit;
+  cursor: pointer;
+}
+
+/* ---------- home ---------- */
+.carousel {
+  position: relative;
+  overflow: hidden;
+  background: #f3eefb;
+  border-radius: 6px;
+}
+.carousel-track {
+  display: flex;
+  transition: transform 0.6s ease;
+}
+.slide {
+  flex: 0 0 100%;
+  padding: 1.5rem;
+}
+
+.featured-row {
+  display: grid;
+  grid-template-columns: repeat(4, 240px);
+  gap: 1.25rem;
+}
+.featured-row article {
+  border: 1px solid #767676;
+  border-radius: 6px;
+  padding: 0.75rem;
+}
+
+.social { display: flex; gap: 0.5rem; }
+.social a {
+  display: inline-block;
+  padding: 0.4rem 0.9rem;
+  background: #f0eaf8;
+  border-radius: 1rem;
+  text-decoration: none;
+  color: #2d1a4a;
+}
+
+/* ---------- catalog ---------- */
+.search-row { display: flex; gap: 0.5rem; align-items: center; }
+.search-row input {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid #767676;
+  font: inherit;
+}
+.icon-btn {
+  width: 2.5rem;
+  height: 2.5rem;
+  background: #5b3a9b;
+  border: 0;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.sort-toggle {
+  display: inline-block;
+  padding: 0.4rem 0.75rem;
+  border: 1px solid #767676;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.results { list-style: none; padding: 0; }
+.book-card {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid #767676;
+}
+.book-card img { width: 80px; height: 120px; }
+.add-btn { margin-top: 0.5rem; }
+
+.pager { display: flex; gap: 4px; align-items: center; margin: 1.5rem 0; }
+.pager a {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  font-size: 11px;
+  line-height: 16px;
+  text-align: center;
+  text-decoration: none;
+  border: 1px solid #4b2a7b;
+}
+
+.reading-list { padding-left: 1.5rem; }
+.reading-list li {
+  padding: 0.5rem;
+  margin: 0.25rem 0;
+  background: #f3eefb;
+  border: 1px dashed #4b2a7b;
+  cursor: grab;
+}
+
+/* ---------- events ---------- */
+.event {
+  padding: 1rem 0;
+  border-bottom: 1px solid #767676;
+}
+.event-title {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin: 0 0 0.25rem;
+}
+.event-meta { color: #999999; }
+.btn-fixed {
+  width: 112px;
+  height: 32px;
+  padding: 0 4px;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 15px;
+  line-height: 32px;
+}
+.fine-print { font-size: 14px; line-height: 20px; }
+
+.table-scroll { max-width: 100%; overflow-x: auto; }
+table.schedule { border-collapse: collapse; margin: 1rem 0; }
+table.schedule th, table.schedule td { border: 1px solid #767676; padding: 0.4rem 0.6rem; text-align: left; }
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-backdrop[hidden] { display: none; }
+.modal {
+  background: #ffffff;
+  padding: 1.5rem;
+  border-radius: 6px;
+  max-width: 28rem;
+  width: 90%;
+  position: relative;
+}
+.modal .close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 2rem;
+  height: 2rem;
+  font-size: 1.5rem;
+  line-height: 2rem;
+  text-align: center;
+  cursor: pointer;
+}
+
+/* ---------- forms ---------- */
+.form-field { margin: 0 0 1rem; }
+.form-field label { display: block; font-weight: bold; }
+.form-field input {
+  width: 100%;
+  max-width: 24rem;
+  padding: 0.5rem;
+  font: inherit;
+  border: 1px solid #767676;
+  background: #ffffff;
+}
+.signup-form input {
+  border: 1px solid #d6d6d6;
+}
+.signup-form input::placeholder { color: #aaaaaa; }
+.signup-form input.invalid { border-color: #c62828; }
+.step-indicator { font-weight: bold; }
+
+.captcha-grid { display: flex; flex-wrap: wrap; gap: 0.75rem; border: 0; padding: 0; }
+.captcha-grid label {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.25rem;
+  border: 1px solid #767676;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* ---------- footer ---------- */
+.site-footer {
+  background: #2d1a4a;
+  color: #f0eaf8;
+  padding: 1.5rem 1rem;
+  margin-top: 2rem;
+}
+.site-footer a { color: #f0eaf8; }

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Allotment planner</title>
+  <style>
+    .plot-free { color: #1b5e20; background-color: #ffffff; }
+    .plot-taken { color: #b71c1c; background-color: #ffffff; }
+    .is-on { background-color: #2e7d32; }
+    .input-error { border-color: #b71c1c; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Allotment planner</h1>
+  <p>Plots shown in red are already taken.</p>
+
+  <label for="season">Season</label>
+  <select id="season">
+    <option value="spring">Spring</option>
+    <option value="autumn">Autumn</option>
+  </select>
+
+  <svg class="plot-map" viewBox="0 0 100 50" width="300" height="150">
+    <g class="plot" data-plot="n1"><rect x="0" y="0" width="40" height="40"/></g>
+    <circle id="water-point" cx="70" cy="20" r="8"/>
+  </svg>
+
+  <table>
+    <tr><th>Plot</th><th>Shed</th><th>Tap</th></tr>
+    <tr><td>North 1</td><td><svg viewBox="0 0 10 10" width="16" height="16"><path d="M1 5l3 3 5-7"/></svg></td>
+        <td><svg width="16" height="16"><use href="sprites.svg#icon-cross"></use></svg></td></tr>
+  </table>
+
+  <div role="switch" id="frost-alerts" aria-checked="false" tabindex="0">Frost alerts</div>
+  <button type="button" id="menu-button" aria-expanded="false">Plot menu</button>
+  <ul id="plot-menu" hidden><li><a href="/swap">Swap plot</a></li></ul>
+
+  <p>Water rota <span id="rota-help" tabindex="0">(?)</span></p>
+  <div id="rota-tip" class="tip" hidden>Each holder waters for one week.</div>
+
+  <form id="apply-form">
+    <label for="holder-email">Email</label>
+    <input id="holder-email" type="email" autocomplete="email">
+    <button type="submit">Apply</button>
+  </form>
+
+  <div class="dialog" id="rules-dialog" hidden>
+    <span class="dialog-close">&times;</span>
+    <p>Bonfires are not allowed.</p>
+  </div>
+</main>
+<script src="garden.js"></script>
+</body>
+</html>

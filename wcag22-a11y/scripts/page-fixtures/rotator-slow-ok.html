@@ -1,0 +1,17 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Community notices</title>
+<style>.spotlight{background:#eef4f0;padding:16px;min-height:80px}.busy{width:24px;height:24px;border:3px solid #ccc;border-top-color:#333;border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}</style></head><body><main>
+<h1>Community notices</h1>
+<div class="spotlight" id="notices">
+<p>Repair cafe on Saturday in the church hall.</p>
+<p hidden>Bin collection moves to Tuesday next week.</p>
+</div>
+<button type="button" id="hold" aria-controls="notices">Pause notices</button>
+<p id="once">Loading today's weather...</p>
+<div class="busy" role="img" aria-label="Loading"></div>
+<script>
+var ps = document.querySelectorAll('#notices p'), i = 0, t = setInterval(step, 3500);
+function step() { ps[i].hidden = true; i = (i + 1) % ps.length; ps[i].hidden = false; }
+document.getElementById('hold').addEventListener('click', function () { clearInterval(t); });
+setTimeout(function () { document.getElementById('once').textContent = 'Weather: dry, 14 degrees.'; }, 1500);
+</script></main></body></html>

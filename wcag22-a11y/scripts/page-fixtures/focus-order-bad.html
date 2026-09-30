@@ -1,0 +1,4 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Focus order bad</title><style>.g{display:grid;grid-template-areas:"b ." ". a";grid-template-columns:200px 200px;gap:40px}#ga{grid-area:a}#gb{grid-area:b}</style></head><body><main>
+<h1>Odd order</h1><p><a href="#a">Alpha</a></p><p><a href="#b" tabindex="2">Bravo jumps ahead</a></p><p><a href="#c" tabindex="1">Charlie first</a></p>
+<div class="g"><a id="ga" href="#ga">Grid first in DOM</a><a id="gb" href="#gb">Grid second in DOM</a></div>
+</main></body></html>

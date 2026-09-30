@@ -1,0 +1,566 @@
+{
+ "3.1.1": {
+  "applies": "language, page metadata, documents",
+  "testability": "automated",
+  "tools": "axe-core `html-has-lang`, `html-lang-valid` and `html-xml-lang-mismatch` decide presence and validity of the page language; the static scanner flags `<html>` without `lang` in templates and layout components. A human only confirms the declared language matches the main content.",
+  "procedure": [
+   "Inspect the root `<html>` element (or the document language setting for PDF/Office).",
+   "Confirm a `lang` attribute exists with a valid BCP 47 tag.",
+   "Compare the tag with the predominant language of the content; a valid but wrong tag still fails.",
+   "Repeat for each template, SPA route shell and iframe document in scope."
+  ],
+  "patterns": [
+   "`<html>` with no `lang` attribute (common in hand-written templates and some SSR shells).",
+   "Invalid or empty values such as `lang=\"\"`, `lang=\"english\"` or `lang=\"en_US\"`.",
+   "Framework default left in place, e.g. `lang=\"en\"` on a site whose content is German.",
+   "`lang` and `xml:lang` that disagree on XHTML documents."
+  ],
+  "pass": {
+   "lang": "html",
+   "code": "<!doctype html>\n<html lang=\"fr\">\n  <head><title>Accueil</title></head>"
+  },
+  "fail": {
+   "lang": "html",
+   "code": "<!doctype html>\n<html>\n  <head><title>Accueil</title></head>"
+  }
+ },
+ "3.1.2": {
+  "applies": "language, inline passages, quotations, multilingual content, language switchers",
+  "testability": "assisted",
+  "tools": "axe-core `valid-lang` only checks that `lang` values on descendants are valid; it cannot find untagged foreign passages. A static scanner can flag language-switcher links (e.g. text `Deutsch`, `Español`) without `lang`; a human must identify passages in another language.",
+  "procedure": [
+   "Read the page and list passages, quotes, names of languages and UI labels written in a language other than the page default.",
+   "Check each passage (or its nearest container) carries a correct `lang` attribute.",
+   "Ignore proper names, technical terms, words of indeterminate language and words that have become part of the surrounding language.",
+   "Verify any `lang` values used are valid BCP 47 tags."
+  ],
+  "patterns": [
+   "Language-picker links like `<a href=\"/de\">Deutsch</a>` without `lang=\"de\"`.",
+   "Block quotes or testimonials in another language without `lang` on the `<blockquote>`.",
+   "React i18n components rendering fallback strings in the default language inside a translated page without marking them.",
+   "Invalid values such as `lang=\"sp\"`."
+  ],
+  "pass": {
+   "lang": "html",
+   "code": "<p>Our partner writes:</p>\n<blockquote lang=\"es\">Más vale tarde que nunca.</blockquote>\n<a href=\"/de/\" lang=\"de\" hreflang=\"de\">Deutsch</a>"
+  },
+  "fail": {
+   "lang": "html",
+   "code": "<p>Our partner writes:</p>\n<blockquote>Más vale tarde que nunca.</blockquote>"
+  }
+ },
+ "3.1.3": {
+  "applies": "text content, jargon, idioms, technical terms",
+  "testability": "manual",
+  "tools": "No axe-core rule applies. A static scanner can list `<abbr>`, `<dfn>` and glossary links as evidence of a mechanism; identifying unusual words is human judgement.",
+  "procedure": [
+   "Identify idioms, jargon and words used in an unusual or restricted way.",
+   "For each, check a mechanism gives the specific definition: inline definition, `<dfn>`, link to a glossary, or a definition list.",
+   "Confirm the mechanism is reachable from each use (or the glossary is linked consistently)."
+  ],
+  "patterns": [
+   "Domain jargon (e.g. \"amortize\", \"idempotent\") with no definition or glossary link.",
+   "Idioms such as \"ballpark figure\" left unexplained.",
+   "A glossary page exists but is not linked from the terms that need it."
+  ],
+  "pass": {
+   "lang": "html",
+   "code": "<p>Each request is <a href=\"/glossary#idempotent\">idempotent</a>.</p>"
+  },
+  "fail": {
+   "lang": "html",
+   "code": "<p>Each request is idempotent.</p>"
+  }
+ },
+ "3.1.4": {
+  "applies": "abbreviations, acronyms, initialisms",
+  "testability": "manual",
+  "tools": "No axe-core rule applies. A static scanner can find all-caps tokens and `<abbr>` elements lacking an expansion; a human decides which are abbreviations needing expansion.",
+  "procedure": [
+   "List abbreviations, acronyms and initialisms on the page.",
+   "Check each is expanded on first use, via `<abbr title>` plus visible expansion, a glossary link, or a consistent definition mechanism.",
+   "Confirm the expansion is available to all users (not only a mouse-hover `title`)."
+  ],
+  "patterns": [
+   "Acronyms such as `SLA` or `WCAG` used with no expansion anywhere.",
+   "Expansion only in a `title` tooltip that keyboard and touch users cannot reach.",
+   "Same abbreviation with different meanings on one page and no disambiguation."
+  ],
+  "pass": {
+   "lang": "html",
+   "code": "<p>We meet our <abbr title=\"service level agreement\">SLA</abbr>\n  (service level agreement) for all plans.</p>"
+  },
+  "fail": {
+   "lang": "html",
+   "code": "<p>We meet our SLA for all plans.</p>"
+  }
+ },
+ "3.1.5": {
+  "applies": "text content, instructions, articles",
+  "testability": "manual",
+  "tools": "No axe-core rule applies. A readability formula (e.g. Flesch-Kincaid) run by the page runner or a script gives an estimate; a human confirms whether a supplemental version or simpler text is needed.",
+  "procedure": [
+   "Excluding proper names and titles, estimate the reading level of the main text.",
+   "If it needs more than lower secondary education, check for supplemental content (summary, illustrations, audio) or a simpler version.",
+   "Confirm the supplement conveys the key information."
+  ],
+  "patterns": [
+   "Dense legal or academic prose with no plain-language summary.",
+   "Long sentences with nested clauses and passive voice in task instructions."
+  ],
+  "pass": {
+   "lang": "html",
+   "code": "<section aria-labelledby=\"sum\"><h2 id=\"sum\">Summary in plain words</h2>\n  <p>You can cancel within 14 days and get all your money back.</p></section>"
+  },
+  "fail": {
+   "lang": "html",
+   "code": "<p>Notwithstanding the foregoing, rescission shall be effectuated within fourteen days...</p>"
+  }
+ },
+ "3.1.6": {
+  "applies": "text content, heteronyms, languages with ambiguous pronunciation",
+  "testability": "manual",
+  "tools": "No axe-core rule applies. Detecting words whose meaning depends on pronunciation is human judgement; a scanner can only check that `<ruby>` markup is well formed.",
+  "procedure": [
+   "Find words whose meaning is ambiguous without knowing the pronunciation (heteronyms, kanji readings, unvowelled Hebrew/Arabic).",
+   "Check a mechanism gives the pronunciation: inline, `<ruby>`, glossary or audio."
+  ],
+  "patterns": [
+   "Heteronyms such as \"read\" or \"lead\" in contexts where both meanings fit and no clarification is given.",
+   "Japanese names with non-standard readings and no furigana."
+  ],
+  "pass": {
+   "lang": "html",
+   "code": "<ruby>東京<rp>(</rp><rt>とうきょう</rt><rp>)</rp></ruby>"
+  },
+  "fail": {
+   "lang": "html",
+   "code": "<p>東京</p>"
+  }
+ },
+ "3.2.1": {
+  "applies": "focus, forms, custom widgets, navigation",
+  "testability": "assisted",
+  "tools": "No axe-core rule applies. A static scanner can flag `onFocus`/`focus` handlers that call `submit()`, change `location`, open windows or move focus; a page runner can tab through every focusable element and detect URL changes, new windows or focus jumps. A human confirms whether a change is a change of context.",
+  "procedure": [
+   "Tab (and Shift+Tab) through every focusable component without activating anything.",
+   "Watch for new windows, navigation, form submission, large content rearrangement or focus being moved elsewhere.",
+   "Repeat with a screen reader's virtual cursor for elements that receive focus programmatically.",
+   "Record each component whose focus alone causes a change of context."
+  ],
+  "patterns": [
+   "`<select onfocus=\"this.form.submit()\">` or a React `onFocus` that calls `navigate()`.",
+   "Focusing a field opens a modal or pop-up window automatically.",
+   "`onFocus={() => nextRef.current.focus()}` that throws focus away from the element."
+  ],
+  "pass": {
+   "lang": "jsx",
+   "code": "<input onFocus={() => setHint(true)} aria-describedby=\"hint\" />\n{hint && <p id=\"hint\">Use your work email.</p>}"
+  },
+  "fail": {
+   "lang": "jsx",
+   "code": "<input onFocus={() => window.open(\"/help\")} />"
+  }
+ },
+ "3.2.2": {
+  "applies": "forms, select menus, radio buttons, checkboxes, custom widgets",
+  "testability": "assisted",
+  "tools": "No axe-core rule applies. A static scanner can flag `onchange`/`onChange`/`input` handlers that submit forms, navigate or move focus; a page runner can change each control value and detect navigation or focus jumps. A human confirms whether users were advised beforehand.",
+  "procedure": [
+   "Change the setting of every input (type, select an option, toggle a checkbox or radio) without pressing a submit button.",
+   "Note any navigation, form submission, new window or unexpected focus move.",
+   "For each change of context found, check whether instructions before the component warn about the behaviour.",
+   "Check keyboard selection in `<select>` does not trigger navigation on each arrow key."
+  ],
+  "patterns": [
+   "`<select onchange=\"location=this.value\">` jump menus without a Go button.",
+   "React `onChange={e => router.push(e.target.value)}` on a dropdown.",
+   "Checkbox that auto-submits the form (`onChange={() => form.submit()}`).",
+   "Filling the last digit of a code field auto-submits and navigates without warning."
+  ],
+  "pass": {
+   "lang": "html",
+   "code": "<form action=\"/lang\"><label for=\"l\">Language</label>\n  <select id=\"l\" name=\"l\"><option>English</option><option>Français</option></select>\n  <button>Go</button></form>"
+  },
+  "fail": {
+   "lang": "html",
+   "code": "<select onchange=\"location.href=this.value\">\n  <option value=\"/en\">English</option><option value=\"/fr\">Français</option>\n</select>"
+  }
+ },
+ "3.2.3": {
+  "applies": "navigation, headers, footers, menus, skip links, sets of pages",
+  "testability": "assisted",
+  "tools": "No axe-core rule applies. A page runner can crawl several pages and compare the order of landmark and navigation link lists; a human confirms differences are not user-initiated.",
+  "procedure": [
+   "Pick a representative set of pages that share navigation (header, sidebar, footer, breadcrumbs, search).",
+   "Compare the relative order of repeated navigation items across the pages.",
+   "Accept added or removed items as long as the remaining items keep the same relative order.",
+   "Exclude changes the user initiated (e.g. personalising a menu)."
+  ],
+  "patterns": [
+   "Main menu items reordered on different page templates (e.g. marketing vs. account layouts).",
+   "Search box before navigation on some pages and after it on others.",
+   "React layout variants that render nav links from different, unsorted arrays."
+  ],
+  "pass": {
+   "lang": "html",
+   "code": "<!-- every page -->\n<nav aria-label=\"Main\"><a href=\"/\">Home</a> <a href=\"/shop\">Shop</a> <a href=\"/help\">Help</a></nav>"
+  },
+  "fail": {
+   "lang": "html",
+   "code": "<!-- page A --><nav><a href=\"/\">Home</a><a href=\"/shop\">Shop</a><a href=\"/help\">Help</a></nav>\n<!-- page B --><nav><a href=\"/help\">Help</a><a href=\"/\">Home</a><a href=\"/shop\">Shop</a></nav>"
+  }
+ },
+ "3.2.4": {
+  "applies": "icons, buttons, links, components repeated across pages",
+  "testability": "assisted",
+  "tools": "No axe-core rule applies. A page runner can collect accessible names of components with the same function (same `href`, same icon, same handler) across pages and flag inconsistent names; a human confirms same functionality.",
+  "procedure": [
+   "Identify components with the same function across the set of pages (search, print, download, home icon, cart).",
+   "Compare their visible labels, accessible names and text alternatives.",
+   "Flag components with the same function but different identification."
+  ],
+  "patterns": [
+   "Search button labelled \"Search\" on one page and \"Find\" on another.",
+   "The same download icon with `alt=\"Download\"` in one place and `alt=\"Save file\"` elsewhere.",
+   "Shared React component used with different `aria-label` props for the same action."
+  ],
+  "pass": {
+   "lang": "html",
+   "code": "<button aria-label=\"Search\"><svg aria-hidden=\"true\">…</svg></button> <!-- same on all pages -->"
+  },
+  "fail": {
+   "lang": "html",
+   "code": "<!-- page A --><button aria-label=\"Search\">…</button>\n<!-- page B --><button aria-label=\"Look up\">…</button>"
+  }
+ },
+ "3.2.5": {
+  "applies": "navigation, pop-ups, new windows, automatic updates, redirects, forms",
+  "testability": "assisted",
+  "tools": "axe-core `meta-refresh-no-exceptions` flags `<meta http-equiv=refresh>` with a delay; a static scanner can flag `target=\"_blank\"` without a warning, `window.open` on load, and `setInterval` reloads; a human confirms that changes happen only on user request or can be turned off.",
+  "procedure": [
+   "Load each page and wait: note any automatic redirect, refresh or content replacement.",
+   "Check links and buttons that open new windows warn the user beforehand.",
+   "Check any automatic update has a mechanism to turn it off.",
+   "Verify redirects are done server-side instead of timed client redirects."
+  ],
+  "patterns": [
+   "`<meta http-equiv=\"refresh\" content=\"5; url=/new\">`.",
+   "`target=\"_blank\"` links with no text or icon indicating a new window.",
+   "`window.open()` fired on page load or on focus.",
+   "Carousel or feed that replaces content automatically with no way to stop it."
+  ],
+  "pass": {
+   "lang": "html",
+   "code": "<a href=\"/terms\" target=\"_blank\">Terms (opens in new window)</a>"
+  },
+  "fail": {
+   "lang": "html",
+   "code": "<meta http-equiv=\"refresh\" content=\"10; url=/home\">"
+  }
+ },
+ "3.2.6": {
+  "applies": "help, contact details, chat, FAQ links, sets of pages",
+  "testability": "assisted",
+  "tools": "No axe-core rule applies. A page runner can crawl a set of pages and record the DOM order position of help mechanisms (contact links, `mailto:`/`tel:` links, chat widget, FAQ link) relative to other content; a human confirms they appear in the same relative order and identifies which help mechanisms exist.",
+  "procedure": [
+   "Identify the help mechanisms offered (human contact details, contact mechanism, self-help option, automated contact such as a chatbot).",
+   "Open several pages in the set that contain them (same page variation / breakpoint).",
+   "Check each mechanism appears in the same order relative to other page content on every page.",
+   "Remember the SC does not require help to be provided; it requires consistency where it is repeated."
+  ],
+  "patterns": [
+   "Contact link in the header on some pages and moved to the footer on others.",
+   "Chat widget injected only on some templates, or before main content on some and after it on others.",
+   "Checkout templates that drop the help link used everywhere else, then re-add it in a different position."
+  ],
+  "pass": {
+   "lang": "html",
+   "code": "<footer><a href=\"/help\">Help centre</a> · <a href=\"tel:+15550100\">Call 555-0100</a></footer> <!-- same order on every page -->"
+  },
+  "fail": {
+   "lang": "html",
+   "code": "<!-- page A --><header><a href=\"/help\">Help</a></header>\n<!-- page B --><footer><a href=\"/help\">Help</a></footer>"
+  }
+ },
+ "3.3.1": {
+  "applies": "forms, error messages, validation, required fields",
+  "testability": "assisted",
+  "tools": "No axe-core rule directly tests error messages. A static scanner can flag inputs with `aria-invalid` but no `aria-describedby`/`aria-errormessage`, and error messages styled only by colour; a page runner can submit forms with empty/invalid data and dump the accessibility tree for errors. A human confirms the error text identifies the item and describes the problem.",
+  "procedure": [
+   "Submit each form empty and with invalid data.",
+   "Check each detected error identifies the item in error and describes the problem in text.",
+   "Check the error is programmatically associated (`aria-describedby`/`aria-errormessage`, `aria-invalid`) or announced.",
+   "Confirm errors are not conveyed only by colour, border or icon."
+  ],
+  "patterns": [
+   "Field turns red with no text message.",
+   "Generic \"There was an error\" banner not naming the field.",
+   "Error text placed near the field but not associated, e.g. `<span class=\"error\">` without `aria-describedby`.",
+   "Client validation prevents submission silently."
+  ],
+  "pass": {
+   "lang": "html",
+   "code": "<label for=\"em\">Email</label>\n<input id=\"em\" aria-invalid=\"true\" aria-describedby=\"em-err\">\n<p id=\"em-err\">Email: enter an address like name@example.com.</p>"
+  },
+  "fail": {
+   "lang": "html",
+   "code": "<label for=\"em\">Email</label>\n<input id=\"em\" style=\"border-color:red\">"
+  }
+ },
+ "3.3.2": {
+  "applies": "forms, inputs, required fields, format hints, custom widgets",
+  "testability": "assisted",
+  "tools": "axe-core `form-field-multiple-labels` catches one labelling problem; `label` (tagged 4.1.2) finds unlabelled inputs. A static scanner can flag inputs relying only on `placeholder`; a human confirms the visible labels/instructions are sufficient (required fields, formats).",
+  "procedure": [
+   "Find every input that needs user entry.",
+   "Check each has a visible label or instructions when the content requires input.",
+   "Check required fields and expected formats (dates, passwords) are indicated before submission.",
+   "Check grouped controls (radio sets, date parts) have a group label (e.g. `<fieldset>`/`<legend>`)."
+  ],
+  "patterns": [
+   "`placeholder` used as the only label and disappearing on input.",
+   "Required fields marked only with colour or an unexplained asterisk.",
+   "Date field with no indication of the expected format.",
+   "Radio buttons with no question/legend."
+  ],
+  "pass": {
+   "lang": "html",
+   "code": "<label for=\"dob\">Date of birth (DD/MM/YYYY, required)</label>\n<input id=\"dob\" required>"
+  },
+  "fail": {
+   "lang": "html",
+   "code": "<input placeholder=\"Date of birth\">"
+  }
+ },
+ "3.3.3": {
+  "applies": "forms, validation, error messages",
+  "testability": "manual",
+  "tools": "No axe-core rule applies. A page runner can submit invalid values and capture the resulting messages; a human judges whether suggestions are given where known and safe.",
+  "procedure": [
+   "Enter invalid values for each field with a known correct format or range.",
+   "Check the error message suggests how to correct it (format, allowed values, closest match).",
+   "Accept omission only where a suggestion would jeopardise security or the purpose (e.g. a password)."
+  ],
+  "patterns": [
+   "\"Invalid input\" without saying what is expected.",
+   "Date rejected without stating the format.",
+   "Unrecognised city not followed by likely matches."
+  ],
+  "pass": {
+   "lang": "html",
+   "code": "<p id=\"d-err\">Date not recognised. Use the format DD/MM/YYYY, for example 07/03/2026.</p>"
+  },
+  "fail": {
+   "lang": "html",
+   "code": "<p id=\"d-err\">Invalid date.</p>"
+  }
+ },
+ "3.3.4": {
+  "applies": "forms, checkout, legal commitments, financial transactions, data deletion, test submissions",
+  "testability": "manual",
+  "tools": "No axe-core rule applies. A static scanner can find destructive or payment forms; a human must walk the flow to confirm submissions are reversible, checked, or confirmed.",
+  "procedure": [
+   "Identify pages that cause legal commitments, financial transactions, modification/deletion of user data, or submit test responses.",
+   "Complete each flow and check at least one of: reversible, data checked with a chance to correct, or a review/confirm step.",
+   "Verify the confirm/review step really lets users correct information before final submission."
+  ],
+  "patterns": [
+   "One-click \"Delete account\" with no confirmation or undo.",
+   "Payment submitted directly from the card form with no review page.",
+   "Exam answers submitted immediately on selection."
+  ],
+  "pass": {
+   "lang": "html",
+   "code": "<h2>Review your order</h2><dl>…</dl>\n<a href=\"/checkout/edit\">Change details</a> <button>Confirm and pay</button>"
+  },
+  "fail": {
+   "lang": "html",
+   "code": "<button onclick=\"deleteAccount()\">Delete account</button>"
+  }
+ },
+ "3.3.5": {
+  "applies": "forms, help, instructions, complex inputs",
+  "testability": "manual",
+  "tools": "No axe-core rule applies. Whether context-sensitive help is available is human judgement.",
+  "procedure": [
+   "Identify inputs whose purpose or format might not be obvious.",
+   "Check context-sensitive help is available (instructions, examples, help links, tooltips reachable by keyboard).",
+   "Confirm the help is specific to the field or task."
+  ],
+  "patterns": [
+   "Complex form (tax ID, IBAN) with no examples or help link.",
+   "Help only in a hover `title` attribute not reachable by keyboard or touch."
+  ],
+  "pass": {
+   "lang": "html",
+   "code": "<label for=\"iban\">IBAN</label> <input id=\"iban\" aria-describedby=\"iban-h\">\n<p id=\"iban-h\">Starts with 2 letters, e.g. GB29 NWBK 6016 1331 9268 19.</p>"
+  },
+  "fail": {
+   "lang": "html",
+   "code": "<label for=\"iban\">IBAN</label> <input id=\"iban\">"
+  }
+ },
+ "3.3.6": {
+  "applies": "forms, all submissions",
+  "testability": "manual",
+  "tools": "No axe-core rule applies. Requires walking every submission flow.",
+  "procedure": [
+   "For every form that submits information, check the submission is reversible, checked for errors with a chance to correct, or confirmed/reviewed.",
+   "Verify confirm steps allow correction before final submission."
+  ],
+  "patterns": [
+   "Contact or survey form posts immediately with no review or undo.",
+   "Settings saved instantly with no way to revert."
+  ],
+  "pass": {
+   "lang": "html",
+   "code": "<p>Message sent. <button>Undo</button></p>"
+  },
+  "fail": {
+   "lang": "html",
+   "code": "<form action=\"/survey\"><button>Submit</button></form> <!-- no review, no undo -->"
+  }
+ },
+ "3.3.7": {
+  "applies": "forms, multi-step processes, checkout, registration",
+  "testability": "manual",
+  "tools": "No axe-core rule applies. A static scanner can spot duplicated fields (same `name`/`autocomplete` token across steps) as candidates; a human walks the process to confirm previously entered data is auto-populated or selectable.",
+  "procedure": [
+   "Walk each multi-step process in one session.",
+   "List information the user is asked for more than once.",
+   "Check repeated information is auto-populated or available to select (e.g. \"same as billing address\").",
+   "Accept exceptions: re-entry essential (memory game), needed for security (password confirmation), or the earlier data is no longer valid."
+  ],
+  "patterns": [
+   "Shipping and billing address both typed from scratch with no \"same as\" option.",
+   "Step 3 asks again for the email entered in step 1.",
+   "Going back in a wizard clears previously entered fields."
+  ],
+  "pass": {
+   "lang": "html",
+   "code": "<label><input type=\"checkbox\" checked> Billing address same as shipping</label>"
+  },
+  "fail": {
+   "lang": "html",
+   "code": "<h2>Step 3: Billing</h2>\n<label for=\"b1\">Address line 1</label><input id=\"b1\"> <!-- shipping address already given in step 2 -->"
+  }
+ },
+ "3.3.8": {
+  "applies": "authentication, login, password fields, CAPTCHA, one-time codes",
+  "testability": "assisted",
+  "tools": "No axe-core rule applies. A static scanner can flag `onpaste` / `onPaste` handlers that `preventDefault`, `autocomplete=\"off\"` on username/password fields, and split one-time-code inputs; a page runner can test paste and password-manager autofill. A human confirms whether any cognitive function test is used without an alternative, mechanism, or allowed exception (object/personal content recognition).",
+  "procedure": [
+   "Walk every login, sign-up, step-up and password-reset step.",
+   "Identify any cognitive function test (remember a password, transcribe a code, solve a puzzle).",
+   "Check an alternative method exists or a mechanism assists (paste allowed, password manager autofill, copy-paste of codes, email link, passkey).",
+   "Accept object recognition or recognising user-supplied personal content (AA only).",
+   "Check CAPTCHA types used and that a non-cognitive alternative is available."
+  ],
+  "patterns": [
+   "Password field that blocks paste: `onPaste={e => e.preventDefault()}`.",
+   "`autocomplete=\"off\"` or non-standard field names that stop password managers.",
+   "OTP split into 6 inputs that break paste.",
+   "Text-transcription CAPTCHA with no alternative."
+  ],
+  "pass": {
+   "lang": "html",
+   "code": "<label for=\"u\">Email</label><input id=\"u\" type=\"email\" autocomplete=\"username\">\n<label for=\"p\">Password</label><input id=\"p\" type=\"password\" autocomplete=\"current-password\">"
+  },
+  "fail": {
+   "lang": "jsx",
+   "code": "<input type=\"password\" autoComplete=\"off\" onPaste={e => e.preventDefault()} />"
+  }
+ },
+ "3.3.9": {
+  "applies": "authentication, login, CAPTCHA, image-recognition challenges",
+  "testability": "assisted",
+  "tools": "Same tool support as 3.3.8 (paste-blocking and autocomplete heuristics, autofill tests); a human confirms that no cognitive function test remains, including object or personal-content recognition, unless an alternative or mechanism is available.",
+  "procedure": [
+   "Apply the 3.3.8 procedure.",
+   "Additionally treat object recognition (\"select all traffic lights\") and personal-content recognition (\"pick your photo\") as failures unless an alternative or mechanism is provided.",
+   "Confirm an alternative such as passkey, email magic link or OAuth is offered."
+  ],
+  "patterns": [
+   "Image-recognition CAPTCHA as the only way through login.",
+   "\"Choose the picture you uploaded\" as a security step with no alternative.",
+   "Any 3.3.8 failure pattern."
+  ],
+  "pass": {
+   "lang": "html",
+   "code": "<button type=\"button\" id=\"passkey\">Sign in with a passkey</button>\n<a href=\"/login/email-link\">Email me a sign-in link</a>"
+  },
+  "fail": {
+   "lang": "html",
+   "code": "<p>Select all images with bicycles to continue.</p><div class=\"captcha-grid\">…</div>"
+  }
+ },
+ "4.1.1": {
+  "applies": "markup (historical)",
+  "testability": "manual",
+  "tools": "axe-core `duplicate-id` and `duplicate-id-active` are tagged deprecated and should not produce 4.1.1 failures; under WCAG 2.2 parsing is not a requirement and is always satisfied. Duplicate IDs that are referenced by `for`, `aria-labelledby`, `aria-describedby` or `aria-controls` are still real defects, reported against 1.3.1 or 4.1.2 (axe `duplicate-id-aria`).",
+  "procedure": [
+   "Do not report failures of 4.1.1 in a WCAG 2.2 audit; mark it as not applicable/satisfied.",
+   "Route markup problems that affect users to the SC they break: broken label/ARIA references to 1.3.1 or 4.1.2, invalid roles/nesting to 4.1.2."
+  ],
+  "patterns": [
+   "Duplicate `id` referenced by `<label for>` so the wrong input is labelled (report under 1.3.1/4.1.2).",
+   "Duplicate `id` targeted by `aria-labelledby`/`aria-describedby` giving the wrong accessible name or description (report under 4.1.2).",
+   "Unclosed or misnested elements that change the accessibility tree (report under the affected SC, usually 1.3.1)."
+  ],
+  "pass": null,
+  "fail": null
+ },
+ "4.1.2": {
+  "applies": "custom widgets, forms, links, buttons, iframes, ARIA, dynamic states",
+  "testability": "assisted",
+  "tools": "axe-core covers many objective failures: `button-name`, `link-name`, `input-button-name`, `label`, `select-name`, `aria-*` validity rules (`aria-allowed-attr`, `aria-required-attr`, `aria-valid-attr-value`, `aria-roles`, `aria-hidden-focus`), `nested-interactive`, `frame-title`, `summary-name` and more. A static scanner can flag clickable `div`/`span` with handlers but no role/tabindex; a page runner can dump the accessibility tree and toggle widgets to check `aria-expanded`/`aria-checked`/`aria-selected` updates. A human with a screen reader confirms names are meaningful and states are announced.",
+  "procedure": [
+   "Run axe-core and fix objective name/role/ARIA errors.",
+   "List every interactive component, especially custom widgets built from `div`/`span`.",
+   "Inspect the accessibility tree: each has a correct role, a name, and exposed states/values (expanded, checked, selected, pressed, current value).",
+   "Operate each widget and confirm state changes update in the tree and are announced by a screen reader.",
+   "Check user-settable values (sliders, custom selects) can be set by assistive technology."
+  ],
+  "patterns": [
+   "`<div onClick={open}>Menu</div>` with no role, tabindex or keyboard handler.",
+   "Icon-only button `<button><svg/></button>` with no accessible name.",
+   "Disclosure toggle without `aria-expanded`, or with a value that never updates.",
+   "Custom checkbox styled `<span class=\"checked\">` with no `role=\"checkbox\"`/`aria-checked`.",
+   "`aria-hidden=\"true\"` on a container that holds focusable elements."
+  ],
+  "pass": {
+   "lang": "html",
+   "code": "<button aria-expanded=\"false\" aria-controls=\"m1\">Menu</button>\n<ul id=\"m1\" hidden>…</ul>"
+  },
+  "fail": {
+   "lang": "html",
+   "code": "<div class=\"btn\" onclick=\"toggleMenu()\">☰</div>"
+  }
+ },
+ "4.1.3": {
+  "applies": "status messages, live regions, toasts, search results counts, form submission feedback, loading states",
+  "testability": "assisted",
+  "tools": "No axe-core rule directly checks status messages (it only validates ARIA used on them). A static scanner can flag toast/alert/notification components rendered without `role=\"status\"`, `role=\"alert\"` or `aria-live`; a page runner can trigger actions and observe live-region content changes. A human with a screen reader confirms messages are announced without receiving focus.",
+  "procedure": [
+   "Identify status messages: results counts, success/confirmation messages, progress, errors after actions, cart updates.",
+   "Trigger each one and confirm it does not move focus.",
+   "Check the message container has an appropriate role or live property (`status`, `alert`, `log`, `progressbar`, `aria-live`) present before the content changes.",
+   "Verify with a screen reader that the message is announced."
+  ],
+  "patterns": [
+   "Toast appended to the DOM with no `role`/`aria-live`.",
+   "Live region created at the same time as its message, so it is not announced.",
+   "\"12 results found\" text updated silently after filtering.",
+   "Using `role=\"alert\"` for every minor update, causing noisy interruptions (advisory)."
+  ],
+  "pass": {
+   "lang": "html",
+   "code": "<div role=\"status\" aria-live=\"polite\" id=\"cart-msg\"></div>\n<script>cartMsg.textContent = \"Added to cart (3 items)\";</script>"
+  },
+  "fail": {
+   "lang": "jsx",
+   "code": "{saved && <div className=\"toast\">Settings saved</div>}"
+  }
+ }
+}

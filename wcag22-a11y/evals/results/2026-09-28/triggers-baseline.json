@@ -1,0 +1,182 @@
+{
+  "skill_name": "wcag22-a11y",
+  "description": "Audit web content for WCAG 2.2 conformance (also WCAG 2.1/2.0 Level A/AA) with tool-assisted and manual checks. USE FOR: accessibility (a11y) audits and reviews of web pages, sites, HTML, components (React/JSX/TSX, Vue, Svelte, server templates) and CSS; colour contrast; keyboard access, focus order, focus visible, focus not obscured; target size; screen reader names, roles and states (ARIA); forms, labels and error messages; reflow, zoom and text spacing; accessible authentication, consistent help, redundant entry, dragging; status messages; VPAT/ACR evidence and Section 508 / EN 301 549 mapping at the WCAG level. DO NOT USE FOR: native mobile app platform guidelines beyond WCAG applicability, legal advice, PDF remediation (unless the content is HTML), SEO, performance or security audits, ISO 999 indexes, RFC 3339 timestamps, ASD-STE100 writing.",
+  "results": [
+    {
+      "query": "Is our checkout form accessible? The markup is in src/components/CheckoutForm.tsx",
+      "should_trigger": true,
+      "trigger_rate": 1.0,
+      "triggers": 1,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "Can you do an a11y review of this React component? <button onClick={save}><Icon name=\"save\"/></button>",
+      "should_trigger": true,
+      "trigger_rate": 1.0,
+      "triggers": 1,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "Audit this page for WCAG 2.2 AA: https://example.org/checkout.html (source is in ./public)",
+      "should_trigger": true,
+      "trigger_rate": 1.0,
+      "triggers": 1,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "Check the color contrast of these buttons: white text on #4f9dff and #ffb020 backgrounds",
+      "should_trigger": true,
+      "trigger_rate": 1.0,
+      "triggers": 1,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "Do we meet the new WCAG 2.2 target size rule with these 20px pagination links?",
+      "should_trigger": true,
+      "trigger_rate": 1.0,
+      "triggers": 1,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "We need VPAT / ACR evidence for WCAG 2.2 Level AA for our web app; where do we start and what should each criterion's remarks cite?",
+      "should_trigger": true,
+      "trigger_rate": 1.0,
+      "triggers": 1,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "Check the keyboard accessibility of the modal dialog in Modal.jsx",
+      "should_trigger": true,
+      "trigger_rate": 1.0,
+      "triggers": 1,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "Does our login page meet Accessible Authentication? We block paste on the password field and show a text CAPTCHA.",
+      "should_trigger": true,
+      "trigger_rate": 1.0,
+      "triggers": 1,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "Our sticky header covers the focused link when users tab backwards; does that fail Focus Not Obscured?",
+      "should_trigger": true,
+      "trigger_rate": 1.0,
+      "triggers": 1,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "Review this React page for performance; it re-renders on every keystroke",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "Run an SEO audit of our landing page: titles, meta descriptions, canonical URLs",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "Do a security audit of our Express login route for injection and session issues",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "Is 2026-09-28T12:00:00Z a valid RFC 3339 timestamp, and should I emit +00:00 instead?",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "What screen reader issues are there in this markup? <div class=\"tabs\"><span onclick=\"show(1)\">Overview</span><span onclick=\"show(2)\">Specs</span></div>",
+      "should_trigger": true,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": false
+    },
+    {
+      "query": "Check our book's back-of-book index against ISO 999",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "Rewrite this install guide in ASD-STE100 Simplified Technical English",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "Write a catchy alt text caption for my Instagram post of a sunset at the beach, with hashtags",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "Suggest a color palette for our coffee brand's logo and packaging, something warm and earthy",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "Draft the legal text for our GDPR cookie consent banner",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "Write Jest unit tests for this React hook: function useDebounce(value, delay) { ... }",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    }
+  ],
+  "summary": {
+    "total": 20,
+    "passed": 19,
+    "failed": 1
+  },
+  "metrics": {
+    "tp": 9,
+    "fn": 1,
+    "fp": 0,
+    "tn": 10,
+    "precision": 1.0,
+    "recall": 0.9,
+    "accuracy": 0.95,
+    "runs_per_query": 1,
+    "model": "default"
+  }
+}

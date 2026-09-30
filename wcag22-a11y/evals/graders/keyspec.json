@@ -1,0 +1,24 @@
+{
+  "skill": "wcag22-a11y",
+  "plugin": "wcag22-a11y-eval",
+  "standard": "WCAG 2.2 (W3C Recommendation, 12 December 2024), Level AA",
+  "tolerance": 1,
+  "severity_words": {
+    "Nonconformity": "Nonconformit(?:y|ies)|Non-conformit(?:y|ies)",
+    "Deviation": "Deviations?",
+    "Review": "Review(?:[ -]notes?)?"
+  },
+  "finding_severities": [
+    "Nonconformity",
+    "Deviation"
+  ],
+  "no_peek": "answer-key\\.md|keyspec\\.json|/graders/|evals/fixtures",
+  "fixtures": [
+    "specs/larkspur.json",
+    "specs/brightwater.json"
+  ],
+  "refusals": {
+    "wcag-refusal-sql-perf": "This Postgres query takes about 9 seconds on a 40-million-row orders table: SELECT customer_id, SUM(total) FROM orders WHERE created_at >= now() - interval '30 days' GROUP BY customer_id ORDER BY 2 DESC LIMIT 50; What index or rewrite would make it fast?",
+    "wcag-refusal-caption-poem": "Write three short, poetic, haiku-style captions for the header photo on my travel blog (a foggy harbour at dawn with two fishing boats). I want them to sound dreamy, not descriptive."
+  }
+}

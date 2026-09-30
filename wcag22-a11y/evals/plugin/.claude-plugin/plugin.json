@@ -1,0 +1,8 @@
+{
+  "name": "wcag22-a11y-eval",
+  "version": "0.0.1",
+  "description": "Eval-only wrapper that loads the wcag22-a11y skill without its evals/ folder.",
+  "experimental": {
+    "evals": "cases"
+  }
+}

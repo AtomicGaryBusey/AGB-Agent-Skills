@@ -1,0 +1,11 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Keyboard trap</title></head><body><main>
+<h1>Widget traps focus</h1><div id="widget"><button id="w1">One</button><button id="w2">Two</button></div>
+<p><a href="#after">After the widget</a> <button>Also after</button></p>
+<script>
+document.getElementById('widget').addEventListener('keydown', function (e) {
+  if (e.key !== 'Tab') return;
+  e.preventDefault();
+  var a = document.getElementById('w1'), b = document.getElementById('w2');
+  (document.activeElement === a ? b : a).focus();
+});
+</script></main></body></html>

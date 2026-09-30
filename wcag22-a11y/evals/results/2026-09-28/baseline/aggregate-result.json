@@ -1,0 +1,2016 @@
+{
+  "schemaVersion": 1,
+  "claudeVersion": "2.1.283",
+  "startedAt": "2026-09-29T05:01:21.954Z",
+  "durationSeconds": 625,
+  "costUsd": 2.474974,
+  "partial": false,
+  "suite": {
+    "root": "<repo>/evals/plugin",
+    "ablation": "none",
+    "judgeModel": "sonnet",
+    "threshold": 0,
+    "concurrency": 1,
+    "plugins": [
+      {
+        "name": "wcag22-a11y-eval",
+        "version": "0.0.1",
+        "path": "<repo>/evals/plugin"
+      }
+    ]
+  },
+  "cases": [
+    {
+      "name": "wcag-decoys",
+      "dir": "cases/wcag-decoys",
+      "source": "mixed",
+      "promptMarkdown": "This folder is the static front end of the Larkspur Library website: five HTML pages (index, catalog, events, login, signup), styles.css, app.js, and the React sources in src/components/. Before release, our automated checker and a reviewer queried nine things. For each one, tell me whether it is a WCAG 2.2 Level AA failure and, if it is, how severe; then give me your report. (1) The leaf divider image at index.html:52 has alt=\"\" and role=\"presentation\", so it has no text alternative. (2) The events schedule table uses scope attributes on its th cells; the checker calls this layout-table misuse. (3) The 'access guide' link in the fine print on events.html is only about 16px tall, under the 24px target size. (4) Step 2 of the login page has an image CAPTCHA (select every picture that shows a book); is that a cognitive function test that fails Accessible Authentication? (5) The 'Larkspur Library' logo text is #c9b6ef on white, about 1.84:1. (6) The home page (index.html) has a sticky header; can it hide the focused element? (7) On index.html an h2 'Visit us' is followed directly by an h4 'Opening hours'. (8) The signup form asks for the PIN twice ('Type your PIN again'); is that Redundant Entry? (9) At a 320px-wide viewport the events schedule table is wider than the screen. No shell is available in this environment, so review the files statically; do not delegate to subagents and do not ask me questions.",
+      "runsPerCase": 1,
+      "timeoutSeconds": 1800,
+      "maxTurns": 50,
+      "graders": [
+        {
+          "name": "decoy-verdicts",
+          "type": "llm",
+          "weight": 1,
+          "graderMarkdown": "The user asked about the queried items listed below; all of them are\nCOMPLIANT with WCAG 2.2 Level AA.\n\n- K1: The leaf divider image at index.html:52 (img.divider, rule-leaves.svg) with alt=\"\" and role=\"presentation\". Pure decoration hidden from assistive technology is exactly what 1.1.1 requires (H67); role=presentation is redundant but valid. Reporting it as missing a text alternative, or calling the redundant role a defect, is a false positive. (The OTHER divider at index.html:30, flourish.svg, with a descriptive alt, is a real defect and does not count.)\n- K2: The events schedule data table (events.html:57-82, table.schedule) with <caption>, <th scope=\"col\"> and <th scope=\"row\">. It is genuine tabular data and scope/caption make header relationships programmatic (1.3.1, H63, H39). Calling it layout-table misuse or a 1.3.1 failure is a false positive.\n- K3: The small inline 'access guide' link in the fine print at events.html:29 (CSS styles.css:200, 14px text, about 98.5 x 16 CSS px). The 2.5.8 Inline exception applies (target in a sentence, size constrained by line-height), it is underlined, and it has ample contrast. Reporting it as a 2.5.8 target-size failure is a false positive.\n- K4: The step-2 object-recognition CAPTCHA on login.html:43-55 (#captcha-form, 'select every picture that shows a book', with an audio alternative button). 3.3.8 (AA) explicitly allows object recognition as an exception, and it meets the 1.1.1 CAPTCHA exception. Reporting the CAPTCHA as a 3.3.8 or 1.1.1 failure is a false positive (noting it would fail AAA 3.3.9 is fine). The paste-blocked PIN at login.html:37 is a separate real defect.\n- K5: The low-contrast logotype text 'Larkspur Library' (.logo-word, #c9b6ef on white, styles.css:40; markup at line 12 of each page). The 1.4.3 Logotypes exception applies (text that is part of a logo or brand name has no contrast requirement), and the logo is not a link or control. Reporting it as a contrast failure is a false positive.\n- K6: The sticky header on index.html (html.pad-for-header at index.html:2, styles.css:5 scroll-padding-top: 14rem). scroll-padding keeps focused elements clear of the header (technique C43), so 2.4.11 is met on index.html. Reporting the index page's sticky header as obscuring focus is a false positive. The SAME sticky rule on catalog.html (no scroll-padding) is a real defect and does not count.\n- N1: The heading-level skip at index.html:77-78 (h2 'Visit us' followed by h4 'Opening hours'). WCAG 2.2 has no SC requiring sequential heading levels; the heading is marked up as a heading so 1.3.1 is met. At most a best-practice remark; reporting it as a Nonconformity or Deviation is a false positive.\n- N2: The confirm-PIN field 'Type your PIN again' at signup.html:66-67. The 3.3.7 security exception applies (Understanding 3.3.7 names password confirmation). Reporting it as a Redundant Entry failure is a false positive. (The re-asked email at signup.html:58-59 is a real defect and does not count.)\n- N3: The events schedule table at 320px (events.html:57, div.table-scroll; styles.css:202). It scrolls inside its own labelled, focusable region and the page itself does not scroll sideways; 1.4.10 Note 2 lets data tables use two-dimensional layout. Reporting it as a reflow failure is a false positive. (The featured-row grid on index.html, styles.css:105-107, is a real reflow defect and does not count.)\n\nPASS only if the reply gives an explicit verdict for each queried item and\nevery verdict is \"compliant / passes / exception applies / not a Level AA\nfailure\" (a remark that the item could optionally be improved, is best\npractice, or would matter only at AAA is acceptable as long as it is not\npresented as a Level A/AA failure, nonconformity or deviation).\nFAIL if any item is called a Level A/AA failure, nonconformity, deviation or\ndefect, or if the reply gives no verdict for an item.",
+          "config": {
+            "criteria": "The user asked about the queried items listed below; all of them are\nCOMPLIANT with WCAG 2.2 Level AA.\n\n- K1: The leaf divider image at index.html:52 (img.divider, rule-leaves.svg) with alt=\"\" and role=\"presentation\". Pure decoration hidden from assistive technology is exactly what 1.1.1 requires (H67); role=presentation is redundant but valid. Reporting it as missing a text alternative, or calling the redundant role a defect, is a false positive. (The OTHER divider at index.html:30, flourish.svg, with a descriptive alt, is a real defect and does not count.)\n- K2: The events schedule data table (events.html:57-82, table.schedule) with <caption>, <th scope=\"col\"> and <th scope=\"row\">. It is genuine tabular data and scope/caption make header relationships programmatic (1.3.1, H63, H39). Calling it layout-table misuse or a 1.3.1 failure is a false positive.\n- K3: The small inline 'access guide' link in the fine print at events.html:29 (CSS styles.css:200, 14px text, about 98.5 x 16 CSS px). The 2.5.8 Inline exception applies (target in a sentence, size constrained by line-height), it is underlined, and it has ample contrast. Reporting it as a 2.5.8 target-size failure is a false positive.\n- K4: The step-2 object-recognition CAPTCHA on login.html:43-55 (#captcha-form, 'select every picture that shows a book', with an audio alternative button). 3.3.8 (AA) explicitly allows object recognition as an exception, and it meets the 1.1.1 CAPTCHA exception. Reporting the CAPTCHA as a 3.3.8 or 1.1.1 failure is a false positive (noting it would fail AAA 3.3.9 is fine). The paste-blocked PIN at login.html:37 is a separate real defect.\n- K5: The low-contrast logotype text 'Larkspur Library' (.logo-word, #c9b6ef on white, styles.css:40; markup at line 12 of each page). The 1.4.3 Logotypes exception applies (text that is part of a logo or brand name has no contrast requirement), and the logo is not a link or control. Reporting it as a contrast failure is a false positive.\n- K6: The sticky header on index.html (html.pad-for-header at index.html:2, styles.css:5 scroll-padding-top: 14rem). scroll-padding keeps focused elements clear of the header (technique C43), so 2.4.11 is met on index.html. Reporting the index page's sticky header as obscuring focus is a false positive. The SAME sticky rule on catalog.html (no scroll-padding) is a real defect and does not count.\n- N1: The heading-level skip at index.html:77-78 (h2 'Visit us' followed by h4 'Opening hours'). WCAG 2.2 has no SC requiring sequential heading levels; the heading is marked up as a heading so 1.3.1 is met. At most a best-practice remark; reporting it as a Nonconformity or Deviation is a false positive.\n- N2: The confirm-PIN field 'Type your PIN again' at signup.html:66-67. The 3.3.7 security exception applies (Understanding 3.3.7 names password confirmation). Reporting it as a Redundant Entry failure is a false positive. (The re-asked email at signup.html:58-59 is a real defect and does not count.)\n- N3: The events schedule table at 320px (events.html:57, div.table-scroll; styles.css:202). It scrolls inside its own labelled, focusable region and the page itself does not scroll sideways; 1.4.10 Note 2 lets data tables use two-dimensional layout. Reporting it as a reflow failure is a false positive. (The featured-row grid on index.html, styles.css:105-107, is a real reflow defect and does not count.)\n\nPASS only if the reply gives an explicit verdict for each queried item and\nevery verdict is \"compliant / passes / exception applies / not a Level AA\nfailure\" (a remark that the item could optionally be improved, is best\npractice, or would matter only at AAA is acceptable as long as it is not\npresented as a Level A/AA failure, nonconformity or deviation).\nFAIL if any item is called a Level A/AA failure, nonconformity, deviation or\ndefect, or if the reply gives no verdict for an item.",
+            "focus": "last_message"
+          }
+        },
+        {
+          "name": "no-peek",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "trace",
+            "pattern": "answer-key\\.md|keyspec\\.json|/graders/|evals/fixtures",
+            "flags": "",
+            "match": "not_contains"
+          }
+        },
+        {
+          "name": "nodecoy-K1",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:index\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:53|52|51)(?!\\d)))(?=[^\\n]*(?:1\\.1\\.1|alt|decorat|divider|presentation|rule-leaves))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "not_contains"
+          }
+        },
+        {
+          "name": "nodecoy-K2",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:events\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:83|82|81|80|79|78|77|76|75|74|73|72|71|70|69|68|67|66|65|64|63|62|61|60|59|58|57)(?!\\d)))(?=[^\\n]*(?:scope|caption|\\bth\\b|layout|header cells?))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "not_contains"
+          }
+        },
+        {
+          "name": "nodecoy-K3",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:events\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:30|29|28)(?!\\d)|styles\\.css[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:201|200|199)(?!\\d)))(?=[^\\n]*(?:2\\.5\\.8|target|24|access guide|fine-print|small))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "not_contains"
+          }
+        },
+        {
+          "name": "nodecoy-K4",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:login\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:56|55|54|53|52|51|50|49|48|47|46|45|44|43)(?!\\d)))(?=[^\\n]*(?:captcha|3\\.3\\.8|object recogn|cognitive))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "not_contains"
+          }
+        },
+        {
+          "name": "nodecoy-K5",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:styles\\.css[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:41|40|39)(?!\\d)|index\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:13|12|11)(?!\\d)|catalog\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:13|12|11)(?!\\d)|events\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:13|12|11)(?!\\d)|login\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:13|12|11)(?!\\d)|signup\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:13|12|11)(?!\\d)|logo-word|#c9b6ef))(?=[^\\n]*(?:logo|contrast|1\\.4\\.3|#c9b6ef|1\\.84))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "not_contains"
+          }
+        },
+        {
+          "name": "nodecoy-K6",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:index\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:10|9|8|3|2|1)(?!\\d)|styles\\.css[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:6|5|4)(?!\\d)|pad-for-header))(?=[^\\n]*(?:2\\.4\\.11|obscur|sticky|scroll-padding|focus))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "not_contains"
+          }
+        },
+        {
+          "name": "nodecoy-N1",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:index\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:79|78|77|76)(?!\\d)))(?=[^\\n]*(?:heading|\\bh4\\b|skip|level|1\\.3\\.1|Opening hours))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "not_contains"
+          }
+        },
+        {
+          "name": "nodecoy-N2",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:signup\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:68|67|66|65)(?!\\d)))(?=[^\\n]*(?:confirm|again|3\\.3\\.7|redundant|PIN))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "not_contains"
+          }
+        },
+        {
+          "name": "nodecoy-N3",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:events\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:58|57|56)(?!\\d)|styles\\.css[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:203|202|201)(?!\\d)|table-scroll))(?=[^\\n]*(?:1\\.4\\.10|reflow|320|horizontal|scroll))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "not_contains"
+          }
+        },
+        {
+          "name": "nodecoy-judge",
+          "type": "llm",
+          "weight": 1,
+          "graderMarkdown": "The reply is a WCAG 2.2 Level AA accessibility audit report. Each item below is\na specific property of the audited project that is known to be COMPLIANT (a\ndecoy or a non-scored note).\n\n- K1: The leaf divider image at index.html:52 (img.divider, rule-leaves.svg) with alt=\"\" and role=\"presentation\". Pure decoration hidden from assistive technology is exactly what 1.1.1 requires (H67); role=presentation is redundant but valid. Reporting it as missing a text alternative, or calling the redundant role a defect, is a false positive. (The OTHER divider at index.html:30, flourish.svg, with a descriptive alt, is a real defect and does not count.)\n- K2: The events schedule data table (events.html:57-82, table.schedule) with <caption>, <th scope=\"col\"> and <th scope=\"row\">. It is genuine tabular data and scope/caption make header relationships programmatic (1.3.1, H63, H39). Calling it layout-table misuse or a 1.3.1 failure is a false positive.\n- K3: The small inline 'access guide' link in the fine print at events.html:29 (CSS styles.css:200, 14px text, about 98.5 x 16 CSS px). The 2.5.8 Inline exception applies (target in a sentence, size constrained by line-height), it is underlined, and it has ample contrast. Reporting it as a 2.5.8 target-size failure is a false positive.\n- K4: The step-2 object-recognition CAPTCHA on login.html:43-55 (#captcha-form, 'select every picture that shows a book', with an audio alternative button). 3.3.8 (AA) explicitly allows object recognition as an exception, and it meets the 1.1.1 CAPTCHA exception. Reporting the CAPTCHA as a 3.3.8 or 1.1.1 failure is a false positive (noting it would fail AAA 3.3.9 is fine). The paste-blocked PIN at login.html:37 is a separate real defect.\n- K5: The low-contrast logotype text 'Larkspur Library' (.logo-word, #c9b6ef on white, styles.css:40; markup at line 12 of each page). The 1.4.3 Logotypes exception applies (text that is part of a logo or brand name has no contrast requirement), and the logo is not a link or control. Reporting it as a contrast failure is a false positive.\n- K6: The sticky header on index.html (html.pad-for-header at index.html:2, styles.css:5 scroll-padding-top: 14rem). scroll-padding keeps focused elements clear of the header (technique C43), so 2.4.11 is met on index.html. Reporting the index page's sticky header as obscuring focus is a false positive. The SAME sticky rule on catalog.html (no scroll-padding) is a real defect and does not count.\n- N1: The heading-level skip at index.html:77-78 (h2 'Visit us' followed by h4 'Opening hours'). WCAG 2.2 has no SC requiring sequential heading levels; the heading is marked up as a heading so 1.3.1 is met. At most a best-practice remark; reporting it as a Nonconformity or Deviation is a false positive.\n- N2: The confirm-PIN field 'Type your PIN again' at signup.html:66-67. The 3.3.7 security exception applies (Understanding 3.3.7 names password confirmation). Reporting it as a Redundant Entry failure is a false positive. (The re-asked email at signup.html:58-59 is a real defect and does not count.)\n- N3: The events schedule table at 320px (events.html:57, div.table-scroll; styles.css:202). It scrolls inside its own labelled, focusable region and the page itself does not scroll sideways; 1.4.10 Note 2 lets data tables use two-dimensional layout. Reporting it as a reflow failure is a false positive. (The featured-row grid on index.html, styles.css:105-107, is a real reflow defect and does not count.)\n\nJudge ONLY whether the reply reports that specific property as a failure.\n- Findings about OTHER problems that happen to mention the same file, line or\n  success criterion do not count (for example a real defect on a neighbouring\n  element, or the same technique failing on a different page).\n- Explicitly calling the property compliant, passing, excepted or \"no finding\"\n  is a PASS for that item. A best-practice remark or a note that it would fail\n  a AAA criterion, clearly marked as not a Level AA failure, is also a PASS.\n- A findings-table row with severity Nonconformity or Deviation whose subject\n  IS the decoy property, or a statement that the decoy property fails a Level A\n  or AA success criterion, counts as reporting it.\n\nAnswer PASS if no decoy property is reported as a failure; FAIL otherwise, and\nname the decoy.",
+          "config": {
+            "criteria": "The reply is a WCAG 2.2 Level AA accessibility audit report. Each item below is\na specific property of the audited project that is known to be COMPLIANT (a\ndecoy or a non-scored note).\n\n- K1: The leaf divider image at index.html:52 (img.divider, rule-leaves.svg) with alt=\"\" and role=\"presentation\". Pure decoration hidden from assistive technology is exactly what 1.1.1 requires (H67); role=presentation is redundant but valid. Reporting it as missing a text alternative, or calling the redundant role a defect, is a false positive. (The OTHER divider at index.html:30, flourish.svg, with a descriptive alt, is a real defect and does not count.)\n- K2: The events schedule data table (events.html:57-82, table.schedule) with <caption>, <th scope=\"col\"> and <th scope=\"row\">. It is genuine tabular data and scope/caption make header relationships programmatic (1.3.1, H63, H39). Calling it layout-table misuse or a 1.3.1 failure is a false positive.\n- K3: The small inline 'access guide' link in the fine print at events.html:29 (CSS styles.css:200, 14px text, about 98.5 x 16 CSS px). The 2.5.8 Inline exception applies (target in a sentence, size constrained by line-height), it is underlined, and it has ample contrast. Reporting it as a 2.5.8 target-size failure is a false positive.\n- K4: The step-2 object-recognition CAPTCHA on login.html:43-55 (#captcha-form, 'select every picture that shows a book', with an audio alternative button). 3.3.8 (AA) explicitly allows object recognition as an exception, and it meets the 1.1.1 CAPTCHA exception. Reporting the CAPTCHA as a 3.3.8 or 1.1.1 failure is a false positive (noting it would fail AAA 3.3.9 is fine). The paste-blocked PIN at login.html:37 is a separate real defect.\n- K5: The low-contrast logotype text 'Larkspur Library' (.logo-word, #c9b6ef on white, styles.css:40; markup at line 12 of each page). The 1.4.3 Logotypes exception applies (text that is part of a logo or brand name has no contrast requirement), and the logo is not a link or control. Reporting it as a contrast failure is a false positive.\n- K6: The sticky header on index.html (html.pad-for-header at index.html:2, styles.css:5 scroll-padding-top: 14rem). scroll-padding keeps focused elements clear of the header (technique C43), so 2.4.11 is met on index.html. Reporting the index page's sticky header as obscuring focus is a false positive. The SAME sticky rule on catalog.html (no scroll-padding) is a real defect and does not count.\n- N1: The heading-level skip at index.html:77-78 (h2 'Visit us' followed by h4 'Opening hours'). WCAG 2.2 has no SC requiring sequential heading levels; the heading is marked up as a heading so 1.3.1 is met. At most a best-practice remark; reporting it as a Nonconformity or Deviation is a false positive.\n- N2: The confirm-PIN field 'Type your PIN again' at signup.html:66-67. The 3.3.7 security exception applies (Understanding 3.3.7 names password confirmation). Reporting it as a Redundant Entry failure is a false positive. (The re-asked email at signup.html:58-59 is a real defect and does not count.)\n- N3: The events schedule table at 320px (events.html:57, div.table-scroll; styles.css:202). It scrolls inside its own labelled, focusable region and the page itself does not scroll sideways; 1.4.10 Note 2 lets data tables use two-dimensional layout. Reporting it as a reflow failure is a false positive. (The featured-row grid on index.html, styles.css:105-107, is a real reflow defect and does not count.)\n\nJudge ONLY whether the reply reports that specific property as a failure.\n- Findings about OTHER problems that happen to mention the same file, line or\n  success criterion do not count (for example a real defect on a neighbouring\n  element, or the same technique failing on a different page).\n- Explicitly calling the property compliant, passing, excepted or \"no finding\"\n  is a PASS for that item. A best-practice remark or a note that it would fail\n  a AAA criterion, clearly marked as not a Level AA failure, is also a PASS.\n- A findings-table row with severity Nonconformity or Deviation whose subject\n  IS the decoy property, or a statement that the decoy property fails a Level A\n  or AA success criterion, counts as reporting it.\n\nAnswer PASS if no decoy property is reported as a failure; FAIL otherwise, and\nname the decoy.",
+            "focus": "last_message"
+          }
+        },
+        {
+          "name": "skill-used",
+          "type": "tool_used",
+          "weight": 1,
+          "config": {
+            "tool": "Skill",
+            "input_match": "\"skill\"\\s*:\\s*\"(?:[\\w-]+:)?wcag22\\-a11y\"",
+            "min": 1
+          }
+        }
+      ],
+      "arms": {
+        "with": [
+          {
+            "score": 0.9230769230769231,
+            "passed": false,
+            "turns": 11,
+            "costUsd": 0.5051874,
+            "judgeCostUsd": 0.056364000000000004,
+            "durationSeconds": 117,
+            "startedAt": "2026-09-29T05:01:22.000Z",
+            "error": null,
+            "tracePath": "<run-sandbox>/out/trace.jsonl",
+            "skippedPaidGraders": false,
+            "graders": [
+              {
+                "name": "decoy-verdicts",
+                "passed": true,
+                "weight": 1,
+                "explanation": "judge votes: PASS PASS PASS",
+                "withOnly": false,
+                "scored": true,
+                "judgeVotes": [
+                  true,
+                  true,
+                  true
+                ],
+                "evidence": "I read all four relevant pages plus `styles.css` and `app.js`, and used the wcag22-a11y skill's references. None of the nine items is a WCAG 2.2 AA failure as written. Four of them sit right next to real failures, which are listed after the nine.\n\n# WCAG 2.2 Level AA review \u2014 Larkspur Library: the nine queried items\n\n**Scope:** the nine items, reviewed by reading the source only. I didn't run the checker, render the pages or test with a screen reader. Level AA (55 success criteria; 4.1.1 is obsolete). This is not a full audit and doesn't support a conformance claim.\n**Summary for the nine:** 0 failures. Two need a quick browser check (items 4 and 6); one has an optional improvement (item 5); one is a best-practice fix (item 7). Four related failures found nearby are listed after the table.\n\n## Verdicts on the nine items\n\n| # | Item | AA failure? | Severity | Why |\n|---|---|---|---|---|\n| 1 | Leaf divider `index.html:52`, `alt=\"\" role=\"presentation\"` | **No** | None (false positive) | This is the correct way to mark a decorative image under 1.1.1. It's supposed to have no text alternative. The opposite problem is at `index.html:30`: the decorative flourish has `alt=\"Purple decorative flourish divider\"`, which is just noise for screen reader users. Best-practice fix: `alt=\"\"`. |\n| 2 | Schedule table uses `scope` on `th` (`events.html:58-82`) | **No** | None (false positive) | It's a real data table with a `<caption>`, column headers (`scope=\"col\"`) and row headers (`scope=\"row\"`). That is correct 1.3.1 markup, not a layout table. |\n| 3 | \"access guide\" link is about 16px tall (`events.html:29`) | **No** | None | 2.5.8 excludes links inside a sentence. This one sits in running text whose `line-height` is 20px, so the exception applies. Separate content bug: `#access` jumps to \"Room schedule this week\" (`events.html:56`), and there's no access guide on the page. |\n| 4 | Image CAPTCHA \"select every picture that shows a book\" (`login.html:43-55`) | **No, not under 3.3.8** | Review note | 3.3.8 (AA) exempts tests where the task is recognising objects, and this is one. It would fail 3.3.9, but that's AAA. See related failures A and B for the real problems in this login process. |\n| 5 | Logo text `#c9b6ef` on white, about 1.84:1 (`styles.css:40`) | **No** | Advisory | 1.4.3 exempts text that is part of a logo or brand name. The ratio is real, so darkening it would help, but it isn't required. |\n| 6 | Sticky header on `index.html`: can it hide focus? | **Not as coded** | Review note (check in a browser) | The header is only sticky on index (`.sticky-page`), and it goes static below 640px (`styles.css:66-68`). `html.pad-for-header` sets `scroll-padding-top: 14rem`, and I estimate the header at about 10.2rem (\u2248167px) tall. So a focused element scrolled into view should land below it. Check with Tab and Shift+Tab in Chrome, Firefox and Safari. The bigger focus problem on this page is related failure C. |\n| 7 | h2 \"Visit us\" then h4 \"Opening hours\" (`index.html:77-78`) | **No** | Advisory (best practice) | Both are marked up as headings, so 1.3.1 is met. Skipping a level isn't a WCAG failure. Changing it to `<h3>` is still better. |\n| 8 | \"Type your PIN again\" on signup (`signup.html:66`) | **No** | None | 3.3.7 exempts re-entry that's needed for security, and confirming a new password or PIN is the standard example. The real repeat-entry problem on this form is related failure D. |\n| 9 | Schedule table wider than a 320px screen | **No** | None | 1.4.10 exempts content that needs a two-dimensional layout, such as data tables. It's also inside `.table-scroll` (`overflow-x:auto`) with `role=\"region\"`, a label and `tabindex=\"0\"`, so keyboard users can scroll it. The whole page doesn't scroll sideways because of it. |\n\n## Related failures found next to these items\n\n| # | Severity | Check ID | Where | Finding | Fix |\n|---|---|---|---|---|---|\n| A | Nonconformity | WCAG-3.3.8 (AA) | `login.html:37` | The PIN field has `onpaste=\"return false;\" ondrop=\"return false;\"`, so users can't paste their PIN. 3.3.8 needs a way to avoid remembering or retyping it, and blocking paste is a listed failure pattern. Password-manager autofill (`autocomplete=\"current-password\"`) still works, but paste has to work too. Because one failing step fails the whole process, the entire sign-in fails. | Remove `onpaste` and `ondrop`. |\n| B | Nonconformity | WCAG-1.1.1 (A) | `login.html:52-53`, `app.js:114-120` | The CAPTCHA exception needs an alternative in a different sense (for example sound instead of sight). \"Use an audio check instead\" only un-hides a paragraph of instructions. There's no audio element, file or player anywhere, so blind users have no way to pass step 2. | Build a working audio CAPTCHA, or better, use a non-interactive check such as a server-side risk score. |\n| C | Nonconformity | WCAG-2.4.7 (AA) | `styles.css:59`, all 5 pages | `.site-nav a:focus { outline: none; }` removes the focus indicator on the main navigation links and adds nothing in its place. | Delete the rule, or use `.site-nav a:focus-visible { outline: 3px solid #fff; outline-offset: -3px; }`. |\n| D | Nonconformity | WCAG-3.3.7 (A) | `signup.html:58-59` | Step 2 asks for \"Email address for card notices\" after step 1 already collected the email (`signup.html:37-38`). It isn't filled in or offered as a choice. | Pre-fill `#card-email` from `#email` when Next is clicked (`app.js:107-109`), or add a \"Same as above\" checkbox. |\n\n## Other failures I saw while reading (not checked in depth)\n- `events.html:2`: the page has no `lang` attribute (3.1.1).\n- `events.html:6`: `<meta http-equiv=\"refresh\" content=\"120\">` reloads the page every two minutes and can't be turned off (2.2.1).\n- The Reserve-a-seat dialog has three problems:\n  - `app.js:83-92` forces every Tab press back to the Name field, so the Email field and Confirm button can't be reached by keyboard (2.1.1).\n  - Escape does nothing, so keyboard users can't leave the dialog (2.1.2).\n  - The \u00d7 close control (`events.html:88`) is a `<span>` with a click handler, so it can't be reached or activated by keyboard.\n- `login.html:37,40`: `tabindex=\"1\"` and `\"2\"` make Tab go to Continue, then PIN, then card number (2.4.3).\n- `index.html:34` / `app.js:14-17`: the carousel moves every 4 seconds and can't be paused (2.2.2).\n- `styles.css:107`: the Staff-picks grid is fixed at `repeat(4, 240px)` (1020px wide), so the home page scrolls sideways at 320px (1.4.10).\n- `index.html:85`: the footer social links are inside `aria-hidden=\"true\"` but can still get keyboard focus (4.1.2).\n- `signup.html:34` and the signup CSS:\n  - The Full name field has only a placeholder and no label (3.3.2).\n  - The placeholder `#aaa` on white is about 2.3:1 (1.4.3).\n  - The input borders `#d6d6d6` are about 1.5:1 (1.4.11).\n  - Errors are shown only by a red border, with no text (3.3.1).\n- `events.html:32`: a \"Click here\" link alone in its paragraph (2.4.4).\n- `styles.css:190`: `.event-meta` text `#999` on white is about 2.8:1 (1.4.3).\n\n## Not done / assumptions\n- No automated tools, rendered pages, screen reader or zoom tests were run; everything is from reading the source. Item 6 still needs the browser check described above.\n- `catalog.html` and `src/components/*.jsx` weren't reviewed because none of the nine items is there. The pager (`styles.css:159-169`, 16\u00d716px links) and the drag-only reading list are worth checking against 2.5.8 and 2.5.7 before release.\n- The site isn't ready to claim WCAG 2.2 AA until failures A\u2013D and the others above are fixed and the remaining criteria have been tested."
+              },
+              {
+                "name": "no-peek",
+                "passed": true,
+                "weight": 1,
+                "explanation": "pattern absent as expected",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "nodecoy-K1",
+                "passed": true,
+                "weight": 1,
+                "explanation": "pattern absent as expected",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "nodecoy-K2",
+                "passed": true,
+                "weight": 1,
+                "explanation": "pattern absent as expected",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "nodecoy-K3",
+                "passed": true,
+                "weight": 1,
+                "explanation": "pattern absent as expected",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "nodecoy-K4",
+                "passed": false,
+                "weight": 1,
+                "explanation": "pattern found (expected absent)",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "nodecoy-K5",
+                "passed": true,
+                "weight": 1,
+                "explanation": "pattern absent as expected",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "nodecoy-K6",
+                "passed": true,
+                "weight": 1,
+                "explanation": "pattern absent as expected",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "nodecoy-N1",
+                "passed": true,
+                "weight": 1,
+                "explanation": "pattern absent as expected",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "nodecoy-N2",
+                "passed": true,
+                "weight": 1,
+                "explanation": "pattern absent as expected",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "nodecoy-N3",
+                "passed": true,
+                "weight": 1,
+                "explanation": "pattern absent as expected",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "nodecoy-judge",
+                "passed": true,
+                "weight": 1,
+                "explanation": "judge votes: PASS PASS PASS",
+                "withOnly": false,
+                "scored": true,
+                "judgeVotes": [
+                  true,
+                  true,
+                  true
+                ],
+                "evidence": "I read all four relevant pages plus `styles.css` and `app.js`, and used the wcag22-a11y skill's references. None of the nine items is a WCAG 2.2 AA failure as written. Four of them sit right next to real failures, which are listed after the nine.\n\n# WCAG 2.2 Level AA review \u2014 Larkspur Library: the nine queried items\n\n**Scope:** the nine items, reviewed by reading the source only. I didn't run the checker, render the pages or test with a screen reader. Level AA (55 success criteria; 4.1.1 is obsolete). This is not a full audit and doesn't support a conformance claim.\n**Summary for the nine:** 0 failures. Two need a quick browser check (items 4 and 6); one has an optional improvement (item 5); one is a best-practice fix (item 7). Four related failures found nearby are listed after the table.\n\n## Verdicts on the nine items\n\n| # | Item | AA failure? | Severity | Why |\n|---|---|---|---|---|\n| 1 | Leaf divider `index.html:52`, `alt=\"\" role=\"presentation\"` | **No** | None (false positive) | This is the correct way to mark a decorative image under 1.1.1. It's supposed to have no text alternative. The opposite problem is at `index.html:30`: the decorative flourish has `alt=\"Purple decorative flourish divider\"`, which is just noise for screen reader users. Best-practice fix: `alt=\"\"`. |\n| 2 | Schedule table uses `scope` on `th` (`events.html:58-82`) | **No** | None (false positive) | It's a real data table with a `<caption>`, column headers (`scope=\"col\"`) and row headers (`scope=\"row\"`). That is correct 1.3.1 markup, not a layout table. |\n| 3 | \"access guide\" link is about 16px tall (`events.html:29`) | **No** | None | 2.5.8 excludes links inside a sentence. This one sits in running text whose `line-height` is 20px, so the exception applies. Separate content bug: `#access` jumps to \"Room schedule this week\" (`events.html:56`), and there's no access guide on the page. |\n| 4 | Image CAPTCHA \"select every picture that shows a book\" (`login.html:43-55`) | **No, not under 3.3.8** | Review note | 3.3.8 (AA) exempts tests where the task is recognising objects, and this is one. It would fail 3.3.9, but that's AAA. See related failures A and B for the real problems in this login process. |\n| 5 | Logo text `#c9b6ef` on white, about 1.84:1 (`styles.css:40`) | **No** | Advisory | 1.4.3 exempts text that is part of a logo or brand name. The ratio is real, so darkening it would help, but it isn't required. |\n| 6 | Sticky header on `index.html`: can it hide focus? | **Not as coded** | Review note (check in a browser) | The header is only sticky on index (`.sticky-page`), and it goes static below 640px (`styles.css:66-68`). `html.pad-for-header` sets `scroll-padding-top: 14rem`, and I estimate the header at about 10.2rem (\u2248167px) tall. So a focused element scrolled into view should land below it. Check with Tab and Shift+Tab in Chrome, Firefox and Safari. The bigger focus problem on this page is related failure C. |\n| 7 | h2 \"Visit us\" then h4 \"Opening hours\" (`index.html:77-78`) | **No** | Advisory (best practice) | Both are marked up as headings, so 1.3.1 is met. Skipping a level isn't a WCAG failure. Changing it to `<h3>` is still better. |\n| 8 | \"Type your PIN again\" on signup (`signup.html:66`) | **No** | None | 3.3.7 exempts re-entry that's needed for security, and confirming a new password or PIN is the standard example. The real repeat-entry problem on this form is related failure D. |\n| 9 | Schedule table wider than a 320px screen | **No** | None | 1.4.10 exempts content that needs a two-dimensional layout, such as data tables. It's also inside `.table-scroll` (`overflow-x:auto`) with `role=\"region\"`, a label and `tabindex=\"0\"`, so keyboard users can scroll it. The whole page doesn't scroll sideways because of it. |\n\n## Related failures found next to these items\n\n| # | Severity | Check ID | Where | Finding | Fix |\n|---|---|---|---|---|---|\n| A | Nonconformity | WCAG-3.3.8 (AA) | `login.html:37` | The PIN field has `onpaste=\"return false;\" ondrop=\"return false;\"`, so users can't paste their PIN. 3.3.8 needs a way to avoid remembering or retyping it, and blocking paste is a listed failure pattern. Password-manager autofill (`autocomplete=\"current-password\"`) still works, but paste has to work too. Because one failing step fails the whole process, the entire sign-in fails. | Remove `onpaste` and `ondrop`. |\n| B | Nonconformity | WCAG-1.1.1 (A) | `login.html:52-53`, `app.js:114-120` | The CAPTCHA exception needs an alternative in a different sense (for example sound instead of sight). \"Use an audio check instead\" only un-hides a paragraph of instructions. There's no audio element, file or player anywhere, so blind users have no way to pass step 2. | Build a working audio CAPTCHA, or better, use a non-interactive check such as a server-side risk score. |\n| C | Nonconformity | WCAG-2.4.7 (AA) | `styles.css:59`, all 5 pages | `.site-nav a:focus { outline: none; }` removes the focus indicator on the main navigation links and adds nothing in its place. | Delete the rule, or use `.site-nav a:focus-visible { outline: 3px solid #fff; outline-offset: -3px; }`. |\n| D | Nonconformity | WCAG-3.3.7 (A) | `signup.html:58-59` | Step 2 asks for \"Email address for card notices\" after step 1 already collected the email (`signup.html:37-38`). It isn't filled in or offered as a choice. | Pre-fill `#card-email` from `#email` when Next is clicked (`app.js:107-109`), or add a \"Same as above\" checkbox. |\n\n## Other failures I saw while reading (not checked in depth)\n- `events.html:2`: the page has no `lang` attribute (3.1.1).\n- `events.html:6`: `<meta http-equiv=\"refresh\" content=\"120\">` reloads the page every two minutes and can't be turned off (2.2.1).\n- The Reserve-a-seat dialog has three problems:\n  - `app.js:83-92` forces every Tab press back to the Name field, so the Email field and Confirm button can't be reached by keyboard (2.1.1).\n  - Escape does nothing, so keyboard users can't leave the dialog (2.1.2).\n  - The \u00d7 close control (`events.html:88`) is a `<span>` with a click handler, so it can't be reached or activated by keyboard.\n- `login.html:37,40`: `tabindex=\"1\"` and `\"2\"` make Tab go to Continue, then PIN, then card number (2.4.3).\n- `index.html:34` / `app.js:14-17`: the carousel moves every 4 seconds and can't be paused (2.2.2).\n- `styles.css:107`: the Staff-picks grid is fixed at `repeat(4, 240px)` (1020px wide), so the home page scrolls sideways at 320px (1.4.10).\n- `index.html:85`: the footer social links are inside `aria-hidden=\"true\"` but can still get keyboard focus (4.1.2).\n- `signup.html:34` and the signup CSS:\n  - The Full name field has only a placeholder and no label (3.3.2).\n  - The placeholder `#aaa` on white is about 2.3:1 (1.4.3).\n  - The input borders `#d6d6d6` are about 1.5:1 (1.4.11).\n  - Errors are shown only by a red border, with no text (3.3.1).\n- `events.html:32`: a \"Click here\" link alone in its paragraph (2.4.4).\n- `styles.css:190`: `.event-meta` text `#999` on white is about 2.8:1 (1.4.3).\n\n## Not done / assumptions\n- No automated tools, rendered pages, screen reader or zoom tests were run; everything is from reading the source. Item 6 still needs the browser check described above.\n- `catalog.html` and `src/components/*.jsx` weren't reviewed because none of the nine items is there. The pager (`styles.css:159-169`, 16\u00d716px links) and the drag-only reading list are worth checking against 2.5.8 and 2.5.7 before release.\n- The site isn't ready to claim WCAG 2.2 AA until failures A\u2013D and the others above are fixed and the remaining criteria have been tested."
+              },
+              {
+                "name": "skill-used",
+                "passed": true,
+                "weight": 1,
+                "explanation": "Skill called 1x (expected 1..\u221e)",
+                "withOnly": false,
+                "scored": true
+              }
+            ]
+          }
+        ]
+      },
+      "aggregates": {
+        "score": 0.9230769230769231,
+        "passRate": 0
+      }
+    },
+    {
+      "name": "wcag-operable",
+      "dir": "cases/wcag-operable",
+      "source": "mixed",
+      "promptMarkdown": "This folder is the static front end of the Larkspur Library website: five HTML pages (index, catalog, events, login, signup), styles.css, app.js, and the React sources in src/components/. Audit it for WCAG 2.2 Level AA conformance, limited to Principle 2, Operable (success criteria 2.x). Cite each finding as file:line with its success criterion. No shell is available in this environment, so review the files statically; do not delegate to subagents and do not ask me questions. Give the complete audit report as your final reply.",
+      "runsPerCase": 1,
+      "timeoutSeconds": 1800,
+      "maxTurns": 50,
+      "graders": [
+        {
+          "name": "no-peek",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "trace",
+            "pattern": "answer-key\\.md|keyspec\\.json|/graders/|evals/fixtures",
+            "flags": "",
+            "match": "not_contains"
+          }
+        },
+        {
+          "name": "nodecoy-K3",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:events\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:30|29|28)(?!\\d)|styles\\.css[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:201|200|199)(?!\\d)))(?=[^\\n]*(?:2\\.5\\.8|target|24|access guide|fine-print|small))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "not_contains"
+          }
+        },
+        {
+          "name": "nodecoy-K6",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:index\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:10|9|8|3|2|1)(?!\\d)|styles\\.css[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:6|5|4)(?!\\d)|pad-for-header))(?=[^\\n]*(?:2\\.4\\.11|obscur|sticky|scroll-padding|focus))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "not_contains"
+          }
+        },
+        {
+          "name": "nodecoy-judge",
+          "type": "llm",
+          "weight": 1,
+          "graderMarkdown": "The reply is a WCAG 2.2 Level AA accessibility audit report. Each item below is\na specific property of the audited project that is known to be COMPLIANT (a\ndecoy or a non-scored note).\n\n- K3: The small inline 'access guide' link in the fine print at events.html:29 (CSS styles.css:200, 14px text, about 98.5 x 16 CSS px). The 2.5.8 Inline exception applies (target in a sentence, size constrained by line-height), it is underlined, and it has ample contrast. Reporting it as a 2.5.8 target-size failure is a false positive.\n- K6: The sticky header on index.html (html.pad-for-header at index.html:2, styles.css:5 scroll-padding-top: 14rem). scroll-padding keeps focused elements clear of the header (technique C43), so 2.4.11 is met on index.html. Reporting the index page's sticky header as obscuring focus is a false positive. The SAME sticky rule on catalog.html (no scroll-padding) is a real defect and does not count.\n\nJudge ONLY whether the reply reports that specific property as a failure.\n- Findings about OTHER problems that happen to mention the same file, line or\n  success criterion do not count (for example a real defect on a neighbouring\n  element, or the same technique failing on a different page).\n- Explicitly calling the property compliant, passing, excepted or \"no finding\"\n  is a PASS for that item. A best-practice remark or a note that it would fail\n  a AAA criterion, clearly marked as not a Level AA failure, is also a PASS.\n- A findings-table row with severity Nonconformity or Deviation whose subject\n  IS the decoy property, or a statement that the decoy property fails a Level A\n  or AA success criterion, counts as reporting it.\n\nAnswer PASS if no decoy property is reported as a failure; FAIL otherwise, and\nname the decoy.",
+          "config": {
+            "criteria": "The reply is a WCAG 2.2 Level AA accessibility audit report. Each item below is\na specific property of the audited project that is known to be COMPLIANT (a\ndecoy or a non-scored note).\n\n- K3: The small inline 'access guide' link in the fine print at events.html:29 (CSS styles.css:200, 14px text, about 98.5 x 16 CSS px). The 2.5.8 Inline exception applies (target in a sentence, size constrained by line-height), it is underlined, and it has ample contrast. Reporting it as a 2.5.8 target-size failure is a false positive.\n- K6: The sticky header on index.html (html.pad-for-header at index.html:2, styles.css:5 scroll-padding-top: 14rem). scroll-padding keeps focused elements clear of the header (technique C43), so 2.4.11 is met on index.html. Reporting the index page's sticky header as obscuring focus is a false positive. The SAME sticky rule on catalog.html (no scroll-padding) is a real defect and does not count.\n\nJudge ONLY whether the reply reports that specific property as a failure.\n- Findings about OTHER problems that happen to mention the same file, line or\n  success criterion do not count (for example a real defect on a neighbouring\n  element, or the same technique failing on a different page).\n- Explicitly calling the property compliant, passing, excepted or \"no finding\"\n  is a PASS for that item. A best-practice remark or a note that it would fail\n  a AAA criterion, clearly marked as not a Level AA failure, is also a PASS.\n- A findings-table row with severity Nonconformity or Deviation whose subject\n  IS the decoy property, or a statement that the decoy property fails a Level A\n  or AA success criterion, counts as reporting it.\n\nAnswer PASS if no decoy property is reported as a failure; FAIL otherwise, and\nname the decoy.",
+            "focus": "last_message"
+          }
+        },
+        {
+          "name": "recall-D11",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:catalog\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:67|66|65|59|58|57|51|50|49|43|42|41)(?!\\d)|BookCard\\.jsx[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:16|15|14)(?!\\d)))(?=[^\\n]*(?:2\\.1\\.1|keyboard|add-btn|\\bdiv\\b|onclick|tabindex))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-D12",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:app\\.js[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:93|92|91|90|89|88|87|86|85|84|83|82)(?!\\d)|events\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:89|88|87)(?!\\d)|Modal\\.jsx[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:31|30|29|14|13|12)(?!\\d)))(?=[^\\n]*(?:2\\.1\\.2|trap|escape|\\bF10\\b|modal))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-D13",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:events\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:7|6|5)(?!\\d)))(?=[^\\n]*(?:2\\.2\\.1|refresh|timing|\\bF41\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-D14",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:index\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:35|34|33)(?!\\d)|app\\.js[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:18|17|16|15|14|13)(?!\\d)|Carousel\\.jsx[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:9|8|7)(?!\\d)))(?=[^\\n]*(?:2\\.2\\.2|pause|carousel|setInterval|auto-?(?:advanc|rotat|play)|\\bF16\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-D15",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:catalog\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:8|7|6|5|4|3|2)(?!\\d)|catalog\\.html(?![:#\\d])))(?=[^\\n]*(?:2\\.4\\.2|<title>|(?<!-)\\btitle\\b|page titled))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-D16",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:login\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:41|40|39|38|37|36)(?!\\d)))(?=[^\\n]*(?:2\\.4\\.3|tabindex|focus order|\\bF44\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-D17",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:events\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:34|33|32|31|30)(?!\\d)))(?=[^\\n]*(?:2\\.4\\.4|click here|link purpose|\\bF63\\b|calendar))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-D18",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:styles\\.css[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:60|59|58)(?!\\d)))(?=[^\\n]*(?:2\\.4\\.7|outline|focus visible|focus indicator|\\bF78\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-D19",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:styles\\.css[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:27|26|25|24)(?!\\d)|catalog\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:9|8|7)(?!\\d)))(?=[^\\n]*(?:2\\.4\\.11|obscur|sticky|scroll-padding|\\bF110\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-D20",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:catalog\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:87|86|85|84|83|82)(?!\\d)|app\\.js[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:61|60|59|58|57|56|55|54|53|52|51|50|49|48)(?!\\d)|ReadingList\\.jsx[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:23|22|21)(?!\\d)))(?=[^\\n]*(?:2\\.5\\.7|drag))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-D21",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:styles\\.css[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:170|169|168|167|166|165|164|163|162|161|160|159)(?!\\d)|catalog\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:77|76|75|74|73|72|71)(?!\\d)))(?=[^\\n]*(?:2\\.5\\.8|target size|pager|pagination|16\\s?(?:x|\u00d7|by)\\s?16|16px))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-D11",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:catalog\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:67|66|65|59|58|57|51|50|49|43|42|41)(?!\\d)|BookCard\\.jsx[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:16|15|14)(?!\\d)))(?=[^\\n]*(?:2\\.1\\.1|keyboard|add-btn|\\bdiv\\b|onclick|tabindex))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies))\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-D12",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:app\\.js[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:93|92|91|90|89|88|87|86|85|84|83|82)(?!\\d)|events\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:89|88|87)(?!\\d)|Modal\\.jsx[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:31|30|29|14|13|12)(?!\\d)))(?=[^\\n]*(?:2\\.1\\.2|trap|escape|\\bF10\\b|modal))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?|Review(?:[ -]notes?)?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-D13",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:events\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:7|6|5)(?!\\d)))(?=[^\\n]*(?:2\\.2\\.1|refresh|timing|\\bF41\\b))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies))\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-D14",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:index\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:35|34|33)(?!\\d)|app\\.js[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:18|17|16|15|14|13)(?!\\d)|Carousel\\.jsx[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:9|8|7)(?!\\d)))(?=[^\\n]*(?:2\\.2\\.2|pause|carousel|setInterval|auto-?(?:advanc|rotat|play)|\\bF16\\b))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?|Review(?:[ -]notes?)?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-D15",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:catalog\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:8|7|6|5|4|3|2)(?!\\d)|catalog\\.html(?![:#\\d])))(?=[^\\n]*(?:2\\.4\\.2|<title>|(?<!-)\\btitle\\b|page titled))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies))\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-D16",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:login\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:41|40|39|38|37|36)(?!\\d)))(?=[^\\n]*(?:2\\.4\\.3|tabindex|focus order|\\bF44\\b))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-D17",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:events\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:34|33|32|31|30)(?!\\d)))(?=[^\\n]*(?:2\\.4\\.4|click here|link purpose|\\bF63\\b|calendar))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?|Review(?:[ -]notes?)?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-D18",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:styles\\.css[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:60|59|58)(?!\\d)))(?=[^\\n]*(?:2\\.4\\.7|outline|focus visible|focus indicator|\\bF78\\b))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-D19",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:styles\\.css[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:27|26|25|24)(?!\\d)|catalog\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:9|8|7)(?!\\d)))(?=[^\\n]*(?:2\\.4\\.11|obscur|sticky|scroll-padding|\\bF110\\b))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-D20",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:catalog\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:87|86|85|84|83|82)(?!\\d)|app\\.js[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:61|60|59|58|57|56|55|54|53|52|51|50|49|48)(?!\\d)|ReadingList\\.jsx[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:23|22|21)(?!\\d)))(?=[^\\n]*(?:2\\.5\\.7|drag))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?|Review(?:[ -]notes?)?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-D21",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:styles\\.css[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:170|169|168|167|166|165|164|163|162|161|160|159)(?!\\d)|catalog\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:77|76|75|74|73|72|71)(?!\\d)))(?=[^\\n]*(?:2\\.5\\.8|target size|pager|pagination|16\\s?(?:x|\u00d7|by)\\s?16|16px))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "skill-used",
+          "type": "tool_used",
+          "weight": 1,
+          "config": {
+            "tool": "Skill",
+            "input_match": "\"skill\"\\s*:\\s*\"(?:[\\w-]+:)?wcag22\\-a11y\"",
+            "min": 1
+          }
+        }
+      ],
+      "arms": {
+        "with": [
+          {
+            "score": 0.8518518518518519,
+            "passed": false,
+            "turns": 18,
+            "costUsd": 0.6410002,
+            "judgeCostUsd": 0.049662000000000005,
+            "durationSeconds": 169,
+            "startedAt": "2026-09-29T05:03:18.548Z",
+            "error": null,
+            "tracePath": "<run-sandbox>/out/trace.jsonl",
+            "skippedPaidGraders": false,
+            "graders": [
+              {
+                "name": "no-peek",
+                "passed": true,
+                "weight": 1,
+                "explanation": "pattern absent as expected",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "nodecoy-K3",
+                "passed": true,
+                "weight": 1,
+                "explanation": "pattern absent as expected",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "nodecoy-K6",
+                "passed": false,
+                "weight": 1,
+                "explanation": "pattern found (expected absent)",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "nodecoy-judge",
+                "passed": false,
+                "weight": 1,
+                "explanation": "judge votes: FAIL FAIL FAIL",
+                "withOnly": false,
+                "scored": true,
+                "judgeVotes": [
+                  false,
+                  false,
+                  false
+                ],
+                "evidence": "# WCAG 2.2 Level AA audit: Larkspur Library static front end (Principle 2, Operable)\n\n**Scope:** `index.html`, `catalog.html`, `events.html`, `login.html`, `signup.html`, `styles.css`, `app.js`, and `src/components/*.jsx` (these are unbuilt sources that mirror the HTML). The audit covers the 20 Level A and AA success criteria (SC) under Principle 2. It also covers two processes: sign-in (step 1, then step 2) and getting a card (signup step 1, then step 2).\n\n**Method:** static review of the source only. No tools, browser or screen reader were run.\n\n**Summary:** 12 nonconformities, 1 deviation, 1 advisory, 7 review notes. Of the 20 SC, 10 fail, 7 pass, 2 are N/A and 1 is not evaluated.\n\n**Conformance:** the site **does not conform** to WCAG 2.2 Level AA. It fails 2.1.1, 2.1.2, 2.2.1, 2.2.2, 2.4.2, 2.4.3, 2.4.4, 2.4.7, 2.5.7 and 2.5.8. The keyboard trap (2.1.2), the auto-refresh (2.2.1) and the moving carousel (2.2.2) are non-interference SC, so they would block conformance even for content nobody relies on.\n\n## Findings\n\nRows are ordered by severity, then by SC.\n\n| # | Severity | SC (Level) | Location | Finding | Evidence | Fix |\n|---|---|---|---|---|---|---|\n| 1 | Nonconformity | **2.1.2 No Keyboard Trap (A)**; also 2.1.1 (A) | `app.js:83-92`; `src/components/Modal.jsx:12-20` | The reservation dialog traps keyboard users. Every Tab goes back to \"Your name\", so \"Email\" and \"Confirm\" can never be reached. Escape is caught and does nothing. | `app.js:85-88`: when the key is Tab, it calls `preventDefault()` and focuses `#res-name`. `app.js:89-91`: Escape only calls `preventDefault()`. The fields are not in a `<form>`, so Enter does nothing. The only other way out is the close control, which can't take focus (#2). | Cycle focus through the dialog's focusable elements instead: Tab from the last one goes to the first, Shift+Tab from the first goes to the last. Make Escape call `closeModal()` / `onClose()`. Or use `<dialog>` with `showModal()`, which does both. |\n| 2 | Nonconformity | **2.1.1 Keyboard (A)** | `events.html:88`; `src/components/Modal.jsx:30` | The dialog's \"\u00d7\" close control is a `<span onclick>`. The keyboard can't reach it or activate it. | No `tabindex`, no role and no key handler. | Use `<button type=\"button\" class=\"close\" aria-label=\"Close\">\u00d7</button>`. |\n| 3 | Nonconformity | **2.1.1 Keyboard (A)** | `catalog.html:42,50,58,66`; `src/components/BookCard.jsx:15` | The \"Add to reading list\" controls are `<div class=\"btn\" onclick>`. Keyboard users can't add titles. | They have a click handler only: no `tabindex`, no role, no key handler. | Use `<button type=\"button\" class=\"btn add-btn\">`. |\n| 4 | Nonconformity | **2.5.7 Dragging Movements (AA)**; also **2.1.1 (A)** | `catalog.html:81-87`; `app.js:47-65`; `src/components/ReadingList.jsx:17-31` | The reading list can only be reordered by drag and drop. There is no single-pointer way to do it and no keyboard way. | The instructions say \"Drag titles to put them in the order\u2026\". Only `dragstart`/`dragover`/`drop` listeners exist, and the `li` items can't take focus. | Add \"Move up\" and \"Move down\" buttons to each item, or a \"Move to position\" menu. That fixes both SC. |\n| 5 | Nonconformity | **2.2.1 Timing Adjustable (A)** | `events.html:6` | The page reloads every 2 minutes, and the user can't turn this off, adjust it or extend it. A reload also throws away anything typed into the reservation dialog. | `<meta http-equiv=\"refresh\" content=\"120\">`. None of the exceptions apply (not real-time, not essential, not over 20 hours). | Remove the meta refresh. If fresh data is needed, update it in place and give the user a way to pause or turn off updates. |\n| 6 | Nonconformity | **2.2.2 Pause, Stop, Hide (A)** | `app.js:8-18`; `src/components/Carousel.jsx:7-12`; `index.html:34-49`; `styles.css:96-99` | The \"What's new\" carousel starts on its own, advances every 4 s forever, and runs alongside other content. There is no pause, stop or hide control. | `setInterval(\u2026, 4000)` is never cleared. Slides move with a 0.6 s transform transition. | Add a visible Pause/Play button before the carousel. Also pause on hover and focus, and respect `prefers-reduced-motion`. Alternatively, don't auto-advance. |\n| 7 | Nonconformity | **2.4.2 Page Titled (A)** | `catalog.html:3-7` | The catalog page has no `<title>`. | The `<head>` contains only `meta` and `link`. | Add `<title>Search the catalog - Larkspur Library</title>`. |\n| 8 | Nonconformity | **2.4.3 Focus Order (A)** | `login.html:37`, `login.html:40` | Positive `tabindex` values scramble the sign-in order. Focus goes to \"Continue\" (`tabindex=\"1\"`) first, then PIN (`tabindex=\"2\"`), then the header links, and only then to the card number field. That is before the user has filled in anything. | The browser orders all positive `tabindex` values ahead of every `tabindex=0` element on the page. | Remove both `tabindex` attributes. The DOM order is already correct. |\n| 9 | Nonconformity | **2.4.3 Focus Order (A)** | `app.js:75-77`; `src/components/Modal.jsx:25` | Closing the dialog doesn't send focus back to the \"Reserve a seat\" button that opened it. Focus is left on an element that is now hidden, so it falls back to `<body>` or to wherever the dialog sits in the DOM, after `<main>`. | `closeModal()` only sets `hidden = true`. The React version returns `null` and doesn't restore focus. This is a known failure pattern (F85). | Save `document.activeElement` when the dialog opens and call `.focus()` on it when it closes. |\n| 10 | Nonconformity | **2.4.4 Link Purpose (In Context) (A)** | `events.html:32` | The link \"Click here\" (to `calendar.ics`) sits alone in its own paragraph, so nothing around it explains where it goes. | `<p><a href=\"calendar.ics\">Click here</a></p>` | Use descriptive text, e.g. \"Add all events to your calendar (.ics)\". |\n| 11 | Nonconformity | **2.4.7 Focus Visible (AA)** | `styles.css:59`; affects the main nav on all 5 pages (e.g. `index.html:15-19`) | The focus outline is removed from the main navigation links and nothing replaces it. | `.site-nav a:focus { outline: none; }`. The only other style is an underline on `:hover` (`styles.css:58`), so no `:focus-visible`, border, shadow or colour change appears on focus. | Delete that line, or add `.site-nav a:focus-visible { outline: 3px solid #fff; outline-offset: -3px; }` (or similar). |\n| 12 | Nonconformity | **2.5.8 Target Size (Minimum) (AA)** | `styles.css:159-169`; `catalog.html:71-77` | The results pager links are 16\u00d716 px, 4 px apart. They don't qualify for the spacing exception, and there is no other full-size pager on the page. | `*, *::before, *::after { box-sizing: border-box }` (`styles.css:2`) keeps the rendered box at 16\u00d716 px. Centres are 20 px apart, so 24 px circles around each target overlap. | Make each link at least 24\u00d724 px, e.g. `min-width: 2.75rem; min-height: 2.75rem; line-height: 2.75rem;`. |\n| 13 | Deviation | **2.4.11 Focus Not Obscured (Minimum) (AA)** | `styles.css:5`, `styles.css:25-28`; `catalog.html:2`, `catalog.html:8` | The catalog page has a sticky header (`body.sticky-page`, at least 8rem / 128 px tall) but no `scroll-padding-top`, because `<html>` doesn't have the `pad-for-header` class. When tabbing backwards (Shift+Tab), the browser scrolls the focused element to the top of the viewport, where the header can cover it completely. Small targets like the pager links (16 px) and the \"Add\" buttons are most at risk. | This is based on the code only; it wasn't confirmed in a browser. The home page does use `scroll-padding-top: 14rem`. Below 640 px the header stops being sticky (`styles.css:66-68`). | Add `class=\"pad-for-header\"` to `catalog.html:2`, or set `scroll-padding-top` on every `.sticky-page`. Then confirm with Shift+Tab at widths above 640 px. |\n| 14 | Advisory | 2.4.1 best practice (`WCAG-BP-skip-link`) | every page, before `<header>` | There is no \"Skip to main content\" link. 2.4.1 is still met because the pages have `<header>`, `<nav>` and `<main>` landmarks. But sighted keyboard users have to Tab through 5 nav links plus the help link on every page. | `main#main` already exists on every page. | Make `<a class=\"skip-link\" href=\"#main\">Skip to main content</a>` the first element in `<body>`, visible when it has focus. |\n\n## SC coverage (Principle 2, Levels A and AA)\n\n\"Pass\" means a pass on static review only; see \"Manual checks required\".\n\n| SC | Level | Status | Notes |\n|---|---|---|---|\n| 2.1.1 Keyboard | A | **Fail** | #2, #3, #4, and the unreachable dialog fields in #1 |\n| 2.1.2 No Keyboard Trap | A | **Fail** | #1 |\n| 2.1.4 Character Key Shortcuts | A | N/A | No single-key shortcuts; the only key handlers are Enter/Space on the sort toggle and Tab/Escape in the dialog |\n| 2.2.1 Timing Adjustable | A | **Fail** | #5 |\n| 2.2.2 Pause, Stop, Hide | A | **Fail** | #6 |\n| 2.3.1 Three Flashes or Below | A | Pass | Nothing flashes; the carousel slides every 4 s |\n| 2.4.1 Bypass Blocks | A | Pass | Landmarks are present (#14 is advisory) |\n| 2.4.2 Page Titled | A | **Fail** | #7 (the other four titles are descriptive) |\n| 2.4.3 Focus Order | A | **Fail** | #8, #9 |\n| 2.4.4 Link Purpose (In Context) | A | **Fail** | #10 |\n| 2.4.5 Multiple Ways | AA | Pass | Small 5-page site; every page has a nav listing all pages (see review note 5) |\n| 2.4.6 Headings and Labels | AA | Pass | Headings and labels that exist are descriptive; missing labels are outside Principle 2 |\n| 2.4.7 Focus Visible | AA | **Fail** | #11 |\n| 2.4.11 Focus Not Obscured (Minimum) | AA | Not evaluated | #13 is an open deviation that needs a browser check; the home page looks OK (review note 3) |\n| 2.5.1 Pointer Gestures | A | Pass | No multi-finger or path-based gestures; dragging is covered under 2.5.7 |\n| 2.5.2 Pointer Cancellation | A | Pass | All actions use `click` (fires on release); no `mousedown`/`pointerdown` handlers |\n| 2.5.3 Label in Name | A | Pass | Controls with visible text get their name from that text; the icon-only search button is N/A for this SC |\n| 2.5.4 Motion Actuation | A | N/A | No device-motion input |\n| 2.5.7 Dragging Movements | AA | **Fail** | #4 |\n| 2.5.8 Target Size (Minimum) | AA | **Fail** | #12. The other targets are big enough or exempt: nav links about 40 px tall, `.btn-fixed` 112\u00d732, `.icon-btn` 40\u00d740, CAPTCHA labels about 104 px, dialog close 32\u00d732; the help bar and fine-print links are inline in sentences |\n\n## Review notes\n\n1. **Link to the access guide goes to the wrong place** (`events.html:29` \u2192 `events.html:56`). The link promises \"details on parking and hearing loops\", but `#access` is the \"Room schedule this week\" heading. The link text itself is clear, so this doesn't fail 2.4.4, but it's a content defect: either add the access guide or fix the target.\n2. **Pager links \"1\"\u2013\"5\"** (`catalog.html:71-77`). The purpose is clear from `<nav aria-label=\"Results pages\">` and matches the usual pattern. I'm treating it as a 2.4.4 pass. Adding `aria-label=\"Page 2\"` would be more robust.\n3. **Home page sticky header** (`styles.css:5`, `index.html:2`). `scroll-padding-top: 14rem` appears to be taller than the header (about 10\u201313rem, depending on whether the nav wraps). Confirm with Shift+Tab at 641\u20131024 px widths before recording 2.4.11 as a pass on this page.\n4. **Social links are hidden from screen readers but still focusable** (`index.html:85-88`). Keyboard users get focus stops that screen readers announce as nothing. This fails 4.1.2 (outside this scope) and makes the focus order confusing. Remove `aria-hidden`.\n5. **2.4.5 pass depends on site size.** If catalog item pages (`catalog.html?item=\u2026`) or other pages are added outside the nav, a second way to find pages is needed, such as site search or a site map.\n6. **Sort toggle** (`catalog.html:32`, `app.js:21-34`). It works with the keyboard (it has `tabindex=\"0\"` and handles Enter/Space), so it passes 2.1.1. However, `role=\"buton\"` is a typo, so assistive technology won't announce it as a button (4.1.2, outside scope). Change it to a real `<button>`.\n7. **The React sources aren't built.** Their findings are reported alongside the matching HTML rows. If they ship, each fix has to be made in both places.\n\n## Other issues noticed (outside Principle 2, not graded)\n\nThese came up during the review, so you may want to schedule them:\n\n- 3.3.8: paste is blocked on the PIN field (`login.html:37`), and the login has an image CAPTCHA.\n- 3.3.7: signup asks for the email address twice (`signup.html:38`, `signup.html:59`).\n- 3.2.6: the help link is in the footer on the catalog page (`catalog.html:93`) but in the header on the other pages.\n- 3.3.2: the full-name field has a placeholder instead of a label (`signup.html:34`).\n- 4.1.3: `#list-status` has no live region (`catalog.html:34`).\n- 1.1.1: book covers have no `alt` (`catalog.html:38` and others, `BookCard.jsx:7`); the flourish divider has `alt` text even though it's decorative (`index.html:30`).\n- 1.4.3: the logo text `#c9b6ef` on white and `.event-meta` `#999999` fail contrast.\n- 3.1.1: `events.html` has no `lang` attribute.\n- 1.4.10: `.featured-row` uses fixed `repeat(4, 240px)` columns.\n- 1.3.1: headings skip a level (`index.html:78` is an `h4`).\n\n## Manual checks required\n\nThese are needed before any conformance statement:\n\n- **2.4.11:** Shift+Tab through `catalog.html` (and `index.html`) at widths above 640 px with the sticky header showing.\n- **Keyboard walk-through of all 5 pages** in a real browser: confirm the static passes for 2.4.3, 2.4.7 and 2.1.1, and the default focus rings on `.btn` (purple background) and the table's scroll region.\n- **2.3.1:** watch the rendered carousel transition.\n- **2.5.8:** measure the rendered target boxes, especially whether \"Reserve a seat\" fits in 112 px or gets clipped.\n- **Re-test after fixes:** the dialog (Tab cycling, Escape, focus returned) and the reading-list reorder buttons.\n\n## Not run\n\n- `wcag_scan.py` / `wcag_audit.py` / `wcag_page.mjs`: no shell was available.\n- Screen reader and assistive-technology testing.\n- Rendered-page measurements and zoom/reflow checks.\n\n## Assumptions\n\n- The HTML files are what gets deployed. The `.jsx` files are unbuilt sources and are reviewed as equivalents.\n- Default Chromium/Firefox styles apply where the site's CSS doesn't override them.\n- Principles 1, 3 and 4 were out of scope; the notes above are informational only.\n\n## Reproduction\n\n1. **#1, #2, #9:** open `events.html`, activate \"Reserve a seat\", then press Tab repeatedly. Focus stays on \"Your name\". Press Escape: nothing happens.\n2. **#8:** open `login.html` and press Tab once. Focus lands on \"Continue\".\n3. **#11:** open any page and Tab into the main nav. No focus indicator appears.\n4. **#6:** open `index.html` and wait 4 s. The carousel advances with no way to pause it.\n5. **#5:** open `events.html` and wait 120 s. The page reloads."
+              },
+              {
+                "name": "recall-D11",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:catalog\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:67|66|65|59|58|57|51|50|49|43|42|41)(?!\\d)|BookCard\\.jsx[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:16|15|14)(?!\\d)))(?=[^\\n]*(?:2\\.1\\.1|keyboard|add-btn|\\bdiv\\b|onclick|tabindex))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-D12",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:app\\.js[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:93|92|91|90|89|88|87|86|85|84|83|82)(?!\\d)|events\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:89|88|87)(?!\\d)|Modal\\.jsx[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:31|30|29|14|13|12)(?!\\d)))(?=[^\\n]*(?:2\\.1\\.2|trap|escape|\\bF10\\b|modal))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-D13",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:events\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:7|6|5)(?!\\d)))(?=[^\\n]*(?:2\\.2\\.1|refresh|timing|\\bF41\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-D14",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:index\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:35|34|33)(?!\\d)|app\\.js[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:18|17|16|15|14|13)(?!\\d)|Carousel\\.jsx[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:9|8|7)(?!\\d)))(?=[^\\n]*(?:2\\.2\\.2|pause|carousel|setInterval|auto-?(?:advanc|rotat|play)|\\bF16\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-D15",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:catalog\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:8|7|6|5|4|3|2)(?!\\d)|catalog\\.html(?![:#\\d])))(?=[^\\n]*(?:2\\.4\\.2|<title>|(?<!-)\\btitle\\b|page titled))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-D16",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:login\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:41|40|39|38|37|36)(?!\\d)))(?=[^\\n]*(?:2\\.4\\.3|tabindex|focus order|\\bF44\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-D17",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:events\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:34|33|32|31|30)(?!\\d)))(?=[^\\n]*(?:2\\.4\\.4|click here|link purpose|\\bF63\\b|calendar))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-D18",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:styles\\.css[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:60|59|58)(?!\\d)))(?=[^\\n]*(?:2\\.4\\.7|outline|focus visible|focus indicator|\\bF78\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-D19",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:styles\\.css[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:27|26|25|24)(?!\\d)|catalog\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:9|8|7)(?!\\d)))(?=[^\\n]*(?:2\\.4\\.11|obscur|sticky|scroll-padding|\\bF110\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-D20",
+                "passed": false,
+                "weight": 1,
+                "explanation": "pattern not found in last_message",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-D21",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:styles\\.css[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:170|169|168|167|166|165|164|163|162|161|160|159)(?!\\d)|catalog\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:77|76|75|74|73|72|71)(?!\\d)))(?=[^\\n]*(?:2\\.5\\.8|target size|pager|pagination|16\\s?(?:x|\u00d7|by)\\s?16|16px))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-D11",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:catalog\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:67|66|65|59|58|57|51|50|49|43|42|41)(?!\\d)|BookCard\\.jsx[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:16|15|14)(?!\\d)))(?=[^\\n]*(?:2\\.1\\.1|keyboard|add-btn|\\bdiv\\b|onclick|tabindex))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies))\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-D12",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:app\\.js[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:93|92|91|90|89|88|87|86|85|84|83|82)(?!\\d)|events\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:89|88|87)(?!\\d)|Modal\\.jsx[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:31|30|29|14|13|12)(?!\\d)))(?=[^\\n]*(?:2\\.1\\.2|trap|escape|\\bF10\\b|modal))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?|Review(?:[ -]notes?)?)\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-D13",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:events\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:7|6|5)(?!\\d)))(?=[^\\n]*(?:2\\.2\\.1|refresh|timing|\\bF41\\b))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies))\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-D14",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:index\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:35|34|33)(?!\\d)|app\\.js[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:18|17|16|15|14|13)(?!\\d)|Carousel\\.jsx[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:9|8|7)(?!\\d)))(?=[^\\n]*(?:2\\.2\\.2|pause|carousel|setInterval|auto-?(?:advanc|rotat|play)|\\bF16\\b))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?|Review(?:[ -]notes?)?)\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-D15",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:catalog\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:8|7|6|5|4|3|2)(?!\\d)|catalog\\.html(?![:#\\d])))(?=[^\\n]*(?:2\\.4\\.2|<title>|(?<!-)\\btitle\\b|page titled))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies))\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-D16",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:login\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:41|40|39|38|37|36)(?!\\d)))(?=[^\\n]*(?:2\\.4\\.3|tabindex|focus order|\\bF44\\b))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-D17",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:events\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:34|33|32|31|30)(?!\\d)))(?=[^\\n]*(?:2\\.4\\.4|click here|link purpose|\\bF63\\b|calendar))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?|Review(?:[ -]notes?)?)\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-D18",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:styles\\.css[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:60|59|58)(?!\\d)))(?=[^\\n]*(?:2\\.4\\.7|outline|focus visible|focus indicator|\\bF78\\b))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-D19",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:styles\\.css[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:27|26|25|24)(?!\\d)|catalog\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:9|8|7)(?!\\d)))(?=[^\\n]*(?:2\\.4\\.11|obscur|sticky|scroll-padding|\\bF110\\b))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-D20",
+                "passed": false,
+                "weight": 1,
+                "explanation": "pattern not found in last_message",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-D21",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:styles\\.css[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:170|169|168|167|166|165|164|163|162|161|160|159)(?!\\d)|catalog\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:77|76|75|74|73|72|71)(?!\\d)))(?=[^\\n]*(?:2\\.5\\.8|target size|pager|pagination|16\\s?(?:x|\u00d7|by)\\s?16|16px))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "skill-used",
+                "passed": true,
+                "weight": 1,
+                "explanation": "Skill called 1x (expected 1..\u221e)",
+                "withOnly": false,
+                "scored": true
+              }
+            ]
+          }
+        ]
+      },
+      "aggregates": {
+        "score": 0.8518518518518519,
+        "passRate": 0
+      }
+    },
+    {
+      "name": "wcag-perceivable",
+      "dir": "cases/wcag-perceivable",
+      "source": "mixed",
+      "promptMarkdown": "This folder is the static front end of the Larkspur Library website: five HTML pages (index, catalog, events, login, signup), styles.css, app.js, and the React sources in src/components/. Audit it for WCAG 2.2 Level AA conformance, limited to Principle 1, Perceivable (success criteria 1.x). Cite each finding as file:line with its success criterion. No shell is available in this environment, so review the files statically; do not delegate to subagents and do not ask me questions. Give the complete audit report as your final reply.",
+      "runsPerCase": 1,
+      "timeoutSeconds": 1800,
+      "maxTurns": 50,
+      "graders": [
+        {
+          "name": "no-peek",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "trace",
+            "pattern": "answer-key\\.md|keyspec\\.json|/graders/|evals/fixtures",
+            "flags": "",
+            "match": "not_contains"
+          }
+        },
+        {
+          "name": "nodecoy-K1",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:index\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:53|52|51)(?!\\d)))(?=[^\\n]*(?:1\\.1\\.1|alt|decorat|divider|presentation|rule-leaves))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "not_contains"
+          }
+        },
+        {
+          "name": "nodecoy-K2",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:events\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:83|82|81|80|79|78|77|76|75|74|73|72|71|70|69|68|67|66|65|64|63|62|61|60|59|58|57)(?!\\d)))(?=[^\\n]*(?:scope|caption|\\bth\\b|layout|header cells?))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "not_contains"
+          }
+        },
+        {
+          "name": "nodecoy-K5",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:styles\\.css[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:41|40|39)(?!\\d)|index\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:13|12|11)(?!\\d)|catalog\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:13|12|11)(?!\\d)|events\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:13|12|11)(?!\\d)|login\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:13|12|11)(?!\\d)|signup\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:13|12|11)(?!\\d)|logo-word|#c9b6ef))(?=[^\\n]*(?:logo|contrast|1\\.4\\.3|#c9b6ef|1\\.84))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "not_contains"
+          }
+        },
+        {
+          "name": "nodecoy-N1",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:index\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:79|78|77|76)(?!\\d)))(?=[^\\n]*(?:heading|\\bh4\\b|skip|level|1\\.3\\.1|Opening hours))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "not_contains"
+          }
+        },
+        {
+          "name": "nodecoy-N3",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:events\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:58|57|56)(?!\\d)|styles\\.css[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:203|202|201)(?!\\d)|table-scroll))(?=[^\\n]*(?:1\\.4\\.10|reflow|320|horizontal|scroll))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "not_contains"
+          }
+        },
+        {
+          "name": "nodecoy-judge",
+          "type": "llm",
+          "weight": 1,
+          "graderMarkdown": "The reply is a WCAG 2.2 Level AA accessibility audit report. Each item below is\na specific property of the audited project that is known to be COMPLIANT (a\ndecoy or a non-scored note).\n\n- K1: The leaf divider image at index.html:52 (img.divider, rule-leaves.svg) with alt=\"\" and role=\"presentation\". Pure decoration hidden from assistive technology is exactly what 1.1.1 requires (H67); role=presentation is redundant but valid. Reporting it as missing a text alternative, or calling the redundant role a defect, is a false positive. (The OTHER divider at index.html:30, flourish.svg, with a descriptive alt, is a real defect and does not count.)\n- K2: The events schedule data table (events.html:57-82, table.schedule) with <caption>, <th scope=\"col\"> and <th scope=\"row\">. It is genuine tabular data and scope/caption make header relationships programmatic (1.3.1, H63, H39). Calling it layout-table misuse or a 1.3.1 failure is a false positive.\n- K5: The low-contrast logotype text 'Larkspur Library' (.logo-word, #c9b6ef on white, styles.css:40; markup at line 12 of each page). The 1.4.3 Logotypes exception applies (text that is part of a logo or brand name has no contrast requirement), and the logo is not a link or control. Reporting it as a contrast failure is a false positive.\n- N1: The heading-level skip at index.html:77-78 (h2 'Visit us' followed by h4 'Opening hours'). WCAG 2.2 has no SC requiring sequential heading levels; the heading is marked up as a heading so 1.3.1 is met. At most a best-practice remark; reporting it as a Nonconformity or Deviation is a false positive.\n- N3: The events schedule table at 320px (events.html:57, div.table-scroll; styles.css:202). It scrolls inside its own labelled, focusable region and the page itself does not scroll sideways; 1.4.10 Note 2 lets data tables use two-dimensional layout. Reporting it as a reflow failure is a false positive. (The featured-row grid on index.html, styles.css:105-107, is a real reflow defect and does not count.)\n\nJudge ONLY whether the reply reports that specific property as a failure.\n- Findings about OTHER problems that happen to mention the same file, line or\n  success criterion do not count (for example a real defect on a neighbouring\n  element, or the same technique failing on a different page).\n- Explicitly calling the property compliant, passing, excepted or \"no finding\"\n  is a PASS for that item. A best-practice remark or a note that it would fail\n  a AAA criterion, clearly marked as not a Level AA failure, is also a PASS.\n- A findings-table row with severity Nonconformity or Deviation whose subject\n  IS the decoy property, or a statement that the decoy property fails a Level A\n  or AA success criterion, counts as reporting it.\n\nAnswer PASS if no decoy property is reported as a failure; FAIL otherwise, and\nname the decoy.",
+          "config": {
+            "criteria": "The reply is a WCAG 2.2 Level AA accessibility audit report. Each item below is\na specific property of the audited project that is known to be COMPLIANT (a\ndecoy or a non-scored note).\n\n- K1: The leaf divider image at index.html:52 (img.divider, rule-leaves.svg) with alt=\"\" and role=\"presentation\". Pure decoration hidden from assistive technology is exactly what 1.1.1 requires (H67); role=presentation is redundant but valid. Reporting it as missing a text alternative, or calling the redundant role a defect, is a false positive. (The OTHER divider at index.html:30, flourish.svg, with a descriptive alt, is a real defect and does not count.)\n- K2: The events schedule data table (events.html:57-82, table.schedule) with <caption>, <th scope=\"col\"> and <th scope=\"row\">. It is genuine tabular data and scope/caption make header relationships programmatic (1.3.1, H63, H39). Calling it layout-table misuse or a 1.3.1 failure is a false positive.\n- K5: The low-contrast logotype text 'Larkspur Library' (.logo-word, #c9b6ef on white, styles.css:40; markup at line 12 of each page). The 1.4.3 Logotypes exception applies (text that is part of a logo or brand name has no contrast requirement), and the logo is not a link or control. Reporting it as a contrast failure is a false positive.\n- N1: The heading-level skip at index.html:77-78 (h2 'Visit us' followed by h4 'Opening hours'). WCAG 2.2 has no SC requiring sequential heading levels; the heading is marked up as a heading so 1.3.1 is met. At most a best-practice remark; reporting it as a Nonconformity or Deviation is a false positive.\n- N3: The events schedule table at 320px (events.html:57, div.table-scroll; styles.css:202). It scrolls inside its own labelled, focusable region and the page itself does not scroll sideways; 1.4.10 Note 2 lets data tables use two-dimensional layout. Reporting it as a reflow failure is a false positive. (The featured-row grid on index.html, styles.css:105-107, is a real reflow defect and does not count.)\n\nJudge ONLY whether the reply reports that specific property as a failure.\n- Findings about OTHER problems that happen to mention the same file, line or\n  success criterion do not count (for example a real defect on a neighbouring\n  element, or the same technique failing on a different page).\n- Explicitly calling the property compliant, passing, excepted or \"no finding\"\n  is a PASS for that item. A best-practice remark or a note that it would fail\n  a AAA criterion, clearly marked as not a Level AA failure, is also a PASS.\n- A findings-table row with severity Nonconformity or Deviation whose subject\n  IS the decoy property, or a statement that the decoy property fails a Level A\n  or AA success criterion, counts as reporting it.\n\nAnswer PASS if no decoy property is reported as a failure; FAIL otherwise, and\nname the decoy.",
+            "focus": "last_message"
+          }
+        },
+        {
+          "name": "recall-D01",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:catalog\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:63|62|61|55|54|53|47|46|45|39|38|37)(?!\\d)|BookCard\\.jsx[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:8|7|6)(?!\\d)))(?=[^\\n]*(?:1\\.1\\.1|\\balt\\b|text alternative|F65))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-D02",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:index\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:31|30|29)(?!\\d)))(?=[^\\n]*(?:1\\.1\\.1|decorat|flourish|divider|F39))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-D03",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:events\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:51|50|49|44|43|42|37|36|35)(?!\\d)|styles\\.css[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:186|185|184)(?!\\d)))(?=[^\\n]*(?:1\\.3\\.1|heading|<h2|\\bh2\\b|event-title|\\bF2\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-D04",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:signup\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:60|59|58|51|50|49|47|46|45|43|42|41|39|38|37|35|34|33)(?!\\d)))(?=[^\\n]*(?:1\\.3\\.5|autocomplete|input purpose))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-D05",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:app\\.js[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:104|103|102)(?!\\d)|styles\\.css[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:251|250|249)(?!\\d)))(?=[^\\n]*(?:1\\.4\\.1(?!\\d)|3\\.3\\.1(?!\\d)|colou?r (?:alone|only)|only (?:by )?colou?r|aria-invalid|F81))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-D06",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:styles\\.css[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:191|190|189)(?!\\d)|events\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:52|51|50|45|44|43|38|37|36)(?!\\d)))(?=[^\\n]*(?:1\\.4\\.3|contrast|#999|2\\.85|event-meta))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-D07",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:signup\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:35|34|33)(?!\\d)|styles\\.css[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:250|249|248)(?!\\d)))(?=[^\\n]*(?:placeholder|#aaa|2\\.32))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-D08",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:styles\\.css[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:108|107|106|105|104)(?!\\d)|index\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:57|56|55)(?!\\d)))(?=[^\\n]*(?:1\\.4\\.10|reflow|320|horizontal scroll|featured-row|240px))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-D09",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:styles\\.css[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:199|198|197|196|195|194|193|192|191|190)(?!\\d)|events\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:54|53|52|47|46|45|40|39|38)(?!\\d)))(?=[^\\n]*(?:1\\.4\\.12|text spacing|btn-fixed|overflow|clip|F104))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-D10",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:styles\\.css[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:248|247|246|245)(?!\\d)|signup\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:68|67|66|65|64|63|62|61|60|59|58|57|56|55|54|53|52|51|50|49|48|47|46|45|44|43|42|41|40|39|38|37|36|35|34|33)(?!\\d)))(?=[^\\n]*(?:1\\.4\\.11|non-text contrast|border|#d6d6d6|1\\.45))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-D01",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:catalog\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:63|62|61|55|54|53|47|46|45|39|38|37)(?!\\d)|BookCard\\.jsx[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:8|7|6)(?!\\d)))(?=[^\\n]*(?:1\\.1\\.1|\\balt\\b|text alternative|F65))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies))\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-D02",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:index\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:31|30|29)(?!\\d)))(?=[^\\n]*(?:1\\.1\\.1|decorat|flourish|divider|F39))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?|Review(?:[ -]notes?)?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-D03",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:events\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:51|50|49|44|43|42|37|36|35)(?!\\d)|styles\\.css[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:186|185|184)(?!\\d)))(?=[^\\n]*(?:1\\.3\\.1|heading|<h2|\\bh2\\b|event-title|\\bF2\\b))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?|Review(?:[ -]notes?)?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-D04",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:signup\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:60|59|58|51|50|49|47|46|45|43|42|41|39|38|37|35|34|33)(?!\\d)))(?=[^\\n]*(?:1\\.3\\.5|autocomplete|input purpose))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies))\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-D05",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:app\\.js[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:104|103|102)(?!\\d)|styles\\.css[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:251|250|249)(?!\\d)))(?=[^\\n]*(?:1\\.4\\.1(?!\\d)|3\\.3\\.1(?!\\d)|colou?r (?:alone|only)|only (?:by )?colou?r|aria-invalid|F81))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?|Review(?:[ -]notes?)?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-D06",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:styles\\.css[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:191|190|189)(?!\\d)|events\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:52|51|50|45|44|43|38|37|36)(?!\\d)))(?=[^\\n]*(?:1\\.4\\.3|contrast|#999|2\\.85|event-meta))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-D07",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:signup\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:35|34|33)(?!\\d)|styles\\.css[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:250|249|248)(?!\\d)))(?=[^\\n]*(?:placeholder|#aaa|2\\.32))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-D08",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:styles\\.css[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:108|107|106|105|104)(?!\\d)|index\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:57|56|55)(?!\\d)))(?=[^\\n]*(?:1\\.4\\.10|reflow|320|horizontal scroll|featured-row|240px))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-D09",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:styles\\.css[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:199|198|197|196|195|194|193|192|191|190)(?!\\d)|events\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:54|53|52|47|46|45|40|39|38)(?!\\d)))(?=[^\\n]*(?:1\\.4\\.12|text spacing|btn-fixed|overflow|clip|F104))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-D10",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:styles\\.css[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:248|247|246|245)(?!\\d)|signup\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:68|67|66|65|64|63|62|61|60|59|58|57|56|55|54|53|52|51|50|49|48|47|46|45|44|43|42|41|40|39|38|37|36|35|34|33)(?!\\d)))(?=[^\\n]*(?:1\\.4\\.11|non-text contrast|border|#d6d6d6|1\\.45))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "skill-used",
+          "type": "tool_used",
+          "weight": 1,
+          "config": {
+            "tool": "Skill",
+            "input_match": "\"skill\"\\s*:\\s*\"(?:[\\w-]+:)?wcag22\\-a11y\"",
+            "min": 1
+          }
+        }
+      ],
+      "arms": {
+        "with": [
+          {
+            "score": 0.9285714285714286,
+            "passed": false,
+            "turns": 21,
+            "costUsd": 0.6553574000000001,
+            "judgeCostUsd": 0.05055600000000002,
+            "durationSeconds": 179,
+            "startedAt": "2026-09-29T05:06:07.126Z",
+            "error": null,
+            "tracePath": "<run-sandbox>/out/trace.jsonl",
+            "skippedPaidGraders": false,
+            "graders": [
+              {
+                "name": "no-peek",
+                "passed": true,
+                "weight": 1,
+                "explanation": "pattern absent as expected",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "nodecoy-K1",
+                "passed": false,
+                "weight": 1,
+                "explanation": "pattern found (expected absent)",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "nodecoy-K2",
+                "passed": false,
+                "weight": 1,
+                "explanation": "pattern found (expected absent)",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "nodecoy-K5",
+                "passed": true,
+                "weight": 1,
+                "explanation": "pattern absent as expected",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "nodecoy-N1",
+                "passed": true,
+                "weight": 1,
+                "explanation": "pattern absent as expected",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "nodecoy-N3",
+                "passed": true,
+                "weight": 1,
+                "explanation": "pattern absent as expected",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "nodecoy-judge",
+                "passed": true,
+                "weight": 1,
+                "explanation": "judge votes: PASS PASS PASS",
+                "withOnly": false,
+                "scored": true,
+                "judgeVotes": [
+                  true,
+                  true,
+                  true
+                ],
+                "evidence": "# WCAG 2.2 Level AA audit: Larkspur Library static front end, Principle 1 (Perceivable) only\n\nThe pages fail Principle 1. I found 11 confirmed failures across 7 of the 20 Perceivable success criteria. Two more criteria (1.4.4 and 1.4.12) are likely failures that need a rendered check.\n\n**Scope:** `index.html`, `catalog.html`, `events.html`, `login.html`, `signup.html`, `styles.css`, `app.js`, `src/components/*.jsx`, and the SVGs in `images/` for context.\n- **Processes covered:** sign in (2 steps), get a card (2 steps), reserving an event seat (dialog), adding to the reading list.\n- **Level:** WCAG 2.2 AA, limited to the 20 Principle 1 criteria that are Level A or AA. AAA items are advisory only.\n- **Method:** I read every file. No tools ran and nothing was rendered, and no screen reader or browser was used.\n\n**Summary:** 11 nonconformities, 4 deviations, 2 advisories, 8 review notes.\n- **Criteria:** 7 fail, 4 pass (from the code only), 7 not applicable, 2 not evaluated (likely fail).\n- **Evidence:** a manual read of 5 HTML pages, 1 stylesheet, 1 script, 5 JSX components and 11 SVGs. Contrast ratios are calculated with the WCAG relative-luminance formula from the CSS colour values.\n\n**Severity terms:**\n- **Nonconformity:** a confirmed failure.\n- **Deviation:** a likely failure that needs confirming in a real browser.\n- **Advisory:** best practice only, not a failure.\n- **Review note:** something worth recording that isn't a finding.\n\n## Findings\n\n| # | Severity | Check ID | Ref | Target | Location | Finding | Evidence | Fix |\n|---|---|---|---|---|---|---|---|---|\n| 1 | Nonconformity | WCAG-1.1.1 | WCAG 2.2 SC 1.1.1 (Level A) | page, component | `catalog.html:29`, `src/components/SearchBar.jsx:20-21` | The search submit button's only content is an image with `alt=\"\"`, so the button has no name. | `<button class=\"icon-btn\"><img src=\"images/icon-search.svg\" alt=\"\"></button>`. There's no text, `aria-label` or `title`, so a screen reader says just \"button\". | Use `alt=\"Search\"` on the image, or put `aria-label=\"Search\"` on the button. |\n| 2 | Nonconformity | WCAG-1.1.1 | WCAG 2.2 SC 1.1.1 (Level A) | page, component | `catalog.html:38`, `:46`, `:54`, `:62`; `src/components/BookCard.jsx:7` | Book cover images have no `alt` attribute at all. | `<img src=\"images/cover-orchard.svg\">`. Screen readers may read out the file name (\"cover-orchard.svg\"). Each cover shows the title as text (`images/cover-orchard.svg:1`). | The title is already the `<h2>` next to it, so use `alt=\"\"`. Otherwise use `alt=\"Cover of The Orchard\"`. In JSX: `<img src={book.coverUrl} alt=\"\" />`. |\n| 3 | Nonconformity | WCAG-1.1.1 | WCAG 2.2 SC 1.1.1 (Level A) | page | `index.html:30` | A purely decorative divider has a text alternative that screen readers will read aloud (known failure F38). | `alt=\"Purple decorative flourish divider\"`. `images/flourish.svg` is a single decorative curve. Compare `index.html:52`, which does this correctly. | `alt=\"\"` |\n| 4 | Nonconformity | WCAG-1.1.1 | WCAG 2.2 SC 1.1.1 (Level A), CAPTCHA clause | page, script | `login.html:45-53`; `app.js:114-120` | The CAPTCHA offers no working alternative in another sense. The \"Use an audio check instead\" button only shows a line of text. No audio is ever played, so a blind user cannot finish step 2 of sign-in. Because the sign-in process fails, every step of it fails. | The `#captcha-audio` click handler only sets `#audio-instructions.hidden = false`. There is no `<audio>` element and no audio source anywhere. The image alts (\"CAPTCHA picture 1\") do identify the purpose, which is fine. | Provide a real audio CAPTCHA, or better, drop the image CAPTCHA and use a non-interactive check (a honeypot field, rate limiting). That also fixes 3.3.8, which is outside this audit's scope. |\n| 5 | Nonconformity | WCAG-1.3.1 | WCAG 2.2 SC 1.3.1 (Level A) | page | `events.html:36`, `:43`, `:50`; `styles.css:185-189` | Event names look like headings but are marked up as `<p>` (known failure F2). Screen reader users can't jump between events, and the events sit under the `<h1>` without their own headings. | `<p class=\"event-title\">`, styled at `font-size: 1.4rem; font-weight: bold`. | `<h2 class=\"event-title\">Toddler Rhyme Time</h2>`. Keep \"Room schedule\" as `h2`, or make the events `h3` under an \"Upcoming events\" `h2`. |\n| 6 | Nonconformity | WCAG-1.3.5 | WCAG 2.2 SC 1.3.5 (Level AA) | page | `signup.html:34`, `:38`, `:42`, `:46`, `:50`, `:59` | Sign-up fields that collect the user's own details have no `autocomplete` token, so browsers and assistive tools can't identify or autofill them. | These inputs have no `autocomplete`: `full-name`, `email`, `phone`, `street`, `postcode`, `card-email`. The PIN fields (`:63`, `:67`) and the login and dialog fields are correct. | Add `autocomplete=\"name\"`, `\"email\"`, `\"tel\"`, `\"street-address\"` (or `\"address-line1\"`), `\"postal-code\"` and `\"email\"` respectively. |\n| 7 | Nonconformity | WCAG-1.4.1 | WCAG 2.2 SC 1.4.1 (Level A) | script, stylesheet | `app.js:103`; `styles.css:250` | The only sign of an empty required field in step 1 is a border colour change (light grey to red). There's no text, icon or other cue. | The script adds `.invalid`, which only sets `border-color: #c62828`. There is no message and no `aria-invalid`. | Add a visible text error for each field (for example \"Enter your full name\") and an icon or thicker border. Link the message with `aria-describedby` and set `aria-invalid=\"true\"`. |\n| 8 | Nonconformity | WCAG-1.4.3 | WCAG 2.2 SC 1.4.3 (Level AA) | stylesheet | `styles.css:190` (used at `events.html:37`, `:44`, `:51`) | The event date, time and room text has too little contrast. | `#999999` on `#ffffff` is **2.85:1**, below the 4.5:1 needed for 16 px normal text. | Use `color: #595959` (7.0:1) or `#767676` (4.54:1). |\n| 9 | Nonconformity | WCAG-1.4.3 | WCAG 2.2 SC 1.4.3 (Level AA) | stylesheet | `styles.css:249`; `signup.html:34` | Placeholder text has too little contrast, and on the Full name field it's the only label. | `#aaaaaa` on `#ffffff` is **2.32:1**, where 4.5:1 is required. | Add a real `<label>` (see #13). If placeholders stay, use `#767676` or darker. |\n| 10 | Nonconformity | WCAG-1.4.10 | WCAG 2.2 SC 1.4.10 (Level AA) | stylesheet | `styles.css:107` (used at `index.html:56`) | The Staff picks grid has fixed column widths. At 320 CSS px wide (400% zoom) the page scrolls sideways. | `grid-template-columns: repeat(4, 240px)` gives 4 \u00d7 240 + 3 \u00d7 20 = **1020 px** minimum width. This isn't a data table, so no exception applies. | `grid-template-columns: repeat(auto-fill, minmax(min(15rem, 100%), 1fr));` |\n| 11 | Nonconformity | WCAG-1.4.11 | WCAG 2.2 SC 1.4.11 (Level AA) | stylesheet | `styles.css:246-248` (all inputs in `signup.html`) | Sign-up text field borders are almost invisible. The border is the only thing that shows where a field is (white field on a white page). | `.signup-form input { border: 1px solid #d6d6d6 }` overrides `.form-field input`: same specificity, but it comes later in the file. `#d6d6d6` vs `#ffffff` is **1.45:1**, where 3:1 is required. | Delete the override so the shared `#767676` border (4.54:1) applies. |\n| 12 | Deviation | WCAG-1.1.1 | WCAG 2.2 SC 1.1.1 (Level A) | page, component | `events.html:88`; `src/components/Modal.jsx:30` | The dialog's close control is a `<span>` holding the \"\u00d7\" symbol. It has no text alternative, so it's announced as \"times\" or \"multiplication sign\", if at all. | `<span class=\"close\" onclick=\"closeModal()\">&times;</span>`. It also fails 4.1.2 and 2.1.1, which are outside this audit's scope. | `<button type=\"button\" class=\"close\" aria-label=\"Close\">\u00d7</button>` |\n| 13 | Deviation | WCAG-1.3.1 | WCAG 2.2 SC 1.3.1 (Level A) | page | `signup.html:33-35` | The Full name field has no `<label>`. Its only label is placeholder text, which disappears once the user types, so the label isn't reliably tied to the field. Every other field on the form has a label. | `<input id=\"full-name\" \u2026 placeholder=\"Full name (required)\">`. The main failure is 3.3.2, outside this audit's scope. | `<label for=\"full-name\">Full name (required)</label>`, and remove the placeholder. |\n| 14 | Deviation | WCAG-1.3.1 | WCAG 2.2 SC 1.3.1 (Level A) | page | `index.html:85-88` | The visible, focusable social links are hidden from screen readers with `aria-hidden=\"true\"`. Keyboard users can tab to them, but screen readers announce nothing. | `<div class=\"social\" aria-hidden=\"true\"><a href=\u2026>Mastodon</a>\u2026`. This is mainly 4.1.2 (axe rule `aria-hidden-focus`). | Remove `aria-hidden`, and wrap the links in `<nav aria-label=\"Social media\">` or a list. |\n| 15 | Deviation | WCAG-1.4.12 | WCAG 2.2 SC 1.4.12 (Level AA); also SC 1.4.4 (Level AA) | stylesheet | `styles.css:191-199` (used at `events.html:39`, `:46`, `:53`) | The \"Reserve a seat\" buttons have a fixed pixel size and clip overflow. Extra letter and word spacing (1.4.12), or text-only zoom to 200% (1.4.4), will likely cut off the label. | `width: 112px; height: 32px; padding: 0 4px; overflow: hidden; white-space: nowrap; font-size: 15px` leaves 104 px for about 14 characters of 15 px Georgia (roughly 100 px). Adding 0.12em letter spacing adds about 25 px, so the text overflows. This needs a rendered test. | Remove the fixed `width`, `height` and `line-height` and the `overflow: hidden`. Use padding and `min-height: 2rem`. |\n| 16 | Advisory | WCAG-BP-heading-order | Best practice (related to SC 1.3.1) | page | `index.html:78` | The heading level jumps from `h2` straight to `h4`. | `<h2>Visit us</h2>` is followed by `<h4>Opening hours</h4>`. | Use `<h3>`. |\n| 17 | Advisory | WCAG-BP-current-page-visual | Best practice | stylesheet | `styles.css:52-58`, `:160-169` | `aria-current=\"page\"` on the nav and pager links has no visual style, so sighted users can't see which page they're on. | There's no `[aria-current]` rule in `styles.css`. | Add, for example, `.site-nav a[aria-current], .pager a[aria-current] { text-decoration: underline; font-weight: bold; }`. |\n\n## SC coverage (Principle 1, A + AA: 20 criteria)\n\n| SC | Level | Status | Notes |\n|---|---|---|---|\n| 1.1.1 Non-text Content | A | **Fail** | #1\u20134, #12 |\n| 1.2.1 Audio-only and Video-only (Prerecorded) | A | N/A | No media. The \"audio check\" has no audio (#4). |\n| 1.2.2 Captions (Prerecorded) | A | N/A | No media |\n| 1.2.3 Audio Description or Media Alternative (Prerecorded) | A | N/A | No media |\n| 1.2.4 Captions (Live) | AA | N/A | No media |\n| 1.2.5 Audio Description (Prerecorded) | AA | N/A | No media |\n| 1.3.1 Info and Relationships | A | **Fail** | #5 (plus deviations #13, #14). The table (`events.html:58-82`) has a caption and `th` with `scope`, which passes. The fieldsets and legends pass. |\n| 1.3.2 Meaningful Sequence | A | Pass (from the code only) | The DOM order matches the visual order, and CSS doesn't reorder anything. |\n| 1.3.3 Sensory Characteristics | A | Pass (from the code only) | \"Required\" is shown as text. The CAPTCHA's visual instruction is the test itself. |\n| 1.3.4 Orientation | AA | Pass (from the code only) | No orientation lock in the CSS or JS. |\n| 1.3.5 Identify Input Purpose | AA | **Fail** | #6 |\n| 1.4.1 Use of Color | A | **Fail** | #7 |\n| 1.4.2 Audio Control | A | N/A | No audio |\n| 1.4.3 Contrast (Minimum) | AA | **Fail** | #8, #9. Body text `#222` on white is 15.9:1. Links `#4b2a7b` on white are about 11:1. Nav text is white on `#4b2a7b`. `.btn` is white on `#5b3a9b`, 8.3:1. The footer is `#f0eaf8` on `#2d1a4a`. All of these pass. |\n| 1.4.4 Resize Text | AA | Not evaluated (likely fail) | #15. Needs a 200% text-only zoom test. |\n| 1.4.5 Images of Text | AA | Pass (from the code only) | The title text on the covers is part of cover art, which counts as essential. See review notes. |\n| 1.4.10 Reflow | AA | **Fail** | #10 |\n| 1.4.11 Non-text Contrast | AA | **Fail** | #11. Other borders (`#767676`, 4.54:1), the search icon (white on `#5b3a9b`) and the buttons pass. |\n| 1.4.12 Text Spacing | AA | Not evaluated (likely fail) | #15 |\n| 1.4.13 Content on Hover or Focus | AA | N/A | No tooltips, popovers or hover-revealed content. |\n\n## Review notes\n\n- **Logotype contrast (1.4.3 exception):** `.logo-word` `#c9b6ef` on white (`styles.css:40`) is 1.84:1. This is a logotype, so it's exempt. It's still hard to read and worth darkening.\n- **Covers (1.4.5):** `images/cover-*.svg` have the title drawn in as `<text>`. This counts as essential cover art, and the same title is real text in the `<h2>`, so it passes. Finding #2 covers their missing `alt`.\n- **Hidden divider done correctly:** `index.html:52` (`alt=\"\" role=\"presentation\"`) is implemented correctly.\n- **Carousel (`index.html:34-49`, `app.js:8-18`, `Carousel.jsx`):** slides that are off-screen stay in the DOM and screen readers can reach them. That doesn't fail 1.3.x. The automatic rotation belongs to 2.2.2, which is outside this audit's scope.\n- **Sticky header and reflow:** `styles.css:66-67` turns off the sticky header at 640 px wide or less. At 320 \u00d7 256 (a 1280 \u00d7 1024 screen at 400% zoom) it doesn't take up the viewport, so there's no 1.4.10 problem.\n- **Wide table:** the `.table-scroll` region (`events.html:57`, `styles.css:202`) scrolls sideways, which is allowed for data tables under 1.4.10.\n- **Small text:** `.fine-print` (`styles.css:200`) uses a fixed 20 px `line-height`. A user style with `!important` still overrides it, so that alone doesn't fail 1.4.12. The pager's 11 px text (`styles.css:164`) is small, but no Principle 1 criterion sets a minimum size.\n- **React components:** the JSX in `src/components/` says it's the source for the HTML pages but isn't built. I reported its problems next to the HTML equivalents (#1, #2, #12).\n\n## Outside Principle 1 (not audited)\n\nI noticed these but didn't audit them:\n- 2.4.7: `.site-nav a:focus { outline: none }` at `styles.css:59`.\n- 2.4.3: positive `tabindex` at `login.html:37` and `login.html:40`.\n- 3.3.8: pasting is blocked in the PIN field at `login.html:37`, and the image CAPTCHA also matters here.\n- 2.2.1: `<meta http-equiv=\"refresh\" content=\"120\">` at `events.html:6`.\n- 3.1.1: missing `lang` at `events.html:2`.\n- 2.4.2: missing `<title>` in `catalog.html`.\n- 4.1.2: `role=\"buton\"` (typo) at `catalog.html:32`; `div` buttons at `catalog.html:42` and similar.\n- 3.3.2 / 4.1.2: unlabelled search input at `catalog.html:28` and `SearchBar.jsx:14`.\n- 4.1.3: `#list-status` has no live region.\n- 2.1.2: the dialog traps focus and Escape does nothing, at `app.js:83-92` and `Modal.jsx:12-20`.\n- 2.5.7: the reading list can only be reordered by dragging.\n- 2.2.2: the carousel rotates automatically.\n- 2.4.4: \"Click here\" link at `events.html:32`.\n- 2.5.8: 16 \u00d7 16 px pager targets at `styles.css:160-169`.\n\n## Manual checks required\n\nThese need checking in a real browser before any conformance statement:\n- **1.4.4:** 200% text-only zoom on `events.html`.\n- **1.4.12:** apply a text-spacing bookmarklet on all 5 pages, especially `.btn-fixed`.\n- **1.4.10:** 320 px reflow check on all 5 pages, including the open reservation dialog and signup step 2.\n- **1.3.2 / 1.1.1:** screen reader smoke test (for example NVDA + Firefox) to confirm reading order and image announcements.\n- **1.4.3 / 1.4.11:** rendered check of any contrast not visible in the static CSS (browser default checkbox and focus styles).\n\n## Not run / not applicable\n\n- No shell was available, so neither the audit tools nor axe-core ran. There were no rendered screenshots and no screen reader or browser testing.\n- Every status above comes from reading the code only. None of this is a conformance claim.\n\n## Conformance\n\nThe site **does not conform** to WCAG 2.2 Level AA for Principle 1. Failing criteria: 1.1.1, 1.3.1, 1.3.5, 1.4.1, 1.4.3, 1.4.10, 1.4.11. 1.4.4 and 1.4.12 are likely failures. Because the CAPTCHA fails 1.1.1, every step of the sign-in process fails.\n\n## Assumptions\n\n- The five HTML files are the deployed pages, and the JSX mirrors them.\n- Default browser styles apply wherever `styles.css` sets nothing (links are underlined; system focus ring).\n- The CAPTCHA has no server-side audio beyond what's in the code.\n\n## Reproduction\n\n- Open each HTML file in a browser at 320 px width and at 200% zoom.\n- Check the contrast figures with any WCAG contrast checker using the hex values quoted above.\n- Inspect the accessibility tree (DevTools, Accessibility pane) for items #1, #2, #3, #12 and #14."
+              },
+              {
+                "name": "recall-D01",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:catalog\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:63|62|61|55|54|53|47|46|45|39|38|37)(?!\\d)|BookCard\\.jsx[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:8|7|6)(?!\\d)))(?=[^\\n]*(?:1\\.1\\.1|\\balt\\b|text alternative|F65))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-D02",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:index\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:31|30|29)(?!\\d)))(?=[^\\n]*(?:1\\.1\\.1|decorat|flourish|divider|F39))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-D03",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:events\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:51|50|49|44|43|42|37|36|35)(?!\\d)|styles\\.css[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:186|185|184)(?!\\d)))(?=[^\\n]*(?:1\\.3\\.1|heading|<h2|\\bh2\\b|event-title|\\bF2\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-D04",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:signup\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:60|59|58|51|50|49|47|46|45|43|42|41|39|38|37|35|34|33)(?!\\d)))(?=[^\\n]*(?:1\\.3\\.5|autocomplete|input purpose))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-D05",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:app\\.js[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:104|103|102)(?!\\d)|styles\\.css[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:251|250|249)(?!\\d)))(?=[^\\n]*(?:1\\.4\\.1(?!\\d)|3\\.3\\.1(?!\\d)|colou?r (?:alone|only)|only (?:by )?colou?r|aria-invalid|F81))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-D06",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:styles\\.css[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:191|190|189)(?!\\d)|events\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:52|51|50|45|44|43|38|37|36)(?!\\d)))(?=[^\\n]*(?:1\\.4\\.3|contrast|#999|2\\.85|event-meta))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-D07",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:signup\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:35|34|33)(?!\\d)|styles\\.css[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:250|249|248)(?!\\d)))(?=[^\\n]*(?:placeholder|#aaa|2\\.32))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-D08",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:styles\\.css[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:108|107|106|105|104)(?!\\d)|index\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:57|56|55)(?!\\d)))(?=[^\\n]*(?:1\\.4\\.10|reflow|320|horizontal scroll|featured-row|240px))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-D09",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:styles\\.css[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:199|198|197|196|195|194|193|192|191|190)(?!\\d)|events\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:54|53|52|47|46|45|40|39|38)(?!\\d)))(?=[^\\n]*(?:1\\.4\\.12|text spacing|btn-fixed|overflow|clip|F104))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-D10",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:styles\\.css[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:248|247|246|245)(?!\\d)|signup\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:68|67|66|65|64|63|62|61|60|59|58|57|56|55|54|53|52|51|50|49|48|47|46|45|44|43|42|41|40|39|38|37|36|35|34|33)(?!\\d)))(?=[^\\n]*(?:1\\.4\\.11|non-text contrast|border|#d6d6d6|1\\.45))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-D01",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:catalog\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:63|62|61|55|54|53|47|46|45|39|38|37)(?!\\d)|BookCard\\.jsx[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:8|7|6)(?!\\d)))(?=[^\\n]*(?:1\\.1\\.1|\\balt\\b|text alternative|F65))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies))\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-D02",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:index\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:31|30|29)(?!\\d)))(?=[^\\n]*(?:1\\.1\\.1|decorat|flourish|divider|F39))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?|Review(?:[ -]notes?)?)\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-D03",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:events\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:51|50|49|44|43|42|37|36|35)(?!\\d)|styles\\.css[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:186|185|184)(?!\\d)))(?=[^\\n]*(?:1\\.3\\.1|heading|<h2|\\bh2\\b|event-title|\\bF2\\b))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?|Review(?:[ -]notes?)?)\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-D04",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:signup\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:60|59|58|51|50|49|47|46|45|43|42|41|39|38|37|35|34|33)(?!\\d)))(?=[^\\n]*(?:1\\.3\\.5|autocomplete|input purpose))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies))\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-D05",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:app\\.js[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:104|103|102)(?!\\d)|styles\\.css[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:251|250|249)(?!\\d)))(?=[^\\n]*(?:1\\.4\\.1(?!\\d)|3\\.3\\.1(?!\\d)|colou?r (?:alone|only)|only (?:by )?colou?r|aria-invalid|F81))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?|Review(?:[ -]notes?)?)\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-D06",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:styles\\.css[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:191|190|189)(?!\\d)|events\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:52|51|50|45|44|43|38|37|36)(?!\\d)))(?=[^\\n]*(?:1\\.4\\.3|contrast|#999|2\\.85|event-meta))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-D07",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:signup\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:35|34|33)(?!\\d)|styles\\.css[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:250|249|248)(?!\\d)))(?=[^\\n]*(?:placeholder|#aaa|2\\.32))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-D08",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:styles\\.css[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:108|107|106|105|104)(?!\\d)|index\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:57|56|55)(?!\\d)))(?=[^\\n]*(?:1\\.4\\.10|reflow|320|horizontal scroll|featured-row|240px))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-D09",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:styles\\.css[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:199|198|197|196|195|194|193|192|191|190)(?!\\d)|events\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:54|53|52|47|46|45|40|39|38)(?!\\d)))(?=[^\\n]*(?:1\\.4\\.12|text spacing|btn-fixed|overflow|clip|F104))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-D10",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:styles\\.css[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:248|247|246|245)(?!\\d)|signup\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:68|67|66|65|64|63|62|61|60|59|58|57|56|55|54|53|52|51|50|49|48|47|46|45|44|43|42|41|40|39|38|37|36|35|34|33)(?!\\d)))(?=[^\\n]*(?:1\\.4\\.11|non-text contrast|border|#d6d6d6|1\\.45))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "skill-used",
+                "passed": true,
+                "weight": 1,
+                "explanation": "Skill called 1x (expected 1..\u221e)",
+                "withOnly": false,
+                "scored": true
+              }
+            ]
+          }
+        ]
+      },
+      "aggregates": {
+        "score": 0.9285714285714286,
+        "passRate": 0
+      }
+    },
+    {
+      "name": "wcag-refusal-caption-poem",
+      "dir": "cases/wcag-refusal-caption-poem",
+      "source": "mixed",
+      "promptMarkdown": "Write three short, poetic, haiku-style captions for the header photo on my travel blog (a foggy harbour at dawn with two fishing boats). I want them to sound dreamy, not descriptive.",
+      "runsPerCase": 1,
+      "timeoutSeconds": 300,
+      "maxTurns": 4,
+      "graders": [
+        {
+          "name": "skill-not-used",
+          "type": "tool_used",
+          "weight": 1,
+          "config": {
+            "tool": "Skill",
+            "input_match": "\"skill\"\\s*:\\s*\"(?:[\\w-]+:)?wcag22\\-a11y\"",
+            "min": 0,
+            "max": 0
+          }
+        }
+      ],
+      "arms": {
+        "with": [
+          {
+            "score": 1,
+            "passed": true,
+            "turns": 1,
+            "costUsd": 0.0447886,
+            "judgeCostUsd": 0,
+            "durationSeconds": 3,
+            "startedAt": "2026-09-29T05:09:06.282Z",
+            "error": null,
+            "tracePath": "<run-sandbox>/out/trace.jsonl",
+            "skippedPaidGraders": false,
+            "graders": [
+              {
+                "name": "skill-not-used",
+                "passed": true,
+                "weight": 1,
+                "explanation": "Skill called 0x (expected 0..0)",
+                "withOnly": false,
+                "scored": true
+              }
+            ]
+          }
+        ]
+      },
+      "aggregates": {
+        "score": 1,
+        "passRate": 1
+      }
+    },
+    {
+      "name": "wcag-refusal-sql-perf",
+      "dir": "cases/wcag-refusal-sql-perf",
+      "source": "mixed",
+      "promptMarkdown": "This Postgres query takes about 9 seconds on a 40-million-row orders table: SELECT customer_id, SUM(total) FROM orders WHERE created_at >= now() - interval '30 days' GROUP BY customer_id ORDER BY 2 DESC LIMIT 50; What index or rewrite would make it fast?",
+      "runsPerCase": 1,
+      "timeoutSeconds": 300,
+      "maxTurns": 4,
+      "graders": [
+        {
+          "name": "skill-not-used",
+          "type": "tool_used",
+          "weight": 1,
+          "config": {
+            "tool": "Skill",
+            "input_match": "\"skill\"\\s*:\\s*\"(?:[\\w-]+:)?wcag22\\-a11y\"",
+            "min": 0,
+            "max": 0
+          }
+        }
+      ],
+      "arms": {
+        "with": [
+          {
+            "score": 1,
+            "passed": true,
+            "turns": 1,
+            "costUsd": 0.0706686,
+            "judgeCostUsd": 0,
+            "durationSeconds": 15,
+            "startedAt": "2026-09-29T05:09:09.695Z",
+            "error": null,
+            "tracePath": "<run-sandbox>/out/trace.jsonl",
+            "skippedPaidGraders": false,
+            "graders": [
+              {
+                "name": "skill-not-used",
+                "passed": true,
+                "weight": 1,
+                "explanation": "Skill called 0x (expected 0..0)",
+                "withOnly": false,
+                "scored": true
+              }
+            ]
+          }
+        ]
+      },
+      "aggregates": {
+        "score": 1,
+        "passRate": 1
+      }
+    },
+    {
+      "name": "wcag-understandable-robust",
+      "dir": "cases/wcag-understandable-robust",
+      "source": "mixed",
+      "promptMarkdown": "This folder is the static front end of the Larkspur Library website: five HTML pages (index, catalog, events, login, signup), styles.css, app.js, and the React sources in src/components/. Audit it for WCAG 2.2 Level AA conformance, limited to Principles 3 and 4, Understandable and Robust (success criteria 3.x and 4.x). Cite each finding as file:line with its success criterion. No shell is available in this environment, so review the files statically; do not delegate to subagents and do not ask me questions. Give the complete audit report as your final reply.",
+      "runsPerCase": 1,
+      "timeoutSeconds": 1800,
+      "maxTurns": 50,
+      "graders": [
+        {
+          "name": "no-peek",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "trace",
+            "pattern": "answer-key\\.md|keyspec\\.json|/graders/|evals/fixtures",
+            "flags": "",
+            "match": "not_contains"
+          }
+        },
+        {
+          "name": "nodecoy-K4",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:login\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:56|55|54|53|52|51|50|49|48|47|46|45|44|43)(?!\\d)))(?=[^\\n]*(?:captcha|3\\.3\\.8|object recogn|cognitive))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "not_contains"
+          }
+        },
+        {
+          "name": "nodecoy-N2",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:signup\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:68|67|66|65)(?!\\d)))(?=[^\\n]*(?:confirm|again|3\\.3\\.7|redundant|PIN))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "not_contains"
+          }
+        },
+        {
+          "name": "nodecoy-judge",
+          "type": "llm",
+          "weight": 1,
+          "graderMarkdown": "The reply is a WCAG 2.2 Level AA accessibility audit report. Each item below is\na specific property of the audited project that is known to be COMPLIANT (a\ndecoy or a non-scored note).\n\n- K4: The step-2 object-recognition CAPTCHA on login.html:43-55 (#captcha-form, 'select every picture that shows a book', with an audio alternative button). 3.3.8 (AA) explicitly allows object recognition as an exception, and it meets the 1.1.1 CAPTCHA exception. Reporting the CAPTCHA as a 3.3.8 or 1.1.1 failure is a false positive (noting it would fail AAA 3.3.9 is fine). The paste-blocked PIN at login.html:37 is a separate real defect.\n- N2: The confirm-PIN field 'Type your PIN again' at signup.html:66-67. The 3.3.7 security exception applies (Understanding 3.3.7 names password confirmation). Reporting it as a Redundant Entry failure is a false positive. (The re-asked email at signup.html:58-59 is a real defect and does not count.)\n\nJudge ONLY whether the reply reports that specific property as a failure.\n- Findings about OTHER problems that happen to mention the same file, line or\n  success criterion do not count (for example a real defect on a neighbouring\n  element, or the same technique failing on a different page).\n- Explicitly calling the property compliant, passing, excepted or \"no finding\"\n  is a PASS for that item. A best-practice remark or a note that it would fail\n  a AAA criterion, clearly marked as not a Level AA failure, is also a PASS.\n- A findings-table row with severity Nonconformity or Deviation whose subject\n  IS the decoy property, or a statement that the decoy property fails a Level A\n  or AA success criterion, counts as reporting it.\n\nAnswer PASS if no decoy property is reported as a failure; FAIL otherwise, and\nname the decoy.",
+          "config": {
+            "criteria": "The reply is a WCAG 2.2 Level AA accessibility audit report. Each item below is\na specific property of the audited project that is known to be COMPLIANT (a\ndecoy or a non-scored note).\n\n- K4: The step-2 object-recognition CAPTCHA on login.html:43-55 (#captcha-form, 'select every picture that shows a book', with an audio alternative button). 3.3.8 (AA) explicitly allows object recognition as an exception, and it meets the 1.1.1 CAPTCHA exception. Reporting the CAPTCHA as a 3.3.8 or 1.1.1 failure is a false positive (noting it would fail AAA 3.3.9 is fine). The paste-blocked PIN at login.html:37 is a separate real defect.\n- N2: The confirm-PIN field 'Type your PIN again' at signup.html:66-67. The 3.3.7 security exception applies (Understanding 3.3.7 names password confirmation). Reporting it as a Redundant Entry failure is a false positive. (The re-asked email at signup.html:58-59 is a real defect and does not count.)\n\nJudge ONLY whether the reply reports that specific property as a failure.\n- Findings about OTHER problems that happen to mention the same file, line or\n  success criterion do not count (for example a real defect on a neighbouring\n  element, or the same technique failing on a different page).\n- Explicitly calling the property compliant, passing, excepted or \"no finding\"\n  is a PASS for that item. A best-practice remark or a note that it would fail\n  a AAA criterion, clearly marked as not a Level AA failure, is also a PASS.\n- A findings-table row with severity Nonconformity or Deviation whose subject\n  IS the decoy property, or a statement that the decoy property fails a Level A\n  or AA success criterion, counts as reporting it.\n\nAnswer PASS if no decoy property is reported as a failure; FAIL otherwise, and\nname the decoy.",
+            "focus": "last_message"
+          }
+        },
+        {
+          "name": "recall-D22",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:events\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:3|2|1)(?!\\d)|events\\.html(?![:#\\d])))(?=[^\\n]*(?:3\\.1\\.1|\\blang\\b|language of page))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-D23",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:catalog\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:94|93|92)(?!\\d)|index\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:23|22|21)(?!\\d)|events\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:24|23|22)(?!\\d)|login\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:23|22|21)(?!\\d)|signup\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:23|22|21)(?!\\d)|help-bar|Consistent Help))(?=[^\\n]*(?:3\\.2\\.6|consistent help|help-bar|help (?:link|mechanism)|Ask a Librarian))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-D24",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:signup\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:60|59|58|57|39|38|37)(?!\\d)|app\\.js[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:111|110|109|108|107|106|105|104|103|102|101|100|99|98)(?!\\d)))(?=[^\\n]*(?:3\\.3\\.7|redundant|card-email|re-?enter|again|twice|pre-?fill))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-D25",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:login\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:38|37|36)(?!\\d)))(?=[^\\n]*(?:3\\.3\\.8|paste|onpaste|accessible authentication|\\bF109\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-D26",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:catalog\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:28)(?!\\d)|SearchBar\\.jsx[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:19|18|17|16|15|14)(?!\\d)))(?=[^\\n]*(?:\\binput\\b|#q\\b|id=\\\"q\\\"|search (?:field|box|input)|unlabel|no label|<label))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-D27",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:catalog\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:29)(?!\\d)|SearchBar\\.jsx[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:22|21|20)(?!\\d)))(?=[^\\n]*(?:icon|button|\\bimg\\b|alt=\\\"\\\"))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-D28",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:catalog\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:33|32|31)(?!\\d)|app\\.js[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:35|34|33|32|31|30|29|28|27|26|25|24|23|22|21|20)(?!\\d)))(?=[^\\n]*(?:buton|invalid role|\\brole\\b|sort-toggle))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-D29",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:index\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:88|87|86|85|84)(?!\\d)))(?=[^\\n]*(?:aria-hidden|social|focusable))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-D30",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:catalog\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:35|34|33)(?!\\d)|app\\.js[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:45|44|43)(?!\\d)))(?=[^\\n]*(?:4\\.1\\.3|status|live region|aria-live|announce|\\bF103\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-D22",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:events\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:3|2|1)(?!\\d)|events\\.html(?![:#\\d])))(?=[^\\n]*(?:3\\.1\\.1|\\blang\\b|language of page))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies))\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-D23",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:catalog\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:94|93|92)(?!\\d)|index\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:23|22|21)(?!\\d)|events\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:24|23|22)(?!\\d)|login\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:23|22|21)(?!\\d)|signup\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:23|22|21)(?!\\d)|help-bar|Consistent Help))(?=[^\\n]*(?:3\\.2\\.6|consistent help|help-bar|help (?:link|mechanism)|Ask a Librarian))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?|Review(?:[ -]notes?)?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-D24",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:signup\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:60|59|58|57|39|38|37)(?!\\d)|app\\.js[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:111|110|109|108|107|106|105|104|103|102|101|100|99|98)(?!\\d)))(?=[^\\n]*(?:3\\.3\\.7|redundant|card-email|re-?enter|again|twice|pre-?fill))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?|Review(?:[ -]notes?)?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-D25",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:login\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:38|37|36)(?!\\d)))(?=[^\\n]*(?:3\\.3\\.8|paste|onpaste|accessible authentication|\\bF109\\b))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies))\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-D26",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:catalog\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:28)(?!\\d)|SearchBar\\.jsx[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:19|18|17|16|15|14)(?!\\d)))(?=[^\\n]*(?:\\binput\\b|#q\\b|id=\\\"q\\\"|search (?:field|box|input)|unlabel|no label|<label))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies))\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-D27",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:catalog\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:29)(?!\\d)|SearchBar\\.jsx[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:22|21|20)(?!\\d)))(?=[^\\n]*(?:icon|button|\\bimg\\b|alt=\\\"\\\"))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies))\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-D28",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:catalog\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:33|32|31)(?!\\d)|app\\.js[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:35|34|33|32|31|30|29|28|27|26|25|24|23|22|21|20)(?!\\d)))(?=[^\\n]*(?:buton|invalid role|\\brole\\b|sort-toggle))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies))\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-D29",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:index\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:88|87|86|85|84)(?!\\d)))(?=[^\\n]*(?:aria-hidden|social|focusable))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies))\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-D30",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:catalog\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:35|34|33)(?!\\d)|app\\.js[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:45|44|43)(?!\\d)))(?=[^\\n]*(?:4\\.1\\.3|status|live region|aria-live|announce|\\bF103\\b))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?|Review(?:[ -]notes?)?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "skill-used",
+          "type": "tool_used",
+          "weight": 1,
+          "config": {
+            "tool": "Skill",
+            "input_match": "\"skill\"\\s*:\\s*\"(?:[\\w-]+:)?wcag22\\-a11y\"",
+            "min": 1
+          }
+        }
+      ],
+      "arms": {
+        "with": [
+          {
+            "score": 1,
+            "passed": true,
+            "turns": 16,
+            "costUsd": 0.5579718,
+            "judgeCostUsd": 0.042486000000000024,
+            "durationSeconds": 142,
+            "startedAt": "2026-09-29T05:09:25.013Z",
+            "error": null,
+            "tracePath": "<run-sandbox>/out/trace.jsonl",
+            "skippedPaidGraders": false,
+            "graders": [
+              {
+                "name": "no-peek",
+                "passed": true,
+                "weight": 1,
+                "explanation": "pattern absent as expected",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "nodecoy-K4",
+                "passed": true,
+                "weight": 1,
+                "explanation": "pattern absent as expected",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "nodecoy-N2",
+                "passed": true,
+                "weight": 1,
+                "explanation": "pattern absent as expected",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "nodecoy-judge",
+                "passed": true,
+                "weight": 1,
+                "explanation": "judge votes: PASS PASS PASS",
+                "withOnly": false,
+                "scored": true,
+                "judgeVotes": [
+                  true,
+                  true,
+                  true
+                ],
+                "evidence": "# WCAG 2.2 Level AA audit: Larkspur Library static front end, Principles 3 and 4\n\n**Scope:** `index.html`, `catalog.html`, `events.html`, `login.html`, `signup.html`, `app.js`, `styles.css`, and `src/components/*.jsx` (the component sources aren't built; they are the source for the HTML pages).\n**Processes:** sign in (card and PIN \u2192 CAPTCHA), get a card (step 1 \u2192 step 2), reserving a seat for an event, adding a book to the reading list and reordering it.\n**Level:** AA, limited to the Principle 3 and 4 criteria: 3.1.1, 3.1.2, 3.2.1, 3.2.2, 3.2.3, 3.2.4, 3.2.6, 3.3.1, 3.3.2, 3.3.3, 3.3.4, 3.3.7, 3.3.8, 4.1.2 and 4.1.3. That is 15 criteria. 4.1.1 Parsing is obsolete in WCAG 2.2 and is not assessed.\n**Method:** I read the source files only. No shell was available, so `wcag_scan`, `wcag_page`/axe-core, a browser and a screen reader were not run. No assistive technology (AT) or browser was used.\n**Summary:** 13 nonconformities, 1 deviation (inside finding 4), 3 advisories, 7 review notes. Of the 15 criteria, **9 fail**, 5 pass (static review only), 1 is N/A and none are unevaluated.\n**Result:** The site **does not conform** to WCAG 2.2 Level AA. The failing criteria in scope are 3.1.1, 3.2.6, 3.3.1, 3.3.2, 3.3.3, 3.3.7, 3.3.8, 4.1.2 and 4.1.3. Principles 1 and 2 were outside this audit and also have failures (see \"Outside scope\").\n\n## Findings\n\nFindings are listed by severity, then by criterion. A finding marked \"confirmed from source\" is certain from the code alone. It has not been checked with a screen reader.\n\n| # | Severity | Check ID | Ref | Target | Location | Finding | Evidence | Fix |\n|---|---|---|---|---|---|---|---|---|\n| 1 | Nonconformity | WCAG-3.1.1 | WCAG 2.2 SC 3.1.1 (Level A) | page | `events.html:2` | The page doesn't declare its language. | `<html>` has no `lang` attribute. The other four pages have `lang=\"en\"`. | `<html lang=\"en\">` |\n| 2 | Nonconformity | WCAG-3.2.6 | WCAG 2.2 SC 3.2.6 (Level A) | page | `catalog.html:93` (compare `index.html:22`, `events.html:23`, `login.html:22`, `signup.html:22`) | The \"Need help?\" block (Ask a Librarian link and phone number) is in the header on four pages but in the footer on the catalog page. Its position relative to other content changes. | `.help-bar` is inside `.header-inner` on 4 pages and inside `<footer>` on the catalog page. | Move it into `.header-inner` after `</nav>` on the catalog page, as on the other pages. |\n| 3 | Nonconformity | WCAG-3.3.1 (also 3.3.3) | WCAG 2.2 SC 3.3.1 (Level A); SC 3.3.3 (Level AA) | template | `app.js:103`, `styles.css:250`, `signup.html:30` | When \"Next\" is pressed with required fields empty, the only sign of an error is a red border. There's no error text, nothing tells the user how to fix it, and screen readers get nothing. | `f.classList.add('invalid')` only changes the border colour to `#c62828`. No text, no `aria-invalid`, no `aria-describedby`, and focus stays on \"Next\". | For each invalid field: set `aria-invalid=\"true\"`, add text such as `<p id=\"street-err\">Enter your street address.</p>` and link it with `aria-describedby`, then move focus to the first invalid field or to an error summary. |\n| 4 | Nonconformity | WCAG-3.3.2 (also 4.1.2, Deviation) | WCAG 2.2 SC 3.3.2 (Level A) | page | `signup.html:34` | The Full name field has no label. Its only label is placeholder text, which disappears when the user types (and is pale grey, `#aaa`). Screen readers only get a name from the placeholder as a last-resort fallback, which some screen readers don't support reliably (4.1.2 Deviation). | `<input id=\"full-name\" placeholder=\"Full name (required)\">` with no `<label>`. | Add `<label for=\"full-name\">Full name (required)</label>` and remove the placeholder. |\n| 5 | Nonconformity | WCAG-3.3.2 (also 4.1.2) | WCAG 2.2 SC 3.3.2 (Level A); SC 4.1.2 (Level A) | page, component | `catalog.html:28`; `src/components/SearchBar.jsx:14-19` | The catalog search field has no visible label and no accessible name. | `<input type=\"search\" id=\"q\">` has no `<label>`, `aria-label`, `title` or placeholder. The name is empty. | Add `<label for=\"q\">Search the catalog</label>` (visible or visually hidden). Mirror the change in `SearchBar.jsx`. |\n| 6 | Nonconformity | WCAG-3.3.7 | WCAG 2.2 SC 3.3.7 (Level A) | page | `signup.html:59` (compare `signup.html:38`) | Step 2 asks for the email address again even though it was entered in step 1. It is neither filled in automatically nor offered as a choice. | `#card-email` starts empty. `app.js:107-109` shows step 2 without copying `#email`. | Pre-fill `#card-email` from `#email`, or add a \"Same as my email above\" checkbox, or remove the field. Re-typing the PIN (`confirm-pin`) is allowed as an exception and is fine. |\n| 7 | Nonconformity | WCAG-3.3.8 | WCAG 2.2 SC 3.3.8 (Level AA) | page | `login.html:37` | Paste and drop are blocked in the PIN field. This stops password managers and copy-paste, so users have to recall and type the PIN (a cognitive function test). | `onpaste=\"return false;\" ondrop=\"return false;\"` | Remove both handlers. Keep `autocomplete=\"current-password\"`. |\n| 8 | Nonconformity | WCAG-4.1.2 | WCAG 2.2 SC 4.1.2 (Level A) | page, component | `catalog.html:29`; `src/components/SearchBar.jsx:20-22` | The search submit button has no accessible name. | The button's only content is `<img alt=\"\">`, so its name is empty and it is announced as just \"button\". | `<img src=\"images/icon-search.svg\" alt=\"Search\">`, or add `aria-label=\"Search\"` to the button. |\n| 9 | Nonconformity | WCAG-4.1.2 | WCAG 2.2 SC 4.1.2 (Level A) | page | `catalog.html:32` | The sort toggle's role is misspelled, so screen readers aren't told it is a button. | `role=\"buton\"` is not a valid role, so the element is exposed as plain text (a generic element). | Use `<button type=\"button\" id=\"sort-toggle\" class=\"sort-toggle\">Title A\u2013Z</button>` and remove the manual keydown handler at `app.js:31-33`. |\n| 10 | Nonconformity | WCAG-4.1.2 | WCAG 2.2 SC 4.1.2 (Level A) | page, component | `catalog.html:42, 50, 58, 66`; `src/components/BookCard.jsx:15-17` | The \"Add to reading list\" controls are plain `div`s with click handlers. They have no role and can't be reached with the keyboard. | `<div class=\"btn add-btn\" onclick=\"addToList(this)\">` with no role and no `tabindex`. | Use `<button type=\"button\" class=\"btn add-btn\" \u2026>`. |\n| 11 | Nonconformity | WCAG-4.1.2 | WCAG 2.2 SC 4.1.2 (Level A) | page, component | `events.html:88`; `src/components/Modal.jsx:30` | The dialog's close control is a `span` showing \"\u00d7\". It has no role, no meaningful name and can't be focused. | `<span class=\"close\" onclick=\"closeModal()\">&times;</span>` | `<button type=\"button\" class=\"close\" aria-label=\"Close\">&times;</button>` |\n| 12 | Nonconformity | WCAG-4.1.2 | WCAG 2.2 SC 4.1.2 (Level A) | page | `index.html:85-88` | The footer social links can still be tabbed to but are hidden from screen readers. Keyboard users land on links that are announced with no name or role. | `<div class=\"social\" aria-hidden=\"true\">` wraps 2 `<a href>` links (axe rule `aria-hidden-focus`). | Remove `aria-hidden=\"true\"`. |\n| 13 | Nonconformity | WCAG-4.1.3 | WCAG 2.2 SC 4.1.3 (Level AA) | page | `catalog.html:34`; `app.js:44` | The \"Added \u2026 to your reading list\" message is inserted into a container that isn't a live region, so screen readers don't announce it. | `<div id=\"list-status\"></div>` has no `role=\"status\"` or `aria-live`. `app.js:44` sets its `textContent`. | `<div id=\"list-status\" role=\"status\"></div>` |\n| A1 | Advisory | WCAG-3.2.5 | WCAG 2.2 SC 3.2.5 (Level AAA) | page | `events.html:6` | The page reloads itself every 120 seconds, which is a change of context the user didn't ask for. This also fails 2.2.1 (Level A), which is outside this scope. | `<meta http-equiv=\"refresh\" content=\"120\">` | Remove it, or give the user a control to refresh. |\n| A2 | Advisory | WCAG-3.3.9 | WCAG 2.2 SC 3.3.9 (Level AAA) | page | `login.html:45-51` | The image CAPTCHA (\"select every picture that shows a book\") is allowed at AA under the object-recognition exception, but that exception doesn't exist at AAA. | Object-recognition CAPTCHA. | Use a non-interactive bot check (for example, a server-side risk signal) or email or passkey verification. |\n| A3 | Advisory | WCAG-BP-form-error-summary | Best practice | template | `signup.html:30` | The form uses `novalidate` but has no error summary and no validation for step 2 (see review note R3). | Only step 1 is validated, in `app.js:99-110`. | Add an error summary at the top of the form that receives focus, and validate step 2 (empty fields, PIN is 4 digits, the two PINs match). |\n\n## SC coverage\n\n\"Static review\" means I read the source only. Nothing was checked in a rendered page or with AT.\n\n| SC | Level | Status | Notes |\n|---|---|---|---|\n| 3.1.1 Language of Page | A | **Fail** | #1 |\n| 3.1.2 Language of Parts | AA | Pass (static review) | No passages in another language found. |\n| 3.2.1 On Focus | A | Pass (static review) | No handler changes context when an element receives focus. The modal opens on click (`app.js:81`). |\n| 3.2.2 On Input | A | Pass (static review) | No `change` or `input` handlers change context. Forms submit only through buttons. |\n| 3.2.3 Consistent Navigation | AA | Pass (static review) | Main navigation is identical and in the same order on all 5 pages. |\n| 3.2.4 Consistent Identification | AA | Pass (static review) | Repeated components (navigation, \"Reserve a seat\", help links) have consistent labels. |\n| 3.2.6 Consistent Help | A | **Fail** | #2 |\n| 3.3.1 Error Identification | A | **Fail** | #3 |\n| 3.3.2 Labels or Instructions | A | **Fail** | #4, #5 |\n| 3.3.3 Error Suggestion | AA | **Fail** | #3. A missing required field has an obvious fix (\"enter X\"), but none is given. |\n| 3.3.4 Error Prevention (Legal, Financial, Data) | AA | N/A | See R4. |\n| 3.3.7 Redundant Entry | A | **Fail** | #6 |\n| 3.3.8 Accessible Authentication (Minimum) | AA | **Fail** | #7 |\n| 4.1.1 Parsing | \u2014 | Obsolete | Removed in WCAG 2.2. Not assessed. |\n| 4.1.2 Name, Role, Value | A | **Fail** | #5, #8, #9, #10, #11, #12 (plus the deviation in #4) |\n| 4.1.3 Status Messages | AA | **Fail** | #13 |\n\n## Review notes\n\n- **R1 (3.3.8, CAPTCHA), `login.html:45-53`:** The image CAPTCHA falls under the object-recognition exception, so it doesn't fail at AA. However, the audio alternative doesn't work. `app.js:117-119` only reveals instruction text (`login.html:53`) and never plays any audio. This isn't a Principle 3/4 failure, but it is likely a 1.1.1 failure. Also, the image alt texts \"CAPTCHA picture 1\u20134\" (`login.html:47-50`) don't say what the pictures show.\n- **R2 (sign-in process), `login.html:29-55`:** Both steps are visible at the same time, and they are separate forms with different `action` URLs. Nothing handles errors in step 1, such as a wrong card number or PIN. Server behaviour is unknown, so 3.3.1 was only evaluated for errors detected on the page.\n- **R3 (3.3.1), `signup.html:30, 55-70`:** Because of `novalidate`, step 2 is submitted without any checks: empty required fields and mismatched PINs aren't caught on the page. 3.3.1 only applies to errors that are detected automatically, so this isn't recorded as a failure. If the server does detect these errors, its error page must meet 3.3.1 and 3.3.3.\n- **R4 (3.3.4 N/A):** Getting a library card and reserving a free event seat don't create legal commitments or financial transactions, and don't change or delete user data in the sense of 3.3.4. Re-check this if the card application includes agreeing to terms.\n- **R5 (events reservation), `events.html:99`:** The \"Confirm\" button only calls `closeModal()`. Nothing is submitted and no confirmation is shown. Once reservations actually work, the confirmation message must meet 4.1.3.\n- **R6 (4.1.2, carousel), `index.html:34-49`, `src/components/Carousel.jsx`:** Slides that are off-screen are still exposed to screen readers. This doesn't fail 4.1.2, but the auto-rotation with no pause control fails 2.2.2, which is outside this scope.\n- **R7 (React sources):** The components in `src/components/` aren't built, and each one has the same defects as the HTML it produces (findings #5, #8, #10, #11). Fix both the components and the static HTML.\n\n## Manual checks required\n\nThe list is empty for the purposes of this static audit. Before relying on these results, check them in a browser with a screen reader (for example NVDA + Firefox and VoiceOver + Safari):\n\n- the announcements for findings #8\u2013#13 once fixed;\n- the placeholder-only name in finding #4;\n- whether the help block is in a consistent position at narrow widths (\u2264640px, where the header stops being sticky), for 3.2.6.\n\n## Outside scope (Principles 1\u20132, not audited; recorded so they aren't lost)\n\n- **Keyboard trap (2.1.2, non-interference):** `app.js:85-88` and `src/components/Modal.jsx:13-16` force every Tab press back to the first field, and Escape does nothing. Keyboard users can't leave the dialog. This fails conformance for the whole page regardless of the other criteria.\n- **Timing (2.2.1):** `events.html:6` (meta refresh).\n- **Moving content (2.2.2):** `app.js:14-17` (the carousel rotates automatically with no pause).\n- **Keyboard access and dragging (2.1.1 / 2.5.7):** the div controls, and the reading list at `catalog.html:81-87` / `ReadingList.jsx`, which can only be reordered by dragging.\n- **Focus order (2.4.3):** positive `tabindex` at `login.html:37, 40`, and focus isn't returned after the modal closes.\n- **Visible focus (2.4.7):** `styles.css:59` sets `outline: none`.\n- **Page title (2.4.2):** `catalog.html` has no `<title>`.\n- **Link purpose (2.4.4):** \"Click here\" at `events.html:32`.\n- **Text alternatives (1.1.1):** `catalog.html:38, 46, 54, 62` and `BookCard.jsx:7` have no `alt`. `index.html:30` gives a decorative image descriptive alt text.\n- **Info and relationships (1.3.1):** `index.html:78` jumps from h2 to h4.\n- **Contrast (1.4.3):** `.event-meta` `#999999` (`styles.css:190`).\n- **Non-text contrast (1.4.11):** `#d6d6d6` input borders (`styles.css:247`).\n- **Reflow (1.4.10):** `styles.css:107`.\n- **Text spacing (1.4.12):** `styles.css:191-199`.\n- **Target size (2.5.8):** 16px pager links (`styles.css:160-169`).\n\n## Assumptions\n\n- Only the files listed in the scope were reviewed.\n- Server-side behaviour for the form actions is unknown.\n- The React components are treated as the source for the static pages.\n\n## Reproduction\n\nOpen each file at the cited line. With a shell, run `python3 ~/.claude/skills/wcag22-a11y/scripts/wcag_audit.py . --url . --out report.md`. axe-core should independently flag #1 (`html-has-lang`), #5 (`label`), #8 (`button-name`), #9 (`aria-roles`) and #12 (`aria-hidden-focus`)."
+              },
+              {
+                "name": "recall-D22",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:events\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:3|2|1)(?!\\d)|events\\.html(?![:#\\d])))(?=[^\\n]*(?:3\\.1\\.1|\\blang\\b|language of page))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-D23",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:catalog\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:94|93|92)(?!\\d)|index\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:23|22|21)(?!\\d)|events\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:24|23|22)(?!\\d)|login\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:23|22|21)(?!\\d)|signup\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:23|22|21)(?!\\d)|help-bar|Consistent Help))(?=[^\\n]*(?:3\\.2\\.6|consistent help|help-bar|help (?:link|mechanism)|Ask a Librarian))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-D24",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:signup\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:60|59|58|57|39|38|37)(?!\\d)|app\\.js[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:111|110|109|108|107|106|105|104|103|102|101|100|99|98)(?!\\d)))(?=[^\\n]*(?:3\\.3\\.7|redundant|card-email|re-?enter|again|twice|pre-?fill))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-D25",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:login\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:38|37|36)(?!\\d)))(?=[^\\n]*(?:3\\.3\\.8|paste|onpaste|accessible authentication|\\bF109\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-D26",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:catalog\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:28)(?!\\d)|SearchBar\\.jsx[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:19|18|17|16|15|14)(?!\\d)))(?=[^\\n]*(?:\\binput\\b|#q\\b|id=\\\"q\\\"|search (?:field|box|input)|unlabel|no label|<label))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-D27",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:catalog\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:29)(?!\\d)|SearchBar\\.jsx[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:22|21|20)(?!\\d)))(?=[^\\n]*(?:icon|button|\\bimg\\b|alt=\\\"\\\"))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-D28",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:catalog\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:33|32|31)(?!\\d)|app\\.js[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:35|34|33|32|31|30|29|28|27|26|25|24|23|22|21|20)(?!\\d)))(?=[^\\n]*(?:buton|invalid role|\\brole\\b|sort-toggle))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-D29",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:index\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:88|87|86|85|84)(?!\\d)))(?=[^\\n]*(?:aria-hidden|social|focusable))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-D30",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:catalog\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:35|34|33)(?!\\d)|app\\.js[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:45|44|43)(?!\\d)))(?=[^\\n]*(?:4\\.1\\.3|status|live region|aria-live|announce|\\bF103\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-D22",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:events\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:3|2|1)(?!\\d)|events\\.html(?![:#\\d])))(?=[^\\n]*(?:3\\.1\\.1|\\blang\\b|language of page))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies))\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-D23",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:catalog\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:94|93|92)(?!\\d)|index\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:23|22|21)(?!\\d)|events\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:24|23|22)(?!\\d)|login\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:23|22|21)(?!\\d)|signup\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:23|22|21)(?!\\d)|help-bar|Consistent Help))(?=[^\\n]*(?:3\\.2\\.6|consistent help|help-bar|help (?:link|mechanism)|Ask a Librarian))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?|Review(?:[ -]notes?)?)\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-D24",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:signup\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:60|59|58|57|39|38|37)(?!\\d)|app\\.js[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:111|110|109|108|107|106|105|104|103|102|101|100|99|98)(?!\\d)))(?=[^\\n]*(?:3\\.3\\.7|redundant|card-email|re-?enter|again|twice|pre-?fill))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?|Review(?:[ -]notes?)?)\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-D25",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:login\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:38|37|36)(?!\\d)))(?=[^\\n]*(?:3\\.3\\.8|paste|onpaste|accessible authentication|\\bF109\\b))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies))\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-D26",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:catalog\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:28)(?!\\d)|SearchBar\\.jsx[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:19|18|17|16|15|14)(?!\\d)))(?=[^\\n]*(?:\\binput\\b|#q\\b|id=\\\"q\\\"|search (?:field|box|input)|unlabel|no label|<label))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies))\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-D27",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:catalog\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:29)(?!\\d)|SearchBar\\.jsx[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:22|21|20)(?!\\d)))(?=[^\\n]*(?:icon|button|\\bimg\\b|alt=\\\"\\\"))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies))\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-D28",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:catalog\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:33|32|31)(?!\\d)|app\\.js[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:35|34|33|32|31|30|29|28|27|26|25|24|23|22|21|20)(?!\\d)))(?=[^\\n]*(?:buton|invalid role|\\brole\\b|sort-toggle))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies))\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-D29",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:index\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:88|87|86|85|84)(?!\\d)))(?=[^\\n]*(?:aria-hidden|social|focusable))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies))\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-D30",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:catalog\\.html[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:35|34|33)(?!\\d)|app\\.js[`'\\\"]?(?:[:#]L?\\s?|,?\\s+\\(?(?:lines?|l\\.|L)\\s*)(?:45|44|43)(?!\\d)))(?=[^\\n]*(?:4\\.1\\.3|status|live region|aria-live|announce|\\bF103\\b))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?|Review(?:[ -]notes?)?)\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "skill-used",
+                "passed": true,
+                "weight": 1,
+                "explanation": "Skill called 1x (expected 1..\u221e)",
+                "withOnly": false,
+                "scored": true
+              }
+            ]
+          }
+        ]
+      },
+      "aggregates": {
+        "score": 1,
+        "passRate": 1
+      }
+    }
+  ],
+  "aggregates": {
+    "casesTotal": 6,
+    "casesPassed": 6,
+    "overallScore": 0.9505833672500339,
+    "overallPassRate": 0.5
+  }
+}

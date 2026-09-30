@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Kettle settings</title>
+<style>
+  body { background: #ffffff; color: #222222; }
+  .pref { display: flex; align-items: center; gap: 12px; }
+  .pref__input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .pref__input + .pref__track {
+    position: relative;
+    width: 44px;
+    height: 24px;
+    border-radius: 12px;
+    background: #f0f0f0;
+    border: 1px solid #6b7785;
+  }
+  .pref__knob {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 0 0 1px #e0e0e0;
+  }
+  .pref__input:checked + .pref__track { background: #1f6f43; border-color: #1f6f43; }
+  .pref__input:focus-visible + .pref__track { outline: 2px solid #1f4fbf; outline-offset: 2px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Kettle settings</h1>
+  <label class="pref">
+    <input class="pref__input" type="checkbox" role="switch">
+    <span class="pref__track" aria-hidden="true"><span class="pref__knob"></span></span>
+    Keep warm after boiling
+  </label>
+</main>
+</body>
+</html>

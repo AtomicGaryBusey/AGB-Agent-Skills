@@ -1,0 +1,13 @@
+$fg: #9e9e9e;
+$bg: #fff;
+// line comment with a { brace
+.card {
+  color: $fg;
+  background: $bg;
+  &:focus { outline: 0; }
+  &:hover { color: #000; }
+  .title { line-height: 1 !important; }
+  @media (max-width: 600px) {
+    .row { width: 480px; }
+  }
+}

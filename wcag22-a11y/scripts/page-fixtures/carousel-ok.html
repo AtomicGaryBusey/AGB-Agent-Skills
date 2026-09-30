@@ -1,0 +1,13 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Carousel with pause</title>
+<style>.slides{position:relative;height:120px;overflow:hidden}.slide{position:absolute;inset:0;opacity:0}.slide.is-active{opacity:1}</style></head><body><main>
+<h1>Allotment news</h1>
+<section class="hero-carousel" aria-roledescription="carousel" aria-label="Highlights"><div class="slides">
+<div class="slide is-active" aria-roledescription="slide">Plot inspections this weekend</div>
+<div class="slide" aria-roledescription="slide">Seed swap on Saturday</div>
+<div class="slide" aria-roledescription="slide">New water troughs installed</div></div>
+<button class="prev">Previous</button> <button class="next">Next</button> <button class="toggle" aria-label="Pause slide rotation">II</button></section>
+<div class="price-slider"><input type="range" aria-label="Budget" min="0" max="10"></div>
+<script>
+var s = document.querySelectorAll('.hero-carousel .slide'), i = 0;
+setInterval(function () { s[i].classList.remove('is-active'); i = (i + 1) % s.length; s[i].classList.add('is-active'); }, 900);
+</script></main></body></html>

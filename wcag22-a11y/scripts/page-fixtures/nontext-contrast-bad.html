@@ -1,0 +1,13 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Non-text contrast bad</title>
+<style>body{margin:0;padding:16px;background:#fff;font:16px/1.5 system-ui,sans-serif}label{display:block;margin-top:12px}
+#pale{border:1px solid #dddddd;background:#fff;padding:6px}
+#tinted{border:0;background:#eeeeee;padding:6px}
+#agree{appearance:none;-webkit-appearance:none;width:20px;height:20px;border:2px solid #d0d0d0;background:#fff}
+#off{border:1px solid #eeeeee;background:#fff}
+.go{border:2px solid #333;background:#fff;padding:6px 12px}.go:focus{outline:none}.go:focus-visible{outline:3px solid #ffd6d6;outline-offset:2px}
+</style></head><body><main><h1>Newsletter</h1><form onsubmit="return false">
+<label for="pale">Name</label><input id="pale" type="text">
+<label for="tinted">Email</label><input id="tinted" type="email" autocomplete="email">
+<label><input id="agree" type="checkbox"> I agree</label>
+<label for="off">Member number (not required)</label><input id="off" type="text" disabled>
+<p><button class="go" id="send">Send</button></p></form></main></body></html>

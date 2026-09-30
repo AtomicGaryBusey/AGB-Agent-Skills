@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Good page</title>
+  <style>
+    a:focus-visible { outline: 3px solid #1a1a1a; outline-offset: 2px; }
+    .note { color: #333333; background-color: #ffffff; }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to main content</a>
+  <header><nav aria-label="Primary"><ul><li><a href="/">Home</a></li><li><a href="/shop">Shop</a></li></ul></nav></header>
+  <main id="main">
+    <h1>Welcome</h1>
+    <h2>Sign in</h2>
+    <form action="/login" method="post">
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" autocomplete="email" required>
+      <label for="pw">Password</label>
+      <input id="pw" name="password" type="password" autocomplete="current-password" required>
+      <fieldset>
+        <legend>Plan</legend>
+        <label><input type="radio" name="plan" value="a"> Basic</label>
+        <label><input type="radio" name="plan" value="b"> Pro</label>
+      </fieldset>
+      <button type="submit">Sign in</button>
+    </form>
+    <h2>Gallery</h2>
+    <img src="team.jpg" alt="Our team at the 2025 offsite">
+    <img src="divider.png" alt="">
+    <a href="/cart" aria-label="Cart"><svg aria-hidden="true" focusable="false"><path d="M0 0"/></svg></a>
+    <button type="button" aria-label="Search"><i class="fa fa-search" aria-hidden="true"></i></button>
+    <p class="note" lang="fr-CA">Bonjour</p>
+    <iframe src="/map" title="Store location map"></iframe>
+    <table>
+      <tr><th scope="col">Item</th><th scope="col">Price</th></tr>
+      <tr><td>Tea</td><td>3</td></tr>
+    </table>
+    <div role="status" class="toast">Saved</div>
+    <div role="checkbox" aria-checked="false" tabindex="0" aria-label="Agree" onclick="t()" onkeydown="k(event)"></div>
+  </main>
+</body>
+</html>

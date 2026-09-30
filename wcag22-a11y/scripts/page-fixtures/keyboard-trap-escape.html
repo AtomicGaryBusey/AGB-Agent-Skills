@@ -1,0 +1,13 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Contained with escape</title></head><body><main>
+<h1>Editor keeps Tab until Escape</h1><div id="widget"><button id="w1">One</button><button id="w2">Two</button></div>
+<p><a href="#after">After the widget</a></p>
+<script>
+var released = false;
+document.getElementById('widget').addEventListener('keydown', function (e) {
+  if (e.key === 'Escape') { released = true; return; }
+  if (e.key !== 'Tab' || released) return;
+  e.preventDefault();
+  var a = document.getElementById('w1'), b = document.getElementById('w2');
+  (document.activeElement === a ? b : a).focus();
+});
+</script></main></body></html>

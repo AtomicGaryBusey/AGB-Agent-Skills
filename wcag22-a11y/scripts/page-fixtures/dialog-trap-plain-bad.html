@@ -1,0 +1,23 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Workshop booking</title>
+<style>.sheet-wrap{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center}.sheet-wrap[hidden]{display:none}
+.sheet{background:#fff;padding:20px;max-width:24rem}.shut{float:right;cursor:pointer}</style></head><body><main>
+<h1>Pottery workshops</h1>
+<article><h2>Throwing basics</h2><p>Saturday mornings.</p><button type="button" class="book" data-slot="throwing">Book a place</button></article>
+<article><h2>Glazing</h2><p>Sunday afternoons.</p><button type="button" class="book" data-slot="glazing">Book a place</button></article>
+<p><button type="button" id="map-toggle">Show map</button></p><p id="map" hidden>Map: 4 Kiln Yard.</p>
+</main>
+<div class="sheet-wrap" id="booking" hidden><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="bt">
+<span class="shut" onclick="shut()">&times;</span><h2 id="bt">Book a place</h2>
+<label for="who">Name</label> <input id="who"> <label for="mail">Email</label> <input id="mail" type="email">
+<button type="button" onclick="shut()">Book</button></div></div>
+<script>
+var wrap = document.getElementById('booking');
+function shut() { wrap.hidden = true; }
+document.querySelectorAll('.book').forEach(function (b) { b.addEventListener('click', function () { wrap.hidden = false; document.getElementById('who').focus(); }); });
+document.getElementById('map-toggle').addEventListener('click', function () { var m = document.getElementById('map'); m.hidden = !m.hidden; });
+document.addEventListener('keydown', function (e) {
+  if (wrap.hidden) return;
+  if (e.key === 'Tab') { e.preventDefault(); document.getElementById('who').focus(); }
+  if (e.key === 'Escape') e.preventDefault();
+});
+</script></body></html>

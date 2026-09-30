@@ -1,0 +1,4 @@
+Note: --scaffold runs each case's scaffold_script as you. Only use it on case files you (or your org) authored.
+⚠ kept <run-sandbox>: home/ and tmp/ in it were written by the plugin under test and are sealed in <run-sandbox>/sealed (mode 000; the kept directory is read-only) — open them with `chmod 700 <run-sandbox> <run-sandbox>/sealed` to inspect, and do not run git (or anything that loads configuration from its working directory) anywhere inside the kept directory
+Wrote <tmp>
+Report: <tmp>

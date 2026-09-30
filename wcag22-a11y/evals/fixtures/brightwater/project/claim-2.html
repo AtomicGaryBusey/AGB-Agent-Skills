@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lost item claim, step 2 of 3: the item | Brightwater Transit</title>
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="site-header">
+  <a class="logo" href="index.html">
+    <svg class="logo-mark" width="32" height="32" aria-hidden="true" focusable="false"><use href="img/sprite.svg#logo"></use></svg>
+    <span class="wordmark">Brightwater Transit</span>
+  </a>
+  <nav class="site-nav" aria-label="Main">
+    <ul>
+        <li><a href="planner.html">Trip planner</a></li>
+        <li><a href="fares.html">Fares</a></li>
+        <li><a href="alerts.html">Service alerts</a></li>
+        <li><a href="map.html">Route map</a></li>
+        <li><a href="claim-1.html" aria-current="page">Lost &amp; found</a></li>
+        <li><a href="feedback.html">Feedback</a></li>
+        <li><a href="login.html">Sign in</a></li>
+    </ul>
+  </nav>
+</header>
+<main id="main">
+  <p class="step-indicator">Step 2 of 3</p>
+  <h1>Lost item claim: about the item</h1>
+  <form class="claim-form" action="claim-3.html" method="get">
+    <div class="field">
+      <label for="c-category">Type of item</label>
+      <select id="c-category" name="category">
+        <option>Bag or backpack</option>
+        <option>Phone or electronics</option>
+        <option>Wallet, cards or keys</option>
+        <option>Clothing</option>
+        <option>Other</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="c-desc">Describe the item</label>
+      <textarea id="c-desc" name="description" rows="4" aria-describedby="c-desc-hint"></textarea>
+      <p id="c-desc-hint">Include colour, brand and anything written on it.</p>
+    </div>
+    <div class="field">
+      <label for="c-route">Route or station</label>
+      <input id="c-route" name="route" type="text">
+    </div>
+    <div class="field">
+      <label for="c-date">Date lost</label>
+      <input id="c-date" name="date" type="date">
+    </div>
+    <button type="submit" class="btn">Continue to step 3</button>
+  </form>
+</main>
+<footer class="site-footer">
+  <ul class="footer-links">
+    <li><a href="help.html#accessibility">Accessibility</a></li>
+    <li><a href="help.html#privacy">Privacy</a></li>
+    <li><a href="help.html#terms">Terms of use</a></li>
+    <li><a href="help.html">Help &amp; contact</a></li>
+  </ul>
+  <p>&copy; 2026 Brightwater Regional Transit Authority. A fictional agency.</p>
+</footer>
+</body>
+</html>

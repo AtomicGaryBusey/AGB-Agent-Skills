@@ -1,0 +1,16 @@
+/* good.css: no defects expected */
+a:focus:not(:focus-visible) { outline: none; }
+a:focus-visible { outline: 2px solid #1a1a1a; }
+button:focus { outline: none; box-shadow: 0 0 0 3px #1a1a1a; }
+.caption { color: #595959; background: #ffffff; font-size: 14px; }
+.headline { color: #767676; background-color: #fff; font-size: 24px; }
+.layout { width: 1200px; max-width: 100%; }
+@media (min-width: 1300px) { .wide { width: 1280px; } }
+@media print { .page { width: 800px; } }
+table.data { width: 900px; }
+.body-copy { line-height: 1.5; }
+.icon-btn { width: 24px; height: 24px; }
+.icon-btn-pad { width: 16px; height: 16px; padding: 8px; }
+.btn[disabled] { color: #ccc; background: #fff; }
+@font-face { font-family: X; src: url(x.woff2); }
+@keyframes grow { from { width: 400px; } to { width: 800px; } }

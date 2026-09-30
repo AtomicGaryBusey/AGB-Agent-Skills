@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fares | Brightwater Transit</title>
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="site-header">
+  <a class="logo" href="index.html">
+    <svg class="logo-mark" width="32" height="32" aria-hidden="true" focusable="false"><use href="img/sprite.svg#logo"></use></svg>
+    <span class="wordmark">Brightwater Transit</span>
+  </a>
+  <nav class="site-nav" aria-label="Main">
+    <ul>
+        <li><a href="planner.html">Trip planner</a></li>
+        <li><a href="fares.html" aria-current="page">Fares</a></li>
+        <li><a href="alerts.html">Service alerts</a></li>
+        <li><a href="map.html">Route map</a></li>
+        <li><a href="claim-1.html">Lost &amp; found</a></li>
+        <li><a href="feedback.html">Feedback</a></li>
+        <li><a href="login.html">Sign in</a></li>
+    </ul>
+  </nav>
+  <a class="help-link" href="help.html"><i class="bwi bwi-help" aria-hidden="true"></i> Help &amp; contact</a>
+</header>
+<main id="main">
+  <h1>Fares and passes</h1>
+  <form class="zone-picker" action="fares.html" method="get">
+    <div class="field">
+      <label for="zone-select">Show fares for</label>
+      <select id="zone-select" name="zone">
+        <option value="all">All zones</option>
+        <option value="z1">Zone 1 (city centre)</option>
+        <option value="z13">Zones 1 to 3</option>
+        <option value="ferry">Ferry connections</option>
+      </select>
+    </div>
+  </form>
+  <p class="legend">Peak fares apply 06:30 to 09:00 and 16:00 to 18:30 on weekdays. Peak fares are shown in red.</p>
+  <div class="table-scroll" role="region" aria-labelledby="fare-caption" tabindex="0">
+    <table class="fare-table">
+      <caption id="fare-caption">Single-ride and pass prices by rider type, 2026</caption>
+      <tbody>
+        <tr>
+          <td class="th"></td>
+          <td class="th" colspan="2">Single ride</td>
+          <td class="th" colspan="2">Day pass</td>
+          <td class="th">30-day pass</td>
+        </tr>
+        <tr>
+          <td class="th">Rider type</td>
+          <td class="th">Zone 1</td>
+          <td class="th">Zones 1&ndash;3</td>
+          <td class="th">Zone 1</td>
+          <td class="th">Zones 1&ndash;3</td>
+          <td class="th">All zones</td>
+        </tr>
+        <tr>
+          <td class="th">Adult</td>
+          <td>$2.50 <span class="peak">$3.25</span></td>
+          <td>$3.75 <span class="peak">$4.75</span></td>
+          <td>$7.00</td>
+          <td>$9.50</td>
+          <td>$96.00</td>
+        </tr>
+        <tr>
+          <td class="th">Youth (13&ndash;18)</td>
+          <td>$1.25 <span class="peak">$1.60</span></td>
+          <td>$1.85 <span class="peak">$2.40</span></td>
+          <td>$3.50</td>
+          <td>$4.75</td>
+          <td>$48.00</td>
+        </tr>
+        <tr>
+          <td class="th">Senior (65+)</td>
+          <td>$1.25 <span class="peak">$1.25</span></td>
+          <td>$1.85 <span class="peak">$1.85</span></td>
+          <td>$3.50</td>
+          <td>$4.75</td>
+          <td>$40.00</td>
+        </tr>
+        <tr>
+          <td class="th">Reduced fare permit</td>
+          <td>$1.00 <span class="peak">$1.00</span></td>
+          <td>$1.50 <span class="peak">$1.50</span></td>
+          <td>$3.00</td>
+          <td>$4.00</td>
+          <td>$35.00</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <h2>Transfers</h2>
+  <p>A single ride includes free transfers for 90 minutes. Day passes are valid until 04:00 the next morning.</p>
+</main>
+<footer class="site-footer">
+  <ul class="footer-links">
+    <li><a href="help.html#accessibility">Accessibility</a></li>
+    <li><a href="help.html#privacy">Privacy</a></li>
+    <li><a href="help.html#terms">Terms of use</a></li>
+  </ul>
+  <p>&copy; 2026 Brightwater Regional Transit Authority. A fictional agency.</p>
+</footer>
+<script src="js/fares.js"></script>
+</body>
+</html>

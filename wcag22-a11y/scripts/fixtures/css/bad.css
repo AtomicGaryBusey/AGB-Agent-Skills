@@ -1,0 +1,11 @@
+/* bad.css: invented defects */
+*:focus { outline: none; }
+.caption { color: #999999; background: #ffffff; font-size: 14px; }
+.hint { color: #888; background-color: #fff; }
+.layout { width: 1200px; }
+.body-copy { letter-spacing: 0 !important; }
+.site-header { position: fixed; top: 0; }
+input.search { border: 1px solid #e0e0e0; background-color: #ffffff; }
+.btn:focus-visible { outline: 2px solid #f0f0f0; background-color: #ffffff; }
+.icon-btn { width: 18px; height: 18px; }
+.brand { color: var(--brand); background: #fff; }

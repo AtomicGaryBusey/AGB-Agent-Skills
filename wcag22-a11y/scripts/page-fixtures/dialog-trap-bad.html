@@ -1,0 +1,18 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Dialog trap</title>
+<style>#cookie{position:fixed;inset:20% 20%;background:#fff;border:2px solid #000;padding:16px}#cookie[hidden]{display:none}.x{cursor:pointer;float:right}</style></head><body><main>
+<h1>Seed catalogue</h1><p><button id="prefs" aria-haspopup="dialog">Cookie preferences</button> <a href="#list">Browse seeds</a></p><p id="list">Seeds.</p></main>
+<div id="cookie" role="dialog" aria-modal="true" aria-labelledby="ct" hidden><span class="x" onclick="shut()">&times;</span><h2 id="ct">Cookie settings</h2>
+<label><input type="checkbox" id="ana"> Analytics</label> <button id="save">Save choices</button> <button id="more">More options</button></div>
+<script>
+var d = document.getElementById('cookie');
+function shut() { d.hidden = true; document.getElementById('prefs').focus(); }
+document.getElementById('prefs').addEventListener('click', function () { d.hidden = false; document.getElementById('ana').focus(); });
+d.addEventListener('keydown', function (e) {
+  if (e.key === 'Escape') { e.preventDefault(); return; }
+  if (e.key !== 'Tab') return;
+  e.preventDefault();
+  var f = Array.prototype.slice.call(d.querySelectorAll('input, button'));
+  var i = f.indexOf(document.activeElement);
+  f[(i + (e.shiftKey ? f.length - 1 : 1)) % f.length].focus();
+});
+</script></body></html>

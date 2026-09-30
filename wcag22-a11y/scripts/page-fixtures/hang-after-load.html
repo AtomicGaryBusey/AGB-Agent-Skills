@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Hangs after load</title></head>
+<body>
+<main>
+  <h1>Main thread locks up</h1>
+  <p>Two seconds after load a script spins forever, so any check still running then never gets an answer from the page.</p>
+  <button type="button">A button</button>
+</main>
+<script>setTimeout(function () { for (;;) { /* spin */ } }, 2000);</script>
+</body>
+</html>

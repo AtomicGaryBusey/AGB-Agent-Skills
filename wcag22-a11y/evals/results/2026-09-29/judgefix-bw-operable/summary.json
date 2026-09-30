@@ -1,0 +1,76 @@
+{
+  "costUsd": 0.7716608,
+  "partial": false,
+  "partialReason": null,
+  "cases": {
+    "bw-operable": [
+      {
+        "run": 1,
+        "fixture": "brightwater",
+        "model": "claude-opus-5-5",
+        "error": null,
+        "costUsd": 0.7716608,
+        "turns": 28,
+        "skill_used": true,
+        "skill_not_used": null,
+        "recall": "8/8",
+        "missed": [],
+        "severity_match": "8/8",
+        "severity_match_of_found": "8/8",
+        "severity_mismatch": [],
+        "decoy_rows_flagged_regex": [],
+        "decoy_judge_pass": false,
+        "decoy_verdicts_pass": null,
+        "no_peek": true,
+        "score": 0.9999523832198466,
+        "expected_severity": {
+          "H09": [
+            "Nonconformity"
+          ],
+          "H10": [
+            "Nonconformity",
+            "Deviation",
+            "Review"
+          ],
+          "H11": [
+            "Nonconformity"
+          ],
+          "H12": [
+            "Nonconformity",
+            "Deviation"
+          ],
+          "H13": [
+            "Nonconformity",
+            "Deviation"
+          ],
+          "H14": [
+            "Nonconformity",
+            "Deviation",
+            "Review"
+          ],
+          "H15": [
+            "Nonconformity",
+            "Deviation",
+            "Review"
+          ],
+          "H16": [
+            "Nonconformity",
+            "Deviation"
+          ]
+        }
+      }
+    ]
+  },
+  "overall_recall": {
+    "brightwater": {
+      "found": 8,
+      "total": 8,
+      "complete": false,
+      "by_detectability": {
+        "static": "4/4",
+        "manual": "3/3",
+        "rendered": "1/1"
+      }
+    }
+  }
+}

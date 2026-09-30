@@ -1,0 +1,600 @@
+{
+  "schemaVersion": 1,
+  "claudeVersion": "2.1.283",
+  "startedAt": "2026-09-30T05:24:21.402Z",
+  "durationSeconds": 239,
+  "costUsd": 0.754189,
+  "partial": false,
+  "suite": {
+    "root": "<repo>/evals/plugin",
+    "ablation": "none",
+    "judgeModel": "sonnet",
+    "caseFilter": "wcag-perceivable",
+    "threshold": 0,
+    "concurrency": 1,
+    "plugins": [
+      {
+        "name": "wcag22-a11y-eval",
+        "version": "0.0.1",
+        "path": "<repo>/evals/plugin"
+      }
+    ]
+  },
+  "cases": [
+    {
+      "name": "wcag-perceivable",
+      "dir": "cases/wcag-perceivable",
+      "source": "mixed",
+      "promptMarkdown": "This folder is the static front end of the Larkspur Library website: five HTML pages (index, catalog, events, login, signup), styles.css, app.js, and the React sources in src/components/. Audit it for WCAG 2.2 Level AA conformance, limited to Principle 1, Perceivable (success criteria 1.x). Cite each finding as file:line with its success criterion. No shell is available in this environment, so review the files statically; do not delegate to subagents and do not ask me questions. Give the complete audit report as your final reply.",
+      "runsPerCase": 1,
+      "timeoutSeconds": 1800,
+      "maxTurns": 50,
+      "graders": [
+        {
+          "name": "no-peek",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "trace",
+            "pattern": "answer-key\\.md|keyspec\\.json|/graders/|evals/fixtures",
+            "flags": "",
+            "match": "not_contains"
+          }
+        },
+        {
+          "name": "nodecoy-K1",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*?(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b)(?:[^|\\n\\\\]|\\\\.)*\\|(?=(?:[^|\\n\\\\]|\\\\.)*?(?:1\\.1\\.1|alt|decorat|divider|presentation|rule-leaves)(?:[^|\\n\\\\]|\\\\.)*\\||(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*?(?:1\\.1\\.1|alt|decorat|divider|presentation|rule-leaves)(?:[^|\\n\\\\]|\\\\.)*\\||(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*?(?:1\\.1\\.1|alt|decorat|divider|presentation|rule-leaves)(?:[^|\\n\\\\]|\\\\.)*\\|)(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*?(?:index\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:5[1-3])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:5[1-3])[ \\t]?[-\u2013][ \\t]?(?:5[1-3])(?!\\d)))(?:[^|\\n\\\\]|\\\\.)*\\|",
+            "flags": "mi",
+            "match": "not_contains"
+          }
+        },
+        {
+          "name": "nodecoy-K2",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*?(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b)(?:[^|\\n\\\\]|\\\\.)*\\|(?=(?:[^|\\n\\\\]|\\\\.)*?(?:scope|caption|\\bth\\b|layout|header cells?)(?:[^|\\n\\\\]|\\\\.)*\\||(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*?(?:scope|caption|\\bth\\b|layout|header cells?)(?:[^|\\n\\\\]|\\\\.)*\\||(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*?(?:scope|caption|\\bth\\b|layout|header cells?)(?:[^|\\n\\\\]|\\\\.)*\\|)(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*?(?:events\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:(?:5(?:[7-9])|[6-7]\\d{1}|8(?:[0-3])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:(?:5(?:[7-9])|[6-7]\\d{1}|8(?:[0-3])))[ \\t]?[-\u2013][ \\t]?(?:(?:5(?:[7-9])|[6-7]\\d{1}|8(?:[0-3])))(?!\\d)))(?:[^|\\n\\\\]|\\\\.)*\\|",
+            "flags": "mi",
+            "match": "not_contains"
+          }
+        },
+        {
+          "name": "nodecoy-K5",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*?(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b)(?:[^|\\n\\\\]|\\\\.)*\\|(?=(?:[^|\\n\\\\]|\\\\.)*?(?:logo|contrast|1\\.4\\.3|#c9b6ef|1\\.84)(?:[^|\\n\\\\]|\\\\.)*\\||(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*?(?:logo|contrast|1\\.4\\.3|#c9b6ef|1\\.84)(?:[^|\\n\\\\]|\\\\.)*\\||(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*?(?:logo|contrast|1\\.4\\.3|#c9b6ef|1\\.84)(?:[^|\\n\\\\]|\\\\.)*\\|)(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*?(?:styles\\.css[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:(?:3(?:9)|4(?:[0-1])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:(?:3(?:9)|4(?:[0-1])))[ \\t]?[-\u2013][ \\t]?(?:(?:3(?:9)|4(?:[0-1])))(?!\\d))|index\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:1[1-3])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:1[1-3])[ \\t]?[-\u2013][ \\t]?(?:1[1-3])(?!\\d))|catalog\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:1[1-3])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:1[1-3])[ \\t]?[-\u2013][ \\t]?(?:1[1-3])(?!\\d))|events\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:1[1-3])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:1[1-3])[ \\t]?[-\u2013][ \\t]?(?:1[1-3])(?!\\d))|login\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:1[1-3])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:1[1-3])[ \\t]?[-\u2013][ \\t]?(?:1[1-3])(?!\\d))|signup\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:1[1-3])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:1[1-3])[ \\t]?[-\u2013][ \\t]?(?:1[1-3])(?!\\d))|logo-word|#c9b6ef)(?:[^|\\n\\\\]|\\\\.)*\\|",
+            "flags": "mi",
+            "match": "not_contains"
+          }
+        },
+        {
+          "name": "nodecoy-N1",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*?(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b)(?:[^|\\n\\\\]|\\\\.)*\\|(?=(?:[^|\\n\\\\]|\\\\.)*?(?:heading|\\bh4\\b|skip|level|1\\.3\\.1|Opening hours)(?:[^|\\n\\\\]|\\\\.)*\\||(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*?(?:heading|\\bh4\\b|skip|level|1\\.3\\.1|Opening hours)(?:[^|\\n\\\\]|\\\\.)*\\||(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*?(?:heading|\\bh4\\b|skip|level|1\\.3\\.1|Opening hours)(?:[^|\\n\\\\]|\\\\.)*\\|)(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*?(?:index\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:7[6-9])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:7[6-9])[ \\t]?[-\u2013][ \\t]?(?:7[6-9])(?!\\d)))(?:[^|\\n\\\\]|\\\\.)*\\|",
+            "flags": "mi",
+            "match": "not_contains"
+          }
+        },
+        {
+          "name": "nodecoy-N3",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*?(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b)(?:[^|\\n\\\\]|\\\\.)*\\|(?=(?:[^|\\n\\\\]|\\\\.)*?(?:1\\.4\\.10|reflow|320|horizontal|scroll)(?:[^|\\n\\\\]|\\\\.)*\\||(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*?(?:1\\.4\\.10|reflow|320|horizontal|scroll)(?:[^|\\n\\\\]|\\\\.)*\\||(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*?(?:1\\.4\\.10|reflow|320|horizontal|scroll)(?:[^|\\n\\\\]|\\\\.)*\\|)(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*\\|(?:[^|\\n\\\\]|\\\\.)*?(?:events\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:5[6-8])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:5[6-8])[ \\t]?[-\u2013][ \\t]?(?:5[6-8])(?!\\d))|styles\\.css[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:20[1-3])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:20[1-3])[ \\t]?[-\u2013][ \\t]?(?:20[1-3])(?!\\d))|table-scroll)(?:[^|\\n\\\\]|\\\\.)*\\|",
+            "flags": "mi",
+            "match": "not_contains"
+          }
+        },
+        {
+          "name": "nodecoy-judge",
+          "type": "llm",
+          "weight": 0.001,
+          "graderMarkdown": "PASS if none of the properties listed below is reported as a Level A or AA\nviolation. FAIL if any listed property is itself reported as one: a\nfindings-table row with severity Nonconformity or Deviation whose subject IS\nthat property, or a statement that the property violates a Level A or AA\nsuccess criterion.\n\nThe reply is a WCAG 2.2 Level AA accessibility audit report. Each listed item\nis a specific property of the audited project that is known to be COMPLIANT\n(a decoy or a non-scored note).\n\n- K1: The leaf divider image at index.html:52 (img.divider, rule-leaves.svg) with alt=\"\" and role=\"presentation\". Pure decoration hidden from assistive technology is exactly what 1.1.1 requires (H67); role=presentation is redundant but valid. Reporting it as missing a text alternative, or calling the redundant role a defect, is a false positive. (The OTHER divider at index.html:30, flourish.svg, with a descriptive alt, is a real defect and does not count.)\n- K2: The events schedule data table (events.html:57-82, table.schedule) with <caption>, <th scope=\"col\"> and <th scope=\"row\">. It is genuine tabular data and scope/caption make header relationships programmatic (1.3.1, H63, H39). Calling it layout-table misuse or a 1.3.1 failure is a false positive.\n- K5: The low-contrast logotype text 'Larkspur Library' (.logo-word, #c9b6ef on white, styles.css:40; markup at line 12 of each page). The 1.4.3 Logotypes exception applies (text that is part of a logo or brand name has no contrast requirement), and the logo is not a link or control. Reporting it as a contrast failure is a false positive.\n- N1: The heading-level skip at index.html:77-78 (h2 'Visit us' followed by h4 'Opening hours'). WCAG 2.2 has no SC requiring sequential heading levels; the heading is marked up as a heading so 1.3.1 is met. At most a best-practice remark; reporting it as a Nonconformity or Deviation is a false positive.\n- N3: The events schedule table at 320px (events.html:57, div.table-scroll; styles.css:202). It scrolls inside its own labelled, focusable region and the page itself does not scroll sideways; 1.4.10 Note 2 lets data tables use two-dimensional layout. Reporting it as a reflow failure is a false positive. (The featured-row grid on index.html, styles.css:105-107, is a real reflow defect and does not count.)\n\nHow to judge each item:\n- Findings about OTHER problems that happen to mention the same file, line or\n  success criterion do not count (for example a real defect on a neighbouring\n  element, or the same technique used wrongly on a different page).\n- Calling the property compliant, passing, excepted or \"no finding\" is fine.\n  So is a best-practice remark, an Advisory or Review note, or a note that it\n  matters only at AAA, when it is clearly not presented as a Level A/AA\n  violation.\n\nIf FAIL, name the decoy.",
+          "config": {
+            "criteria": "PASS if none of the properties listed below is reported as a Level A or AA\nviolation. FAIL if any listed property is itself reported as one: a\nfindings-table row with severity Nonconformity or Deviation whose subject IS\nthat property, or a statement that the property violates a Level A or AA\nsuccess criterion.\n\nThe reply is a WCAG 2.2 Level AA accessibility audit report. Each listed item\nis a specific property of the audited project that is known to be COMPLIANT\n(a decoy or a non-scored note).\n\n- K1: The leaf divider image at index.html:52 (img.divider, rule-leaves.svg) with alt=\"\" and role=\"presentation\". Pure decoration hidden from assistive technology is exactly what 1.1.1 requires (H67); role=presentation is redundant but valid. Reporting it as missing a text alternative, or calling the redundant role a defect, is a false positive. (The OTHER divider at index.html:30, flourish.svg, with a descriptive alt, is a real defect and does not count.)\n- K2: The events schedule data table (events.html:57-82, table.schedule) with <caption>, <th scope=\"col\"> and <th scope=\"row\">. It is genuine tabular data and scope/caption make header relationships programmatic (1.3.1, H63, H39). Calling it layout-table misuse or a 1.3.1 failure is a false positive.\n- K5: The low-contrast logotype text 'Larkspur Library' (.logo-word, #c9b6ef on white, styles.css:40; markup at line 12 of each page). The 1.4.3 Logotypes exception applies (text that is part of a logo or brand name has no contrast requirement), and the logo is not a link or control. Reporting it as a contrast failure is a false positive.\n- N1: The heading-level skip at index.html:77-78 (h2 'Visit us' followed by h4 'Opening hours'). WCAG 2.2 has no SC requiring sequential heading levels; the heading is marked up as a heading so 1.3.1 is met. At most a best-practice remark; reporting it as a Nonconformity or Deviation is a false positive.\n- N3: The events schedule table at 320px (events.html:57, div.table-scroll; styles.css:202). It scrolls inside its own labelled, focusable region and the page itself does not scroll sideways; 1.4.10 Note 2 lets data tables use two-dimensional layout. Reporting it as a reflow failure is a false positive. (The featured-row grid on index.html, styles.css:105-107, is a real reflow defect and does not count.)\n\nHow to judge each item:\n- Findings about OTHER problems that happen to mention the same file, line or\n  success criterion do not count (for example a real defect on a neighbouring\n  element, or the same technique used wrongly on a different page).\n- Calling the property compliant, passing, excepted or \"no finding\" is fine.\n  So is a best-practice remark, an Advisory or Review note, or a note that it\n  matters only at AAA, when it is clearly not presented as a Level A/AA\n  violation.\n\nIf FAIL, name the decoy.",
+            "focus": "last_message"
+          }
+        },
+        {
+          "name": "recall-D01",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:catalog\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:3[7-9])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|[1-3]\\d{1})[ \\t]?[-\u2013][ \\t]?(?:(?:(?:3(?:[7-9])|[4-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:4[5-7])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\\d{1}|4(?:[0-7])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:4(?:[5-9])|[5-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:5[3-5])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-4]\\d{1}|5(?:[0-5])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:5(?:[3-9])|[6-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:6[1-3])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-5]\\d{1}|6(?:[0-3])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:6(?:[1-9])|[7-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))|BookCard\\.jsx[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:[6-8])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-8])[ \\t]?[-\u2013][ \\t]?(?:(?:[6-9])|[1-9]\\d{1,})(?!\\d))))(?=[^\\n]*(?:1\\.1\\.1|\\balt\\b|text alternative|F65))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-D02",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:index\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:(?:2(?:9)|3(?:[0-1])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|2\\d{1}|3(?:[0-1])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:2(?:9)|[3-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:1\\.1\\.1|decorat|flourish|divider|F39))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-D03",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:events\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:3[5-7])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|2\\d{1}|3(?:[0-7])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:3(?:[5-9])|[4-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:4[2-4])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\\d{1}|4(?:[0-4])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:4(?:[2-9])|[5-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:(?:4(?:9)|5(?:[0-1])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-4]\\d{1}|5(?:[0-1])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:4(?:9)|[5-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))|styles\\.css[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:18[4-6])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|[1-9]\\d{1}|1(?:0(?:[0-9])|[1-7]\\d{1}|8(?:[0-6])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:1(?:(?:8(?:[4-9])|9(?:[0-9])))|[2-8]\\d{2}|9(?:[0-9]\\d{1})))|[1-9]\\d{3,})(?!\\d))))(?=[^\\n]*(?:1\\.3\\.1|heading|<h2|\\bh2\\b|event-title|\\bF2\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-D04",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:signup\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:3[3-5])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|2\\d{1}|3(?:[0-5])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:3(?:[3-9])|[4-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:3[7-9])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|[1-3]\\d{1})[ \\t]?[-\u2013][ \\t]?(?:(?:(?:3(?:[7-9])|[4-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:4[1-3])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\\d{1}|4(?:[0-3])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:4(?:[1-9])|[5-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:4[5-7])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\\d{1}|4(?:[0-7])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:4(?:[5-9])|[5-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:(?:4(?:9)|5(?:[0-1])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-4]\\d{1}|5(?:[0-1])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:4(?:9)|[5-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:(?:5(?:[8-9])|6(?:0)))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-5]\\d{1}|6(?:0)))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:5(?:[8-9])|[6-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:1\\.3\\.5|autocomplete|input purpose))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-D05",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:app\\.js[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:10[2-4])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|[1-9]\\d{1}|10[0-4])[ \\t]?[-\u2013][ \\t]?(?:(?:(?:1(?:(?:0(?:[2-9])|[1-8]\\d{1}|9(?:[0-9])))|[2-8]\\d{2}|9(?:[0-9]\\d{1})))|[1-9]\\d{3,})(?!\\d))|styles\\.css[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:2(?:4(?:9)|5(?:[0-1])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|[1-9]\\d{1}|(?:1(?:[0-9]\\d{1})|2(?:(?:0(?:[0-9])|[1-4]\\d{1}|5(?:[0-1])))))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:2(?:(?:4(?:9)|[5-8]\\d{1}|9(?:[0-9])))|[3-8]\\d{2}|9(?:[0-9]\\d{1})))|[1-9]\\d{3,})(?!\\d))))(?=[^\\n]*(?:1\\.4\\.1(?!\\d)|3\\.3\\.1(?!\\d)|colou?r (?:alone|only)|only (?:by )?colou?r|aria-invalid|F81))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-D06",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:styles\\.css[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:1(?:8(?:9)|9(?:[0-1])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|[1-9]\\d{1}|1(?:0(?:[0-9])|[1-8]\\d{1}|9(?:[0-1])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:1(?:(?:8(?:9)|9(?:[0-9])))|[2-8]\\d{2}|9(?:[0-9]\\d{1})))|[1-9]\\d{3,})(?!\\d))|events\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:3[6-8])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|2\\d{1}|3(?:[0-8])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:3(?:[6-9])|[4-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:4[3-5])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\\d{1}|4(?:[0-5])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:4(?:[3-9])|[5-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:5[0-2])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-4]\\d{1}|5(?:[0-2])))[ \\t]?[-\u2013][ \\t]?(?:(?:[5-9]\\d{1})|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:1\\.4\\.3|contrast|#999|2\\.85|event-meta))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-D07",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:signup\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:3[3-5])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|2\\d{1}|3(?:[0-5])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:3(?:[3-9])|[4-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))|styles\\.css[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:2(?:4(?:[8-9])|5(?:0)))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|[1-9]\\d{1}|(?:1(?:[0-9]\\d{1})|2(?:(?:0(?:[0-9])|[1-4]\\d{1}|5(?:0)))))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:2(?:(?:4(?:[8-9])|[5-8]\\d{1}|9(?:[0-9])))|[3-8]\\d{2}|9(?:[0-9]\\d{1})))|[1-9]\\d{3,})(?!\\d))))(?=[^\\n]*(?:placeholder|#aaa|2\\.32))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-D08",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:styles\\.css[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:10[4-8])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|[1-9]\\d{1}|10[0-8])[ \\t]?[-\u2013][ \\t]?(?:(?:(?:1(?:(?:0(?:[4-9])|[1-8]\\d{1}|9(?:[0-9])))|[2-8]\\d{2}|9(?:[0-9]\\d{1})))|[1-9]\\d{3,})(?!\\d))|index\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:5[5-7])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-4]\\d{1}|5(?:[0-7])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:5(?:[5-9])|[6-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:1\\.4\\.10|reflow|320|horizontal scroll|featured-row|240px))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-D09",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:styles\\.css[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:19[0-9])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|[1-9]\\d{1}|1[0-9]\\d{1})[ \\t]?[-\u2013][ \\t]?(?:(?:(?:1(?:9[0-9])|[2-8]\\d{2}|9(?:[0-9]\\d{1})))|[1-9]\\d{3,})(?!\\d))|events\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:(?:3(?:[8-9])|4(?:0)))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\\d{1}|4(?:0)))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:3(?:[8-9])|[4-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:4[5-7])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\\d{1}|4(?:[0-7])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:4(?:[5-9])|[5-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:5[2-4])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-4]\\d{1}|5(?:[0-4])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:5(?:[2-9])|[6-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:1\\.4\\.12|text spacing|btn-fixed|overflow|clip|F104))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "recall-D10",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:styles\\.css[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:24[5-8])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|[1-9]\\d{1}|(?:1(?:[0-9]\\d{1})|2(?:(?:0(?:[0-9])|[1-3]\\d{1}|4(?:[0-8])))))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:2(?:(?:4(?:[5-9])|[5-8]\\d{1}|9(?:[0-9])))|[3-8]\\d{2}|9(?:[0-9]\\d{1})))|[1-9]\\d{3,})(?!\\d))|signup\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:(?:3(?:[3-9])|[4-5]\\d{1}|6(?:[0-8])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-5]\\d{1}|6(?:[0-8])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:3(?:[3-9])|[4-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:1\\.4\\.11|non-text contrast|border|#d6d6d6|1\\.45))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-D01",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:catalog\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:3[7-9])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|[1-3]\\d{1})[ \\t]?[-\u2013][ \\t]?(?:(?:(?:3(?:[7-9])|[4-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:4[5-7])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\\d{1}|4(?:[0-7])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:4(?:[5-9])|[5-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:5[3-5])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-4]\\d{1}|5(?:[0-5])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:5(?:[3-9])|[6-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:6[1-3])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-5]\\d{1}|6(?:[0-3])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:6(?:[1-9])|[7-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))|BookCard\\.jsx[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:[6-8])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-8])[ \\t]?[-\u2013][ \\t]?(?:(?:[6-9])|[1-9]\\d{1,})(?!\\d))))(?=[^\\n]*(?:1\\.1\\.1|\\balt\\b|text alternative|F65))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies))\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-D02",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:index\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:(?:2(?:9)|3(?:[0-1])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|2\\d{1}|3(?:[0-1])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:2(?:9)|[3-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:1\\.1\\.1|decorat|flourish|divider|F39))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?|Review(?:[ -]notes?)?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-D03",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:events\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:3[5-7])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|2\\d{1}|3(?:[0-7])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:3(?:[5-9])|[4-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:4[2-4])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\\d{1}|4(?:[0-4])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:4(?:[2-9])|[5-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:(?:4(?:9)|5(?:[0-1])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-4]\\d{1}|5(?:[0-1])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:4(?:9)|[5-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))|styles\\.css[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:18[4-6])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|[1-9]\\d{1}|1(?:0(?:[0-9])|[1-7]\\d{1}|8(?:[0-6])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:1(?:(?:8(?:[4-9])|9(?:[0-9])))|[2-8]\\d{2}|9(?:[0-9]\\d{1})))|[1-9]\\d{3,})(?!\\d))))(?=[^\\n]*(?:1\\.3\\.1|heading|<h2|\\bh2\\b|event-title|\\bF2\\b))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?|Review(?:[ -]notes?)?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-D04",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:signup\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:3[3-5])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|2\\d{1}|3(?:[0-5])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:3(?:[3-9])|[4-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:3[7-9])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|[1-3]\\d{1})[ \\t]?[-\u2013][ \\t]?(?:(?:(?:3(?:[7-9])|[4-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:4[1-3])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\\d{1}|4(?:[0-3])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:4(?:[1-9])|[5-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:4[5-7])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\\d{1}|4(?:[0-7])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:4(?:[5-9])|[5-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:(?:4(?:9)|5(?:[0-1])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-4]\\d{1}|5(?:[0-1])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:4(?:9)|[5-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:(?:5(?:[8-9])|6(?:0)))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-5]\\d{1}|6(?:0)))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:5(?:[8-9])|[6-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:1\\.3\\.5|autocomplete|input purpose))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies))\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-D05",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:app\\.js[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:10[2-4])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|[1-9]\\d{1}|10[0-4])[ \\t]?[-\u2013][ \\t]?(?:(?:(?:1(?:(?:0(?:[2-9])|[1-8]\\d{1}|9(?:[0-9])))|[2-8]\\d{2}|9(?:[0-9]\\d{1})))|[1-9]\\d{3,})(?!\\d))|styles\\.css[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:2(?:4(?:9)|5(?:[0-1])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|[1-9]\\d{1}|(?:1(?:[0-9]\\d{1})|2(?:(?:0(?:[0-9])|[1-4]\\d{1}|5(?:[0-1])))))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:2(?:(?:4(?:9)|[5-8]\\d{1}|9(?:[0-9])))|[3-8]\\d{2}|9(?:[0-9]\\d{1})))|[1-9]\\d{3,})(?!\\d))))(?=[^\\n]*(?:1\\.4\\.1(?!\\d)|3\\.3\\.1(?!\\d)|colou?r (?:alone|only)|only (?:by )?colou?r|aria-invalid|F81))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?|Review(?:[ -]notes?)?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-D06",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:styles\\.css[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:1(?:8(?:9)|9(?:[0-1])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|[1-9]\\d{1}|1(?:0(?:[0-9])|[1-8]\\d{1}|9(?:[0-1])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:1(?:(?:8(?:9)|9(?:[0-9])))|[2-8]\\d{2}|9(?:[0-9]\\d{1})))|[1-9]\\d{3,})(?!\\d))|events\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:3[6-8])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|2\\d{1}|3(?:[0-8])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:3(?:[6-9])|[4-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:4[3-5])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\\d{1}|4(?:[0-5])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:4(?:[3-9])|[5-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:5[0-2])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-4]\\d{1}|5(?:[0-2])))[ \\t]?[-\u2013][ \\t]?(?:(?:[5-9]\\d{1})|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:1\\.4\\.3|contrast|#999|2\\.85|event-meta))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-D07",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:signup\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:3[3-5])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|2\\d{1}|3(?:[0-5])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:3(?:[3-9])|[4-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))|styles\\.css[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:2(?:4(?:[8-9])|5(?:0)))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|[1-9]\\d{1}|(?:1(?:[0-9]\\d{1})|2(?:(?:0(?:[0-9])|[1-4]\\d{1}|5(?:0)))))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:2(?:(?:4(?:[8-9])|[5-8]\\d{1}|9(?:[0-9])))|[3-8]\\d{2}|9(?:[0-9]\\d{1})))|[1-9]\\d{3,})(?!\\d))))(?=[^\\n]*(?:placeholder|#aaa|2\\.32))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-D08",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:styles\\.css[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:10[4-8])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|[1-9]\\d{1}|10[0-8])[ \\t]?[-\u2013][ \\t]?(?:(?:(?:1(?:(?:0(?:[4-9])|[1-8]\\d{1}|9(?:[0-9])))|[2-8]\\d{2}|9(?:[0-9]\\d{1})))|[1-9]\\d{3,})(?!\\d))|index\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:5[5-7])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-4]\\d{1}|5(?:[0-7])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:5(?:[5-9])|[6-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:1\\.4\\.10|reflow|320|horizontal scroll|featured-row|240px))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-D09",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:styles\\.css[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:19[0-9])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|[1-9]\\d{1}|1[0-9]\\d{1})[ \\t]?[-\u2013][ \\t]?(?:(?:(?:1(?:9[0-9])|[2-8]\\d{2}|9(?:[0-9]\\d{1})))|[1-9]\\d{3,})(?!\\d))|events\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:(?:3(?:[8-9])|4(?:0)))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\\d{1}|4(?:0)))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:3(?:[8-9])|[4-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:4[5-7])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\\d{1}|4(?:[0-7])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:4(?:[5-9])|[5-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:5[2-4])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-4]\\d{1}|5(?:[0-4])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:5(?:[2-9])|[6-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:1\\.4\\.12|text spacing|btn-fixed|overflow|clip|F104))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "severity-D10",
+          "type": "regex",
+          "weight": 1,
+          "config": {
+            "target": "last_message",
+            "pattern": "^(?=[^\\n]*(?:styles\\.css[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:24[5-8])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|[1-9]\\d{1}|(?:1(?:[0-9]\\d{1})|2(?:(?:0(?:[0-9])|[1-3]\\d{1}|4(?:[0-8])))))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:2(?:(?:4(?:[5-9])|[5-8]\\d{1}|9(?:[0-9])))|[3-8]\\d{2}|9(?:[0-9]\\d{1})))|[1-9]\\d{3,})(?!\\d))|signup\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:(?:3(?:[3-9])|[4-5]\\d{1}|6(?:[0-8])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-5]\\d{1}|6(?:[0-8])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:3(?:[3-9])|[4-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:1\\.4\\.11|non-text contrast|border|#d6d6d6|1\\.45))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+            "flags": "mi",
+            "match": "contains"
+          }
+        },
+        {
+          "name": "skill-used",
+          "type": "tool_used",
+          "weight": 1,
+          "config": {
+            "tool": "Skill",
+            "input_match": "\"skill\"\\s*:\\s*\"(?:[\\w-]+:)?wcag22\\-a11y\"",
+            "min": 1
+          }
+        }
+      ],
+      "arms": {
+        "with": [
+          {
+            "score": 0.9999629643346543,
+            "passed": false,
+            "turns": 23,
+            "costUsd": 0.754189,
+            "judgeCostUsd": 0.05265,
+            "durationSeconds": 238,
+            "startedAt": "2026-09-30T05:24:21.469Z",
+            "error": null,
+            "tracePath": "<run-sandbox>/out/trace.jsonl",
+            "skippedPaidGraders": false,
+            "graders": [
+              {
+                "name": "no-peek",
+                "passed": true,
+                "weight": 1,
+                "explanation": "pattern absent as expected",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "nodecoy-K1",
+                "passed": true,
+                "weight": 1,
+                "explanation": "pattern absent as expected",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "nodecoy-K2",
+                "passed": true,
+                "weight": 1,
+                "explanation": "pattern absent as expected",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "nodecoy-K5",
+                "passed": true,
+                "weight": 1,
+                "explanation": "pattern absent as expected",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "nodecoy-N1",
+                "passed": true,
+                "weight": 1,
+                "explanation": "pattern absent as expected",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "nodecoy-N3",
+                "passed": true,
+                "weight": 1,
+                "explanation": "pattern absent as expected",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "nodecoy-judge",
+                "passed": false,
+                "weight": 0.001,
+                "explanation": "judge votes: FAIL FAIL FAIL",
+                "withOnly": false,
+                "scored": true,
+                "judgeVotes": [
+                  false,
+                  false,
+                  false
+                ],
+                "evidence": "# WCAG 2.2 Level AA audit: Larkspur Library static front end, Principle 1 (Perceivable) only\n\n**Scope:** `index.html`, `catalog.html`, `events.html`, `login.html`, `signup.html`, `styles.css`, `app.js` and `src/components/*.jsx` (the JSX files are unbuilt sources for the HTML pages). Processes: sign-in (login steps 1\u20132), card sign-up (steps 1\u20132) and event reservation (the dialog). Level AA, limited to the 20 Principle 1 criteria (1.1.1\u20131.4.13). The criteria version is WCAG 2.2 (W3C Recommendation, 12 Dec 2024). Tools: none. I reviewed the code by reading it, with no rendering, browser or assistive technology.\n\n**Summary:** 11 nonconformities, 3 deviations, 2 advisories and 9 review notes. Of the 20 criteria, 7 fail, 4 pass (static review only), 7 don't apply (N/A) and 2 were not evaluated. **Result: the site does not conform.** The failing criteria are 1.1.1, 1.3.1, 1.3.5, 1.4.3, 1.4.10, 1.4.11 and 1.4.12.\n\n**Evidence:** I read all 5 pages, `styles.css`, `app.js`, the 5 components and the SVG assets. I worked out contrast ratios by hand from the CSS hex values using the WCAG relative-luminance formula. The scanner (`wcag_scan`), page runner (`wcag_page`) and screen-reader test were not run because no shell was available.\n\n## Findings\n\nSeverity terms: a **nonconformity** is a confirmed failure. A **deviation** is a likely failure that still needs a rendered test to confirm. An **advisory** is best practice, not a failure.\n\n| # | Severity | Check ID | Ref | Target | Location | Finding | Evidence | Fix |\n|---|---|---|---|---|---|---|---|---|\n| 1 | Nonconformity | WCAG-1.1.1 | WCAG 2.2 SC 1.1.1 (Level A) | page, component | catalog.html:38, :46, :54, :62; src/components/BookCard.jsx:7 | Book cover images have no `alt` attribute. Screen readers may announce the file name (e.g. \"cover-orchard.svg\"). | `<img src=\"images/cover-orchard.svg\">` has no `alt`. The SVG shows only the title, which the `<h2>` link right next to it already gives. | Add `alt=\"\"` (the heading already gives the title). In BookCard: `<img src={book.coverUrl} alt=\"\" />`. |\n| 2 | Nonconformity | WCAG-1.1.1 | WCAG 2.2 SC 1.1.1 (Level A); also breaks 4.1.2 | page, component | catalog.html:29; src/components/SearchBar.jsx:20-21 | The search button's only content is an image with `alt=\"\"`, so the button has no text alternative or name. | The button has no text and no `aria-label`. `icon-search.svg` is a magnifier glyph. | `<img src=\"images/icon-search.svg\" alt=\"Search\">`, or put `aria-label=\"Search\"` on the `<button>`. |\n| 3 | Nonconformity | WCAG-1.1.1 | WCAG 2.2 SC 1.1.1 (Level A), failure technique F38 | page | index.html:30 | A purely decorative divider has alt text, so screen readers announce \"Purple decorative flourish divider\" and can't skip it. | `flourish.svg` is a single wavy stroke with no information. The similar divider at index.html:52 is correctly hidden. | `alt=\"\"` (optionally `role=\"presentation\"`), matching index.html:52. |\n| 4 | Nonconformity | WCAG-1.1.1 | WCAG 2.2 SC 1.1.1 (Level A), CAPTCHA exception | page, script | login.html:52-53; app.js:114-120 | The CAPTCHA exception requires the CAPTCHA in another sensory mode. The \"audio check\" button only reveals a line of text; no audio is ever loaded or played, so the image puzzle has no working non-visual alternative. | The click handler only sets `#audio-instructions.hidden = false`. There is no `<audio>` element or audio source anywhere in the front end. The image alts (\"CAPTCHA picture 1\"\u2026) are enough under the exception. | Provide a working audio CAPTCHA (an `<audio controls>` element per clip plus answer controls). Better: replace the puzzle with a check that needs no perception, or a human-assisted fallback. |\n| 5 | Nonconformity | WCAG-1.3.1 | WCAG 2.2 SC 1.3.1 (Level A), failure technique F2 | page, stylesheet | events.html:36, :43, :50; styles.css:185-189 | Event names look like headings (1.4rem bold) but are marked up as `<p>`. The three event sections have no heading structure for screen readers. | `<p class=\"event-title\">Toddler Rhyme Time</p>`. The only headings under the `<h1>` are the later `<h2 id=\"access\">` and the dialog's `<h2>`. | Use `<h2 class=\"event-title\">\u2026</h2>`. Optionally make each `.event` an `<article>` (or `<section aria-labelledby>`). |\n| 6 | Nonconformity | WCAG-1.3.5 | WCAG 2.2 SC 1.3.5 (Level AA) | page | signup.html:34, :38, :42, :46, :50, :59 | Sign-up fields that collect the user's own details don't declare their purpose, so browsers can't autofill them. | These inputs have no `autocomplete`: `#full-name`, `#email`, `#phone`, `#street`, `#postcode`, `#card-email`. (login.html:33 and events.html:93/97 do set it.) | Add `autocomplete=\"name\"`, `\"email\"`, `\"tel\"`, `\"street-address\"` (or `address-line1`), `\"postal-code\"` and `\"email\"` respectively. |\n| 7 | Nonconformity | WCAG-1.4.3 | WCAG 2.2 SC 1.4.3 (Level AA) | stylesheet, page | styles.css:190; events.html:37, :44, :51 | The event date, time and room text has too little contrast. | `#999999` on `#ffffff` = **2.85:1** (4.5:1 required; the text is 16px, normal weight). | `.event-meta { color: #595959; }` (7.0:1) or any colour of at least `#767676` darkness (4.54:1). |\n| 8 | Nonconformity | WCAG-1.4.3 | WCAG 2.2 SC 1.4.3 (Level AA) | stylesheet, page | styles.css:249; signup.html:34 | Placeholder text has too little contrast. On the Full name field it is the only label, so users must be able to read it. | `::placeholder #aaaaaa` on `#ffffff` = **2.32:1**. Placeholder text has no contrast exemption. | Give the field a visible `<label for=\"full-name\">Full name (required)</label>` and drop the placeholder. If you keep a placeholder, use `#767676` or darker. (Missing label: see review note R8.) |\n| 9 | Nonconformity | WCAG-1.4.10 | WCAG 2.2 SC 1.4.10 (Level AA) | stylesheet, page | styles.css:105-109; index.html:56 | The Staff picks grid has fixed-width columns, so the home page scrolls sideways at a 320 CSS px viewport (400% zoom). | `grid-template-columns: repeat(4, 240px)` plus 3 \u00d7 1.25rem gaps = 1020px minimum width. There is no media query and no `max-width`. | `grid-template-columns: repeat(auto-fill, minmax(min(15rem, 100%), 1fr));` |\n| 10 | Nonconformity | WCAG-1.4.11 | WCAG 2.2 SC 1.4.11 (Level AA) | stylesheet, page | styles.css:246-248; signup.html:34-67 | Sign-up inputs are white boxes on a white page. Their 1px border is the only thing that shows where each field is, and it is too faint. | `#d6d6d6` border against `#ffffff` = **1.45:1** (3:1 required). This rule overrides the compliant `#767676` border (4.54:1) set at styles.css:243. | Delete the `.signup-form input { border\u2026 }` rule, or use `border: 1px solid #767676`. |\n| 11 | Nonconformity | WCAG-1.4.12 | WCAG 2.2 SC 1.4.12 (Level AA) | stylesheet, page | styles.css:191-199; events.html:39, :46, :53 | The \"Reserve a seat\" buttons cut off their text when users apply the text-spacing overrides the criterion requires. | The button is a fixed `112px \u00d7 32px` box with `overflow: hidden` and `white-space: nowrap`. With letter-spacing 0.12em and word-spacing 0.16em at 15px, the label gains about 30px and no longer fits the 104px content box. | Remove the fixed `width`, `height` and `overflow`. Use `min-height: 2rem; padding: 0.25rem 0.75rem;` and let the text wrap. |\n| 12 | Deviation | WCAG-1.4.1 | WCAG 2.2 SC 1.4.1 (Level A), failure technique F81 | stylesheet, script | styles.css:250; app.js:102-104 | An empty required field is shown as an error only by its border turning red. There is no icon, text or other visual change. | The only change is `.invalid { border-color: #c62828 }` (from `#d6d6d6`). The two colours differ in lightness by 3.86:1, so some users may notice. I graded this as a deviation rather than a nonconformity because a lightness difference can arguably count as more than colour alone. | Add an inline text message (\"Enter your full name\") linked with `aria-describedby`, and an error icon or thicker border. Set `aria-invalid=\"true\"`. |\n| 13 | Deviation | WCAG-1.4.4 | WCAG 2.2 SC 1.4.4 (Level AA) | stylesheet | styles.css:191-199; styles.css:159-169 | Text in fixed-pixel boxes may clip or overflow when only the text is enlarged. Full-page zoom scales the boxes too and should pass. | The `.btn-fixed` text (15px) doubles to about 30px in a 112px box with `overflow: hidden`. The pager links are 16\u00d716px boxes whose 11px digits spill out at 200%. | Same fix as #11. For the pager, use `min-width: 2.75rem; min-height: 2.75rem; font-size: 1rem;` in rem units. |\n| 14 | Deviation | WCAG-1.4.10 | WCAG 2.2 SC 1.4.10 (Level AA) | stylesheet, page | styles.css:206-222; events.html:86-101 | The reservation dialog is vertically centred in a fixed-position backdrop that can't scroll. At 320\u00d7256 CSS px (1280\u00d71024 at 400%), the top and bottom of the dialog are likely out of reach, including the Confirm button. | `.modal-backdrop { position: fixed; inset: 0; display: flex; align-items: center; }` has no `overflow-y`. The dialog's estimated height (title, text, 2 fields and a button, plus 3rem of padding) is over 256px. | `.modal-backdrop { overflow-y: auto; align-items: flex-start; padding: 1rem; }` or `.modal { max-height: calc(100vh - 2rem); overflow-y: auto; }` |\n| 15 | Advisory | WCAG-BP-logotype-contrast | WCAG 2.2 SC 1.4.3 (Level AA), logotype exception | stylesheet | styles.css:40-41; index.html:12, catalog.html:11, events.html:13, login.html:12, signup.html:12 | The \"Larkspur Library\" wordmark is hard to read. It is exempt from 1.4.3 because it is a logotype, so this is not a failure. | `#c9b6ef` on `#ffffff` = **1.84:1**. | Use the brand purple `#4b2a7b` for `.logo-word` (about 11:1). |\n| 16 | Advisory | WCAG-BP-heading-order | WCAG 2.2 SC 1.3.1 (Level A), best practice | page | index.html:77-78 | The heading level jumps from `<h2>` \"Visit us\" to `<h4>` \"Opening hours\". | h2 \u2192 h4. No criterion requires headings in sequence. | Change it to `<h3>`. |\n\n## SC coverage\n\n| SC | Level | Status | Notes |\n|---|---|---|---|\n| 1.1.1 Non-text Content | A | **Fail** | #1\u2013#4 |\n| 1.2.1 Audio-only and Video-only (Prerecorded) | A | N/A | No media on any page |\n| 1.2.2 Captions (Prerecorded) | A | N/A | No media |\n| 1.2.3 Audio Description or Media Alternative (Prerecorded) | A | N/A | No media |\n| 1.2.4 Captions (Live) | AA | N/A | No media |\n| 1.2.5 Audio Description (Prerecorded) | AA | N/A | No media |\n| 1.3.1 Info and Relationships | A | **Fail** | #5 (plus advisory #16; R8) |\n| 1.3.2 Meaningful Sequence | A | Pass (static) | Source order matches visual order. Re-sorting reorders the DOM too. |\n| 1.3.3 Sensory Characteristics | A | Pass (static) | No shape, location or sound-only instructions outside the CAPTCHA |\n| 1.3.4 Orientation | AA | Pass (static) | No orientation media queries or locks in the CSS or JS |\n| 1.3.5 Identify Input Purpose | AA | **Fail** | #6 |\n| 1.4.1 Use of Color | A | Not evaluated | Deviation #12 is still open |\n| 1.4.2 Audio Control | A | N/A | No audio, not even for the \"audio check\" |\n| 1.4.3 Contrast (Minimum) | AA | **Fail** | #7, #8 (#15 exempt) |\n| 1.4.4 Resize Text | AA | Not evaluated | Deviation #13 is still open |\n| 1.4.5 Images of Text | AA | Pass (static) | See R1 |\n| 1.4.10 Reflow | AA | **Fail** | #9 (plus deviation #14) |\n| 1.4.11 Non-text Contrast | AA | **Fail** | #10 |\n| 1.4.12 Text Spacing | AA | **Fail** | #11 |\n| 1.4.13 Content on Hover or Focus | AA | N/A | No content appears on hover or focus (no tooltips, `title` popups or menus) |\n\n## Review notes\n\n- **R1 (1.4.5):** The cover SVGs put the book title in SVG `<text>` inside an `<img>`, which counts as an image of text. A book cover is a presentation where that text is essential, so this is exempt. The real text is in the adjacent `<h2>` anyway.\n- **R2 (1.1.1):** Some images are correctly handled and not findings. The leaf divider (index.html:52, `alt=\"\" role=\"presentation\"`) and the logo dots (`aria-hidden`) are correctly hidden. The CAPTCHA images' alts plus the `<legend>` meet the \"identify and describe the purpose\" half of the CAPTCHA exception. Only the alternative-mode half fails (#4).\n- **R3 (1.4.3 / 1.4.11):** The other colour pairs pass:\n  - White text on `.btn` / `.icon-btn` purple `#5b3a9b`: 8.35:1.\n  - Links `#4b2a7b` on white: about 11:1.\n  - Footer `#f0eaf8` on `#2d1a4a`: about 14:1.\n  - `#767676` borders on white: 4.54:1.\n  - The red error border `#c62828` on white: 5.6:1.\n- **R4 (1.4.10):** The schedule table's horizontal scroll area (events.html:57, `.table-scroll`) is exempt because data tables need two-dimensional layout. The sticky header switches to `position: static` at \u2264640px (styles.css:66-68), so it doesn't take up the screen at 400% zoom.\n- **R5 (1.4.11 vs 2.4.7):** `.site-nav a:focus { outline: none; }` (styles.css:59) removes the focus indicator entirely. That fails 2.4.7, which is outside this Principle 1 scope. Because no author-drawn indicator is left, there is nothing to measure under 1.4.11. Other controls use the browser's default focus ring, which 1.4.11 exempts.\n- **R6 (1.3.2):** The carousel's off-screen slides (index.html:34-49) stay in reading order and in the accessibility tree. That is fine for 1.3.2. The auto-rotation is a 2.2.2 matter and outside this scope.\n- **R7 (components):** The JSX components copy the HTML defects: BookCard \u2192 #1, SearchBar \u2192 #2, Modal \u2192 same markup as events.html. Carousel.jsx and ReadingList.jsx have no Perceivable-specific defects beyond the HTML ones.\n- **R8 (1.3.1 / 3.3.2):** `#full-name` (signup.html:34) is labelled only by its placeholder. The placeholder gives it an accessible name, so I did not fail it under 1.3.1. The missing visible label belongs to 3.3.2, which is outside this scope. The catalog search input (catalog.html:28, SearchBar.jsx:14) has no label at all (3.3.2 / 4.1.2, also outside scope).\n- **R9 (1.3.1):** The social links in `<div class=\"social\" aria-hidden=\"true\">` (index.html:85-88) can be focused but are hidden from assistive technology. I graded this under 4.1.2 (outside scope) rather than 1.3.1.\n\n## Manual checks required\n\n- **1.4.1:** Confirm #12 visually, with a colour-blindness simulation and in greyscale, after triggering the step-1 validation on signup.html.\n- **1.4.4:** Confirm #13 at 200% with text-only zoom (Firefox \"Zoom text only\", Safari) and with full-page zoom on events.html and catalog.html.\n- **1.4.10:** Confirm deviation #14 at 320\u00d7256 CSS px with the reservation dialog open. Re-check #9 once fixed.\n- **Rendered confirmation of the static passes:** 1.3.2, 1.3.3, 1.3.4 and 1.4.5 are graded from source only. Confirm them in a browser.\n- **Screen-reader smoke test (not done):** confirm the search button name (#2), cover image announcements (#1), event headings (#5) and the CAPTCHA alternative (#4). Use NVDA + Firefox and VoiceOver + Safari.\n\n## Not run / not applicable\n\n- `wcag_scan.py`, `wcag_page.mjs` (axe-core) and `wcag_audit.py` were not run because no shell was available. Everything above comes from reading the source.\n- There was no rendering, so there are no screenshots, measured glyph widths or pixel-sampled contrast. Clipping widths in #11 and #13 and the dialog height in #14 are estimates.\n- Principles 2\u20134 are out of scope. Issues I noticed but did not grade (for a follow-up audit):\n  - catalog.html has no `<title>` (2.4.2).\n  - events.html has no `lang` (3.1.1) and a `meta refresh` of 120s (2.2.1).\n  - The carousel has no pause control (2.2.2).\n  - Controls built from `div`/`span`: catalog.html:42 etc., events.html:88, and `role=\"buton\"` at catalog.html:32 (2.1.1, 4.1.2).\n  - The dialog traps Tab and ignores Escape, app.js:83-92 (2.1.2).\n  - Positive `tabindex` at login.html:37 and :40 (2.4.3).\n  - Paste is blocked on the PIN field, login.html:37 (3.3.8).\n  - Email is asked for again at signup.html:59 (3.3.7).\n  - The reading list can only be reordered by dragging (2.5.7).\n  - Pager targets are 16px (2.5.8).\n  - `#list-status` is not a live region (4.1.3).\n  - \"Click here\" link text at events.html:32 (2.4.4).\n  - No error text is shown (3.3.1).\n  - The help link moves to the footer on catalog.html:93 (3.2.6).\n  - The sticky header on catalog.html has no `scroll-padding`, so it may cover focused elements (2.4.11).\n\n## Assumptions\n\n- The report uses WCAG 2.2. The HTML files are what users receive, and the `src/components` files are unbuilt equivalents audited for parity.\n- No assistive technology or browser was used.\n- The audio CAPTCHA is judged as delivered: if a server-side audio flow exists, it is not in this front end, and #4 should be re-tested.\n- Contrast was calculated from the declared CSS colours against the declared or default white backgrounds.\n\n## Reproduction\n\n1. **Contrast:** check any colour-contrast checker against styles.css:40, :190, :247 and :249.\n2. **Reflow:** set the viewport to 320px wide on index.html and scroll horizontally to the Staff picks section.\n3. **Text spacing:** apply the WCAG text-spacing bookmarklet (line-height 1.5, paragraph spacing 2em, letter-spacing 0.12em, word-spacing 0.16em) on events.html and look at \"Reserve a seat\".\n4. **Missing alts:** inspect the `<img>` elements at catalog.html:29 and :38 in the accessibility tree.\n5. **Error colour:** on signup.html, click Next with the fields empty and note that only the border colour changes.\n6. **Audio CAPTCHA:** on login.html, click \"Use an audio check instead\" and note that no audio control appears."
+              },
+              {
+                "name": "recall-D01",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:catalog\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:3[7-9])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|[1-3]\\d{1})[ \\t]?[-\u2013][ \\t]?(?:(?:(?:3(?:[7-9])|[4-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:4[5-7])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\\d{1}|4(?:[0-7])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:4(?:[5-9])|[5-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:5[3-5])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-4]\\d{1}|5(?:[0-5])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:5(?:[3-9])|[6-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:6[1-3])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-5]\\d{1}|6(?:[0-3])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:6(?:[1-9])|[7-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))|BookCard\\.jsx[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:[6-8])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-8])[ \\t]?[-\u2013][ \\t]?(?:(?:[6-9])|[1-9]\\d{1,})(?!\\d))))(?=[^\\n]*(?:1\\.1\\.1|\\balt\\b|text alternative|F65))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-D02",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:index\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:(?:2(?:9)|3(?:[0-1])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|2\\d{1}|3(?:[0-1])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:2(?:9)|[3-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:1\\.1\\.1|decorat|flourish|divider|F39))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-D03",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:events\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:3[5-7])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|2\\d{1}|3(?:[0-7])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:3(?:[5-9])|[4-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:4[2-4])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\\d{1}|4(?:[0-4])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:4(?:[2-9])|[5-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:(?:4(?:9)|5(?:[0-1])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-4]\\d{1}|5(?:[0-1])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:4(?:9)|[5-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))|styles\\.css[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:18[4-6])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|[1-9]\\d{1}|1(?:0(?:[0-9])|[1-7]\\d{1}|8(?:[0-6])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:1(?:(?:8(?:[4-9])|9(?:[0-9])))|[2-8]\\d{2}|9(?:[0-9]\\d{1})))|[1-9]\\d{3,})(?!\\d))))(?=[^\\n]*(?:1\\.3\\.1|heading|<h2|\\bh2\\b|event-title|\\bF2\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-D04",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:signup\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:3[3-5])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|2\\d{1}|3(?:[0-5])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:3(?:[3-9])|[4-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:3[7-9])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|[1-3]\\d{1})[ \\t]?[-\u2013][ \\t]?(?:(?:(?:3(?:[7-9])|[4-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:4[1-3])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\\d{1}|4(?:[0-3])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:4(?:[1-9])|[5-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:4[5-7])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\\d{1}|4(?:[0-7])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:4(?:[5-9])|[5-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:(?:4(?:9)|5(?:[0-1])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-4]\\d{1}|5(?:[0-1])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:4(?:9)|[5-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:(?:5(?:[8-9])|6(?:0)))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-5]\\d{1}|6(?:0)))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:5(?:[8-9])|[6-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:1\\.3\\.5|autocomplete|input purpose))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-D05",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:app\\.js[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:10[2-4])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|[1-9]\\d{1}|10[0-4])[ \\t]?[-\u2013][ \\t]?(?:(?:(?:1(?:(?:0(?:[2-9])|[1-8]\\d{1}|9(?:[0-9])))|[2-8]\\d{2}|9(?:[0-9]\\d{1})))|[1-9]\\d{3,})(?!\\d))|styles\\.css[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:2(?:4(?:9)|5(?:[0-1])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|[1-9]\\d{1}|(?:1(?:[0-9]\\d{1})|2(?:(?:0(?:[0-9])|[1-4]\\d{1}|5(?:[0-1])))))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:2(?:(?:4(?:9)|[5-8]\\d{1}|9(?:[0-9])))|[3-8]\\d{2}|9(?:[0-9]\\d{1})))|[1-9]\\d{3,})(?!\\d))))(?=[^\\n]*(?:1\\.4\\.1(?!\\d)|3\\.3\\.1(?!\\d)|colou?r (?:alone|only)|only (?:by )?colou?r|aria-invalid|F81))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-D06",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:styles\\.css[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:1(?:8(?:9)|9(?:[0-1])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|[1-9]\\d{1}|1(?:0(?:[0-9])|[1-8]\\d{1}|9(?:[0-1])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:1(?:(?:8(?:9)|9(?:[0-9])))|[2-8]\\d{2}|9(?:[0-9]\\d{1})))|[1-9]\\d{3,})(?!\\d))|events\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:3[6-8])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|2\\d{1}|3(?:[0-8])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:3(?:[6-9])|[4-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:4[3-5])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\\d{1}|4(?:[0-5])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:4(?:[3-9])|[5-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:5[0-2])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-4]\\d{1}|5(?:[0-2])))[ \\t]?[-\u2013][ \\t]?(?:(?:[5-9]\\d{1})|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:1\\.4\\.3|contrast|#999|2\\.85|event-meta))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-D07",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:signup\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:3[3-5])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|2\\d{1}|3(?:[0-5])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:3(?:[3-9])|[4-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))|styles\\.css[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:2(?:4(?:[8-9])|5(?:0)))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|[1-9]\\d{1}|(?:1(?:[0-9]\\d{1})|2(?:(?:0(?:[0-9])|[1-4]\\d{1}|5(?:0)))))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:2(?:(?:4(?:[8-9])|[5-8]\\d{1}|9(?:[0-9])))|[3-8]\\d{2}|9(?:[0-9]\\d{1})))|[1-9]\\d{3,})(?!\\d))))(?=[^\\n]*(?:placeholder|#aaa|2\\.32))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-D08",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:styles\\.css[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:10[4-8])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|[1-9]\\d{1}|10[0-8])[ \\t]?[-\u2013][ \\t]?(?:(?:(?:1(?:(?:0(?:[4-9])|[1-8]\\d{1}|9(?:[0-9])))|[2-8]\\d{2}|9(?:[0-9]\\d{1})))|[1-9]\\d{3,})(?!\\d))|index\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:5[5-7])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-4]\\d{1}|5(?:[0-7])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:5(?:[5-9])|[6-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:1\\.4\\.10|reflow|320|horizontal scroll|featured-row|240px))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-D09",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:styles\\.css[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:19[0-9])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|[1-9]\\d{1}|1[0-9]\\d{1})[ \\t]?[-\u2013][ \\t]?(?:(?:(?:1(?:9[0-9])|[2-8]\\d{2}|9(?:[0-9]\\d{1})))|[1-9]\\d{3,})(?!\\d))|events\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:(?:3(?:[8-9])|4(?:0)))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\\d{1}|4(?:0)))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:3(?:[8-9])|[4-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:4[5-7])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\\d{1}|4(?:[0-7])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:4(?:[5-9])|[5-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:5[2-4])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-4]\\d{1}|5(?:[0-4])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:5(?:[2-9])|[6-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:1\\.4\\.12|text spacing|btn-fixed|overflow|clip|F104))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "recall-D10",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:styles\\.css[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:24[5-8])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|[1-9]\\d{1}|(?:1(?:[0-9]\\d{1})|2(?:(?:0(?:[0-9])|[1-3]\\d{1}|4(?:[0-8])))))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:2(?:(?:4(?:[5-9])|[5-8]\\d{1}|9(?:[0-9])))|[3-8]\\d{2}|9(?:[0-9]\\d{1})))|[1-9]\\d{3,})(?!\\d))|signup\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:(?:3(?:[3-9])|[4-5]\\d{1}|6(?:[0-8])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-5]\\d{1}|6(?:[0-8])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:3(?:[3-9])|[4-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:1\\.4\\.11|non-text contrast|border|#d6d6d6|1\\.45))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-D01",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:catalog\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:3[7-9])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|[1-3]\\d{1})[ \\t]?[-\u2013][ \\t]?(?:(?:(?:3(?:[7-9])|[4-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:4[5-7])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\\d{1}|4(?:[0-7])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:4(?:[5-9])|[5-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:5[3-5])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-4]\\d{1}|5(?:[0-5])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:5(?:[3-9])|[6-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:6[1-3])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-5]\\d{1}|6(?:[0-3])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:6(?:[1-9])|[7-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))|BookCard\\.jsx[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:[6-8])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-8])[ \\t]?[-\u2013][ \\t]?(?:(?:[6-9])|[1-9]\\d{1,})(?!\\d))))(?=[^\\n]*(?:1\\.1\\.1|\\balt\\b|text alternative|F65))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies))\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-D02",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:index\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:(?:2(?:9)|3(?:[0-1])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|2\\d{1}|3(?:[0-1])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:2(?:9)|[3-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:1\\.1\\.1|decorat|flourish|divider|F39))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?|Review(?:[ -]notes?)?)\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-D03",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:events\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:3[5-7])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|2\\d{1}|3(?:[0-7])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:3(?:[5-9])|[4-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:4[2-4])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\\d{1}|4(?:[0-4])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:4(?:[2-9])|[5-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:(?:4(?:9)|5(?:[0-1])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-4]\\d{1}|5(?:[0-1])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:4(?:9)|[5-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))|styles\\.css[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:18[4-6])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|[1-9]\\d{1}|1(?:0(?:[0-9])|[1-7]\\d{1}|8(?:[0-6])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:1(?:(?:8(?:[4-9])|9(?:[0-9])))|[2-8]\\d{2}|9(?:[0-9]\\d{1})))|[1-9]\\d{3,})(?!\\d))))(?=[^\\n]*(?:1\\.3\\.1|heading|<h2|\\bh2\\b|event-title|\\bF2\\b))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?|Review(?:[ -]notes?)?)\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-D04",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:signup\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:3[3-5])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|2\\d{1}|3(?:[0-5])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:3(?:[3-9])|[4-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:3[7-9])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|[1-3]\\d{1})[ \\t]?[-\u2013][ \\t]?(?:(?:(?:3(?:[7-9])|[4-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:4[1-3])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\\d{1}|4(?:[0-3])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:4(?:[1-9])|[5-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:4[5-7])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\\d{1}|4(?:[0-7])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:4(?:[5-9])|[5-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:(?:4(?:9)|5(?:[0-1])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-4]\\d{1}|5(?:[0-1])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:4(?:9)|[5-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:(?:5(?:[8-9])|6(?:0)))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-5]\\d{1}|6(?:0)))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:5(?:[8-9])|[6-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:1\\.3\\.5|autocomplete|input purpose))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies))\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-D05",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:app\\.js[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:10[2-4])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|[1-9]\\d{1}|10[0-4])[ \\t]?[-\u2013][ \\t]?(?:(?:(?:1(?:(?:0(?:[2-9])|[1-8]\\d{1}|9(?:[0-9])))|[2-8]\\d{2}|9(?:[0-9]\\d{1})))|[1-9]\\d{3,})(?!\\d))|styles\\.css[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:2(?:4(?:9)|5(?:[0-1])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|[1-9]\\d{1}|(?:1(?:[0-9]\\d{1})|2(?:(?:0(?:[0-9])|[1-4]\\d{1}|5(?:[0-1])))))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:2(?:(?:4(?:9)|[5-8]\\d{1}|9(?:[0-9])))|[3-8]\\d{2}|9(?:[0-9]\\d{1})))|[1-9]\\d{3,})(?!\\d))))(?=[^\\n]*(?:1\\.4\\.1(?!\\d)|3\\.3\\.1(?!\\d)|colou?r (?:alone|only)|only (?:by )?colou?r|aria-invalid|F81))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?|Review(?:[ -]notes?)?)\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-D06",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:styles\\.css[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:1(?:8(?:9)|9(?:[0-1])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|[1-9]\\d{1}|1(?:0(?:[0-9])|[1-8]\\d{1}|9(?:[0-1])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:1(?:(?:8(?:9)|9(?:[0-9])))|[2-8]\\d{2}|9(?:[0-9]\\d{1})))|[1-9]\\d{3,})(?!\\d))|events\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:3[6-8])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|2\\d{1}|3(?:[0-8])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:3(?:[6-9])|[4-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:4[3-5])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\\d{1}|4(?:[0-5])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:4(?:[3-9])|[5-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:5[0-2])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-4]\\d{1}|5(?:[0-2])))[ \\t]?[-\u2013][ \\t]?(?:(?:[5-9]\\d{1})|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:1\\.4\\.3|contrast|#999|2\\.85|event-meta))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-D07",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:signup\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:3[3-5])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|2\\d{1}|3(?:[0-5])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:3(?:[3-9])|[4-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))|styles\\.css[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:2(?:4(?:[8-9])|5(?:0)))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|[1-9]\\d{1}|(?:1(?:[0-9]\\d{1})|2(?:(?:0(?:[0-9])|[1-4]\\d{1}|5(?:0)))))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:2(?:(?:4(?:[8-9])|[5-8]\\d{1}|9(?:[0-9])))|[3-8]\\d{2}|9(?:[0-9]\\d{1})))|[1-9]\\d{3,})(?!\\d))))(?=[^\\n]*(?:placeholder|#aaa|2\\.32))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-D08",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:styles\\.css[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:10[4-8])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|[1-9]\\d{1}|10[0-8])[ \\t]?[-\u2013][ \\t]?(?:(?:(?:1(?:(?:0(?:[4-9])|[1-8]\\d{1}|9(?:[0-9])))|[2-8]\\d{2}|9(?:[0-9]\\d{1})))|[1-9]\\d{3,})(?!\\d))|index\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:5[5-7])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-4]\\d{1}|5(?:[0-7])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:5(?:[5-9])|[6-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:1\\.4\\.10|reflow|320|horizontal scroll|featured-row|240px))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-D09",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:styles\\.css[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:19[0-9])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|[1-9]\\d{1}|1[0-9]\\d{1})[ \\t]?[-\u2013][ \\t]?(?:(?:(?:1(?:9[0-9])|[2-8]\\d{2}|9(?:[0-9]\\d{1})))|[1-9]\\d{3,})(?!\\d))|events\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:(?:3(?:[8-9])|4(?:0)))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\\d{1}|4(?:0)))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:3(?:[8-9])|[4-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:4[5-7])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-3]\\d{1}|4(?:[0-7])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:4(?:[5-9])|[5-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d)|(?:5[2-4])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-4]\\d{1}|5(?:[0-4])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:5(?:[2-9])|[6-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:1\\.4\\.12|text spacing|btn-fixed|overflow|clip|F104))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "severity-D10",
+                "passed": true,
+                "weight": 1,
+                "explanation": "matched ^(?=[^\\n]*(?:styles\\.css[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:24[5-8])(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|[1-9]\\d{1}|(?:1(?:[0-9]\\d{1})|2(?:(?:0(?:[0-9])|[1-3]\\d{1}|4(?:[0-8])))))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:2(?:(?:4(?:[5-9])|[5-8]\\d{1}|9(?:[0-9])))|[3-8]\\d{2}|9(?:[0-9]\\d{1})))|[1-9]\\d{3,})(?!\\d))|signup\\.html[`'\\\"]?(?:[:#]L?[ \\t]?|,?[ \\t]+\\(?(?:lines?|l\\.|L)[ \\t]*)(?:\\d+(?:[ \\t]?[-\u2013][ \\t]?\\d+)?[`'\\\"]?[ \\t]*(?:,|;|\\band\\b)[ \\t]*[`'\\\"]?:?[ \\t]?)*?(?:(?:(?:3(?:[3-9])|[4-5]\\d{1}|6(?:[0-8])))(?!\\d|[ \\t]?[-\u2013][ \\t]?\\d)|(?:[1-9]|(?:1(?:[0-9])|[2-5]\\d{1}|6(?:[0-8])))[ \\t]?[-\u2013][ \\t]?(?:(?:(?:3(?:[3-9])|[4-8]\\d{1}|9(?:[0-9])))|[1-9]\\d{2,})(?!\\d))))(?=[^\\n]*(?:1\\.4\\.11|non-text contrast|border|#d6d6d6|1\\.45))(?=[^\\n]*(?:\\b(?:Nonconformit(?:y|ies)|Non-conformit(?:y|ies)|Deviations?)\\b))\\|[^\\n]*$",
+                "withOnly": false,
+                "scored": true
+              },
+              {
+                "name": "skill-used",
+                "passed": true,
+                "weight": 1,
+                "explanation": "Skill called 1x (expected 1..\u221e)",
+                "withOnly": false,
+                "scored": true
+              }
+            ]
+          }
+        ]
+      },
+      "aggregates": {
+        "score": 0.9999629643346543,
+        "passRate": 0
+      }
+    }
+  ],
+  "aggregates": {
+    "casesTotal": 1,
+    "casesPassed": 1,
+    "overallScore": 0.9999629643346543,
+    "overallPassRate": 0
+  }
+}

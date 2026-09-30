@@ -1,0 +1,23 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Notices banner with save</title></head><body><main>
+<h1>Community centre</h1>
+<section class="notices" aria-label="Notices">
+  <p id="notice-text">Pool closed Monday for cleaning.</p>
+  <button type="button" id="next">Next</button>
+  <!-- "Save" reports a result without moving focus: a status message that is not announced. -->
+  <button type="button" id="save">Save notice</button> <span id="save-note"></span>
+</section>
+<!-- A "Next" control that shows an error message where there was none: still a status message. -->
+<section aria-label="Sign-up">
+  <label for="em">E-mail</label> <input id="em" type="email">
+  <button type="button" id="step">Next step</button> <p id="step-error"></p>
+</section>
+<!-- A "Newer" control far from the text it swaps: downgraded to a review note, not dropped. -->
+<div><button type="button" id="newer">Newer</button></div>
+<p id="far-text">Posted 3 June.</p>
+<script>
+document.getElementById('newer').addEventListener('click', function () { document.getElementById('far-text').textContent = 'Posted 9 June.'; });
+var items = ['Pool closed Monday for cleaning.', 'Yoga moves to room 4.'], i = 0;
+document.getElementById('next').addEventListener('click', function () { i = (i + 1) % items.length; document.getElementById('notice-text').textContent = items[i]; });
+document.getElementById('save').addEventListener('click', function () { document.getElementById('save-note').textContent = 'Saved to your notices.'; });
+document.getElementById('step').addEventListener('click', function () { if (!document.getElementById('em').value) document.getElementById('step-error').textContent = 'Enter an e-mail address to continue.'; });
+</script></main></body></html>

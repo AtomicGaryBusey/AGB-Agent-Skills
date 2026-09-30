@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Monthly re-validation of the wcag22-a11y skill against SOURCES.lock.
+  TEMPLATE: replace __HOME__, __PYTHON__, __REPO__ and __PATH__, then install per
+  tools/README-maintenance.md. Not installed or loaded by default.
+  __PATH__ must reach node (the axe-core rule check and the page-runner suite need it).
+  Runs on the 3rd of each month at 09:30 local time (or at the next wake if the Mac was asleep);
+  the 3rd keeps it clear of the iso999/rfc3339-ixdtf job (1st) and the ste100 job (2nd).
+  Network: GET requests for public W3C pages (WCAG 2.2, its errata, the WCAG 2.1/2.0/3.0 status
+  lines) and the npm registry "latest" documents, with a neutral User-Agent and no personal data.
+  Append --offline below to make no network requests at all.
+  Reports: ~/Library/Logs/skill-revalidate/wcag22-a11y-<YYYY-MM-DD>.md
+  Notification (osascript): only when the run exits 1 (drift) or 2 (error); silent when clean.
+-->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.local.wcag22-a11y-revalidate</string>
+
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/zsh</string>
+    <string>-c</string>
+    <string><![CDATA[
+logdir="$HOME/Library/Logs/skill-revalidate"; mkdir -p "$logdir"; day=$(date +%F)
+repo="__REPO__"
+if [ ! -f "$repo/tools/revalidate.py" ]; then
+  rc=2; echo "$(date '+%F %T') wcag22-a11y missing: $repo" >> "$logdir/stderr.log"
+else
+  "__PYTHON__" "$repo/tools/revalidate.py" --check --run-tests --report "$logdir/wcag22-a11y-$day.md" > /dev/null 2>> "$logdir/stderr.log"
+  rc=$?
+fi
+echo "$(date '+%F %T') wcag22-a11y exit=$rc" >> "$logdir/runs.log"
+case $rc in
+  0) ;;
+  1) /usr/bin/osascript -e "display notification \"wcag22-a11y: drift (see wcag22-a11y-$day.md)\" with title \"Skill revalidation\"" ;;
+  *) /usr/bin/osascript -e "display notification \"wcag22-a11y: error (see wcag22-a11y-$day.md)\" with title \"Skill revalidation\"" ;;
+esac
+exit 0
+]]></string>
+  </array>
+
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>HOME</key>
+    <string>__HOME__</string>
+    <key>PATH</key>
+    <string>__PATH__</string>
+    <key>PYTHONDONTWRITEBYTECODE</key>
+    <string>1</string>
+  </dict>
+
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Day</key>
+    <integer>3</integer>
+    <key>Hour</key>
+    <integer>9</integer>
+    <key>Minute</key>
+    <integer>30</integer>
+  </dict>
+
+  <key>ProcessType</key>
+  <string>Background</string>
+  <key>LowPriorityIO</key>
+  <true/>
+  <key>RunAtLoad</key>
+  <false/>
+  <key>StandardOutPath</key>
+  <string>__HOME__/Library/Logs/skill-revalidate/wcag22-a11y-launchd.out.log</string>
+  <key>StandardErrorPath</key>
+  <string>__HOME__/Library/Logs/skill-revalidate/wcag22-a11y-launchd.err.log</string>
+</dict>
+</plist>

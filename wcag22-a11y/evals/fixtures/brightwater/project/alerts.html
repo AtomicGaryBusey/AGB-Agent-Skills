@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Service alerts | Brightwater Transit</title>
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="site-header">
+  <a class="logo" href="index.html">
+    <svg class="logo-mark" width="32" height="32" aria-hidden="true" focusable="false"><use href="img/sprite.svg#logo"></use></svg>
+    <span class="wordmark">Brightwater Transit</span>
+  </a>
+  <nav class="site-nav" aria-label="Main">
+    <ul>
+        <li><a href="planner.html">Trip planner</a></li>
+        <li><a href="fares.html">Fares</a></li>
+        <li><a href="alerts.html" aria-current="page">Service alerts</a></li>
+        <li><a href="map.html">Route map</a></li>
+        <li><a href="claim-1.html">Lost &amp; found</a></li>
+        <li><a href="feedback.html">Feedback</a></li>
+        <li><a href="login.html">Sign in</a></li>
+    </ul>
+  </nav>
+  <a class="help-link" href="help.html"><i class="bwi bwi-help" aria-hidden="true"></i> Help &amp; contact</a>
+</header>
+<div class="live-banner" id="live-banner">
+  <p class="live-banner__text" id="live-banner-text">Harbour Line: trains running normally.</p>
+  <div class="live-banner__controls">
+    <button type="button" class="mini-btn" id="banner-prev" aria-label="Previous alert">&lsaquo;</button>
+    <button type="button" class="mini-btn" id="banner-next" aria-label="Next alert">&rsaquo;</button>
+    <button type="button" class="mini-btn" id="banner-dismiss" aria-label="Hide alert banner">&times;</button>
+  </div>
+</div>
+<main id="main">
+  <h1>Service alerts</h1>
+  <div class="notify-row">
+    <span id="notify-label">Push notifications for my saved routes</span>
+    <div class="bw-switch" id="notify-switch" role="switch" aria-checked="false" aria-labelledby="notify-label" tabindex="0">
+      <span class="bw-switch__knob"></span>
+    </div>
+  </div>
+  <p><button type="button" class="btn" id="open-email-modal">Get email alerts</button></p>
+
+  <section class="alert-list" aria-labelledby="current-heading">
+    <h2 id="current-heading">Current alerts</h2>
+    <p>
+      <button type="button" class="btn-small" id="refresh-alerts">Refresh alerts</button>
+      <span id="refresh-result"></span>
+    </p>
+    <article class="alert-detail">
+      <h3>Route 14: detour on Keel Street</h3>
+      <p>Until 12 October, Route 14 buses skip the Keel Street and Dock Road stops because of water main repairs.
+        Use the temporary stop on Anchor Lane, about 150 metres north. Read the <a href="map.html">route map</a> for the detour path.</p>
+    </article>
+    <article class="alert-detail">
+      <h3>Ferry Terminal: elevator out of service</h3>
+      <p>The elevator between the concourse and platform B is closed for inspection on weekday mornings.
+        Step-free passengers can ride one stop to Pier 3 and return on the opposite platform at no extra charge.</p>
+    </article>
+  </section>
+</main>
+
+<div class="modal-backdrop" id="email-modal" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="email-modal-title">
+    <span class="modal__close" id="email-modal-close">&times;</span>
+    <h2 id="email-modal-title">Email alerts</h2>
+    <div class="field">
+      <label for="alert-email">Email address</label>
+      <input id="alert-email" name="email" type="email" autocomplete="email">
+    </div>
+    <button type="button" class="btn" id="alert-subscribe">Subscribe</button>
+    <p id="alert-subscribe-msg" role="status"></p>
+  </div>
+</div>
+<footer class="site-footer">
+  <ul class="footer-links">
+    <li><a href="help.html#accessibility">Accessibility</a></li>
+    <li><a href="help.html#privacy">Privacy</a></li>
+    <li><a href="help.html#terms">Terms of use</a></li>
+  </ul>
+  <p>&copy; 2026 Brightwater Regional Transit Authority. A fictional agency.</p>
+</footer>
+<script src="js/alerts.js"></script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+{
+  "costUsd": 0.5466076,
+  "partial": false,
+  "partialReason": null,
+  "cases": {
+    "wcag-understandable-robust": [
+      {
+        "run": 1,
+        "fixture": "larkspur",
+        "model": "claude-opus-5-5",
+        "error": null,
+        "costUsd": 0.5466076,
+        "turns": 16,
+        "skill_used": true,
+        "skill_not_used": null,
+        "recall": "9/9",
+        "missed": [],
+        "severity_match": "9/9",
+        "severity_match_of_found": "9/9",
+        "severity_mismatch": [],
+        "decoy_rows_flagged_regex": [],
+        "decoy_judge_pass": false,
+        "decoy_verdicts_pass": null,
+        "no_peek": true,
+        "score": 0.9565217391304348,
+        "expected_severity": {
+          "D22": [
+            "Nonconformity"
+          ],
+          "D23": [
+            "Nonconformity",
+            "Deviation",
+            "Review"
+          ],
+          "D24": [
+            "Nonconformity",
+            "Deviation",
+            "Review"
+          ],
+          "D25": [
+            "Nonconformity"
+          ],
+          "D26": [
+            "Nonconformity"
+          ],
+          "D27": [
+            "Nonconformity"
+          ],
+          "D28": [
+            "Nonconformity"
+          ],
+          "D29": [
+            "Nonconformity"
+          ],
+          "D30": [
+            "Nonconformity",
+            "Deviation",
+            "Review"
+          ]
+        }
+      }
+    ]
+  },
+  "overall_recall": {
+    "larkspur": {
+      "found": 9,
+      "total": 9,
+      "complete": false,
+      "by_detectability": {
+        "static": "6/6",
+        "manual": "3/3"
+      }
+    }
+  }
+}

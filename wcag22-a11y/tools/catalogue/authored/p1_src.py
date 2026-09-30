@@ -1,0 +1,563 @@
+import json, os
+
+def E(applies, testability, tools, procedure, patterns, pass_lang, pass_code, fail_lang, fail_code):
+    return dict(applies=applies, testability=testability, tools=tools, procedure=procedure,
+                patterns=patterns, **{"pass": dict(lang=pass_lang, code=pass_code.strip("\n")),
+                                     "fail": dict(lang=fail_lang, code=fail_code.strip("\n"))})
+
+D = {}
+
+D["1.1.1"] = E(
+    "images, icons, SVG, canvas, image buttons, image maps, charts, CAPTCHA, emoji/ASCII art, decorative images",
+    "assisted",
+    "axe-core (image-alt, input-image-alt, object-alt, role-img-alt, svg-img-alt, aria-meter-name, aria-progressbar-name) catches missing names but cannot judge whether a text alternative is equivalent. A static scanner can flag `<img>` without `alt`, `alt` equal to a filename, and icon-only buttons; a page runner can list every rendered image with its computed accessible name for a human to review.",
+    [
+        "Inventory all non-text content: `<img>`, `<svg>`, `<canvas>`, CSS background images that convey meaning, icon fonts, `<input type=\"image\">`, `<area>`, `<object>`.",
+        "For each, obtain the computed accessible name (browser devtools accessibility pane or a screen reader).",
+        "Judge whether the name conveys the same information or function in context; for controls, check it names the purpose, not the picture.",
+        "Confirm decorative images are hidden from AT (`alt=\"\"`, `aria-hidden=\"true\"`, or CSS background) and informative ones are not.",
+        "For complex images (charts, diagrams), confirm a long description exists nearby or is linked.",
+        "For CAPTCHA, confirm a text label describing its purpose and an alternative modality exist.",
+    ],
+    [
+        "`<img src=\"chart.png\">` with no `alt` attribute, so screen readers announce the file name.",
+        "Icon-only control such as `<button><svg>...</svg></button>` with no `aria-label` or hidden text.",
+        "`alt` text that is a filename, a placeholder (`alt=\"image\"`) or duplicates adjacent link text.",
+        "Decorative image given descriptive `alt`, or meaningful image given `alt=\"\"` / `role=\"presentation\"`.",
+        "`<svg role=\"img\">` without `<title>` or `aria-label`; React `<img alt={undefined}>`.",
+    ],
+    "html", '<img src="q3-sales.png" alt="Q3 sales rose 12% to $4.2M">\n<button aria-label="Close dialog">\n  <svg aria-hidden="true" focusable="false">...</svg>\n</button>\n<img src="divider.png" alt="">',
+    "html", '<img src="q3-sales.png">\n<button>\n  <svg>...</svg>\n</button>\n<img src="divider.png" alt="decorative divider image">',
+)
+
+D["1.2.1"] = E(
+    "prerecorded audio-only (podcasts, audio clips), prerecorded video-only (silent animations, screencasts without sound)",
+    "manual",
+    "axe-core has only the deprecated audio-caption rule, which cannot confirm an equivalent exists. A static scanner can list `<audio>`/`<video>` elements and embedded players and look for an adjacent transcript link; a human must verify the alternative is complete and equivalent.",
+    [
+        "List all prerecorded audio-only and video-only media on the page.",
+        "Check whether the media is itself a clearly labelled alternative for text (exempt).",
+        "For audio-only, locate a transcript and compare it against the audio for completeness (speech, speaker ids, meaningful sounds).",
+        "For video-only, locate a text alternative or an audio track and verify it conveys all visual information.",
+        "Confirm the alternative is reachable from, or adjacent to, the media.",
+    ],
+    [
+        "Podcast `<audio controls src=\"ep1.mp3\">` with no transcript anywhere on the page.",
+        "Silent product demo `<video autoplay muted loop>` with no description or narration.",
+        "Transcript that summarises instead of reproducing the audio content.",
+    ],
+    "html", '<audio controls src="ep12.mp3"></audio>\n<a href="ep12-transcript.html">Episode 12 transcript</a>',
+    "html", '<audio controls src="ep12.mp3"></audio>\n<!-- no transcript provided -->',
+)
+
+D["1.2.2"] = E(
+    "prerecorded synchronized media (video with sound), embedded players (YouTube, Vimeo), custom video players",
+    "manual",
+    "axe-core video-caption detects a `<video>` without a `<track kind=\"captions\">` but cannot see burned-in captions or judge accuracy. A static scanner can flag `<video>` elements lacking a captions track; a page runner can check whether a captions track loads. Accuracy and synchronisation require human review.",
+    [
+        "Find every prerecorded video that has an audio track.",
+        "Turn on captions (closed or open) and confirm they are available for the whole duration.",
+        "Spot-check accuracy: dialogue, speaker identification and meaningful non-speech sounds.",
+        "Verify captions are synchronised with the audio.",
+        "Treat auto-generated captions as failing unless they have been reviewed and corrected.",
+    ],
+    [
+        "`<video src=\"promo.mp4\" controls>` with no `<track kind=\"captions\">` and no open captions.",
+        "Using `kind=\"subtitles\"` that contain only dialogue translation and omit sound cues.",
+        "Unedited auto-generated captions with frequent errors.",
+        "Custom player that hides the captions toggle or fails to render `<track>` cues.",
+    ],
+    "html", '<video controls src="launch.mp4">\n  <track kind="captions" src="launch.en.vtt" srclang="en" label="English" default>\n</video>',
+    "html", '<video controls src="launch.mp4"></video>',
+)
+
+D["1.2.3"] = E(
+    "prerecorded synchronized media with visual information not conveyed by the soundtrack",
+    "manual",
+    "No axe-core rule applies. A static scanner can list videos lacking a `<track kind=\"descriptions\">` or an adjacent transcript link as candidates; a human must judge whether visual information is conveyed.",
+    [
+        "Watch each prerecorded video with sound and note visual information not conveyed by the audio.",
+        "Check for an audio-described version or a description track.",
+        "Alternatively, check for a full text alternative (transcript including visual descriptions).",
+        "Confirm the chosen alternative covers all important visual content.",
+    ],
+    [
+        "Tutorial video where on-screen steps are shown but never spoken, with no description or transcript.",
+        "Transcript that only reproduces dialogue and omits on-screen text and actions.",
+        "`<track kind=\"descriptions\">` file that is empty or covers only part of the video.",
+    ],
+    "html", '<video controls src="setup.mp4">\n  <track kind="captions" src="setup.vtt" srclang="en">\n</video>\n<a href="setup-transcript.html">Full transcript with visual descriptions</a>',
+    "html", '<video controls src="setup.mp4">\n  <track kind="captions" src="setup.vtt" srclang="en">\n</video>\n<!-- visual steps are never described -->',
+)
+
+D["1.2.4"] = E(
+    "live synchronized media: webcasts, live streams, live events, live video conferences published as content",
+    "manual",
+    "No automated rule applies. A page runner can confirm the player exposes a captions control; a human must verify real-time captions are present and reasonably accurate during a live session.",
+    [
+        "Identify live audio-visual streams on the page.",
+        "During a live broadcast (or a test stream), enable captions.",
+        "Confirm captions appear for the spoken content with acceptable delay and accuracy.",
+        "Confirm the captions control is operable and discoverable.",
+    ],
+    [
+        "Live stream embed with no CART or real-time caption feed.",
+        "Captions available only in a later on-demand recording, not during the live event.",
+    ],
+    "html", '<div class="live-player" data-stream="keynote">\n  <!-- stream includes a CART caption feed rendered as a captions track -->\n  <button aria-pressed="true">Captions</button>\n</div>',
+    "html", '<div class="live-player" data-stream="keynote">\n  <!-- no caption feed; captions button absent -->\n</div>',
+)
+
+D["1.2.5"] = E(
+    "prerecorded synchronized media with visual information not in the soundtrack",
+    "manual",
+    "No axe-core rule applies. A static scanner can flag `<video>` without `<track kind=\"descriptions\">` or a link to a described version; a human must judge whether description is needed and adequate.",
+    [
+        "Watch each prerecorded video and identify visual content not conveyed by the audio.",
+        "Check for audio description: a described version, a description track, or narration that already covers visual content (integrated description).",
+        "Confirm descriptions fit into natural pauses and cover all important visual information.",
+        "Note: a text transcript alone does not satisfy this AA criterion.",
+    ],
+    [
+        "Offering only a text transcript for a video whose visuals are not narrated.",
+        "Description track that exists but is never exposed by the custom player.",
+        "Silent on-screen captions of key info (prices, names) that are never spoken.",
+    ],
+    "html", '<video controls src="tour.mp4">\n  <track kind="captions" src="tour.vtt" srclang="en">\n</video>\n<a href="tour-described.mp4">Audio-described version</a>',
+    "html", '<video controls src="tour.mp4">\n  <track kind="captions" src="tour.vtt" srclang="en">\n</video>\n<!-- visuals not narrated, no described version -->',
+)
+
+D["1.2.6"] = E(
+    "prerecorded synchronized media with audio",
+    "manual",
+    "No automated rule applies. A human must confirm a sign-language interpretation is provided (inset or alternate version) and is complete.",
+    [
+        "Identify prerecorded videos with audio content.",
+        "Check for sign-language interpretation embedded in the video or a linked alternate version.",
+        "Confirm the interpreter is visible, large enough, and covers all audio content.",
+    ],
+    [
+        "Captions provided but no sign-language version for key video content.",
+        "Interpreter window too small or cropped by player controls.",
+    ],
+    "html", '<video controls src="welcome.mp4"></video>\n<a href="welcome-asl.mp4">Watch with ASL interpretation</a>',
+    "html", '<video controls src="welcome.mp4"></video>\n<!-- no sign language version -->',
+)
+
+D["1.2.7"] = E(
+    "prerecorded synchronized media where natural pauses are too short for standard audio description",
+    "manual",
+    "No automated rule applies. A human must review whether standard description is insufficient and, if so, whether an extended-description version (video pauses for description) exists.",
+    [
+        "Identify videos where needed descriptions do not fit into existing pauses.",
+        "Check for an extended audio-described version that pauses the video to insert description.",
+        "Confirm all important visual information is described.",
+    ],
+    [
+        "Fast-paced video with standard description that omits visual details for lack of pause time.",
+        "No option to pause playback for extended description.",
+    ],
+    "html", '<video controls src="lab.mp4"></video>\n<a href="lab-extended-ad.mp4">Version with extended audio description</a>',
+    "html", '<video controls src="lab.mp4"></video>\n<!-- dense visuals, description truncated to fit gaps -->',
+)
+
+D["1.2.8"] = E(
+    "prerecorded synchronized media, prerecorded video-only media",
+    "manual",
+    "No automated rule applies. A static scanner can check for a transcript link near media; a human must verify the alternative is a full, correctly ordered text version of both audio and visual information.",
+    [
+        "For each prerecorded video, locate a full text alternative (descriptive transcript).",
+        "Compare it with the video: dialogue, speaker identification, sounds, and all visual information.",
+        "Confirm it is linked from or adjacent to the media.",
+    ],
+    [
+        "Transcript that contains dialogue only, without visual descriptions.",
+        "Alternative that is a marketing summary rather than a full equivalent.",
+    ],
+    "html", '<video controls src="demo.mp4"></video>\n<details>\n  <summary>Descriptive transcript</summary>\n  <p>[Screen shows the login page.] Narrator: "Enter your email..."</p>\n</details>',
+    "html", '<video controls src="demo.mp4"></video>\n<p>This video shows how to log in.</p>',
+)
+
+D["1.2.9"] = E(
+    "live audio-only content: radio streams, live audio webcasts",
+    "manual",
+    "No automated rule applies. A human must verify during a live session that a real-time text alternative (e.g. live captioning or a live text stream) is provided.",
+    [
+        "Identify live audio-only streams.",
+        "During a live session, locate the real-time text alternative.",
+        "Confirm it conveys the spoken content and meaningful sounds with acceptable delay.",
+    ],
+    [
+        "Live radio stream with no real-time text feed.",
+        "Text published only after the event ends.",
+    ],
+    "html", '<audio controls src="live-stream"></audio>\n<div role="log" aria-live="polite" id="live-text"><!-- live CART text --></div>',
+    "html", '<audio controls src="live-stream"></audio>',
+)
+
+D["1.3.1"] = E(
+    "headings, lists, tables, forms and labels, landmarks/regions, emphasis, grouped controls, ARIA widgets",
+    "assisted",
+    "axe-core (list, listitem, definition-list, dlitem, td-headers-attr, th-has-data-cells, aria-required-children, aria-required-parent, aria-hidden-body; experimental p-as-heading, td-has-header, table-fake-caption) finds structural errors but not missing structure that is only visual. A static scanner can flag styled `<div>`/`<b>` used as headings, layout tables with `<th>`, and inputs without associated labels; a page runner can compare visual heading candidates (large/bold text) with the heading tree. Human review confirms structure matches visual presentation.",
+    [
+        "Compare the visual structure (headings, lists, tables, groups, required markers) with the accessibility tree.",
+        "Check headings use `<h1>`–`<h6>` or `role=\"heading\"` with a level matching the visual hierarchy.",
+        "Check data tables use `<th>`, `scope` or `headers`, and captions where needed; layout tables have no header semantics.",
+        "Check each form field has a programmatic label and related fields are grouped (`<fieldset>`/`<legend>` or `role=\"group\"`).",
+        "Check information conveyed by styling (bold, color, position) is also available in text or markup.",
+    ],
+    [
+        "Visual heading built with `<div class=\"h2\">` or `<p><b>` instead of a heading element.",
+        "Label text next to an input without `<label for>` or `aria-labelledby`.",
+        "Data table built from `<div>` grids with no `role=\"table\"`/`row`/`cell` or header association.",
+        "Radio group with no `<fieldset>`/`<legend>` so the question is not announced.",
+        "List items rendered as `<div>`s with bullet characters.",
+    ],
+    "html", '<h2>Shipping</h2>\n<fieldset>\n  <legend>Delivery speed</legend>\n  <label><input type="radio" name="s" value="std"> Standard</label>\n  <label><input type="radio" name="s" value="exp"> Express</label>\n</fieldset>',
+    "html", '<div class="heading-lg">Shipping</div>\n<p>Delivery speed</p>\n<input type="radio" name="s" value="std"> Standard\n<input type="radio" name="s" value="exp"> Express',
+)
+
+D["1.3.2"] = E(
+    "reading order of page content, CSS layouts (flex/grid order, absolute positioning), multi-column text, tables used for layout",
+    "manual",
+    "No axe-core rule directly tests this. A static scanner can flag CSS `order`, `flex-direction: *-reverse`, `grid-area` placement and absolute positioning as candidates; a page runner can compare DOM order with visual (bounding-box) order. A human decides whether a mismatch changes meaning.",
+    [
+        "Disable CSS or linearise the page (or use a screen reader) and read content in DOM order.",
+        "Compare with the visual reading order.",
+        "Where order differs, judge whether meaning or understanding is affected.",
+        "Check that whitespace characters are not used to create visual columns within words or tables.",
+    ],
+    [
+        "CSS `order` or `flex-direction: row-reverse` placing the step-2 panel before step 1 in DOM.",
+        "Absolutely positioned price label that appears after the product it describes in DOM.",
+        "Using spaces or `&nbsp;` to lay out a table or spell words with gaps.",
+    ],
+    "html", '<ol class="steps">\n  <li>Choose plan</li>\n  <li>Enter details</li>\n  <li>Pay</li>\n</ol>',
+    "html", '<div style="display:flex;flex-direction:row-reverse">\n  <div>Pay</div><div>Enter details</div><div>Choose plan</div>\n</div>',
+)
+
+D["1.3.3"] = E(
+    "instructions, error messages, help text referencing shape, size, visual location, orientation, or sound",
+    "manual",
+    "No automated rule applies. A static scanner can grep text for phrases like \"click the round button\", \"on the right\", \"in red\", \"after the beep\" as candidates; a human confirms whether a non-sensory cue is also present.",
+    [
+        "Find instructions that tell users how to operate or understand content.",
+        "Identify references relying solely on shape, color, size, visual location, orientation or sound.",
+        "Confirm each such instruction also includes a non-sensory identifier (label text, name).",
+    ],
+    [
+        "\"Press the green button on the right to continue\" where the button has no mentioned text label.",
+        "\"Required fields are shown with a star icon\" referencing only an unlabeled icon.",
+        "\"Wait for the beep, then speak\" with no visual or text cue.",
+    ],
+    "html", '<p>Select <strong>Continue</strong> (the round button at the bottom right) to proceed.</p>',
+    "html", '<p>Select the round button at the bottom right to proceed.</p>',
+)
+
+D["1.3.4"] = E(
+    "page layout, CSS media queries, JavaScript orientation locks, mobile web apps",
+    "assisted",
+    "axe-core has the experimental css-orientation-lock rule for CSS transforms tied to orientation media queries. A static scanner can flag `screen.orientation.lock()` and `@media (orientation: ...)` rules that hide content; a page runner can render in portrait and landscape viewports and compare content. A human confirms whether a lock is essential.",
+    [
+        "Load the page on a device or emulator in portrait, then landscape.",
+        "Confirm content and functionality are available in both orientations without rotating the device.",
+        "Look for messages like \"rotate your device\" or content hidden in one orientation.",
+        "If locked, judge whether orientation is essential (e.g. piano app, bank check).",
+    ],
+    [
+        "`@media (orientation: portrait) { body { display: none } }` with a \"rotate your device\" overlay.",
+        "`screen.orientation.lock('landscape')` in a web app without an essential need.",
+        "CSS `transform: rotate(90deg)` on the root in one orientation to force the layout.",
+    ],
+    "css", '@media (orientation: landscape) {\n  .layout { grid-template-columns: 1fr 2fr; }\n}\n/* both orientations show all content */',
+    "css", '@media (orientation: portrait) {\n  main { display: none; }\n  .rotate-msg { display: block; }\n}',
+)
+
+D["1.3.5"] = E(
+    "form inputs collecting user information (name, email, address, phone, payment, username, password)",
+    "assisted",
+    "axe-core autocomplete-valid validates `autocomplete` values that are present but cannot know which fields collect user data. A static scanner can flag inputs whose name/label suggest personal data (email, tel, address) but lack `autocomplete`; a human confirms the field purpose and the correct token.",
+    [
+        "Identify form fields that collect information about the user themselves.",
+        "Map each field to the matching token from the HTML autofill list (e.g. `email`, `given-name`, `tel`, `street-address`).",
+        "Check the field has the correct `autocomplete` value.",
+        "Confirm fields about other people (e.g. a gift recipient) are not required to use personal tokens.",
+    ],
+    [
+        "`<input type=\"email\" name=\"email\">` with no `autocomplete` attribute.",
+        "`autocomplete=\"off\"` on the user's own name or address fields.",
+        "Invalid or misspelled tokens such as `autocomplete=\"phone\"` instead of `tel`.",
+    ],
+    "html", '<label for="em">Email</label>\n<input id="em" type="email" autocomplete="email">\n<label for="fn">First name</label>\n<input id="fn" autocomplete="given-name">',
+    "html", '<label for="em">Email</label>\n<input id="em" type="email" autocomplete="off">\n<label for="fn">First name</label>\n<input id="fn" autocomplete="firstname">',
+)
+
+D["1.3.6"] = E(
+    "UI components, icons, regions/landmarks, symbols conveying purpose",
+    "manual",
+    "No axe-core rule maps to this SC (landmark rules are best-practice). A static scanner can list landmarks and icon-only controls; a human judges whether component, icon and region purposes are programmatically identifiable (landmarks, ARIA, `autocomplete`, personalisation metadata).",
+    [
+        "Check page regions use landmark elements or roles (`header`, `nav`, `main`, `footer`, `aside`, `search`).",
+        "Check common icons and controls expose their purpose via accessible names or metadata.",
+        "Check input fields about the user expose purpose (overlaps 1.3.5).",
+    ],
+    [
+        "Page built entirely with `<div>` wrappers and no landmarks.",
+        "Icon-only navigation with no programmatic purpose beyond an image.",
+    ],
+    "html", '<header>...</header>\n<nav aria-label="Primary">...</nav>\n<main>...</main>\n<footer>...</footer>',
+    "html", '<div class="top">...</div>\n<div class="menu">...</div>\n<div class="content">...</div>',
+)
+
+D["1.4.1"] = E(
+    "links within text, form validation states, charts and graphs, status indicators, required-field markers",
+    "assisted",
+    "axe-core link-in-text-block flags inline links distinguished only by color with insufficient contrast to surrounding text. A static scanner can flag CSS `text-decoration: none` on inline links and error styles that only change `color`/`border-color`; a page runner can render in grayscale for review. Charts and state indicators need human review.",
+    [
+        "Identify information conveyed by color: links, errors, required fields, chart series, status badges.",
+        "View the page in grayscale (or simulate color blindness) and check the information is still available.",
+        "For inline links distinguished only by color, check 3:1 contrast with surrounding text plus a non-color cue on focus/hover, or a non-color cue by default.",
+        "Confirm a text, icon, pattern or underline accompanies the color cue.",
+    ],
+    [
+        "`a { text-decoration: none; color: #0055aa }` inside paragraphs with no underline.",
+        "Invalid inputs indicated only by `border-color: red`.",
+        "Line chart where series differ only by stroke color with no labels or patterns.",
+        "\"Fields in red are required\" with no asterisk or text.",
+    ],
+    "css", 'p a { color: #0055aa; text-decoration: underline; }\n.field--error { border-color: #b00020; }\n.field--error::before { content: "Error: "; }',
+    "css", 'p a { color: #0055aa; text-decoration: none; }\n.field--error { border-color: #b00020; }',
+)
+
+D["1.4.2"] = E(
+    "autoplaying audio, background music, videos with sound that start automatically",
+    "assisted",
+    "axe-core no-autoplay-audio flags `<audio>`/`<video>` with `autoplay` that plays sound over 3 seconds without controls. A static scanner can flag `autoplay` attributes and `.play()` on load; a page runner can detect media playing after load. Human confirms a pause/stop or independent volume control exists.",
+    [
+        "Load the page and listen for audio that starts without user action.",
+        "If it plays more than 3 seconds, find a mechanism to pause/stop it or control its volume independently of system volume.",
+        "Confirm the mechanism is near the start of the page and keyboard operable.",
+    ],
+    [
+        "`<video autoplay src=\"hero.mp4\">` with sound and no controls.",
+        "`new Audio('bg.mp3').play()` on page load with no stop control.",
+        "Mute control placed at the bottom of a long page.",
+    ],
+    "html", '<video autoplay muted loop playsinline src="hero.mp4"></video>',
+    "html", '<audio autoplay loop src="background-music.mp3"></audio>',
+)
+
+D["1.4.3"] = E(
+    "text, images of text, placeholder text, text over images and gradients, link and button text",
+    "automated",
+    "axe-core color-contrast computes ratios for most text but returns needs-review for text over images, gradients, or pseudo-elements. A static scanner can compute contrast for literal CSS color pairs; a page runner can sample rendered pixels behind text. Human review covers images of text and incomplete results.",
+    [
+        "Run an automated contrast check across page states (hover, focus, error, disabled excluded).",
+        "For flagged or incomplete items, measure foreground and background colors with a contrast analyser.",
+        "Apply thresholds: 4.5:1 for normal text, 3:1 for large text (≥24px or ≥18.66px bold).",
+        "Check text over images/gradients at the lowest-contrast point.",
+        "Exempt disabled components, pure decoration, incidental text and logos.",
+    ],
+    [
+        "Light gray text such as `color: #999` on white (2.8:1).",
+        "Placeholder text used as the only visible hint with low contrast.",
+        "White text over a photo hero without an overlay or text shadow.",
+        "Brand-colored button `background: #f90; color: #fff` (about 2.1:1).",
+    ],
+    "css", '.muted { color: #595959; background: #ffffff; } /* 7.0:1 */\n.btn { background: #b35900; color: #ffffff; }    /* >4.5:1 */',
+    "css", '.muted { color: #aaaaaa; background: #ffffff; } /* 2.3:1 */\n.btn { background: #ff9900; color: #ffffff; }    /* 2.1:1 */',
+)
+
+D["1.4.4"] = E(
+    "text, containers with fixed heights, viewport meta settings, responsive layouts",
+    "assisted",
+    "axe-core meta-viewport flags `user-scalable=no` or `maximum-scale` below 2 that block zoom. A static scanner can flag fixed `height` on text containers and text sized in `px` inside `vw` units; a page runner can apply 200% text zoom and detect clipped or overlapping text via bounding boxes. Human confirms no loss of content or function.",
+    [
+        "Set browser zoom to 200% (and, if possible, text-only zoom to 200%).",
+        "Check all text remains visible, not clipped, truncated or overlapping.",
+        "Check all functionality remains available.",
+        "Check the viewport meta tag does not disable zoom.",
+    ],
+    [
+        "`<meta name=\"viewport\" content=\"width=device-width, user-scalable=no\">`.",
+        "Fixed `height: 40px; overflow: hidden` on a container whose text grows.",
+        "Font sizes set only in `vw` so text does not grow with zoom.",
+    ],
+    "html", '<meta name="viewport" content="width=device-width, initial-scale=1">\n<style>.card { min-height: 3rem; }</style>',
+    "html", '<meta name="viewport" content="width=device-width, maximum-scale=1, user-scalable=no">\n<style>.card { height: 48px; overflow: hidden; }</style>',
+)
+
+D["1.4.5"] = E(
+    "images of text: banners, buttons, headings rendered as images, text in canvas, scanned documents",
+    "assisted",
+    "No axe-core rule applies. A static scanner can flag images with long `alt` text or filenames suggesting text (e.g. `heading.png`, `btn-*.png`); a page runner can OCR images for text. A human decides whether real text could achieve the same presentation or the image is essential/customisable.",
+    [
+        "Identify images that contain text.",
+        "Exclude logos and cases where the particular presentation is essential.",
+        "For the rest, judge whether the same visual result could be achieved with styled text.",
+        "Where the image is user-customisable (font, size, color), note it as allowed.",
+    ],
+    [
+        "Heading rendered as `<img src=\"welcome-heading.png\" alt=\"Welcome\">`.",
+        "Button labels baked into PNG sprites.",
+        "Quote graphics in body content instead of styled `<blockquote>`.",
+    ],
+    "html", '<h1 class="hero-title">Summer Sale</h1>\n<style>.hero-title { font: 700 3rem/1.1 "Brand Sans"; color: #fff; }</style>',
+    "html", '<h1><img src="summer-sale-title.png" alt="Summer Sale"></h1>',
+)
+
+D["1.4.6"] = E(
+    "text, images of text, placeholder text, link and button text",
+    "automated",
+    "axe-core color-contrast-enhanced computes ratios against 7:1 / 4.5:1, returning needs-review for text over images or gradients. A page runner can sample pixels behind text; human review covers images of text and incomplete results.",
+    [
+        "Run an automated enhanced-contrast check.",
+        "Measure flagged and incomplete items with a contrast analyser.",
+        "Apply thresholds: 7:1 for normal text, 4.5:1 for large text.",
+        "Exempt disabled components, decoration, incidental text and logos.",
+    ],
+    [
+        "Body text `#666` on white (5.7:1) passes AA but fails AAA.",
+        "Link color `#0066cc` on white (5.6:1) below 7:1.",
+    ],
+    "css", 'body { color: #333333; background: #ffffff; } /* 12.6:1 */',
+    "css", 'body { color: #666666; background: #ffffff; } /* 5.7:1 */',
+)
+
+D["1.4.7"] = E(
+    "prerecorded audio-only content containing speech",
+    "manual",
+    "No automated rule applies. A human listens to judge whether background sound is absent, can be turned off, or is at least 20 dB lower than speech (measured with audio tools if needed).",
+    [
+        "Identify prerecorded audio-only speech content (not music, not CAPTCHA).",
+        "Listen for background sounds under the speech.",
+        "Confirm there is no background, an option to turn it off, or it is at least 20 dB quieter than foreground speech.",
+    ],
+    [
+        "Podcast with loud music bed under the narration and no clean version.",
+        "Audio instructions with ambient noise at near-speech volume.",
+    ],
+    "html", '<audio controls src="lesson-voice-only.mp3"></audio>\n<a href="lesson-with-music.mp3">Version with background music</a>',
+    "html", '<audio controls src="lesson-music-bed.mp3"></audio>',
+)
+
+D["1.4.8"] = E(
+    "blocks of text: articles, documentation, long-form content",
+    "assisted",
+    "No axe-core rule applies. A static scanner can flag `text-align: justify`, fixed `max-width` over 80ch, and `line-height` below 1.5; a page runner can measure line lengths and verify text reflows at 200% without horizontal scrolling. A human confirms that the colour selection mechanism exists.",
+    [
+        "Check users can select foreground and background colors (via user agent or a provided mechanism).",
+        "Check line width is at most 80 characters (40 for CJK).",
+        "Check text is not fully justified.",
+        "Check line spacing is at least 1.5 within paragraphs and paragraph spacing at least 1.5x line spacing.",
+        "Check text resizes to 200% without horizontal scrolling on a full-screen window.",
+    ],
+    [
+        "`p { text-align: justify; }` on long passages.",
+        "`.article { width: 1100px; }` producing ~150-character lines.",
+        "`line-height: 1.1` on body text.",
+    ],
+    "css", '.article { max-width: 70ch; line-height: 1.6; text-align: start; }\n.article p { margin-block-end: 1.6em; }',
+    "css", '.article { width: 1100px; line-height: 1.1; text-align: justify; }',
+)
+
+D["1.4.9"] = E(
+    "images of text of any kind",
+    "manual",
+    "No automated rule applies. A static scanner or OCR-based page runner can list images containing text; a human confirms each is decoration or essential (logos count as essential).",
+    [
+        "Identify all images of text.",
+        "Confirm each is purely decorative or its text presentation is essential (e.g. logo, font specimen).",
+        "Any other image of text fails at this level.",
+    ],
+    [
+        "Infographic with key statistics only in the image.",
+        "Navigation buttons rendered as text images.",
+    ],
+    "html", '<figure>\n  <img src="chart.svg" alt="">\n  <figcaption>Revenue grew 12% in Q3.</figcaption>\n</figure>',
+    "html", '<img src="revenue-callout.png" alt="Revenue grew 12% in Q3">',
+)
+
+D["1.4.10"] = E(
+    "responsive layouts, fixed-width containers, sticky headers, tables, carousels, modals",
+    "assisted",
+    "No axe-core rule applies. A static scanner can flag fixed `width` in px on layout containers, `min-width` above 320px and `white-space: nowrap` on long text; a page runner can set a 320 CSS px wide viewport (1280px at 400%) and detect horizontal scroll (`scrollWidth > clientWidth`) and clipped elements. A human confirms no content or function is lost and exceptions (data tables, maps) apply.",
+    [
+        "Set the viewport to 1280px wide and zoom to 400% (equivalently a 320 CSS px viewport).",
+        "Check vertical-scrolling content does not require horizontal scrolling.",
+        "Check no content or functionality is lost, hidden or overlapping.",
+        "Allow two-dimensional scrolling only for content that needs it (data tables, maps, diagrams, toolbars).",
+    ],
+    [
+        "`.container { width: 960px; }` with no responsive breakpoint.",
+        "Sticky header and footer that cover most of the viewport at 400% zoom.",
+        "Long URLs or code with `white-space: nowrap` forcing page-level horizontal scroll.",
+        "Content hidden with `display:none` at narrow breakpoints and not available elsewhere.",
+    ],
+    "css", '.container { max-width: 60rem; width: 100%; }\n.url { overflow-wrap: anywhere; }',
+    "css", '.container { width: 960px; }\n.url { white-space: nowrap; }',
+)
+
+D["1.4.11"] = E(
+    "UI component boundaries (inputs, buttons, checkboxes), focus indicators, icons, chart elements, state indicators",
+    "assisted",
+    "axe-core does not test non-text contrast. A static scanner can compute contrast for CSS `border-color`/`outline-color` against declared backgrounds; a page runner can sample computed border, outline and icon colors against adjacent pixels. A human decides which visuals are required to identify the component or state.",
+    [
+        "Identify visual information needed to perceive UI components and their states (borders, checkmarks, focus rings, toggle positions).",
+        "Measure contrast against adjacent colors; require at least 3:1.",
+        "Identify graphical objects required to understand content (chart lines, icons) and measure 3:1 against adjacent colors.",
+        "Exempt inactive components and appearance entirely determined by the user agent.",
+    ],
+    [
+        "Text input with `border: 1px solid #ddd` on white (1.4:1) as the only field boundary.",
+        "Custom checkbox with a pale checkmark that does not reach 3:1 against its box.",
+        "Focus ring `outline-color: #a0c4ff` on white.",
+        "Icon-only button whose icon is `#bbb` on white.",
+    ],
+    "css", 'input { border: 1px solid #767676; } /* 4.5:1 on white */\n:focus-visible { outline: 2px solid #1a5fb4; }',
+    "css", 'input { border: 1px solid #e0e0e0; } /* 1.3:1 on white */\n:focus-visible { outline: 2px solid #cfe2ff; }',
+)
+
+D["1.4.12"] = E(
+    "text containers, buttons, cards, navigation items, fixed-height components",
+    "assisted",
+    "axe-core avoid-inline-spacing flags inline `style` with `!important` spacing that users cannot override. A page runner can inject the text-spacing bookmarklet values (line-height 1.5, paragraph spacing 2em, letter-spacing 0.12em, word-spacing 0.16em) and detect overflow/clipping via bounding boxes; a static scanner can flag fixed heights with `overflow: hidden`. A human confirms no loss of content.",
+    [
+        "Apply the text-spacing overrides: line-height 1.5, paragraph spacing 2x font size, letter spacing 0.12x, word spacing 0.16x.",
+        "Check all text remains visible, not clipped, truncated or overlapping.",
+        "Check controls and labels remain usable.",
+        "Check author styles do not block the overrides (`!important` inline spacing).",
+    ],
+    [
+        "Button `height: 32px; overflow: hidden` so text is clipped when line-height grows.",
+        "Inline `style=\"letter-spacing: 0 !important\"` on text.",
+        "Card with fixed height truncating content after spacing increases.",
+    ],
+    "css", '.btn { min-height: 2.75rem; padding: .5em 1em; }\n.card { min-height: 10rem; }',
+    "css", '.btn { height: 32px; overflow: hidden; white-space: nowrap; }\n.card { height: 160px; overflow: hidden; }',
+)
+
+D["1.4.13"] = E(
+    "tooltips, hover cards, custom dropdowns, popovers and content revealed on hover or focus",
+    "assisted",
+    "No axe-core rule applies. A static scanner can flag `:hover`-only reveal CSS and `mouseenter`/`mouseleave` handlers without Escape handling; a page runner can hover/focus triggers and check whether content disappears when the pointer moves onto it or on Escape. Human confirmation is required.",
+    [
+        "Find content that appears on pointer hover or keyboard focus.",
+        "Dismissible: confirm it can be dismissed (e.g. Escape) without moving pointer or focus, unless it obscures nothing or conveys an input error.",
+        "Hoverable: move the pointer onto the new content and confirm it stays visible.",
+        "Persistent: confirm it stays until hover/focus is removed, the user dismisses it, or its info is no longer valid.",
+    ],
+    [
+        "Tooltip that closes on `mouseleave` of the trigger so users cannot move onto it.",
+        "Hover card that covers content and has no Escape handler.",
+        "Tooltip that disappears after a timeout.",
+        "CSS `.trigger:hover + .tip { display:block }` with no focus equivalent.",
+    ],
+    "jsx", '<span onMouseEnter={open} onFocus={open}\n      onKeyDown={e => e.key === "Escape" && close()}>\n  <button aria-describedby="tip">Info</button>\n  {isOpen && <div id="tip" role="tooltip"\n    onMouseLeave={close}>Details</div>}\n</span>',
+    "jsx", '<button onMouseEnter={open} onMouseLeave={close}>\n  Info\n</button>\n{isOpen && <div role="tooltip">Details</div>}\n{/* closes when pointer leaves trigger; no Escape */}',
+)
+
+assert len(D) == 29, len(D)
+out = os.path.join(os.path.dirname(os.path.abspath(__file__)), "p1.json")
+json.dump(D, open(out, "w"), indent=1, ensure_ascii=False)
+print(out, len(D))

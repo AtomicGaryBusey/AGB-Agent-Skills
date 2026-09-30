@@ -1,0 +1,19 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Notices banner</title></head><body><main>
+<h1>Community centre</h1>
+<!-- Previous/Next swap which notice is shown: the user asked for that content, so it is not a status message. -->
+<section class="notices" aria-label="Notices">
+  <p id="notice-text">Pool closed Monday for cleaning.</p>
+  <button type="button" id="prev">Previous</button> <button type="button" id="next" aria-label="Next notice">&rsaquo;</button>
+</section>
+<section class="tips" aria-label="Tips">
+  <p id="tip">Tip 1: bring a padlock.</p>
+  <button type="button" id="tip-more">Show more tips</button>
+</section>
+<script>
+var items = ['Pool closed Monday for cleaning.', 'Yoga moves to room 4.', 'Library hours extended.'], i = 0;
+function show(d) { i = (i + d + items.length) % items.length; document.getElementById('notice-text').textContent = items[i]; }
+document.getElementById('prev').addEventListener('click', function () { show(-1); });
+document.getElementById('next').addEventListener('click', function () { show(1); });
+var tips = ['Tip 1: bring a padlock.', 'Tip 2: towels are for hire.'], t = 0;
+document.getElementById('tip-more').addEventListener('click', function () { t = (t + 1) % tips.length; document.getElementById('tip').textContent = tips[t]; });
+</script></main></body></html>

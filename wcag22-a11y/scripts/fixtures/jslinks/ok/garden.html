@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Allotment planner</title>
+  <style>
+    .plot-free { color: #1b5e20; background-color: #ffffff; }
+    .plot-taken { color: #b71c1c; background-color: #ffffff; }
+    .is-on { background-color: #2e7d32; }
+    .input-error { border-color: #b71c1c; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Allotment planner</h1>
+  <p>Plots marked "Taken" are already let.</p>
+
+  <form action="/plots">
+    <label for="season">Season</label>
+    <select id="season" name="season">
+      <option value="spring">Spring</option>
+      <option value="autumn">Autumn</option>
+    </select>
+    <button type="submit">Show plots</button>
+  </form>
+
+  <svg class="plot-map" viewBox="0 0 100 50" width="300" height="150" role="img" aria-label="Plot map">
+    <g class="plot" data-plot="n1" tabindex="0" role="button" aria-label="Plot North 1"><rect x="0" y="0" width="40" height="40"/></g>
+  </svg>
+
+  <table>
+    <tr><th>Plot</th><th>Shed</th><th>Tap</th></tr>
+    <tr><td>North 1</td><td><svg viewBox="0 0 10 10" width="16" height="16" aria-hidden="true"><path d="M1 5l3 3 5-7"/></svg> Yes</td>
+        <td><svg width="16" height="16" role="img" aria-label="No"><use href="sprites.svg#icon-cross"></use></svg></td></tr>
+  </table>
+  <ul><li><svg width="16" height="16"><use href="sprites.svg#icon-leaf"></use></svg> Organic plots only</li></ul>
+
+  <div role="switch" id="frost-alerts" aria-checked="false" tabindex="0">Frost alerts</div>
+  <button type="button" id="menu-button" aria-expanded="false">Plot menu</button>
+  <ul id="plot-menu" hidden><li><a href="/swap">Swap plot</a></li></ul>
+
+  <p>Water rota <button type="button" id="rota-help" aria-describedby="rota-tip">?</button></p>
+  <div id="rota-tip" class="tip" role="tooltip" hidden>Each holder waters for one week.</div>
+
+  <form id="apply-form" novalidate>
+    <label for="holder-email">Email</label>
+    <input id="holder-email" type="email" autocomplete="email" aria-describedby="holder-email-error">
+    <p id="holder-email-error" aria-live="polite" hidden></p>
+    <button type="submit">Apply</button>
+  </form>
+
+  <div class="dialog" id="rules-dialog" role="dialog" aria-label="Site rules" hidden>
+    <button type="button" class="dialog-close" aria-label="Close">&times;</button>
+    <p>Bonfires are not allowed.</p>
+  </div>
+</main>
+<script src="garden.js"></script>
+</body>
+</html>

@@ -1,0 +1,279 @@
+{
+  "costUsd": 2.474974,
+  "partial": false,
+  "partialReason": null,
+  "cases": {
+    "wcag-decoys": [
+      {
+        "run": 1,
+        "model": "claude-opus-5-5",
+        "error": null,
+        "costUsd": 0.5051874,
+        "turns": 11,
+        "skill_used": true,
+        "skill_not_used": null,
+        "recall": null,
+        "missed": [],
+        "severity_match": null,
+        "severity_match_of_found": null,
+        "severity_mismatch": [],
+        "decoy_rows_flagged_regex": [
+          "K4"
+        ],
+        "decoy_judge_pass": true,
+        "decoy_verdicts_pass": true,
+        "no_peek": true,
+        "score": 0.9230769230769231,
+        "expected_severity": {}
+      }
+    ],
+    "wcag-operable": [
+      {
+        "run": 1,
+        "model": "claude-opus-5-5",
+        "error": null,
+        "costUsd": 0.6410002,
+        "turns": 18,
+        "skill_used": true,
+        "skill_not_used": null,
+        "recall": "10/11",
+        "missed": [
+          "D20"
+        ],
+        "severity_match": "10/11",
+        "severity_match_of_found": "10/10",
+        "severity_mismatch": [],
+        "decoy_rows_flagged_regex": [
+          "K6"
+        ],
+        "decoy_judge_pass": false,
+        "decoy_verdicts_pass": null,
+        "no_peek": true,
+        "score": 0.8518518518518519,
+        "expected_severity": {
+          "D11": [
+            "Nonconformity"
+          ],
+          "D12": [
+            "Nonconformity",
+            "Deviation",
+            "Review"
+          ],
+          "D13": [
+            "Nonconformity"
+          ],
+          "D14": [
+            "Nonconformity",
+            "Deviation",
+            "Review"
+          ],
+          "D15": [
+            "Nonconformity"
+          ],
+          "D16": [
+            "Nonconformity",
+            "Deviation"
+          ],
+          "D17": [
+            "Nonconformity",
+            "Deviation",
+            "Review"
+          ],
+          "D18": [
+            "Nonconformity",
+            "Deviation"
+          ],
+          "D19": [
+            "Nonconformity",
+            "Deviation"
+          ],
+          "D20": [
+            "Nonconformity",
+            "Deviation",
+            "Review"
+          ],
+          "D21": [
+            "Nonconformity",
+            "Deviation"
+          ]
+        }
+      }
+    ],
+    "wcag-perceivable": [
+      {
+        "run": 1,
+        "model": "claude-opus-5-5",
+        "error": null,
+        "costUsd": 0.6553574000000001,
+        "turns": 21,
+        "skill_used": true,
+        "skill_not_used": null,
+        "recall": "10/10",
+        "missed": [],
+        "severity_match": "10/10",
+        "severity_match_of_found": "10/10",
+        "severity_mismatch": [],
+        "decoy_rows_flagged_regex": [
+          "K1",
+          "K2"
+        ],
+        "decoy_judge_pass": true,
+        "decoy_verdicts_pass": null,
+        "no_peek": true,
+        "score": 0.9285714285714286,
+        "expected_severity": {
+          "D01": [
+            "Nonconformity"
+          ],
+          "D02": [
+            "Nonconformity",
+            "Deviation",
+            "Review"
+          ],
+          "D03": [
+            "Nonconformity",
+            "Deviation",
+            "Review"
+          ],
+          "D04": [
+            "Nonconformity"
+          ],
+          "D05": [
+            "Nonconformity",
+            "Deviation",
+            "Review"
+          ],
+          "D06": [
+            "Nonconformity",
+            "Deviation"
+          ],
+          "D07": [
+            "Nonconformity",
+            "Deviation"
+          ],
+          "D08": [
+            "Nonconformity",
+            "Deviation"
+          ],
+          "D09": [
+            "Nonconformity",
+            "Deviation"
+          ],
+          "D10": [
+            "Nonconformity",
+            "Deviation"
+          ]
+        }
+      }
+    ],
+    "wcag-refusal-caption-poem": [
+      {
+        "run": 1,
+        "model": "claude-opus-5-5",
+        "error": null,
+        "costUsd": 0.0447886,
+        "turns": 1,
+        "skill_used": null,
+        "skill_not_used": true,
+        "recall": null,
+        "missed": [],
+        "severity_match": null,
+        "severity_match_of_found": null,
+        "severity_mismatch": [],
+        "decoy_rows_flagged_regex": [],
+        "decoy_judge_pass": null,
+        "decoy_verdicts_pass": null,
+        "no_peek": null,
+        "score": 1,
+        "expected_severity": {}
+      }
+    ],
+    "wcag-refusal-sql-perf": [
+      {
+        "run": 1,
+        "model": "claude-opus-5-5",
+        "error": null,
+        "costUsd": 0.0706686,
+        "turns": 1,
+        "skill_used": null,
+        "skill_not_used": true,
+        "recall": null,
+        "missed": [],
+        "severity_match": null,
+        "severity_match_of_found": null,
+        "severity_mismatch": [],
+        "decoy_rows_flagged_regex": [],
+        "decoy_judge_pass": null,
+        "decoy_verdicts_pass": null,
+        "no_peek": null,
+        "score": 1,
+        "expected_severity": {}
+      }
+    ],
+    "wcag-understandable-robust": [
+      {
+        "run": 1,
+        "model": "claude-opus-5-5",
+        "error": null,
+        "costUsd": 0.5579718,
+        "turns": 16,
+        "skill_used": true,
+        "skill_not_used": null,
+        "recall": "9/9",
+        "missed": [],
+        "severity_match": "9/9",
+        "severity_match_of_found": "9/9",
+        "severity_mismatch": [],
+        "decoy_rows_flagged_regex": [],
+        "decoy_judge_pass": true,
+        "decoy_verdicts_pass": null,
+        "no_peek": true,
+        "score": 1,
+        "expected_severity": {
+          "D22": [
+            "Nonconformity"
+          ],
+          "D23": [
+            "Nonconformity",
+            "Deviation",
+            "Review"
+          ],
+          "D24": [
+            "Nonconformity",
+            "Deviation",
+            "Review"
+          ],
+          "D25": [
+            "Nonconformity"
+          ],
+          "D26": [
+            "Nonconformity"
+          ],
+          "D27": [
+            "Nonconformity"
+          ],
+          "D28": [
+            "Nonconformity"
+          ],
+          "D29": [
+            "Nonconformity"
+          ],
+          "D30": [
+            "Nonconformity",
+            "Deviation",
+            "Review"
+          ]
+        }
+      }
+    ]
+  },
+  "overall_recall": {
+    "found": 29,
+    "total": 30,
+    "by_detectability": {
+      "static": "13/13",
+      "manual": "9/10",
+      "rendered": "7/7"
+    }
+  }
+}

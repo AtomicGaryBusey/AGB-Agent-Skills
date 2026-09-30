@@ -1,0 +1,1151 @@
+{
+  "name": "larkspur",
+  "title": "Larkspur Library",
+  "fixture": "fixtures/larkspur/project",
+  "answer_key": "fixtures/larkspur/answer-key.md",
+  "case_glob": "wcag-*",
+  "severity_policy": "static/rendered objective failures: Nonconformity. Deviation is also accepted where static detection is heuristic (all 'rendered' defects in a no-shell run, plus D16 positive tabindex and D18 outline:none). manual: Nonconformity, Deviation or Review note. Decoys and notes must not appear as Nonconformity or Deviation rows.",
+  "cases": {
+    "wcag-perceivable": {
+      "prompt": "This folder is the static front end of the Larkspur Library website: five HTML pages (index, catalog, events, login, signup), styles.css, app.js, and the React sources in src/components/. Audit it for WCAG 2.2 Level AA conformance, limited to Principle 1, Perceivable (success criteria 1.x). Cite each finding as file:line with its success criterion. No shell is available in this environment, so review the files statically; do not delegate to subagents and do not ask me questions. Give the complete audit report as your final reply.",
+      "decoys": [
+        "K1",
+        "K2",
+        "K5",
+        "N1",
+        "N3"
+      ]
+    },
+    "wcag-operable": {
+      "prompt": "This folder is the static front end of the Larkspur Library website: five HTML pages (index, catalog, events, login, signup), styles.css, app.js, and the React sources in src/components/. Audit it for WCAG 2.2 Level AA conformance, limited to Principle 2, Operable (success criteria 2.x). Cite each finding as file:line with its success criterion. No shell is available in this environment, so review the files statically; do not delegate to subagents and do not ask me questions. Give the complete audit report as your final reply.",
+      "decoys": [
+        "K3",
+        "K6"
+      ]
+    },
+    "wcag-understandable-robust": {
+      "prompt": "This folder is the static front end of the Larkspur Library website: five HTML pages (index, catalog, events, login, signup), styles.css, app.js, and the React sources in src/components/. Audit it for WCAG 2.2 Level AA conformance, limited to Principles 3 and 4, Understandable and Robust (success criteria 3.x and 4.x). Cite each finding as file:line with its success criterion. No shell is available in this environment, so review the files statically; do not delegate to subagents and do not ask me questions. Give the complete audit report as your final reply.",
+      "decoys": [
+        "K4",
+        "N2"
+      ]
+    },
+    "wcag-decoys": {
+      "prompt": "This folder is the static front end of the Larkspur Library website: five HTML pages (index, catalog, events, login, signup), styles.css, app.js, and the React sources in src/components/. Before release, our automated checker and a reviewer queried nine things. For each one, tell me whether it is a WCAG 2.2 Level AA failure and, if it is, how severe; then give me your report. (1) The leaf divider image at index.html:52 has alt=\"\" and role=\"presentation\", so it has no text alternative. (2) The events schedule table uses scope attributes on its th cells; the checker calls this layout-table misuse. (3) The 'access guide' link in the fine print on events.html is only about 16px tall, under the 24px target size. (4) Step 2 of the login page has an image CAPTCHA (select every picture that shows a book); is that a cognitive function test that fails Accessible Authentication? (5) The 'Larkspur Library' logo text is #c9b6ef on white, about 1.84:1. (6) The home page (index.html) has a sticky header; can it hide the focused element? (7) On index.html an h2 'Visit us' is followed directly by an h4 'Opening hours'. (8) The signup form asks for the PIN twice ('Type your PIN again'); is that Redundant Entry? (9) At a 320px-wide viewport the events schedule table is wider than the screen. No shell is available in this environment, so review the files statically; do not delegate to subagents and do not ask me questions.",
+      "decoys": [
+        "K1",
+        "K2",
+        "K3",
+        "K4",
+        "K5",
+        "K6",
+        "N1",
+        "N2",
+        "N3"
+      ],
+      "decoy_judge_strict": true
+    }
+  },
+  "defects": [
+    {
+      "id": "D01",
+      "case": "wcag-perceivable",
+      "sc": [
+        "1.1.1"
+      ],
+      "level": "A",
+      "detectability": "static",
+      "locs": [
+        [
+          "catalog.html",
+          [
+            38,
+            46,
+            54,
+            62
+          ]
+        ],
+        [
+          "BookCard.jsx",
+          [
+            7
+          ]
+        ]
+      ],
+      "kw": "1\\.1\\.1|\\balt\\b|text alternative|F65",
+      "sev": [
+        "Nonconformity"
+      ]
+    },
+    {
+      "id": "D02",
+      "case": "wcag-perceivable",
+      "sc": [
+        "1.1.1"
+      ],
+      "level": "A",
+      "detectability": "manual",
+      "locs": [
+        [
+          "index.html",
+          [
+            30
+          ]
+        ]
+      ],
+      "kw": "1\\.1\\.1|decorat|flourish|divider|F39",
+      "sev": [
+        "Nonconformity",
+        "Deviation",
+        "Review"
+      ]
+    },
+    {
+      "id": "D03",
+      "case": "wcag-perceivable",
+      "sc": [
+        "1.3.1"
+      ],
+      "level": "A",
+      "detectability": "manual",
+      "locs": [
+        [
+          "events.html",
+          [
+            36,
+            43,
+            50
+          ]
+        ],
+        [
+          "styles.css",
+          [
+            185
+          ]
+        ]
+      ],
+      "kw": "1\\.3\\.1|heading|<h2|\\bh2\\b|event-title|\\bF2\\b",
+      "sev": [
+        "Nonconformity",
+        "Deviation",
+        "Review"
+      ]
+    },
+    {
+      "id": "D04",
+      "case": "wcag-perceivable",
+      "sc": [
+        "1.3.5"
+      ],
+      "level": "AA",
+      "detectability": "static",
+      "locs": [
+        [
+          "signup.html",
+          [
+            34,
+            38,
+            42,
+            46,
+            50,
+            59
+          ]
+        ]
+      ],
+      "kw": "1\\.3\\.5|autocomplete|input purpose",
+      "sev": [
+        "Nonconformity"
+      ]
+    },
+    {
+      "id": "D05",
+      "case": "wcag-perceivable",
+      "sc": [
+        "1.4.1",
+        "3.3.1"
+      ],
+      "level": "A",
+      "detectability": "manual",
+      "locs": [
+        [
+          "app.js",
+          [
+            103
+          ]
+        ],
+        [
+          "styles.css",
+          [
+            250
+          ]
+        ]
+      ],
+      "kw": "1\\.4\\.1(?!\\d)|3\\.3\\.1(?!\\d)|colou?r (?:alone|only)|only (?:by )?colou?r|aria-invalid|F81",
+      "sev": [
+        "Nonconformity",
+        "Deviation",
+        "Review"
+      ]
+    },
+    {
+      "id": "D06",
+      "case": "wcag-perceivable",
+      "sc": [
+        "1.4.3"
+      ],
+      "level": "AA",
+      "detectability": "rendered",
+      "locs": [
+        [
+          "styles.css",
+          [
+            190
+          ]
+        ],
+        [
+          "events.html",
+          [
+            37,
+            44,
+            51
+          ]
+        ]
+      ],
+      "kw": "1\\.4\\.3|contrast|#999|2\\.85|event-meta",
+      "sev": [
+        "Nonconformity",
+        "Deviation"
+      ]
+    },
+    {
+      "id": "D07",
+      "case": "wcag-perceivable",
+      "sc": [
+        "1.4.3",
+        "3.3.2"
+      ],
+      "level": "AA",
+      "detectability": "rendered",
+      "locs": [
+        [
+          "signup.html",
+          [
+            34
+          ]
+        ],
+        [
+          "styles.css",
+          [
+            249
+          ]
+        ]
+      ],
+      "kw": "placeholder|#aaa|2\\.32",
+      "sev": [
+        "Nonconformity",
+        "Deviation"
+      ],
+      "note": "kw is placeholder-specific because signup.html:34 is shared with D04 and styles.css:249 neighbours D05/D10."
+    },
+    {
+      "id": "D08",
+      "case": "wcag-perceivable",
+      "sc": [
+        "1.4.10"
+      ],
+      "level": "AA",
+      "detectability": "rendered",
+      "locs": [
+        [
+          "styles.css",
+          [
+            [
+              105,
+              107
+            ]
+          ]
+        ],
+        [
+          "index.html",
+          [
+            56
+          ]
+        ]
+      ],
+      "kw": "1\\.4\\.10|reflow|320|horizontal scroll|featured-row|240px",
+      "sev": [
+        "Nonconformity",
+        "Deviation"
+      ]
+    },
+    {
+      "id": "D09",
+      "case": "wcag-perceivable",
+      "sc": [
+        "1.4.12"
+      ],
+      "level": "AA",
+      "detectability": "rendered",
+      "locs": [
+        [
+          "styles.css",
+          [
+            [
+              191,
+              198
+            ]
+          ]
+        ],
+        [
+          "events.html",
+          [
+            39,
+            46,
+            53
+          ]
+        ]
+      ],
+      "kw": "1\\.4\\.12|text spacing|btn-fixed|overflow|clip|F104",
+      "sev": [
+        "Nonconformity",
+        "Deviation"
+      ]
+    },
+    {
+      "id": "D10",
+      "case": "wcag-perceivable",
+      "sc": [
+        "1.4.11"
+      ],
+      "level": "AA",
+      "detectability": "rendered",
+      "locs": [
+        [
+          "styles.css",
+          [
+            [
+              246,
+              247
+            ]
+          ]
+        ],
+        [
+          "signup.html",
+          [
+            [
+              34,
+              67
+            ]
+          ]
+        ]
+      ],
+      "kw": "1\\.4\\.11|non-text contrast|border|#d6d6d6|1\\.45",
+      "sev": [
+        "Nonconformity",
+        "Deviation"
+      ]
+    },
+    {
+      "id": "D11",
+      "case": "wcag-operable",
+      "sc": [
+        "2.1.1"
+      ],
+      "level": "A",
+      "detectability": "static",
+      "locs": [
+        [
+          "catalog.html",
+          [
+            42,
+            50,
+            58,
+            66
+          ]
+        ],
+        [
+          "BookCard.jsx",
+          [
+            15
+          ]
+        ]
+      ],
+      "kw": "2\\.1\\.1|keyboard|add-btn|\\bdiv\\b|onclick|tabindex",
+      "sev": [
+        "Nonconformity"
+      ]
+    },
+    {
+      "id": "D12",
+      "case": "wcag-operable",
+      "sc": [
+        "2.1.2"
+      ],
+      "level": "A",
+      "detectability": "manual",
+      "locs": [
+        [
+          "app.js",
+          [
+            [
+              83,
+              92
+            ]
+          ]
+        ],
+        [
+          "events.html",
+          [
+            88
+          ]
+        ],
+        [
+          "Modal.jsx",
+          [
+            13,
+            30
+          ]
+        ]
+      ],
+      "kw": "2\\.1\\.2|trap|escape|\\bF10\\b|modal",
+      "sev": [
+        "Nonconformity",
+        "Deviation",
+        "Review"
+      ]
+    },
+    {
+      "id": "D13",
+      "case": "wcag-operable",
+      "sc": [
+        "2.2.1"
+      ],
+      "level": "A",
+      "detectability": "static",
+      "locs": [
+        [
+          "events.html",
+          [
+            6
+          ]
+        ]
+      ],
+      "kw": "2\\.2\\.1|refresh|timing|\\bF41\\b",
+      "sev": [
+        "Nonconformity"
+      ]
+    },
+    {
+      "id": "D14",
+      "case": "wcag-operable",
+      "sc": [
+        "2.2.2"
+      ],
+      "level": "A",
+      "detectability": "manual",
+      "locs": [
+        [
+          "index.html",
+          [
+            34
+          ]
+        ],
+        [
+          "app.js",
+          [
+            [
+              14,
+              17
+            ]
+          ]
+        ],
+        [
+          "Carousel.jsx",
+          [
+            8
+          ]
+        ]
+      ],
+      "kw": "2\\.2\\.2|pause|carousel|setInterval|auto-?(?:advanc|rotat|play)|\\bF16\\b",
+      "sev": [
+        "Nonconformity",
+        "Deviation",
+        "Review"
+      ]
+    },
+    {
+      "id": "D15",
+      "case": "wcag-operable",
+      "sc": [
+        "2.4.2"
+      ],
+      "level": "A",
+      "detectability": "static",
+      "locs": [
+        [
+          "catalog.html",
+          [
+            [
+              3,
+              7
+            ]
+          ]
+        ]
+      ],
+      "kw": "2\\.4\\.2|<title>|(?<!-)\\btitle\\b|page titled",
+      "sev": [
+        "Nonconformity"
+      ],
+      "anchors": [
+        "catalog\\.html(?![:#\\d])"
+      ]
+    },
+    {
+      "id": "D16",
+      "case": "wcag-operable",
+      "sc": [
+        "2.4.3"
+      ],
+      "level": "A",
+      "detectability": "static",
+      "locs": [
+        [
+          "login.html",
+          [
+            37,
+            40
+          ]
+        ]
+      ],
+      "kw": "2\\.4\\.3|tabindex|focus order|\\bF44\\b",
+      "sev": [
+        "Nonconformity",
+        "Deviation"
+      ]
+    },
+    {
+      "id": "D17",
+      "case": "wcag-operable",
+      "sc": [
+        "2.4.4"
+      ],
+      "level": "A",
+      "detectability": "manual",
+      "locs": [
+        [
+          "events.html",
+          [
+            [
+              31,
+              33
+            ]
+          ]
+        ]
+      ],
+      "kw": "2\\.4\\.4|click here|link purpose|\\bF63\\b|calendar",
+      "sev": [
+        "Nonconformity",
+        "Deviation",
+        "Review"
+      ]
+    },
+    {
+      "id": "D18",
+      "case": "wcag-operable",
+      "sc": [
+        "2.4.7"
+      ],
+      "level": "AA",
+      "detectability": "static",
+      "locs": [
+        [
+          "styles.css",
+          [
+            59
+          ]
+        ]
+      ],
+      "kw": "2\\.4\\.7|outline|focus visible|focus indicator|\\bF78\\b",
+      "sev": [
+        "Nonconformity",
+        "Deviation"
+      ]
+    },
+    {
+      "id": "D19",
+      "case": "wcag-operable",
+      "sc": [
+        "2.4.11"
+      ],
+      "level": "AA",
+      "detectability": "rendered",
+      "locs": [
+        [
+          "styles.css",
+          [
+            [
+              25,
+              26
+            ]
+          ]
+        ],
+        [
+          "catalog.html",
+          [
+            8
+          ]
+        ]
+      ],
+      "kw": "2\\.4\\.11|obscur|sticky|scroll-padding|\\bF110\\b",
+      "sev": [
+        "Nonconformity",
+        "Deviation"
+      ]
+    },
+    {
+      "id": "D20",
+      "case": "wcag-operable",
+      "sc": [
+        "2.5.7"
+      ],
+      "level": "AA",
+      "detectability": "manual",
+      "locs": [
+        [
+          "catalog.html",
+          [
+            [
+              83,
+              86
+            ]
+          ]
+        ],
+        [
+          "app.js",
+          [
+            [
+              49,
+              60
+            ]
+          ]
+        ],
+        [
+          "ReadingList.jsx",
+          [
+            22
+          ]
+        ]
+      ],
+      "kw": "2\\.5\\.7|drag",
+      "sev": [
+        "Nonconformity",
+        "Deviation",
+        "Review"
+      ]
+    },
+    {
+      "id": "D21",
+      "case": "wcag-operable",
+      "sc": [
+        "2.5.8"
+      ],
+      "level": "AA",
+      "detectability": "rendered",
+      "locs": [
+        [
+          "styles.css",
+          [
+            [
+              160,
+              169
+            ]
+          ]
+        ],
+        [
+          "catalog.html",
+          [
+            [
+              72,
+              76
+            ]
+          ]
+        ]
+      ],
+      "kw": "2\\.5\\.8|target size|pager|pagination|16\\s?(?:x|×|by)\\s?16|16px",
+      "sev": [
+        "Nonconformity",
+        "Deviation"
+      ]
+    },
+    {
+      "id": "D22",
+      "case": "wcag-understandable-robust",
+      "sc": [
+        "3.1.1"
+      ],
+      "level": "A",
+      "detectability": "static",
+      "locs": [
+        [
+          "events.html",
+          [
+            2
+          ]
+        ]
+      ],
+      "kw": "3\\.1\\.1|\\blang\\b|language of page",
+      "sev": [
+        "Nonconformity"
+      ],
+      "anchors": [
+        "events\\.html(?![:#\\d])"
+      ]
+    },
+    {
+      "id": "D23",
+      "case": "wcag-understandable-robust",
+      "sc": [
+        "3.2.6"
+      ],
+      "level": "A",
+      "detectability": "manual",
+      "locs": [
+        [
+          "catalog.html",
+          [
+            93
+          ]
+        ],
+        [
+          "index.html",
+          [
+            22
+          ]
+        ],
+        [
+          "events.html",
+          [
+            23
+          ]
+        ],
+        [
+          "login.html",
+          [
+            22
+          ]
+        ],
+        [
+          "signup.html",
+          [
+            22
+          ]
+        ]
+      ],
+      "kw": "3\\.2\\.6|consistent help|help-bar|help (?:link|mechanism)|Ask a Librarian",
+      "sev": [
+        "Nonconformity",
+        "Deviation",
+        "Review"
+      ],
+      "anchors": [
+        "help-bar",
+        "Consistent Help"
+      ]
+    },
+    {
+      "id": "D24",
+      "case": "wcag-understandable-robust",
+      "sc": [
+        "3.3.7"
+      ],
+      "level": "A",
+      "detectability": "manual",
+      "locs": [
+        [
+          "signup.html",
+          [
+            38,
+            [
+              58,
+              59
+            ]
+          ]
+        ],
+        [
+          "app.js",
+          [
+            [
+              99,
+              110
+            ]
+          ]
+        ]
+      ],
+      "kw": "3\\.3\\.7|redundant|card-email|re-?enter|again|twice|pre-?fill",
+      "sev": [
+        "Nonconformity",
+        "Deviation",
+        "Review"
+      ]
+    },
+    {
+      "id": "D25",
+      "case": "wcag-understandable-robust",
+      "sc": [
+        "3.3.8"
+      ],
+      "level": "AA",
+      "detectability": "static",
+      "locs": [
+        [
+          "login.html",
+          [
+            37
+          ]
+        ]
+      ],
+      "kw": "3\\.3\\.8|paste|onpaste|accessible authentication|\\bF109\\b",
+      "sev": [
+        "Nonconformity"
+      ]
+    },
+    {
+      "id": "D26",
+      "case": "wcag-understandable-robust",
+      "sc": [
+        "4.1.2"
+      ],
+      "level": "A",
+      "detectability": "static",
+      "locs": [
+        [
+          "catalog.html",
+          [
+            28
+          ]
+        ],
+        [
+          "SearchBar.jsx",
+          [
+            [
+              14,
+              19
+            ]
+          ]
+        ]
+      ],
+      "kw": "\\binput\\b|#q\\b|id=\\\"q\\\"|search (?:field|box|input)|unlabel|no label|<label",
+      "sev": [
+        "Nonconformity"
+      ],
+      "tol": 0,
+      "note": "tol 0: catalog.html:28 and :29 (D27) are adjacent; kw separates input from button."
+    },
+    {
+      "id": "D27",
+      "case": "wcag-understandable-robust",
+      "sc": [
+        "4.1.2"
+      ],
+      "level": "A",
+      "detectability": "static",
+      "locs": [
+        [
+          "catalog.html",
+          [
+            29
+          ]
+        ],
+        [
+          "SearchBar.jsx",
+          [
+            [
+              20,
+              22
+            ]
+          ]
+        ]
+      ],
+      "kw": "icon|button|\\bimg\\b|alt=\\\"\\\"",
+      "sev": [
+        "Nonconformity"
+      ],
+      "tol": 0
+    },
+    {
+      "id": "D28",
+      "case": "wcag-understandable-robust",
+      "sc": [
+        "4.1.2"
+      ],
+      "level": "A",
+      "detectability": "static",
+      "locs": [
+        [
+          "catalog.html",
+          [
+            32
+          ]
+        ],
+        [
+          "app.js",
+          [
+            [
+              21,
+              34
+            ]
+          ]
+        ]
+      ],
+      "kw": "buton|invalid role|\\brole\\b|sort-toggle",
+      "sev": [
+        "Nonconformity"
+      ]
+    },
+    {
+      "id": "D29",
+      "case": "wcag-understandable-robust",
+      "sc": [
+        "4.1.2"
+      ],
+      "level": "A",
+      "detectability": "static",
+      "locs": [
+        [
+          "index.html",
+          [
+            [
+              85,
+              87
+            ]
+          ]
+        ]
+      ],
+      "kw": "aria-hidden|social|focusable",
+      "sev": [
+        "Nonconformity"
+      ]
+    },
+    {
+      "id": "D30",
+      "case": "wcag-understandable-robust",
+      "sc": [
+        "4.1.3"
+      ],
+      "level": "AA",
+      "detectability": "manual",
+      "locs": [
+        [
+          "catalog.html",
+          [
+            34
+          ]
+        ],
+        [
+          "app.js",
+          [
+            44
+          ]
+        ]
+      ],
+      "kw": "4\\.1\\.3|status|live region|aria-live|announce|\\bF103\\b",
+      "sev": [
+        "Nonconformity",
+        "Deviation",
+        "Review"
+      ]
+    }
+  ],
+  "decoy_defs": {
+    "K1": {
+      "desc": "The leaf divider image at index.html:52 (img.divider, rule-leaves.svg) with alt=\"\" and role=\"presentation\". Pure decoration hidden from assistive technology is exactly what 1.1.1 requires (H67); role=presentation is redundant but valid. Reporting it as missing a text alternative, or calling the redundant role a defect, is a false positive. (The OTHER divider at index.html:30, flourish.svg, with a descriptive alt, is a real defect and does not count.)",
+      "row": {
+        "locs": [
+          [
+            "index.html",
+            [
+              52
+            ]
+          ]
+        ],
+        "kw": "1\\.1\\.1|alt|decorat|divider|presentation|rule-leaves"
+      }
+    },
+    "K2": {
+      "desc": "The events schedule data table (events.html:57-82, table.schedule) with <caption>, <th scope=\"col\"> and <th scope=\"row\">. It is genuine tabular data and scope/caption make header relationships programmatic (1.3.1, H63, H39). Calling it layout-table misuse or a 1.3.1 failure is a false positive.",
+      "row": {
+        "locs": [
+          [
+            "events.html",
+            [
+              [
+                58,
+                82
+              ]
+            ]
+          ]
+        ],
+        "kw": "scope|caption|\\bth\\b|layout|header cells?"
+      }
+    },
+    "K3": {
+      "desc": "The small inline 'access guide' link in the fine print at events.html:29 (CSS styles.css:200, 14px text, about 98.5 x 16 CSS px). The 2.5.8 Inline exception applies (target in a sentence, size constrained by line-height), it is underlined, and it has ample contrast. Reporting it as a 2.5.8 target-size failure is a false positive.",
+      "row": {
+        "locs": [
+          [
+            "events.html",
+            [
+              29
+            ]
+          ],
+          [
+            "styles.css",
+            [
+              200
+            ]
+          ]
+        ],
+        "kw": "2\\.5\\.8|target size|size of the (?:link|target)|\\b24\\s?(?:css\\s)?(?:px|x|×|by)|\\b16\\s?(?:css\\s)?px|too small|small target"
+      }
+    },
+    "K4": {
+      "desc": "The step-2 object-recognition CAPTCHA on login.html:43-55 (#captcha-form, 'select every picture that shows a book', with an audio alternative button). 3.3.8 (AA) explicitly allows object recognition as an exception, and it meets the 1.1.1 CAPTCHA exception. Reporting the CAPTCHA as a 3.3.8 or 1.1.1 failure is a false positive (noting it would fail AAA 3.3.9 is fine). The paste-blocked PIN at login.html:37 is a separate real defect.",
+      "row": {
+        "locs": [
+          [
+            "login.html",
+            [
+              [
+                44,
+                55
+              ]
+            ]
+          ]
+        ],
+        "kw": "captcha|3\\.3\\.8|object recogn|cognitive"
+      }
+    },
+    "K5": {
+      "desc": "The low-contrast logotype text 'Larkspur Library' (.logo-word, #c9b6ef on white, styles.css:40; markup at line 12 of each page). The 1.4.3 Logotypes exception applies (text that is part of a logo or brand name has no contrast requirement), and the logo is not a link or control. Reporting it as a contrast failure is a false positive.",
+      "row": {
+        "locs": [
+          [
+            "styles.css",
+            [
+              40
+            ]
+          ],
+          [
+            "index.html",
+            [
+              12
+            ]
+          ],
+          [
+            "catalog.html",
+            [
+              12
+            ]
+          ],
+          [
+            "events.html",
+            [
+              12
+            ]
+          ],
+          [
+            "login.html",
+            [
+              12
+            ]
+          ],
+          [
+            "signup.html",
+            [
+              12
+            ]
+          ]
+        ],
+        "anchors": [
+          "logo-word",
+          "#c9b6ef"
+        ],
+        "kw": "logo|contrast|1\\.4\\.3|#c9b6ef|1\\.84"
+      }
+    },
+    "K6": {
+      "desc": "The sticky header on index.html (html.pad-for-header at index.html:2, styles.css:5 scroll-padding-top: 14rem). scroll-padding keeps focused elements clear of the header (technique C43), so 2.4.11 is met on index.html. Reporting the index page's sticky header as obscuring focus is a false positive. The SAME sticky rule on catalog.html (no scroll-padding) is a real defect and does not count.",
+      "row": {
+        "locs": [
+          [
+            "index.html",
+            [
+              2,
+              9
+            ]
+          ]
+        ],
+        "anchors": [],
+        "kw": "2\\.4\\.11|obscur|sticky|scroll-padding|focus"
+      },
+      "row_note": "styles.css:5 and pad-for-header are omitted: D19 rows cite them to explain the catalog failure."
+    },
+    "N1": {
+      "desc": "The heading-level skip at index.html:77-78 (h2 'Visit us' followed by h4 'Opening hours'). WCAG 2.2 has no SC requiring sequential heading levels; the heading is marked up as a heading so 1.3.1 is met. At most a best-practice remark; reporting it as a Nonconformity or Deviation is a false positive.",
+      "row": {
+        "locs": [
+          [
+            "index.html",
+            [
+              [
+                77,
+                78
+              ]
+            ]
+          ]
+        ],
+        "kw": "heading|\\bh4\\b|skip|level|1\\.3\\.1|Opening hours"
+      }
+    },
+    "N2": {
+      "desc": "The confirm-PIN field 'Type your PIN again' at signup.html:66-67. The 3.3.7 security exception applies (Understanding 3.3.7 names password confirmation). Reporting it as a Redundant Entry failure is a false positive. (The re-asked email at signup.html:58-59 is a real defect and does not count.)",
+      "row": {
+        "locs": [
+          [
+            "signup.html",
+            [
+              [
+                66,
+                67
+              ]
+            ]
+          ]
+        ],
+        "kw": "confirm|again|3\\.3\\.7|redundant|PIN"
+      }
+    },
+    "N3": {
+      "desc": "The events schedule table at 320px (events.html:57, div.table-scroll; styles.css:202). It scrolls inside its own labelled, focusable region and the page itself does not scroll sideways; 1.4.10 Note 2 lets data tables use two-dimensional layout. Reporting it as a reflow failure is a false positive. (The featured-row grid on index.html, styles.css:105-107, is a real reflow defect and does not count.)",
+      "row": {
+        "locs": [
+          [
+            "events.html",
+            [
+              57
+            ]
+          ],
+          [
+            "styles.css",
+            [
+              202
+            ]
+          ]
+        ],
+        "anchors": [
+          "table-scroll"
+        ],
+        "kw": "1\\.4\\.10|reflow|320|horizontal|scroll"
+      }
+    }
+  }
+}

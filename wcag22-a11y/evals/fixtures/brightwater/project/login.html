@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign in | Brightwater Transit</title>
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="site-header">
+  <a class="logo" href="index.html">
+    <svg class="logo-mark" width="32" height="32" aria-hidden="true" focusable="false"><use href="img/sprite.svg#logo"></use></svg>
+    <span class="wordmark">Brightwater Transit</span>
+  </a>
+  <nav class="site-nav" aria-label="Main">
+    <ul>
+        <li><a href="planner.html">Trip planner</a></li>
+        <li><a href="fares.html">Fares</a></li>
+        <li><a href="alerts.html">Service alerts</a></li>
+        <li><a href="map.html">Route map</a></li>
+        <li><a href="claim-1.html">Lost &amp; found</a></li>
+        <li><a href="feedback.html">Feedback</a></li>
+        <li><a href="login.html" aria-current="page">Sign in</a></li>
+    </ul>
+  </nav>
+  <a class="help-link" href="help.html"><i class="bwi bwi-help" aria-hidden="true"></i> Help &amp; contact</a>
+</header>
+<main id="main">
+  <h1>Sign in to your account</h1>
+  <form id="login-form" action="login.html" method="post">
+    <div class="field">
+      <label for="user">Email or fare card number</label>
+      <input id="user" name="user" type="text" autocomplete="username">
+    </div>
+    <div class="field">
+      <label for="pw">Password</label>
+      <input id="pw" name="pw" type="password" autocomplete="current-password">
+    </div>
+    <p><a href="help.html#reset">Forgot your password?</a></p>
+    <button type="submit" class="btn" tabindex="2">Sign in</button>
+    <p>New rider? <a href="help.html#account" tabindex="1">Create an account</a></p>
+  </form>
+
+  <section id="twofa" aria-labelledby="twofa-heading" hidden>
+    <h2 id="twofa-heading">Check your phone</h2>
+    <p id="twofa-hint">We sent a 6-digit code by text message to the number ending in 42. Type the code below.</p>
+    <fieldset class="otp" aria-describedby="twofa-hint">
+      <legend>Verification code</legend>
+      <input class="otp-digit" type="text" inputmode="numeric" maxlength="1" autocomplete="off" aria-label="Digit 1">
+      <input class="otp-digit" type="text" inputmode="numeric" maxlength="1" autocomplete="off" aria-label="Digit 2">
+      <input class="otp-digit" type="text" inputmode="numeric" maxlength="1" autocomplete="off" aria-label="Digit 3">
+      <input class="otp-digit" type="text" inputmode="numeric" maxlength="1" autocomplete="off" aria-label="Digit 4">
+      <input class="otp-digit" type="text" inputmode="numeric" maxlength="1" autocomplete="off" aria-label="Digit 5">
+      <input class="otp-digit" type="text" inputmode="numeric" maxlength="1" autocomplete="off" aria-label="Digit 6">
+    </fieldset>
+    <p><button type="button" class="btn" id="verify">Verify</button></p>
+  </section>
+</main>
+<footer class="site-footer">
+  <ul class="footer-links">
+    <li><a href="help.html#accessibility">Accessibility</a></li>
+    <li><a href="help.html#privacy">Privacy</a></li>
+    <li><a href="help.html#terms">Terms of use</a></li>
+  </ul>
+  <p>&copy; 2026 Brightwater Regional Transit Authority. A fictional agency.</p>
+</footer>
+<script src="js/login.js"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Community notices</title>
+<style>.spotlight{background:#eef4f0;padding:16px;min-height:80px}</style></head><body><main>
+<h1>Community notices</h1>
+<div class="spotlight" id="notices">
+<p>Repair cafe on Saturday in the church hall.</p>
+<p hidden>Bin collection moves to Tuesday next week.</p>
+<p hidden>The footpath by the river is closed for resurfacing.</p>
+</div>
+<figure class="promo"><img id="promo-img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='60'%3E%3Crect width='200' height='60' fill='%23336'/%3E%3C/svg%3E" alt="Spring fair"><figcaption id="promo-cap">Spring fair</figcaption></figure>
+<p>Other news appears below.</p>
+<script>
+var ps = document.querySelectorAll('#notices p'), i = 0;
+setInterval(function () { ps[i].hidden = true; i = (i + 1) % ps.length; ps[i].hidden = false; }, 3500);
+var caps = ['Spring fair', 'Plant sale', 'Choir concert'], k = 0;
+setInterval(function () { k = (k + 1) % caps.length; document.getElementById('promo-cap').innerHTML = caps[k]; document.getElementById('promo-img').alt = caps[k]; }, 3800);
+</script></main></body></html>

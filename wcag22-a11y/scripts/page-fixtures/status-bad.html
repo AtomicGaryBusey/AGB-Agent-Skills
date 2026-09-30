@@ -1,0 +1,14 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Status message bad</title></head><body><main>
+<h1>Seed wishlist</h1>
+<form id="wish"><label for="seed">Seed variety</label> <input id="seed" name="seed" value="Runner bean"> <button>Add to wishlist</button></form>
+<p id="wish-note"></p><ul id="items"></ul>
+<button id="more" aria-expanded="false" aria-controls="extra">More tips</button><div id="extra" hidden>Water in the evening.</div>
+<script>
+document.getElementById('wish').addEventListener('submit', function (e) {
+  e.preventDefault();
+  var li = document.createElement('li'); li.textContent = document.getElementById('seed').value;
+  document.getElementById('items').appendChild(li);
+  document.getElementById('wish-note').textContent = li.textContent + ' added to your wishlist.';
+});
+document.getElementById('more').addEventListener('click', function () { var x = document.getElementById('extra'); x.hidden = !x.hidden; this.setAttribute('aria-expanded', String(!x.hidden)); });
+</script></main></body></html>

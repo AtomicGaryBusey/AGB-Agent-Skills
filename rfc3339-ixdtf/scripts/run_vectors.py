@@ -1102,7 +1102,7 @@ def rfcdt_adapter(argv=None, stdin=None, stdout=None):
                 continue
             req = json.loads(line)
             ans = _rfcdt_answer(req["input"], req.get("profile", "rfc3339"), req.get("options"))
-            stdout.write(json.dumps({"id": req.get("id"), **ans}, ensure_ascii=False) + "\n")
+            stdout.write(json.dumps({"id": req.get("id"), **ans}) + "\n")  # ASCII: the harness decodes UTF-8 on every OS
         stdout.flush()
         return 0
     if "--" in argv:
@@ -1113,11 +1113,33 @@ def rfcdt_adapter(argv=None, stdin=None, stdout=None):
              else stdin.read())
     ans = _rfcdt_answer(s, os.environ.get("RFCDT_PROFILE") or "rfc3339",
                         json.loads(os.environ.get("RFCDT_OPTIONS") or "{}"))
-    stdout.write(json.dumps(ans, ensure_ascii=False) + "\n")
+    stdout.write(json.dumps(ans) + "\n")  # ASCII: safe on a cp1252 pipe and for surrogate-escaped input
     return 0
 
 
+# Output encoding: see rfcdt.py. A non-UTF-8 stdout (Windows pipes default to the
+# ANSI code page) gets ASCII-only JSON and backslashreplace for text.
+_JSON_ASCII = False
+
+
+def _is_utf8(stream):
+    enc = (getattr(stream, "encoding", None) or "").lower().replace("-", "").replace("_", "")
+    return enc in ("utf8", "utf8sig")
+
+
+def _safe_stdio():
+    global _JSON_ASCII
+    _JSON_ASCII = not _is_utf8(sys.stdout)
+    for stream in (sys.stdout, sys.stderr):
+        if not _is_utf8(stream) and hasattr(stream, "reconfigure"):
+            try:
+                stream.reconfigure(errors="backslashreplace")
+            except (ValueError, OSError):
+                pass
+
+
 def main(argv=None):
+    _safe_stdio()
     argv = list(sys.argv[1:] if argv is None else argv)
     if argv[:1] == ["--rfcdt-adapter"]:
         return rfcdt_adapter(argv[1:])
@@ -1172,7 +1194,7 @@ def main(argv=None):
         groups, tot = summarize(results)
         print(json.dumps({"meta": meta, "target": a.target or "rfcdt", "totals": tot,
                           "sections": groups, "results": results}, indent=1,
-                         ensure_ascii=False))
+                         ensure_ascii=_JSON_ASCII))
     elif report == "md":
         markdown_report(results, a.target, meta)
     else:

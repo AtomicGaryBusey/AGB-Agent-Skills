@@ -165,7 +165,7 @@ def run_json(cmd, cwd=None, timeout=1800):
     """Run a tool that prints a JSON envelope. Returns (envelope|None, exit_code, error)."""
     try:
         p = subprocess.run(cmd, cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                           universal_newlines=True, timeout=timeout)
+                           universal_newlines=True, encoding="utf-8", errors="replace", timeout=timeout)
     except (OSError, subprocess.TimeoutExpired) as e:
         return None, None, str(e)
     if p.returncode not in (0, 1):
@@ -183,7 +183,7 @@ def page_runner_installed():
         return False, "setup_page_runner.sh not found"
     try:
         p = subprocess.run(["bash", SETUP, "--check"], stdout=subprocess.PIPE,
-                           stderr=subprocess.STDOUT, universal_newlines=True, timeout=180)
+                           stderr=subprocess.STDOUT, universal_newlines=True, encoding="utf-8", errors="replace", timeout=180)
     except (OSError, subprocess.TimeoutExpired) as e:
         return False, str(e)
     return p.returncode == 0, p.stdout.strip()
@@ -193,7 +193,7 @@ def scanner_rule_sc(level):
     """SCs the static scanner has objective (fail/warn/info) rules for, from --list-rules."""
     try:
         p = subprocess.run([sys.executable, SCAN, "--list-rules"], stdout=subprocess.PIPE,
-                           stderr=subprocess.PIPE, universal_newlines=True, timeout=60)
+                           stderr=subprocess.PIPE, universal_newlines=True, encoding="utf-8", errors="replace", timeout=60)
     except (OSError, subprocess.TimeoutExpired):
         return set()
     return parse_rule_list(p.stdout, level)
@@ -1056,7 +1056,31 @@ def build_parser():
     return p
 
 
+# Output encoding. On Windows a redirected or piped stdout uses the ANSI code page
+# (often cp1252). When stdout is not UTF-8, JSON is written ASCII-only (\uXXXX
+# escapes: valid and lossless) and text output uses backslashreplace, so printing
+# never raises UnicodeEncodeError.
+_JSON_ASCII = False
+
+
+def _is_utf8(stream):
+    enc = (getattr(stream, "encoding", None) or "").lower().replace("-", "").replace("_", "")
+    return enc in ("utf8", "utf8sig")
+
+
+def _safe_stdio():
+    global _JSON_ASCII
+    _JSON_ASCII = not _is_utf8(sys.stdout)
+    for stream in (sys.stdout, sys.stderr):
+        if not _is_utf8(stream) and hasattr(stream, "reconfigure"):
+            try:
+                stream.reconfigure(errors="backslashreplace")
+            except (ValueError, OSError):
+                pass
+
+
 def main(argv=None):
+    _safe_stdio()
     argv = list(sys.argv[1:] if argv is None else argv)
     args = build_parser().parse_args(argv)
     args.argv = argv

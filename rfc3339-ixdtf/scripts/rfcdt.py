@@ -2434,7 +2434,7 @@ def _print_result(r, as_json):
     if as_json:
         d = r.to_dict()
         d["meta"] = build_meta()
-        print(json.dumps(d, indent=2, ensure_ascii=False))
+        print(json.dumps(d, indent=2, ensure_ascii=_JSON_ASCII))
         return
     print(("VALID" if r.ok else "INVALID") + f"  [{r.profile}]  {r.input!r}")
     for e in r.errors:
@@ -2443,7 +2443,7 @@ def _print_result(r, as_json):
         print(f"  warning {w.code}: {w.message}")
     if r.fields:
         for k, v in r.fields.items():
-            print(f"  {k:15} {json.dumps(v, ensure_ascii=False)}")
+            print(f"  {k:15} {json.dumps(v, ensure_ascii=_JSON_ASCII)}")
 
 
 def _max_bytes(v):
@@ -2463,7 +2463,31 @@ def _file_timeout(v):
     return n
 
 
+# Output encoding. On Windows a redirected or piped stdout uses the ANSI code page
+# (often cp1252), which cannot encode many characters this tool reports. When
+# stdout is not UTF-8, JSON is written ASCII-only (\uXXXX escapes: still valid and
+# lossless) and text output uses backslashreplace instead of raising.
+_JSON_ASCII = False
+
+
+def _is_utf8(stream):
+    enc = (getattr(stream, "encoding", None) or "").lower().replace("-", "").replace("_", "")
+    return enc in ("utf8", "utf8sig")
+
+
+def _safe_stdio():
+    global _JSON_ASCII
+    _JSON_ASCII = not _is_utf8(sys.stdout)
+    for stream in (sys.stdout, sys.stderr):
+        if not _is_utf8(stream) and hasattr(stream, "reconfigure"):
+            try:
+                stream.reconfigure(errors="backslashreplace")
+            except (ValueError, OSError):
+                pass
+
+
 def main(argv=None):
+    _safe_stdio()
     ap = argparse.ArgumentParser(prog="rfcdt", description=__doc__.split("\n")[0])
     ap.add_argument("--version", action="version", version=f"rfcdt {__version__}")
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -2529,7 +2553,7 @@ def main(argv=None):
             return 2
         out = {"ok": r.ok, "reasons": r.error_codes, "warnings": r.warning_codes,
                "fields": r.fields}
-        print(json.dumps(out, ensure_ascii=False))
+        print(json.dumps(out, ensure_ascii=_JSON_ASCII))
         return 0 if r.ok else 1
     if a.cmd == "selfcheck":
         try:
@@ -2543,7 +2567,7 @@ def main(argv=None):
         status = "WARN" if any(r["status"] == "WARN" for r in res) else "OK"
         if a.json:
             print(json.dumps({"meta": build_meta(), "status": status, "checks": res},
-                             indent=2, ensure_ascii=False))
+                             indent=2, ensure_ascii=_JSON_ASCII))
         else:
             for r in res:
                 print(f"{r['status']:4}  {r['check']}: {r['detail']}")
@@ -2555,7 +2579,7 @@ def main(argv=None):
                           file_timeout=a.file_timeout)
     if a.json:
         print(json.dumps({"meta": build_meta(), "summary": summary, "findings": findings},
-                         indent=2, ensure_ascii=False))
+                         indent=2, ensure_ascii=_JSON_ASCII))
     else:
         for x in findings:
             print(f"{x['file']}:{x['line']}: {x['id']} [{x['check']}] {x['severity']}: "

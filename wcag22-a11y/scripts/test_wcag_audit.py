@@ -641,6 +641,19 @@ class CliTests(unittest.TestCase):
         self.assertEqual([r["tool"] for r in res["meta"]["runs"] if r["ok"]], ["wcag_scan", "wcag_page"])
         self.assertGreater(res["summary"]["merged"], 0)
 
+class TestNonUtf8Stdout(unittest.TestCase):
+    """Windows pipes default to cp1252: the Markdown report on stdout must not raise."""
+
+    def test_markdown_report_to_cp1252_stdout(self):
+        env = dict(os.environ, PYTHONIOENCODING="cp1252")
+        env.pop("PYTHONUTF8", None)
+        target = os.path.join(HERE, "..", "evals", "fixtures", "brightwater", "project")
+        cp = subprocess.run([sys.executable, SCRIPT, target, "--no-page"], capture_output=True, env=env)
+        self.assertNotIn(b"UnicodeEncodeError", cp.stderr)
+        self.assertIn(cp.returncode, (0, 1))
+        self.assertIn(b"## Findings", cp.stdout)
+
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=1)

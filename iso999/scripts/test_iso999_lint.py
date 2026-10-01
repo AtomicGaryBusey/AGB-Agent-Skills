@@ -2183,6 +2183,23 @@ def update_golden():
         json.dump(man, fh, indent=1, ensure_ascii=False)
         fh.write("\n")
 
+class TestNonUtf8Stdout(unittest.TestCase):
+    """Windows pipes default to cp1252: --json output must not raise and must parse."""
+
+    def test_json_non_ascii(self):
+        import subprocess
+        env = dict(os.environ, PYTHONIOENCODING="cp1252")
+        env.pop("PYTHONUTF8", None)
+        script = os.path.join(os.path.dirname(os.path.abspath(__file__)), "iso999_lint.py")
+        with tempfile.TemporaryDirectory() as d:
+            p = os.path.join(d, "idx.txt")
+            with open(p, "w", encoding="utf-8") as fh:
+                fh.write("Z\u00fcrich, 4\n\u65e5\u672c, 9\n\u00c5ngstr\u00f6m units, 12\u201314\nabacus, 3\n")
+            cp = subprocess.run([sys.executable, script, p, "--json"], capture_output=True, env=env)
+            self.assertNotIn(b"UnicodeEncodeError", cp.stderr)
+            json.loads(cp.stdout.decode("ascii"))
+
+
 
 if __name__ == "__main__":
     if "--update-golden" in sys.argv:

@@ -3,11 +3,11 @@
     "schema": 1,
     "skill": "rfc3339-ixdtf",
     "generator": "tools/revalidate.py 1.0.0",
-    "updated": "2026-09-26",
+    "updated": "2026-10-01",
     "snapshots": {
       "sources": "2026-09-26",
       "upstream": "2026-09-26",
-      "local": "2026-09-26"
+      "local": "2026-10-01"
     },
     "baseline_snapshot": "2026-09-24 (SKILL.md metadata)",
     "urls": {
@@ -217,7 +217,7 @@
     },
     "unit": {
       "exit": 0,
-      "ran": 170,
+      "ran": 173,
       "result": "OK",
       "skipped": 2
     },

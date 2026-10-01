@@ -3,13 +3,13 @@
     "schema": 1,
     "skill": "wcag22-a11y",
     "generator": "tools/revalidate.py 1.0.0",
-    "updated": "2026-09-29",
+    "updated": "2026-10-01",
     "python": "3.13.9",
     "snapshots": {
       "sources": "2026-09-29",
       "upstream": "2026-09-29",
-      "local": "2026-09-29",
-      "tests": "2026-09-29"
+      "local": "2026-10-01",
+      "tests": "2026-10-01"
     },
     "user_agent": "wcag22-a11y-revalidate/1.0.0 (+https://www.w3.org/WAI/WCAG22/)",
     "urls": {
@@ -565,7 +565,7 @@
     "unit_scripts": {
       "command": "python3 -m unittest discover -s scripts -p \"test_*.py\"",
       "exit": 0,
-      "ran": 159,
+      "ran": 160,
       "result": "OK",
       "skipped": 1
     },

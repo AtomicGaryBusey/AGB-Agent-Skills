@@ -950,6 +950,24 @@ class RealCacheTests(unittest.TestCase):
         fs = check("You must %s the item.\n" % word, lex=lex)
         self.assertTrue(find(fs, "STE-1.1", "'%s'" % word), word)
 
+class TestNonUtf8Stdout(unittest.TestCase):
+    """Windows pipes default to cp1252: --json and text output must not raise."""
+
+    def test_json_and_text_non_ascii(self):
+        env = dict(os.environ, PYTHONIOENCODING="cp1252")
+        env.pop("PYTHONUTF8", None)
+        with tempfile.TemporaryDirectory() as d:
+            p = os.path.join(d, "doc.md")
+            with open(p, "w", encoding="utf-8") as fh:
+                fh.write("# Caf\u00e9\n\nIt is necessary to utilise the \u201capproved\u201d agent \u2192 now.\n")
+            for extra in (["--json"], []):
+                cp = subprocess.run([sys.executable, SCRIPT, p, *extra], capture_output=True, env=env)
+                self.assertNotIn(b"UnicodeEncodeError", cp.stderr)
+                self.assertIn(cp.returncode, (0, 1))
+                if extra:
+                    json.loads(cp.stdout.decode("ascii"))
+
+
 
 if __name__ == "__main__":
     unittest.main()

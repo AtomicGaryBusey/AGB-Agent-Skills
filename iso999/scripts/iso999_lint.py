@@ -4776,7 +4776,31 @@ def _build_argparser() -> argparse.ArgumentParser:
     return p
 
 
+# Output encoding. On Windows a redirected or piped stdout uses the ANSI code page
+# (often cp1252). When stdout is not UTF-8, JSON is written ASCII-only (\uXXXX
+# escapes: valid and lossless) and text output uses backslashreplace, so printing
+# never raises UnicodeEncodeError.
+_JSON_ASCII = False
+
+
+def _is_utf8(stream):
+    enc = (getattr(stream, "encoding", None) or "").lower().replace("-", "").replace("_", "")
+    return enc in ("utf8", "utf8sig")
+
+
+def _safe_stdio():
+    global _JSON_ASCII
+    _JSON_ASCII = not _is_utf8(sys.stdout)
+    for stream in (sys.stdout, sys.stderr):
+        if not _is_utf8(stream) and hasattr(stream, "reconfigure"):
+            try:
+                stream.reconfigure(errors="backslashreplace")
+            except (ValueError, OSError):
+                pass
+
+
 def main(argv: Optional[List[str]] = None) -> int:
+    _safe_stdio()
     ap = _build_argparser()
     args = ap.parse_args(argv)
     if args.list_rules:
@@ -4901,7 +4925,7 @@ def main(argv: Optional[List[str]] = None) -> int:
             return 2
         d = {"file": args.path, "format": fmt}
         d.update(dump_tree(sequences, meta))
-        json.dump(d, sys.stdout, indent=1, ensure_ascii=False)
+        json.dump(d, sys.stdout, indent=1, ensure_ascii=_JSON_ASCII)
         print()
         return 0
     try:
@@ -4924,7 +4948,7 @@ def main(argv: Optional[List[str]] = None) -> int:
                    "case_significant": opts.case_sig,
                    "summary": {"warn": n_warn, "info": n_info},
                    "findings": [f.as_dict() for f in shown]},
-                  sys.stdout, indent=2, ensure_ascii=False)
+                  sys.stdout, indent=2, ensure_ascii=_JSON_ASCII)
         print()
     else:
         print(f"{args.path}: format={fmt} filing={opts.filing} "

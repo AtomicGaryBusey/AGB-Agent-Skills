@@ -4707,7 +4707,31 @@ def print_text(findings, files, errors, out):
         out.write("error: %s\n" % e)
 
 
+# Output encoding. On Windows a redirected or piped stdout uses the ANSI code page
+# (often cp1252). When stdout is not UTF-8, JSON is written ASCII-only (\uXXXX
+# escapes: valid and lossless) and text output uses backslashreplace, so printing
+# never raises UnicodeEncodeError.
+_JSON_ASCII = False
+
+
+def _is_utf8(stream):
+    enc = (getattr(stream, "encoding", None) or "").lower().replace("-", "").replace("_", "")
+    return enc in ("utf8", "utf8sig")
+
+
+def _safe_stdio():
+    global _JSON_ASCII
+    _JSON_ASCII = not _is_utf8(sys.stdout)
+    for stream in (sys.stdout, sys.stderr):
+        if not _is_utf8(stream) and hasattr(stream, "reconfigure"):
+            try:
+                stream.reconfigure(errors="backslashreplace")
+            except (ValueError, OSError):
+                pass
+
+
 def main(argv=None):
+    _safe_stdio()
     ap = argparse.ArgumentParser(
         prog="wcag_scan.py",
         description="Static WCAG 2.2 scanner for HTML, JSX/TSX, Vue, Svelte, templates, Markdown and CSS/SCSS.",

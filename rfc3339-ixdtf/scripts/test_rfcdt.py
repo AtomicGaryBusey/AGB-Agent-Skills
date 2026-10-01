@@ -1892,5 +1892,42 @@ class TestVectors(unittest.TestCase):
         self.assertTrue(any(r.get("detail") == "unsupported" for r in res))
 
 
+class TestNonUtf8Stdout(unittest.TestCase):
+    """Windows pipes default to the ANSI code page (cp1252). Output must never raise
+    UnicodeEncodeError there, and --json must stay valid, lossless JSON."""
+
+    def run_cp1252(self, *args):
+        env = dict(os.environ, PYTHONIOENCODING="cp1252")
+        env.pop("PYTHONUTF8", None)
+        return subprocess.run([sys.executable, RFCDT, *args], capture_output=True, env=env)
+
+    def test_check_json_non_ascii(self):
+        s = "2026-09-24T12:00:00\uff0b02:00"  # fullwidth plus sign: not in cp1252
+        cp = self.run_cp1252("check", s, "--json")
+        self.assertNotIn(b"UnicodeEncodeError", cp.stderr)
+        self.assertEqual(cp.returncode, 1)  # INVALID, not a crash
+        d = json.loads(cp.stdout.decode("ascii"))  # ASCII-only on a non-UTF-8 stdout
+        self.assertEqual(d["input"], s)
+
+    def test_check_text_non_ascii(self):
+        cp = self.run_cp1252("check", "2026-09-24T12:00:00\uff0b02:00")
+        self.assertNotIn(b"UnicodeEncodeError", cp.stderr)
+        self.assertEqual(cp.returncode, 1)
+        self.assertIn(b"\\uff0b", cp.stdout)  # backslashreplace
+
+    def test_scan_json_non_ascii_finding(self):
+        with tempfile.TemporaryDirectory() as d:
+            with open(os.path.join(d, "a.py"), "w", encoding="utf-8") as fh:
+                fh.write("from datetime import datetime\n"
+                         "x = datetime.fromisoformat(s)  # \u201cnaive\u201d \u2192 \u65e5\u4ed8\n")
+            cp = self.run_cp1252("scan", d, "--json")
+            self.assertNotIn(b"UnicodeEncodeError", cp.stderr)
+            d2 = json.loads(cp.stdout.decode("ascii"))
+            self.assertTrue(d2["findings"])
+            cp = self.run_cp1252("scan", d)
+            self.assertNotIn(b"UnicodeEncodeError", cp.stderr)
+            self.assertIn(b"SCAN-PY-FROMISOFORMAT", cp.stdout)
+
+
 if __name__ == "__main__":
     unittest.main()

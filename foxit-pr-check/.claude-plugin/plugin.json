@@ -1,0 +1,22 @@
+{
+  "name": "foxit-pr-check",
+  "version": "1.0.0",
+  "description": "Check a branch or pull request prepared for a Fox-IT open-source repository (dissect.*, flow.record, acquire) against Fox-IT's Developing, Style guide and Tooling rules and the repository's own tox, Ruff and PR template: commit messages, branch, description, tests, lint, and the CLA.",
+  "author": {
+    "name": "Alex Harmon"
+  },
+  "license": "MIT",
+  "keywords": [
+    "fox-it",
+    "dissect",
+    "pull-request",
+    "contributing",
+    "commit-message",
+    "tox",
+    "ruff",
+    "cla"
+  ],
+  "skills": [
+    "./"
+  ]
+}

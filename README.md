@@ -2,7 +2,8 @@
 
 Claude Code skills (Agent Skills format) that audit documentation and code
 against published standards: Internet timestamp formats, back-of-book
-indexes, Simplified Technical English, and web accessibility (WCAG 2.2). Each skill ships a
+indexes, Simplified Technical English, web accessibility (WCAG 2.2), and
+Fox-IT's contribution rules. Each skill ships a
 `SKILL.md`, standard-library Python tools, and a test suite. (`wcag22-a11y` also has an
 optional Node.js page runner for rendered checks.)
 
@@ -11,6 +12,7 @@ optional Node.js page runner for rendered checks.)
 | [`rfc3339-ixdtf`](rfc3339-ixdtf/) | Code, schemas and APIs that parse, validate or emit RFC 3339 timestamps and RFC 9557 (IXDTF) suffixes | Full | `scripts/rfcdt.py` (checker and risky-API scanner), `scripts/run_vectors.py` (conformance vectors), `vectors/vectors.json` |
 | [`iso999`](iso999/) | Back-of-book indexes, index-generating code, and index markup against ISO 999:1996 | Tool-only | `scripts/iso999_lint.py` (generated index output), `scripts/iso999_markup.py` (index markup in sources) |
 | [`ste100`](ste100/) | Technical documentation against ASD-STE100 Simplified Technical English, Issue 9 | Tool-only | `scripts/ste_check.py` (checker), `tools/build_dictionary.py` (builds the local dictionary) |
+| [`foxit-pr-check`](foxit-pr-check/) | Branches and pull requests prepared for Fox-IT's open-source repositories (`dissect.*`, `flow.record`, `acquire`) against Fox-IT's Developing, Style guide and Tooling rules and each repository's own tox, Ruff and PR template | Tool-only | `scripts/foxit_pr_check.py` (commit messages, branch, description, added code, tox, CLA) |
 | [`wcag22-a11y`](wcag22-a11y/) | Web pages, sites, HTML, CSS and components (React, Vue, Svelte, templates) against WCAG 2.2 Level A/AA, with evidence for VPAT/ACR, Section 508 and EN 301 549 at the WCAG level | Full | `scripts/wcag_audit.py` (runs both tools, drafts the report), `scripts/wcag_scan.py` (static scanner), `scripts/wcag_page.mjs` (rendered checks with Playwright and axe-core) |
 
 ## Installation
@@ -22,8 +24,8 @@ Clone the repository, then link or copy each skill folder into
 git clone https://github.com/AtomicGaryBusey/AGB-Agent-Skills.git
 cd AGB-Agent-Skills
 mkdir -p ~/.claude/skills
-for s in rfc3339-ixdtf iso999 ste100 wcag22-a11y; do ln -s "$PWD/$s" ~/.claude/skills/$s; done
-# or: cp -R rfc3339-ixdtf iso999 ste100 wcag22-a11y ~/.claude/skills/
+for s in rfc3339-ixdtf iso999 ste100 wcag22-a11y foxit-pr-check; do ln -s "$PWD/$s" ~/.claude/skills/$s; done
+# or: cp -R rfc3339-ixdtf iso999 ste100 wcag22-a11y foxit-pr-check ~/.claude/skills/
 ```
 
 Prerequisites:
@@ -42,6 +44,9 @@ Prerequisites:
   pinned Playwright, axe-core and Chromium headless shell (about 220 MB) into
   the skill's gitignored `.cache/` folder. On macOS, keep the display awake
   during long page runs (for example `caffeinate -d`).
+- `foxit-pr-check`: `git`; `gh` (signed in) for `--pr` and `--check-cla`; and,
+  for `--run-tox`, tox 4.27 or later (it provisions each repository's Ruff,
+  vermin and pytest itself).
 
 ## Usage
 
@@ -59,6 +64,9 @@ python3 ~/.claude/skills/iso999/scripts/iso999_lint.py build/index.txt --filing 
 # ste100: check a documentation folder
 python3 ~/.claude/skills/ste100/scripts/ste_check.py docs/ --json
 
+# foxit-pr-check: a branch prepared for a Fox-IT repository, its description, and the repo's own tox
+python3 ~/.claude/skills/foxit-pr-check/scripts/foxit_pr_check.py ~/src/dissect.apfs --pr-body pr.md --run-tox
+
 # wcag22-a11y: static scan plus rendered checks of a local site, as a report skeleton
 python3 ~/.claude/skills/wcag22-a11y/scripts/wcag_audit.py site/ --pages 20 --out audit.md
 ```
@@ -75,6 +83,7 @@ Run each suite from the repository root:
   && python3 -m unittest discover -s evals/regression)
 (cd wcag22-a11y && python3 -m unittest discover -s scripts -p "test_*.py" \
   && node --test scripts/test_wcag_page.mjs)
+(cd foxit-pr-check && python3 -m unittest discover -s scripts)
 ```
 
 Tests that need material not in this repository (the local ASD-STE100
